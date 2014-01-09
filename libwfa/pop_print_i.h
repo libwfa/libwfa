@@ -1,10 +1,7 @@
 #ifndef LIBWFA_POP_PRINT_I_H
 #define LIBWFA_POP_PRINT_I_H
 
-#include <list>
-#include <string>
-#include <vector>
-#include <utility>
+#include "pop_data.h"
 
 namespace libwfa {
 
@@ -14,9 +11,6 @@ namespace libwfa {
     \ingroup libwfa
  **/
 class pop_print_i {
-public:
-    typedef std::list< std::pair<std::string, std::vector<double> > > pop_data;
-
 public:
     virtual ~pop_print_i() { }
 

@@ -10,9 +10,10 @@ void pop_print_default::perform(const pop_data &p) {
     if (p.size() == 0) return;
 
     // Check if all data sets have the correct size
-    for (pop_data::const_iterator i = p.begin(); i != p.end(); i++) {
-        if (m_labels.size() != i->second.size()) {
-            throw ;
+    for (pop_data::iterator i = p.begin(); i != p.end(); i++) {
+        if (m_labels.size() != p.data(i).size()) {
+            throw libwfa_exception("pop_print_default", __FILE__, __LINE__,
+                    "Length of population data.");
         }
     }
 
@@ -39,8 +40,8 @@ void pop_print_default::perform(const pop_data &p) {
 
     // Print header
     m_out << std::setw(nw1 + nw2 + 1) << std::right << "Atom";
-    for (pop_data::const_iterator i = p.begin(); i != p.end(); i++) {
-        m_out << std::setw(colwidth) << std::right << i->first;
+    for (pop_data::iterator i = p.begin(); i != p.end(); i++) {
+        m_out << std::setw(colwidth) << std::right << p.name(i);
     }
     m_out << std::endl;
     m_out << std::string(width, '-') << std::endl;
@@ -52,12 +53,13 @@ void pop_print_default::perform(const pop_data &p) {
         m_out << std::setw(nw2) << m_labels[i];
 
         size_t k = 0;
-        for (pop_data::const_iterator kk = p.begin();
+        for (pop_data::iterator kk = p.begin();
                 kk != p.end(); k++, kk++) {
 
+            const std::vector<double> &set = p.data(kk);
             m_out << std::setw(colwidth) << std::setprecision(m_prec) <<
-                    std::right << kk->second[i];
-            total[k] += kk->second[i];
+                    std::right << set[i];
+            total[k] += set[i];
         }
         m_out << std::endl;
     }
