@@ -2,5 +2,27 @@
 #	Set up third-party dependencies for libwfa
 #
 
+#
+#	Find armadillo
+#
+set(CMAKE_MODULE_PATH_SAVED ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${LIBWFA_DIR}/cmake)
 
-# TODO: add armadillo here
+set(ARMADILLO_PATH "" CACHE PATH 
+	"Path of Armadillo C++ linear algebra library (only set if non-standard)")	
+find_package(Armadillo)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH_SAVED})
+if(NOT ARMADILLO_FOUND) 
+	message(FATAL_ERROR "Armadillo library not found")
+endif(NOT ARMADILLO_FOUND) 
+
+#
+#	libwfa dependencies
+#
+message(STATUS "ARMADILLO_INCLUDE_DIRS: ${ARMADILLO_INCLUDE_DIRS}")
+message(STATUS "ARMADILLO_LIBRARIES: ${ARMADILLO_LIBRARIES}")
+
+include_directories(${ARMADILLO_INCLUDE_DIRS})
+set(LIBWFA_DEP_LIBS ${ARMADILLO_LIBRARIES})
+
+
