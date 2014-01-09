@@ -26,6 +26,10 @@ public:
 
     virtual ~pop_mulliken() { }
 
+    virtual size_t size() const {
+        return m_natoms;
+    }
+
     /** \copydoc pop_analysis_i::perform
      **/
     virtual void perform(const arma::Mat<double> &d_bb, std::vector<double> &p);

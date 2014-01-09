@@ -1,9 +1,15 @@
+set(SRC_HEADER
+	libwfa_suite.h
+	pop_mulliken_test.h
+)
+
 set(SRC
     libwfa_tests.C
     libwfa_suite.C
+	pop_mulliken_test.C
 #    version_test.C
 )
-add_executable(libwfa_tests ${SRC})
+add_executable(libwfa_tests ${SRC} ${SRC_HEADER})
 
 include(${LIBTEST_DIR}/cmake/SetupLibTest.txt)
 
