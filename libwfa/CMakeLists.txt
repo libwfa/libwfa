@@ -5,12 +5,14 @@ set(SRC_HEADER
 	pop_mulliken.h
 	pop_print_default.h
 	pop_print_i.h
+    version.h
 )
 
 set(SRC
 	libwfa_exception.C
 	pop_mulliken.C
 	pop_print_default.C
+    version.C
 )
 
 add_library(wfa ${SRC} ${SRC_HEADER})
