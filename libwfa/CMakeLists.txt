@@ -1,4 +1,5 @@
 set(SRC_HEADER
+	libwfa_exception.h
 	pop_analysis_i.h
 	pop_mulliken.h
 	pop_print_default.h
@@ -6,6 +7,7 @@ set(SRC_HEADER
 )
 
 set(SRC
+	libwfa_exception.C
 	pop_mulliken.C
 	pop_print_default.C
 )
