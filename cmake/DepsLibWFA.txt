@@ -16,6 +16,12 @@ if(NOT ARMADILLO_FOUND)
 	message(FATAL_ERROR "Armadillo library not found")
 endif(NOT ARMADILLO_FOUND) 
 
+# TODO: check which min version is required
+if("${ARMA_VERSION}" VERSION_GREATER "3.6.2") 
+	message(FATAL_ERROR 
+		"Armadillo library is too old. Please upgrade to >= 3.6.2")
+endif()	 
+
 #
 #	libwfa dependencies
 #

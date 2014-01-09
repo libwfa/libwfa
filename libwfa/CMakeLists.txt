@@ -10,6 +10,6 @@ set(SRC
 	pop_print_default.C
 )
 
-add_library(wfa ${SRC})
+add_library(wfa ${SRC} ${SRC_HEADER})
 
 
