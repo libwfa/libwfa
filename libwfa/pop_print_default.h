@@ -2,6 +2,7 @@
 #define LIBWFA_POP_PRINT_DEFAULT_H
 
 #include <cstddef>
+#include <iostream>
 #include "pop_print_i.h"
 
 namespace libwfa {

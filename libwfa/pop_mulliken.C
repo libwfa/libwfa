@@ -23,7 +23,7 @@ void pop_mulliken::perform(
     p.resize(m_natoms, 0.0);
 
     for (size_t i = 0; i != m_b2c.size(); i++) {
-        p[m_b2c[i]] += d_bb.row(i) * m_s.col(i);
+        p[m_b2c[i]] += dot(d_bb.row(i), m_s.row(i));
     }
 }
 
