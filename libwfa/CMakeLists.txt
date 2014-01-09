@@ -1,6 +1,7 @@
 set(SRC_HEADER
 	libwfa_exception.h
 	pop_analysis_i.h
+	pop_data.h
 	pop_mulliken.h
 	pop_print_default.h
 	pop_print_i.h

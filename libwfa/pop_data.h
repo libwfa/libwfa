@@ -33,10 +33,6 @@ private:
     std::list<pop_data_set> m_sets; //!< Collection of data sets
 
 public:
-    /** \brief Constructor
-     **/
-    pop_data();
-
     /** \brief Add a new empty set for population data
         \param name Name of data set
         \return Reference to the empty data set.

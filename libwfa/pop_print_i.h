@@ -14,7 +14,7 @@ class pop_print_i {
 public:
     virtual ~pop_print_i() { }
 
-    virtual void perform(pop_data &p) = 0;
+    virtual void perform(const pop_data &p) = 0;
 };
 
 
