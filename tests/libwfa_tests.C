@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <sstream>
 #include "libwfa_suite.h"
@@ -38,6 +40,12 @@ public:
 
 int main(int argc, char **argv) {
 
+#ifdef HAVE_DRAND48
+    ::srand48(::time(0));
+#else
+    // Random seed
+    ::srand(::time(0));
+#endif
     ostringstream ss;
     ss << " Unit tests for libwfa ";
     string separator(ss.str().size(), '-');

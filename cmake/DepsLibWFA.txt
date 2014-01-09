@@ -2,6 +2,22 @@
 #	Set up third-party dependencies for libwfa
 #
 
+include(CheckCXXSourceCompiles)
+
+#   Test drand48
+#
+check_cxx_source_compiles("
+#include<cstdlib>
+int main() {
+  double d = drand48();
+  return 0;
+}
+" HAVE_DRAND48)
+if(HAVE_DRAND48)
+    add_definitions(-DHAVE_DRAND48)
+endif(HAVE_DRAND48)
+
+
 #
 #	Find armadillo
 #
