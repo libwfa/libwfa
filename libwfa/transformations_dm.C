@@ -1,0 +1,103 @@
+#include "transformations_dm.h"
+
+namespace libwfa {
+
+using namespace arma;
+
+void form_eh(
+        const Mat<double> &s, const ab_matrix &tdm,
+        ab_matrix &de, ab_matrix &dh) {
+
+    Mat<double> &de_a = de.alpha(), &dh_a = dh.alpha();
+    const Mat<double> &td_a = tdm.alpha();
+    de_a = td_a * s * td_a.t();
+    dh_a = td_a.t() * s * td_a;
+
+    if (! tdm.is_alpha_eq_beta()) {
+        de.set_aeqb(false); dh.set_aeqb(false);
+
+        Mat<double> &de_b = de.beta(), dh_b = dh.beta();
+        const Mat<double> &td_b = tdm.beta();
+        de_b = td_b * s * td_b.t();
+        dh_b = td_b.t() * s * td_b;
+    }
+}
+
+
+void diagonalize_dm(
+        const ab_matrix &c, const ab_matrix &dm,
+        ab_vector &ev, ab_matrix &u) {
+
+    const Mat<double> &c_a = c.alpha(), &dm_a = dm.alpha();
+    Col<double> &ev_a = ev.alpha();
+    Mat<double> &u_a = u.alpha();
+    Mat<double> evec(c_a.n_rows, c_a.n_rows);
+
+    eig_sym(ev_a, evec, c_a * dm_a * c_a.t());
+    u_a = evec * c_a;
+
+    if (! dm.is_alpha_eq_beta()) {
+        ev.set_aeqb(false); u.set_aeqb(false);
+
+        const Mat<double> &c_b = c.beta(), &dm_b = dm.beta();
+        Col<double> &ev_b = ev.beta();
+        Mat<double> &u_b = u.beta();
+
+        eig_sym(ev_b, evec, c_b * dm_b * c_b.t());
+        u_b = evec * c_b;
+    }
+}
+
+
+void form_ad(
+        const ab_vector &ev, const ab_matrix &u,
+        ab_matrix &da, ab_matrix &dd) {
+
+    const Col<double> &ev_a = ev.alpha();
+    const Mat<double> &u_a = u.alpha();
+    Mat<double> &da_a = da.alpha(), &dd_a = dd.alpha();
+    Col<uword> ix = find(ev_a > 0.0, 1);
+
+    {
+        Mat<double> ux;
+        ux = u_a.rows(ix(0), ev_a.n_cols - 1);
+        da_a = ux * diagmat(ev_a.rows(ix(0), ev_a.n_cols - 1)) * ux.t();
+        ux = u_a.cols(0, ix(0) - 1);
+        dd_a = ux * diagmat(ev_a.rows(0, ix(0) - 1)) * ux.t();
+    }
+
+    if (! u.is_alpha_eq_beta()) {
+        da.set_aeqb(false); dd.set_aeqb(false);
+
+        const Col<double> &ev_b = ev.beta();
+        const Mat<double> &u_b = u.beta();
+        Mat<double> &da_b = da.beta(), &dd_b = dd.beta();
+        Col<uword> ix = find(ev_b > 0.0, 1);
+
+        {
+            Mat<double> ux;
+            ux = u_b.rows(ix(0), ev_b.n_cols - 1);
+            da_b = ux * diagmat(ev_b.rows(ix(0), ev_b.n_cols - 1)) * ux.t();
+            ux = u_b.cols(0, ix(0) - 1);
+            dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1)) * ux.t();
+        }
+    }
+}
+
+
+void form_ad(
+        const ab_matrix &c, const ab_matrix &dm,
+        ab_matrix &da, ab_matrix &dd) {
+
+    ab_matrix u;
+    ab_vector ev;
+
+    diagonalize_dm(c, dm, ev, u);
+    form_ad(ev, u, da, dd);
+}
+
+} // namespace libwfa
+
+
+
+
