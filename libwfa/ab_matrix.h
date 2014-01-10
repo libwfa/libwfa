@@ -5,7 +5,12 @@
 
 namespace libwfa {
 
-/** \brief Container for spin-matrices
+/** \brief Container for matrices with spin property
+
+    The container stores two matrices with alpha- and beta-spin and a flag to
+    indicate, if both matrices have to be identical (i.e. spin-restricted
+    calculations). The case of alpha == beta will be enforced by the container
+    by using the same matrix for alpha-spin and beta-spin.
 
     \ingroup libwfa
  **/
@@ -16,22 +21,33 @@ private:
     arma::Mat<double> m_mat_b; //!< Beta-spin matrix
     
 public:
-    /** \brief Constructor
+    /** \brief Default constructor
+        \param aeqb If true, alpha == beta matrix
+     **/
+    ab_matrix(bool aeqb = false) : m_aeqb(aeqb) { }
+
+    /** \brief Constructor for matrix with alpha == beta
+        \param nrows Number of rows
+        \param ncols Number of columns
+
+        If ncols is not given (== 0), a symmetric matrix is constructed
+     **/
+    ab_matrix(size_t nrows, size_t ncols = 0) :
+        m_aeqb(true), m_mat_a(nrows, (ncols == 0 ? nrows : ncols)) { }
+
+    /** \brief Constructor for matrix with alpha != beta
         \param nrows_a Number of rows
         \param ncols_a Number of columns
         \param nrows_b Number of rows
         \param ncols_b Number of columns
-        \param aeqb True, if alpha and beta spin matrices are
+
+        If ncols_b is not given (== 0), alpha and beta have the same number of
+        columns.
      **/
-    ab_matrix(
-        size_t nrows_a = 0, size_t ncols_a = 0,
-        size_t nrows_b = 0, size_t ncols_b = 0,
-        bool aeqb = false) :
-        m_aeqb(aeqb && nrows_a == nrows_b && ncols_a == ncols_b),
-        m_mat_a(nrows_a, ncols_a),
-        m_mat_b(m_aeqb ? 0 : nrows_b, m_aeqb ? 0 : ncols_b)
-         {
-    }
+    ab_matrix(size_t nrows_a, size_t ncols_a,
+        size_t nrows_b, size_t ncols_b = 0) :
+        m_aeqb(false), m_mat_a(nrows_a, ncols_a),
+        m_mat_b(nrows_b, (ncols_b == 0 ? ncols_a : ncols_b)) { }
 
     /** \brief Return the number of alpha-spin rows
      **/
@@ -54,17 +70,31 @@ public:
     /** \brief Return the number of alpha-spin columns
      **/
     size_t ncols_b() const {
-        return (m_aeqb ? m_mat_a.n_cols : m_mat_b.n_rows);
+        return (m_aeqb ? m_mat_a.n_cols : m_mat_b.n_cols);
     }
 
-    /** \brief Change if alpha == beta
-     **/
-    void set_aeqb(bool aeqb) {
-        if (aeqb == m_aeqb) return;
+    /** \brief Set alpha == beta
 
-        if (m_aeqb) { m_mat_b = m_mat_a; }
-        else { m_mat_b.resize(0, 0); }
-        m_aeqb = aeqb;
+        Modifies the container to enforce both matrices to be identical. The
+        contents of the beta matrix is deleted and only the alpha matrix is
+        kept.
+     **/
+    void set_alpha_eq_beta() {
+        if (m_aeqb) return;
+        m_mat_b.resize(0, 0);
+        m_aeqb = true;
+    }
+
+    /** \brief Set alpha != beta
+
+        Modifies the container to allow the matrices with alpha and beta-spin
+        to change independently. However, both matrices will be identical
+        copies of one another first.
+     **/
+    void set_alpha_neq_beta() {
+        if (! m_aeqb) return;
+        m_mat_b = m_mat_a;
+        m_aeqb = false;
     }
 
     /** \brief Are alpha- and beta-spin matrices identical

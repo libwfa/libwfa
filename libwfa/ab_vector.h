@@ -16,13 +16,24 @@ private:
     arma::Col<double> m_vec_b; //!< Beta-spin vector
     
 public:
-    /** \brief Constructor
+    /** \brief Default constructor
+        \param aeqb If true, alpha == beta spin vector
+     **/
+    ab_vector(bool aeqb = false) : m_aeqb(aeqb) { }
+
+
+    /** \brief Constructor for alpha == beta
+        \param nrows Number of rows
+     **/
+    ab_vector(size_t nrows) :
+        m_aeqb(true), m_vec_a(nrows) { }
+
+    /** \brief Constructor for alpha != beta
         \param nrows_a Number of alpha-spin rows
         \param nrows_b Number of beta-spin rows
-        \param aeqb True, if alpha and beta spin vector are
      **/
-    ab_vector(size_t nrows_a = 0, size_t nrows_b = 0, bool aeqb = false) :
-        m_vec_a(nrows_a), m_vec_b(aeqb ? 0 : nrows_b), m_aeqb(aeqb) {
+    ab_vector(size_t nrows_a, size_t nrows_b) :
+        m_aeqb(false), m_vec_a(nrows_a), m_vec_b(nrows_b) {
     }
 
     /** \brief Return the number of alpha-spin rows
@@ -37,14 +48,20 @@ public:
         return (m_aeqb ? m_vec_a.n_rows : m_vec_b.n_rows);
     }
 
-    /** \brief Change if alpha == beta
+    /** \brief Set alpha == beta
      **/
-    void set_aeqb(bool aeqb) {
-        if (aeqb == m_aeqb) return;
+    void set_alpha_eq_beta() {
+        if (m_aeqb) return;
+        m_vec_b.resize(0, 0);
+        m_aeqb = true;
+    }
 
-        if (m_aeqb) { m_vec_b = m_vec_a; }
-        else { m_vec_b.resize(0, 0); }
-        m_aeqb = aeqb;
+    /** \brief Set alpha != beta
+     **/
+    void set_alpha_neq_beta() {
+        if (! m_aeqb) return;
+        m_vec_b = m_vec_a;
+        m_aeqb = false;
     }
 
     /** \brief Are alpha- and beta-spin matrices identical

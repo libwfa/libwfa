@@ -4,9 +4,8 @@ namespace libwfa {
 
 using namespace arma;
 
-void form_eh(
-        const Mat<double> &s, const ab_matrix &tdm,
-        ab_matrix &de, ab_matrix &dh) {
+void form_eh(const Mat<double> &s, const ab_matrix &tdm,
+    ab_matrix &de, ab_matrix &dh) {
 
     Mat<double> &de_a = de.alpha(), &dh_a = dh.alpha();
     const Mat<double> &td_a = tdm.alpha();
@@ -14,7 +13,7 @@ void form_eh(
     dh_a = td_a.t() * s * td_a;
 
     if (! tdm.is_alpha_eq_beta()) {
-        de.set_aeqb(false); dh.set_aeqb(false);
+        de.set_alpha_neq_beta(); dh.set_alpha_neq_beta();
 
         Mat<double> &de_b = de.beta(), dh_b = dh.beta();
         const Mat<double> &td_b = tdm.beta();
@@ -24,9 +23,8 @@ void form_eh(
 }
 
 
-void diagonalize_dm(
-        const ab_matrix &c, const ab_matrix &dm,
-        ab_vector &ev, ab_matrix &u) {
+void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
+    ab_vector &ev, ab_matrix &u) {
 
     const Mat<double> &c_a = c.alpha(), &dm_a = dm.alpha();
     Col<double> &ev_a = ev.alpha();
@@ -37,7 +35,7 @@ void diagonalize_dm(
     u_a = evec * c_a;
 
     if (! dm.is_alpha_eq_beta()) {
-        ev.set_aeqb(false); u.set_aeqb(false);
+        ev.set_alpha_neq_beta(); u.set_alpha_neq_beta();
 
         const Mat<double> &c_b = c.beta(), &dm_b = dm.beta();
         Col<double> &ev_b = ev.beta();
@@ -49,9 +47,8 @@ void diagonalize_dm(
 }
 
 
-void form_ad(
-        const ab_vector &ev, const ab_matrix &u,
-        ab_matrix &da, ab_matrix &dd) {
+void form_ad(const ab_vector &ev, const ab_matrix &u,
+    ab_matrix &da, ab_matrix &dd) {
 
     const Col<double> &ev_a = ev.alpha();
     const Mat<double> &u_a = u.alpha();
@@ -67,7 +64,7 @@ void form_ad(
     }
 
     if (! u.is_alpha_eq_beta()) {
-        da.set_aeqb(false); dd.set_aeqb(false);
+        da.set_alpha_neq_beta(); dd.set_alpha_neq_beta();
 
         const Col<double> &ev_b = ev.beta();
         const Mat<double> &u_b = u.beta();
@@ -85,9 +82,8 @@ void form_ad(
 }
 
 
-void form_ad(
-        const ab_matrix &c, const ab_matrix &dm,
-        ab_matrix &da, ab_matrix &dd) {
+void form_ad(const ab_matrix &c, const ab_matrix &dm,
+    ab_matrix &da, ab_matrix &dd) {
 
     ab_matrix u;
     ab_vector ev;
