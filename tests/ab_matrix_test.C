@@ -144,7 +144,7 @@ void ab_matrix_test::test_3a() {
         fail_test(testname, __FILE__, __LINE__, "alpha != 4x4");
     }
     if (m.beta().n_elem != 12 || m.beta().n_cols != 4) {
-        fail_test(testname, __FILE__, __LINE__, "alpha != 3x4");
+        fail_test(testname, __FILE__, __LINE__, "beta != 3x4");
     }
 
     m.alpha().resize(2, 3);
@@ -153,7 +153,7 @@ void ab_matrix_test::test_3a() {
         fail_test(testname, __FILE__, __LINE__, "alpha != 2x3");
     }
     if (m.beta().n_elem != 12 || m.beta().n_cols != 2) {
-        fail_test(testname, __FILE__, __LINE__, "alpha != 6x2");
+        fail_test(testname, __FILE__, __LINE__, "beta != 6x2");
     }
 }
 
@@ -174,7 +174,7 @@ void ab_matrix_test::test_3b() {
         fail_test(testname, __FILE__, __LINE__, "alpha != 3x5");
     }
     if (m.beta().n_elem != 24 || m.beta().n_cols != 6) {
-        fail_test(testname, __FILE__, __LINE__, "alpha != 4x6");
+        fail_test(testname, __FILE__, __LINE__, "beta != 4x6");
     }
 
     m.beta().resize(3, 5);
@@ -233,6 +233,10 @@ void ab_matrix_test::test_4b() {
     if (! m.is_alpha_eq_beta()) {
         fail_test(testname, __FILE__, __LINE__, "alpha != beta.");
     }
+
+    // Fill with random numbers
+    m.alpha().randu();
+    m.beta().randu();
 
     m.set_alpha_neq_beta();
     if (m.is_alpha_eq_beta()) {
