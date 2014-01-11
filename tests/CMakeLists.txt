@@ -4,6 +4,7 @@ set(SRC_HEADER
 	libwfa_suite.h
 	pop_mulliken_test.h
 	pop_print_default_test.h
+	transformations_dm_test.h
     version_test.h
 )
 
@@ -14,6 +15,7 @@ set(SRC
     libwfa_suite.C
 	pop_mulliken_test.C
 	pop_print_default_test.C
+	transformations_dm_test.C
     version_test.C
 )
 add_executable(libwfa_tests ${SRC} ${SRC_HEADER})

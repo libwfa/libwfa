@@ -27,7 +27,7 @@ namespace libwfa {
     The output matrices are reshaped and resized as required.
 
     TODO: check formulas!!! what is the correct density matrix:
-        T^{ao} = C' T C ot T^{ao} = S C' T C S?!
+        T^{ao} = C' T C or T^{ao} = S C' T C S?!
 
     \ingroup libwfa
  **/
@@ -39,12 +39,23 @@ void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
     \param[in] c AO2MO coefficient matrix
     \param[in] dm Density matrix
     \param[out] ev Vector of eigenvalues
-    \param[out] u New coefficient matrix from AO
+    \param[out] u New coefficient matrix from AO to eigenbasis
 
-    The function transforms the density matrix into an orthogonal basis (the MO
-    basis), first. Then the density matrix is diagonalized. The eigenvalues are
-    returned unaltered while the eigenvector matrix is transformed with the MO
-    coefficents to obtain the transformation matrix from AO basis.
+    The function transforms the density matrix into an orthogonal basis using
+    coefficient matrix C
+    \f[
+    D^{\text{MO}} = C' D C
+    \f]
+    [this assumes that the column dimension of the coefficient matrix is
+    the AO basis]. The resulting density matrix is then diagonalized. The
+    eigenvalues are returned unaltered while the eigenvector matrix is
+    transformed using the original coefficent matrix to obtain the
+    transformation matrix from AO basis
+    \f[
+    U = C \tilde{U}
+    \quad\text{ with }\quad
+    D^{\text{MO}} \tilde{U} = \tilde{U} \Lambda
+    \f]
 
     \ingroup libwfa
  **/
@@ -54,7 +65,7 @@ void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
 
 /** \brief Constructs attachement and detachment densities
     \param[in] ev Eigenvalues of the density matrix
-    \param[in] u Eigenvectors of the density matrix
+    \param[in] u Transformation matrix from eigenbasis to AO basis
     \param[out] da Attachment density matrix
     \param[out] dd Detachment density matrix
 
@@ -62,12 +73,17 @@ void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
     belonging to the attachment and detachment densities, respectively.
     These are then used to back-transform into density matrices.
 
+    ATTENTION:
+    The transformation matrix u has to be the inverse of the transformation
+    matrix returned by the function diagonalize_dm
+
     \ingroup libwfa
  **/
 void form_ad(const ab_vector &ev, const ab_matrix &u,
         ab_matrix &da, ab_matrix &dd);
 
 /** \brief Constructs attachement and detachment densities from a density matrix
+    \param[in] s Overap matrix
     \param[in] c AO2MO coefficient matrix
     \param[in] dm Density matrix
     \param[out] da Attachment density matrix
@@ -80,8 +96,8 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
 
     \ingroup libwfa
  **/
-void form_ad(const ab_matrix &c, const ab_matrix &dm,
-        ab_matrix &da, ab_matrix &dd);
+void form_ad(const arma::Mat<double> &s, const ab_matrix &c,
+        const ab_matrix &dm, ab_matrix &da, ab_matrix &dd);
 
 } // namespace adcman
 

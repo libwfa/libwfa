@@ -13,12 +13,17 @@ void form_eh(const Mat<double> &s, const ab_matrix &tdm,
     dh_a = td_a.t() * s * td_a;
 
     if (! tdm.is_alpha_eq_beta()) {
-        de.set_alpha_neq_beta(); dh.set_alpha_neq_beta();
+        de.set_alpha_neq_beta();
+        dh.set_alpha_neq_beta();
 
-        Mat<double> &de_b = de.beta(), dh_b = dh.beta();
+        Mat<double> &de_b = de.beta(), &dh_b = dh.beta();
         const Mat<double> &td_b = tdm.beta();
         de_b = td_b * s * td_b.t();
         dh_b = td_b.t() * s * td_b;
+    }
+    else {
+        de.set_alpha_eq_beta();
+        dh.set_alpha_eq_beta();
     }
 }
 
@@ -31,18 +36,23 @@ void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
     Mat<double> &u_a = u.alpha();
     Mat<double> evec(c_a.n_rows, c_a.n_rows);
 
-    eig_sym(ev_a, evec, c_a * dm_a * c_a.t());
-    u_a = evec * c_a;
+    eig_sym(ev_a, evec, c_a.t() * dm_a * c_a);
+    u_a = c_a * evec;
 
     if (! dm.is_alpha_eq_beta()) {
-        ev.set_alpha_neq_beta(); u.set_alpha_neq_beta();
+        ev.set_alpha_neq_beta();
+        u.set_alpha_neq_beta();
 
         const Mat<double> &c_b = c.beta(), &dm_b = dm.beta();
         Col<double> &ev_b = ev.beta();
         Mat<double> &u_b = u.beta();
 
-        eig_sym(ev_b, evec, c_b * dm_b * c_b.t());
-        u_b = evec * c_b;
+        eig_sym(ev_b, evec, c_b.t() * dm_b * c_b);
+        u_b = c_b * evec;
+    }
+    else {
+        ev.set_alpha_eq_beta();
+        u.set_alpha_eq_beta();
     }
 }
 
@@ -57,14 +67,15 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
 
     {
         Mat<double> ux;
-        ux = u_a.rows(ix(0), ev_a.n_cols - 1);
-        da_a = ux * diagmat(ev_a.rows(ix(0), ev_a.n_cols - 1)) * ux.t();
-        ux = u_a.cols(0, ix(0) - 1);
-        dd_a = ux * diagmat(ev_a.rows(0, ix(0) - 1)) * ux.t();
+        ux = u_a.rows(ix(0), ev_a.n_rows - 1);
+        da_a = ux.t() * diagmat(ev_a.rows(ix(0), ev_a.n_rows - 1)) * ux;
+        ux = u_a.rows(0, ix(0) - 1);
+        dd_a = ux.t() * diagmat(ev_a.rows(0, ix(0) - 1) * -1.) * ux;
     }
 
     if (! u.is_alpha_eq_beta()) {
-        da.set_alpha_neq_beta(); dd.set_alpha_neq_beta();
+        da.set_alpha_neq_beta();
+        dd.set_alpha_neq_beta();
 
         const Col<double> &ev_b = ev.beta();
         const Mat<double> &u_b = u.beta();
@@ -73,22 +84,31 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
 
         {
             Mat<double> ux;
-            ux = u_b.rows(ix(0), ev_b.n_cols - 1);
-            da_b = ux * diagmat(ev_b.rows(ix(0), ev_b.n_cols - 1)) * ux.t();
-            ux = u_b.cols(0, ix(0) - 1);
-            dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1)) * ux.t();
+            ux = u_b.rows(ix(0), ev_b.n_rows - 1);
+            da_b = ux.t() * diagmat(ev_b.rows(ix(0), ev_b.n_rows - 1)) * ux;
+            ux = u_b.rows(0, ix(0) - 1);
+            dd_b = ux.t() * diagmat(ev_b.rows(0, ix(0) - 1) * -1.) * ux;
         }
+    }
+    else {
+        da.set_alpha_eq_beta();
+        dd.set_alpha_eq_beta();
     }
 }
 
 
-void form_ad(const ab_matrix &c, const ab_matrix &dm,
-    ab_matrix &da, ab_matrix &dd) {
+void form_ad(const Mat<double> &s, const ab_matrix &c,
+    const ab_matrix &dm, ab_matrix &da, ab_matrix &dd) {
 
     ab_matrix u;
     ab_vector ev;
 
     diagonalize_dm(c, dm, ev, u);
+    // Compute u^-1 = u' * s
+    u.alpha() = u.alpha().t() * s;
+    if (! u.is_alpha_eq_beta())
+        u.beta() = u.beta().t() * s;
+
     form_ad(ev, u, da, dd);
 }
 
