@@ -14,7 +14,7 @@ namespace libwfa {
 class pop_mulliken : public pop_analysis_i {
 private:
     size_t m_natoms; //!< Number of atoms
-	const std::vector<size_t> &m_b2c; //!< Map which basis function is located at which atom
+	const std::vector<size_t> &m_b2c; //!< Map of basis functions to atoms
 	const arma::Mat<double> &m_s; //!< Overlap matrix
 
 public:
@@ -26,6 +26,8 @@ public:
 
     virtual ~pop_mulliken() { }
 
+    /** \copydoc pop_analysis_i::size
+     **/
     virtual size_t size() const {
         return m_natoms;
     }

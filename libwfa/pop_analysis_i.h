@@ -15,18 +15,20 @@ namespace libwfa {
  **/
 class pop_analysis_i {
 public:
+    /** \brief Virtual destructor
+     **/
     virtual ~pop_analysis_i() { }
 
-    /** \brief Return the length of a population data set generated (e.g. # atoms)
+    /** \brief Return the length of a population data generated (e.g. # atoms)
      **/
     virtual size_t size() const = 0;
 
     /** \brief Perform population analysis for given density
         \param[in] dm Density matrix in AO basis
-        \param[out] p Resulting population analysis
+        \param[out] p Resulting population data
 
         Routine to perform the population analysis for one density matrix. The
-        output vector should be adjusted to the correct size by the routine.
+        routine should adjust the output vector to the correct size.
      **/
     virtual void perform(const arma::Mat<double> &dm,
             std::vector<double> &p) = 0;

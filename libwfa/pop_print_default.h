@@ -8,8 +8,11 @@
 namespace libwfa {
 
 
-/** \brief Printer of N sets of population data
+/** \brief Printer of N sets of population data to output stream
 
+    The population data is printed as one table
+
+    \ingroup libwfa
  **/
 class pop_print_default : public pop_print_i {
 private:
@@ -19,10 +22,25 @@ private:
     size_t m_prec; //!< Precision of printed numbers
     
 public:
+    /** \brief Constructor
+        \param l Labels for each line of the table (= length of each data set
+        \param out Output stream
+        \param colwidth Max column width
+        \param prec Precision the data columns
+     **/
     pop_print_default(const std::vector<std::string> &l,
         std::ostream &out, size_t colwidth = 20, size_t prec = 6) :
         m_labels(l), m_out(out), m_colwidth(colwidth), m_prec(prec) { }
 
+    /** \brief Print the population data
+
+        Population data is printed as one table and each number with the
+        provided precision. The method attempts to fit the table into
+        lines of 80 character by decreasing the provided column width,
+        if necessary and possible (due to precision). However, it does not
+        introduce line breaks, if the table exceeds the total width of 80
+        characters.
+     **/
     virtual void perform(const pop_data &p);
 };
 
