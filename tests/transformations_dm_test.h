@@ -17,6 +17,8 @@ public:
 private:
 	void test_form_eh_1a();
     void test_form_eh_1b();
+    void test_form_om_1a();
+    void test_form_om_1b();
     void test_diagonalize_dm_1a();
     void test_diagonalize_dm_1b();
     void test_form_ad_1a();

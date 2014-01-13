@@ -7,8 +7,8 @@
 namespace libwfa {
 
 
-/** \brief Transforms a transition density matrix into electron and hole
-        density matrices
+/** \brief Forms electron and hole density matrices from a transition density
+        matrix
     \param[in] s Overlap matrix
     \param[in] tdm Transition density matrix
     \param[out] de Electron density matrix
@@ -34,6 +34,24 @@ namespace libwfa {
 void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
         ab_matrix &de, ab_matrix &dh);
 
+/** \brief Forms omega matrix from a transition density matrix
+    \param[in] s Overlap matrix
+    \param[in] tdm Transition density matrix
+    \param[out] om Omega matrix
+
+    The function implements the transforms of the transition density matrix
+    into the omega matrix (explain!)
+    \f[
+    \Omega_{\mu\nu} =
+    \left(\sum_{\eta} T_{\mu\eta} S_{\eta\nu}\right) \times
+    \left(\sum_{\eta} S_{\mu\eta} T_{\eta\nu}\right)
+    \f]
+
+    The output matrices are reshaped and resized as required.
+
+ **/
+void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
+        ab_matrix &om);
 
 /** \brief Diagonalizes the given density matrix in AO basis
     \param[in] c AO2MO coefficient matrix

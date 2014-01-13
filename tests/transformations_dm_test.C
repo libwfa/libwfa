@@ -3,6 +3,21 @@
 
 namespace libwfa {
 
+
+void transformations_dm_test::perform() throw(libtest::test_exception) {
+
+    test_form_eh_1a();
+    test_form_eh_1b();
+    test_form_om_1a();
+    test_form_om_1b();
+    test_diagonalize_dm_1a();
+    test_diagonalize_dm_1b();
+    test_form_ad_1a();
+    test_form_ad_1b();
+    test_form_ad_2();
+}
+
+
 using namespace arma;
 
 namespace {
@@ -52,6 +67,7 @@ const double system_data::k_s[64] = {
     0.2816681417171, 0.2136637554504, 0.3106911403593, 1.0000000000000
 };
 
+
 const double system_data::k_ca[64] = {
     -1.4386374805937,  1.7273835631264, -0.2481673864552,  0.0479179178774,
      0.1356497801719,  0.8318525719125,  0.1341667273838, -1.3595739082117,
@@ -70,6 +86,7 @@ const double system_data::k_ca[64] = {
      0.1639130687966,  0.1616708335398,  0.1960238051475,  0.1878590905217,
      0.1642332311630,  0.1646800918484,  0.1755542880717,  0.1372727588120
 };
+
 
 const double system_data::k_cb[64] = {
     -1.4315480636661,  1.7109043326431, -0.5485700147404,  0.2469453763977,
@@ -90,18 +107,8 @@ const double system_data::k_cb[64] = {
      0.0557940725132,  0.0609884535480,  0.1209434940860,  0.3134181926429
 };
 
+
 } // unnamed namespace
-
-void transformations_dm_test::perform() throw(libtest::test_exception) {
-
-    test_form_eh_1a();
-    test_form_eh_1b();
-    test_diagonalize_dm_1a();
-    test_diagonalize_dm_1b();
-    test_form_ad_1a();
-    test_form_ad_1b();
-    test_form_ad_2();
-}
 
 
 void transformations_dm_test::test_form_eh_1a() {
@@ -254,6 +261,117 @@ void transformations_dm_test::test_form_eh_1b() {
     if (accu(abs(dh.beta() - dh_ref.beta()) > 1e-14) != 0) {
         fail_test(testname, __FILE__, __LINE__,
                 "dh(beta) does not match reference.");
+    }
+}
+
+
+void transformations_dm_test::test_form_om_1a() {
+
+    static const char *testname = "transformations_dm_test::test_form_om_1a()";
+
+    //
+    // Test transform of restricted TDM into CT number matrix
+    //
+
+    size_t nb = system_data::dim();
+
+    Mat<double> s = system_data::overlap();
+
+    ab_matrix tdm(nb, nb), om, om_ref(nb, nb);
+
+    tdm.alpha().randu();
+    { // Compute reference data
+
+    const Mat<double> &tdm_a = tdm.alpha();
+    Mat<double> &om_a = om_ref.alpha();
+    for (size_t i = 0; i < nb; i++)
+    for (size_t j = 0; j < nb; j++) {
+
+        double tmp1 = 0.0, tmp2 = 0.0;
+        for (size_t k = 0; k < nb; k++) {
+            tmp1 += tdm_a(i, k) * s(k, j);
+            tmp2 += s(i, k) * tdm_a(k, j);
+        }
+        om_a(i, j) = tmp1 * tmp2;
+    }
+
+    } // End computing reference data
+
+    // Perform operation
+    try {
+
+    form_om(s, tdm, om);
+
+    } catch(std::exception &e) {
+        fail_test(testname, __FILE__, __LINE__, e.what());
+    }
+
+    // Check result
+    if (om.nrows_a() != nb || om.ncols_a() != nb) {
+        fail_test(testname, __FILE__, __LINE__, "Dim(om)");
+    }
+    if (accu(abs(om.alpha() - om_ref.alpha()) > 1e-14) != 0) {
+        fail_test(testname, __FILE__, __LINE__, "om does not match reference.");
+    }
+}
+
+
+void transformations_dm_test::test_form_om_1b() {
+
+    static const char *testname = "transformations_dm_test::test_form_om_1b()";
+
+    //
+    // Test transform of unrestricted TDM into electron and hole densities
+    //
+
+    size_t nb = system_data::dim();
+
+    Mat<double> s = system_data::overlap();
+
+    ab_matrix tdm(nb, nb, nb), om, om_ref(nb, nb, nb);
+
+    tdm.alpha().randu();
+    tdm.beta().randu();
+    { // Compute reference data
+
+    const Mat<double> &tdm_a = tdm.alpha(), &tdm_b = tdm.beta();
+    Mat<double> &om_a = om_ref.alpha(), &om_b = om_ref.beta();
+    for (size_t i = 0; i < nb; i++)
+    for (size_t j = 0; j < nb; j++) {
+
+        double tmp1a = 0.0, tmp1b = 0.0, tmp2a = 0.0, tmp2b = 0.0;
+        for (size_t k = 0; k < nb; k++) {
+            tmp1a += tdm_a(i, k) * s(k, j);
+            tmp1b += tdm_b(i, k) * s(k, j);
+            tmp2a += s(i, k) * tdm_a(k, j);
+            tmp2b += s(i, k) * tdm_b(k, j);
+        }
+        om_a(i, j) = tmp1a * tmp2a;
+        om_b(i, j) = tmp1b * tmp2b;
+    }
+
+    } // End computing reference data
+
+    // Perform operation
+    try {
+
+    form_om(s, tdm, om);
+
+    } catch(std::exception &e) {
+        fail_test(testname, __FILE__, __LINE__, e.what());
+    }
+
+    // Check result
+    if (om.is_alpha_eq_beta()) {
+        fail_test(testname, __FILE__, __LINE__, "om: alpha == beta");
+    }
+    if (accu(abs(om.alpha() - om_ref.alpha()) > 1e-14) != 0) {
+        fail_test(testname, __FILE__, __LINE__,
+                "om(alpha) does not match reference.");
+    }
+    if (accu(abs(om.beta() - om_ref.beta()) > 1e-14) != 0) {
+        fail_test(testname, __FILE__, __LINE__,
+                "om(beta) does not match reference.");
     }
 }
 

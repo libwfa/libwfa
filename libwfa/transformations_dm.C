@@ -28,6 +28,26 @@ void form_eh(const Mat<double> &s, const ab_matrix &tdm,
 }
 
 
+void form_om(const Mat<double> &s,
+    const ab_matrix &tdm, ab_matrix &om) {
+
+    Mat<double> &om_a = om.alpha();
+    const Mat<double> &td_a = tdm.alpha();
+    om_a = (td_a * s) % (s* td_a);
+
+    if (! tdm.is_alpha_eq_beta()) {
+        om.set_alpha_neq_beta();
+
+        Mat<double> &om_b = om.beta();
+        const Mat<double> &td_b = tdm.beta();
+        om_b = (td_b * s) % (s* td_b);
+    }
+    else {
+        om.set_alpha_eq_beta();
+    }
+}
+
+
 void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
     ab_vector &ev, ab_matrix &u) {
 
