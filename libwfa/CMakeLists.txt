@@ -13,6 +13,7 @@ set(SRC_HEADER
 	pop_print_default.h
 	pop_print_i.h
     transformations_dm.h
+    selector.h
     version.h
 )
 
@@ -23,6 +24,7 @@ set(SRC
 	pop_mulliken.C
 	pop_print_default.C
     transformations_dm.C
+    selector.C
     version.C
 )
 

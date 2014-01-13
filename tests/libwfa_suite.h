@@ -8,8 +8,9 @@
 #include "ctnum_export_test.h"
 #include "pop_mulliken_test.h"
 #include "pop_print_default_test.h"
-#include "version_test.h"
+#include "selector_test.h"
 #include "transformations_dm_test.h"
+#include "version_test.h"
 
 using libtest::unit_test_factory;
 
@@ -20,7 +21,7 @@ using libtest::unit_test_factory;
 namespace libwfa {
 
 
-/** \brief Test suite for the wfaity library (libwfa)
+/** \brief Test suite for the wfa library (libwfa)
 
     This suite runs the following tests:
     - \c ab_matrix_test
@@ -29,6 +30,7 @@ namespace libwfa {
     - \c ctnum_export_test
     - \c pop_mulliken_test
     - \c pop_print_default_test
+    - \c selector_test
     - \c transformations_dm_test
     - \c version_test
 
@@ -42,6 +44,7 @@ private:
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
     unit_test_factory<pop_mulliken_test> m_utf_pop_mulliken;
     unit_test_factory<pop_print_default_test> m_utf_pop_print_default;
+    unit_test_factory<selector_test> m_utf_selector;
     unit_test_factory<transformations_dm_test> m_utf_transformations_dm;
     unit_test_factory<version_test> m_utf_version;
 
