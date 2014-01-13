@@ -1,6 +1,7 @@
 set(SRC_HEADER
 	ab_matrix_test.h
 	ab_vector_test.h
+	ab_selector_test.h
 	ctnum_analysis_test.h
 	ctnum_export_test.h
 	libwfa_suite.h
@@ -14,6 +15,7 @@ set(SRC_HEADER
 set(SRC
 	ab_matrix_test.C
 	ab_vector_test.C
+	ab_selector_test.C
 	ctnum_analysis_test.C
 	ctnum_export_test.C
     libwfa_tests.C

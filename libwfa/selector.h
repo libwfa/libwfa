@@ -21,7 +21,7 @@ public:
 
         Range starts at 0 and selection is empty.
      **/
-    selector(size_t ntotal) : m_indexes(ntotal, false), m_nselected(0) { }
+    selector(size_t ntotal = 0) : m_indexes(ntotal, false), m_nselected(0) { }
 
     /** \brief Add one index to selection
      **/

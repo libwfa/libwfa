@@ -3,6 +3,7 @@
 
 #include <libtest/test_suite.h>
 #include "ab_matrix_test.h"
+#include "ab_selector_test.h"
 #include "ab_vector_test.h"
 #include "ctnum_analysis_test.h"
 #include "ctnum_export_test.h"
@@ -25,6 +26,7 @@ namespace libwfa {
 
     This suite runs the following tests:
     - \c ab_matrix_test
+    - \c ab_selector_test
     - \c ab_vector_test
     - \c ctnum_analysis_test
     - \c ctnum_export_test
@@ -39,6 +41,7 @@ namespace libwfa {
 class libwfa_suite: public libtest::test_suite {
 private:
     unit_test_factory<ab_matrix_test> m_utf_ab_matrix;
+    unit_test_factory<ab_selector_test> m_utf_ab_selector;
     unit_test_factory<ab_vector_test> m_utf_ab_vector;
     unit_test_factory<ctnum_analysis_test> m_utf_ctnum_analysis;
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
