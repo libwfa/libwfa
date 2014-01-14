@@ -6,6 +6,7 @@ set(SRC_HEADER
 	ctnum_data.h
 	ctnum_export.h
 	ctnum_print_i.h
+	density_list.h
 	libwfa_exception.h
 	pop_analysis_i.h
 	pop_data.h
@@ -20,6 +21,7 @@ set(SRC_HEADER
 set(SRC
 	ctnum_analysis.C
 	ctnum_export.C
+    density_list.C
 	libwfa_exception.C
 	pop_mulliken.C
 	pop_print_default.C
