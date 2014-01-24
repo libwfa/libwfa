@@ -8,7 +8,7 @@ using namespace arma;
 
 
 void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
-    export_orbitals_i &nto_print, nto_data_i &pr) {
+    export_orbitals_i &nto_print, nto_data_i &pr) const {
 
     ab_vector eh, ee;
     diagonalize_dm(m_c, dm.first, ee, u.first);
@@ -47,7 +47,8 @@ void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
 
 
 void nto_analysis::perform(const ab_matrix &tdm, ab_matrix_pair &av,
-    export_densities_i &dm_print, export_orbitals_i &nto_print, nto_data_i &pr) {
+    export_densities_i &dm_print, export_orbitals_i &nto_print,
+    nto_data_i &pr) const {
 
     ab_matrix_pair dm;
     form_eh(m_s, tdm, dm.first, dm.second);

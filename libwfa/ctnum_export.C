@@ -7,20 +7,27 @@ namespace libwfa {
 using namespace arma;
 
 
-void ctnum_export::perform(const ab_matrix &ct) {
+void ctnum_export::perform(const ab_matrix &om, const double (&om_tot)[2]) {
     
-    if (ct.is_alpha_eq_beta()) {
+    size_t w = 10, prec = 4;
+    m_out << "omega = ";
+    m_out << std::setw(w) << std::setprecision(prec) << std::fixed;
+    m_out << om_tot[0] + om_tot[1] << " (alpha: ";
+    m_out << std::setw(w) << std::setprecision(prec) << std::fixed;
+    m_out << om_tot[0] << ", beta: ";
+    m_out << std::setw(w) << std::setprecision(prec) << std::fixed;
+    m_out << om_tot[1] << ")" << std::endl;
 
+    if (om.is_alpha_eq_beta()) {
         std::string fname(m_prefix + ".om");
-        do_export(fname, ct.alpha());
+        do_export(fname, om.alpha());
     }
     else {
-
         std::string fname_a(m_prefix + "_a.om");
-        do_export(fname_a, ct.alpha());
+        do_export(fname_a, om.alpha());
 
         std::string fname_b(m_prefix + "_b.om");
-        do_export(fname_b, ct.beta());
+        do_export(fname_b, om.beta());
     }
 }
 

@@ -37,10 +37,10 @@ public:
         \param[out] nto_print Printer of NTOs
         \param[out] pr Printer of NTO data
 
-        (Assumes the electron density matrix is first)
+        (Assumes the electron density matrix is first in dm)
      **/
     void perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
-            export_orbitals_i &nto_print, nto_data_i &pr);
+            export_orbitals_i &nto_print, nto_data_i &pr) const;
 
     /** \brief Perform NTO analysis
         \param[in] tdm Transition density matrix
@@ -49,11 +49,11 @@ public:
         \param[out] nto_print Printer of NTOs
         \param[out] pr Printer of NTO data
 
-        (Assumes the electron density matrix is first)
+        (Assumes the electron density matrix is first in av)
      **/
     void perform(const ab_matrix &tdm, ab_matrix_pair &av,
         export_densities_i &dm_print, export_orbitals_i &nto_print,
-        nto_data_i &pr);
+        nto_data_i &pr) const;
 };
 
 } // namespace adcman

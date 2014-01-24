@@ -39,18 +39,24 @@ public:
         the resulting data.
      **/
     void perform(const ab_matrix& tdm,
-        ab_matrix &om, std::vector<double> &om_tot);
+        ab_matrix &om, double (&om_tot)[2]) const;
 
 
     /** \brief Perform analysis
         \param[in] tdm Transition density matrix
-        \param[out] out Output stream
         \param[out] pr Printer for omega data
 
         Performs the CT number analysis using the analysis object and prints
         the results to output stream and using the ctnum_print_i object.
      **/
-    void perform(const ab_matrix &tdm, std::ostream &out, ctnum_data_i &pr);
+    void perform(const ab_matrix &tdm, ctnum_data_i &pr) const {
+
+        double om_tot[2];
+        ab_matrix om;
+
+        perform(tdm, om, om_tot);
+        pr.perform(om, om_tot);
+    }
 };
 
 } // namespace libwfa

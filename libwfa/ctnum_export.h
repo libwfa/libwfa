@@ -17,12 +17,14 @@ namespace libwfa {
  **/
 class ctnum_export : public ctnum_data_i {
 protected:    
-    std::string m_prefix; //!< File prefix for the data
-    double m_energy; //!< Excitation energy of the state
-    double m_osc_strength; //!< Oscillator strength of the state
+    std::ostream &m_out; //!< Output stream
     size_t m_ncols; //!< Max number of columns
     size_t m_colwidth; //!< Column width
     size_t m_prec; //!< Precision of printed numbers
+
+    std::string m_prefix; //!< File prefix for the data
+    double m_energy; //!< Excitation energy of the state
+    double m_osc_strength; //!< Oscillator strength of the state
 
 public:
     /** \brief Constructor
@@ -30,9 +32,10 @@ public:
         \param colwidth Max column width
         \param prec Precision the data columns
      **/
-    ctnum_export(size_t ncols = 3, size_t colwidth = 15, size_t prec = 6):
-        m_prefix("ctnum"), m_energy(0.0), m_osc_strength(0.0),
-        m_ncols(ncols), m_colwidth(colwidth), m_prec(prec) { }
+    ctnum_export(std::ostream &out, size_t ncols = 3,
+        size_t colwidth = 15, size_t prec = 6):
+        m_out(out), m_ncols(ncols), m_colwidth(colwidth), m_prec(prec),
+        m_prefix("ctnum"), m_energy(0.0), m_osc_strength(0.0) { }
     
     /** \brief Set file prefix
      **/
@@ -65,7 +68,7 @@ public:
         \c run_dens_ana.py available at
         http://www.iwr.uni-heidelberg.de/groups/compchem/personal/felix_plasser/download.html
      **/
-    virtual void perform(const ab_matrix &ct);
+    virtual void perform(const ab_matrix &om, const double (&om_tot)[2]);
 
 private:
     void do_export(const std::string &fname, const arma::Mat<double> &ct);
