@@ -26,9 +26,9 @@ public:
 
     /** \brief Perform population analysis
         \param[in] ad Attachment and detachment density matrix (attach first)
-        \param[out] pr Printer of population data
+        \param[out] pop Population data
      **/
-    void perform(const ab_matrix_pair &ad, pop_print_i &pr) const;
+    void perform(const ab_matrix_pair &ad, pop_data &pr) const;
 };
 
 } // namespace libwfa

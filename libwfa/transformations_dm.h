@@ -26,9 +26,6 @@ namespace libwfa {
 
     The output matrices are reshaped and resized as required.
 
-    TODO: check formulas!!! what is the correct density matrix:
-        T^{ao} = C' T C or T^{ao} = S C' T C S?!
-
     \ingroup libwfa
  **/
 void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
@@ -82,7 +79,7 @@ void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
 
 
 /** \brief Constructs attachement and detachment densities
-    \param[in] ev Eigenvalues of the density matrix
+    \param[in] ev Eigenvalues of the difference density matrix
     \param[in] u Transformation matrix from eigenbasis to AO basis
     \param[out] da Attachment density matrix
     \param[out] dd Detachment density matrix
@@ -100,7 +97,8 @@ void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
 void form_ad(const ab_vector &ev, const ab_matrix &u,
         ab_matrix &da, ab_matrix &dd);
 
-/** \brief Constructs attachement and detachment densities from a density matrix
+/** \brief Constructs attachement and detachment densities from a
+        difference density matrix
     \param[in] s Overap matrix
     \param[in] c AO2MO coefficient matrix
     \param[in] dm Density matrix

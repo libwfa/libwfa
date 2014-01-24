@@ -3,7 +3,7 @@
 
 #include "ab_matrix.h"
 #include "pop_analysis_i.h"
-#include "pop_print_i.h"
+#include "pop_data.h"
 
 namespace libwfa {
 
@@ -23,9 +23,9 @@ public:
 
     /** \brief Perform population analysis
         \param[in] sdm State density matrix
-        \param[out] pr Printer of population data
+        \param[out] pop Resulting population data
      **/
-    void perform(const ab_matrix &sdm, pop_print_i &pr) const;
+    void perform(const ab_matrix &sdm, pop_data &pop) const;
 };
 
 } // namespace libwfa
