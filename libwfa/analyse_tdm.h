@@ -8,9 +8,6 @@ namespace libwfa {
 
 /** \brief Combines various transition density matrix analyses
 
-    Performs the analyses of the current transition density according to the
-    parameters.
-
     \ingroup libwfa
  **/
 class analyse_tdm {

@@ -23,17 +23,19 @@ void ctnum_export_test::test_1() {
 
     size_t na = 4;
 
+    double tot[2];
     ab_matrix r1(true), r2(true);
     r1.alpha() = symmatu(randu(na, na));
     r2.alpha() = symmatu(randu(na, na));
 
-    ctnum_export pr;
+    std::ostringstream ss1;
+    ctnum_export pr(ss1);
     pr.set_prefix("test_1_set_1");
     pr.set_state_info(1.23456, 0.015);
-    pr.perform(r1);
+    pr.perform(r1, tot);
     pr.set_prefix("test_1_set_2");
     pr.set_state_info(2.34566, 0.121);
-    pr.perform(r2);
+    pr.perform(r2, tot);
 
 
 }
@@ -47,19 +49,21 @@ void ctnum_export_test::test_2() {
 
     size_t na = 4;
 
+    double tot[2];
     ab_matrix r1, r2;
     r1.alpha() = symmatu(randu(na, na));
     r1.beta()  = symmatu(randu(na, na));
     r2.alpha() = symmatu(randu(na + 1, na + 1));
     r2.beta()  = symmatu(randu(na + 1, na + 1));
 
-    ctnum_export pr(5);
+    std::ostringstream ss2;
+    ctnum_export pr(ss2, 5);
     pr.set_prefix("test_2_set_1");
     pr.set_state_info(0.12348, 0.001);
-    pr.perform(r1);
+    pr.perform(r1, tot);
     pr.set_prefix("test_2_set_2");
     pr.set_state_info(2.34902, 0.382);
-    pr.perform(r2);
+    pr.perform(r2, tot);
 }
 
 
