@@ -18,19 +18,30 @@ void export_orbitals_cube::perform(const ab_matrix &coeff,
     }
 
     const selector &sa = s.alpha();
-    const Mat<double> &ca_orig = coeff.alpha();
-    Mat<double> ca = ca_orig.cols(sa.get_selected_arma());
+    const Mat<double> &ca = coeff.alpha();
+    if (sa.all_selected()) {
 
-    m_core.perform(cube::data_type::orb_a, sa.get_selected(), ca);
+        m_core.perform(cube::data_type::orb_a, sa.get_selected(), ca);
+    }
+    else if (! sa.none_selected()) {
+        Mat<double> ca_copy = ca.cols(sa.get_selected_arma());
+
+        m_core.perform(cube::data_type::orb_a, sa.get_selected(), ca_copy);
+    }
 
     if (coeff.is_alpha_eq_beta()) return;
 
     const selector &sb = s.beta();
+    const Mat<double> &cb = coeff.beta();
+    if (sb.all_selected()) {
 
-    const Mat<double> &cb_orig = coeff.beta();
-    Mat<double> cb = cb_orig.cols(sb.get_selected_arma());
+        m_core.perform(cube::data_type::orb_b, sb.get_selected(), cb);
+    }
+    else if (! sb.none_selected()) {
+        Mat<double> cb_copy = cb.cols(sb.get_selected_arma());
 
-    m_core.perform(cube::data_type::orb_b, sb.get_selected(), cb);
+        m_core.perform(cube::data_type::orb_b, sb.get_selected(), cb_copy);
+    }
 }
 
 
