@@ -6,15 +6,16 @@
 
 namespace libwfa {
 
-/** \brief Interface for exporting density matrices.
+/** \brief Exporting density matrices as cube files
 
-    Interface to implement the export of density matrices.
+    Class implementing the interface export_densities_i for export of density
+    matrices as cube files.
 
     \ingroup libwfa
  **/
 class export_densities_cube : public export_densities_i {
 private:
-    export_cube_base &m_core; //!< Export object into cube files
+    export_cube_base &m_core; //!< Core class for export as cube files
 
 public:
     /** \brief Constructor
@@ -26,16 +27,10 @@ public:
      **/
     virtual ~export_densities_cube() { }
 
-    /** \copydoc export_densities_i::perform(dm_type, size_t, const ab_matrix &)
+    /** \copydoc export_densities_i::perform
      **/
-    virtual void perform(dm_type type, size_t idx, const ab_matrix &dm);
-
-    /** \copydoc export_densities_i::perform(const dm_list &)
-     **/
-    virtual void perform(const dm_list &lst);
-
-private:
-    static cube::data_type determine_data_type(dm_type type, bool alpha);
+    virtual void perform(const state_info &si,
+            dm_type type, const ab_matrix &dm);
 };
 
 

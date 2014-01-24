@@ -86,13 +86,14 @@ void export_orbitals_molden_test::test_1() {
     molden_file_test core;
     export_orbitals_molden export_c(core, no, nb - no, no, nb - no);
 
+    std::string mo("mo");
     ab_matrix c(nb);
     ab_vector ene(nb);
     ab_selector s(nb);
     s.alpha().select_all();
 
     try {
-        export_c.perform(c, ene, s);
+        export_c.perform(mo, c, ene, s);
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }
@@ -126,6 +127,7 @@ void export_orbitals_molden_test::test_2() {
     molden_file_test core;
     export_orbitals_molden export_c(core, no_a, nb - no_a, no_b, nb - no_b);
 
+    std::string mo("mo");
     ab_matrix c(nb, nb, nb, nb);
     ab_vector ene(nb, nb);
     ab_selector s(nb, nb);
@@ -133,7 +135,7 @@ void export_orbitals_molden_test::test_2() {
     s.beta().select_all();
 
     try {
-        export_c.perform(c, ene, s);
+        export_c.perform(mo, c, ene, s);
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }
@@ -167,6 +169,7 @@ void export_orbitals_molden_test::test_3() {
     molden_file_test core;
     export_orbitals_molden export_c(core, no_a, nb - no_a, no_b, nb - no_b);
 
+    std::string mo("mo");
     ab_matrix c(nb, nb, nb, nb);
     ab_vector ene(nb, nb);
     ab_selector s(nb, nb);
@@ -174,7 +177,7 @@ void export_orbitals_molden_test::test_3() {
     s.beta().deselect_all();
 
     try {
-        export_c.perform(c, ene, s);
+        export_c.perform(mo, c, ene, s);
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }

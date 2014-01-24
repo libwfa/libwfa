@@ -35,7 +35,7 @@ public:
 
     /** \copydoc export_orbitals_i::perform
      **/
-    virtual void perform(const ab_matrix &coeff,
+    virtual void perform(const std::string &name, const ab_matrix &coeff,
             const ab_vector &ene, const ab_selector &s);
 };
 

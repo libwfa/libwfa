@@ -6,7 +6,6 @@
 
 namespace libwfa {
 
-namespace cube {
 
 /** \brief Grid in real space (3D)
 
@@ -33,36 +32,6 @@ struct grid3d {
 };
 
 
-/** \brief Data type to generate cube data
-
-    \ingroup libwfa
- **/
-class data_type {
-private:
-    char m_type; //!< Data type
-
-private:
-    explicit data_type(char type) : m_type(type) { }
-
-public:
-    bool operator==(const data_type &t) const { return m_type == t.m_type; }
-    bool operator!=(const data_type &t) const { return m_type != t.m_type; }
-
-public:
-    static const data_type orb_a; //!< Alpha orbital coefficients
-    static const data_type orb_b; //!< Beta orbital coefficients
-    static const data_type sdm_a; //!< Alpha state density matrix
-    static const data_type sdm_b; //!< Beta state density matrix
-    static const data_type tdm_a; //!< Alpha transition density matrix
-    static const data_type tdm_b; //!< Beta transition density matrix
-    static const data_type adm_a; //!< Alpha transition density matrix
-    static const data_type adm_b; //!< Beta transition density matrix
-    static const data_type ddm_a; //!< Alpha transition density matrix
-    static const data_type ddm_b; //!< Beta transition density matrix
-};
-
-} // namespace cube
-
 /** \brief Base class to export data as cube files.
 
     Base class to export certain data (see data_type for possible data) as
@@ -70,29 +39,34 @@ public:
 
     \ingroup libwfa
  **/
-class export_cube_base {
-private:
-    cube::grid3d m_grid;
+struct export_cube_base {
 
-public:
+    grid3d grid; //!< Grid to use
+
     /** \brief Constructor
         \param g Grid of the cube
      **/
-    export_cube_base(const cube::grid3d &g) : m_grid(g) { }
+    export_cube_base(const grid3d &g) : grid(g) { }
 
+    /** \brief Virtual destructor
+     **/
     virtual ~export_cube_base() { }
 
-    /** \brief Return the grid information
+    /** \brief Evaluate an matrix in AO basis on the grid and export as cube
+        \param name Name associated with the matrix
+        \param mat Matrix data in AO basis
      **/
-    const cube::grid3d &grid() const { return m_grid; }
+    virtual void perform(const std::string &name,
+        const arma::Mat<double> &mat) = 0;
 
-    /** \brief Export several sets of data provided as matrix
-        \param type Type of data
-        \param idx Indices for each data
-        \param data Matrix containing the data objects
+    /** \brief Evaluate a set of vectors in AO basis on the grid and export as cube
+        \param prefix Name associated with the matrix (used as prefix)
+        \param idx Vector of indexes
+        \param vecs Set of vectors in AO basis
      **/
-    virtual void perform(cube::data_type type, const std::vector<size_t> &idx,
-            const arma::Mat<double> &data) = 0;
+    virtual void perform(const std::string &prefix,
+        const std::vector<size_t> &idx, const arma::Mat<double> &vecs) = 0;
+
 };
 
 } // namespace adcman

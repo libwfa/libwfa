@@ -12,11 +12,11 @@ namespace libwfa {
  **/
 class export_orbitals_cube : public export_orbitals_i {
 private:
-    export_cube_base &m_core; //!< Export object into cube file
+    export_cube_base &m_core; //!< Object to export orbitals into cube file
 
 public:
     /** \brief Constructor
-        \param core Export object into cube files
+        \param core Export  into cube files
      **/
     export_orbitals_cube(export_cube_base &core) : m_core(core) { }
 
@@ -26,7 +26,7 @@ public:
 
     /** \copydoc export_orbitals_i::perform
      **/
-    virtual void perform(const ab_matrix &coeff,
+    virtual void perform(const std::string &name, const ab_matrix &coeff,
             const ab_vector &ene, const ab_selector &s);
 };
 

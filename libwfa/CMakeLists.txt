@@ -6,7 +6,8 @@ set(SRC_HEADER
     ctnum_data.h
     ctnum_export.h
     ctnum_print_i.h
-    dm_list.h
+    ctnumbers.h
+    dm_type.h
     export_cube_base.h
     export_densities_cube.h
     export_densities_i.h
@@ -22,13 +23,15 @@ set(SRC_HEADER
     pop_print_i.h
     transformations_dm.h
     selector.h
+    state_info.h
     version.h
 )
 
 set(SRC
     ctnum_analysis.C
     ctnum_export.C
-    dm_list.C
+    ctnumbers.C
+    dm_type.C
     export_cube_base.C
     export_densities_cube.C
     export_orbitals_cube.C
@@ -38,6 +41,7 @@ set(SRC
     pop_print_default.C
     transformations_dm.C
     selector.C
+    state_info.C
     version.C
 )
 

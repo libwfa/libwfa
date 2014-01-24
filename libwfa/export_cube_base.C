@@ -4,9 +4,6 @@
 namespace libwfa {
 
 
-namespace cube {
-
-
 grid3d::grid3d() {
     for(size_t i = 0; i < 6; i++) ranges[i] = 0.0;
     for(size_t i = 0; i < 3; i++) npts[i] = 0;
@@ -86,21 +83,6 @@ void grid3d::check() const {
         }
     }
 }
-
-
-const data_type data_type::orb_a = data_type(+1);
-const data_type data_type::orb_b = data_type(-1);
-const data_type data_type::sdm_a = data_type(+2);
-const data_type data_type::sdm_b = data_type(-2);
-const data_type data_type::tdm_a = data_type(+3);
-const data_type data_type::tdm_b = data_type(-3);
-const data_type data_type::adm_a = data_type(+4);
-const data_type data_type::adm_b = data_type(-4);
-const data_type data_type::ddm_a = data_type(+5);
-const data_type data_type::ddm_b = data_type(-5);
-
-
-} // namespace cube
 
 
 } // namespace libwfa

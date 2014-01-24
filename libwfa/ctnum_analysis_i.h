@@ -18,7 +18,7 @@ public:
     
     /** \brief Return the dimension of the CT number matrix (e.g. # atoms)
      **/
-    virtual size_t dim() const = 0;
+    virtual size_t size() const = 0;
 
     /** \brief Perform CT number analysis for given density
         \param[in] om_ao Omega matrix in AO basis

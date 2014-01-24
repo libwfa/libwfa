@@ -28,8 +28,8 @@ public:
         \param colwidth Max column width
         \param prec Precision the data columns
      **/
-    ctnum_export(const std::string &prefix = "",
-        size_t ncols = 3, size_t colwidth = 15, size_t prec = 6):
+    ctnum_export(const std::string &prefix = "", size_t ncols = 3,
+            size_t colwidth = 15, size_t prec = 6):
         m_prefix(prefix), m_ncols(ncols), m_colwidth(colwidth), m_prec(prec) { }
     
     /** \brief Export the CT number data

@@ -7,7 +7,6 @@
 #include "ab_vector_test.h"
 #include "ctnum_analysis_test.h"
 #include "ctnum_export_test.h"
-#include "dm_list_test.h"
 #include "export_densities_cube_test.h"
 #include "export_orbitals_cube_test.h"
 #include "export_orbitals_molden_test.h"
@@ -34,7 +33,6 @@ namespace libwfa {
     - \c ab_vector_test
     - \c ctnum_analysis_test
     - \c ctnum_export_test
-    - \c dm_list_test
     - \c export_densities_cube_test
     - \c export_orbitals_cube_test
     - \c export_orbitals_molden_test
@@ -53,7 +51,6 @@ private:
     unit_test_factory<ab_vector_test> m_utf_ab_vector;
     unit_test_factory<ctnum_analysis_test> m_utf_ctnum_analysis;
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
-    unit_test_factory<dm_list_test> m_utf_dm_list;
     unit_test_factory<export_densities_cube_test> m_utf_export_densities_cube;
     unit_test_factory<export_orbitals_cube_test> m_utf_export_orbitals_cube;
     unit_test_factory<export_orbitals_molden_test> m_utf_export_orbitals_molden;

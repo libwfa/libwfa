@@ -4,7 +4,6 @@ set(SRC_HEADER
     ab_selector_test.h
     ctnum_analysis_test.h
     ctnum_export_test.h
-    dm_list_test.h
     export_densities_cube_test.h
     export_orbitals_cube_test.h
     export_orbitals_molden_test.h
@@ -22,7 +21,6 @@ set(SRC
     ab_selector_test.C
     ctnum_analysis_test.C
     ctnum_export_test.C
-    dm_list_test.C
     export_densities_cube_test.C
     export_orbitals_cube_test.C
     export_orbitals_molden_test.C

@@ -11,12 +11,12 @@ namespace {
 class export_cube_test : public export_cube_base {
 private:
     struct exports {
-        cube::data_type type;
+        std::string name;
         std::vector<size_t> idx;
         size_t dim;
 
-        exports(cube::data_type t, const std::vector<size_t> &i, size_t d) :
-            type(t), idx(i), dim(d) { }
+        exports(const std::string &n, const std::vector<size_t> &i, size_t d) :
+            name(n), idx(i), dim(d) { }
     };
     std::list<exports> m_lst;
 
@@ -24,15 +24,22 @@ public:
     typedef std::list<exports>::const_iterator iterator;
 
 public:
-    export_cube_test() : export_cube_base(cube::grid3d()) { }
+    export_cube_test() : export_cube_base(grid3d()) { }
 
     virtual ~export_cube_test() { }
 
-    virtual void perform(cube::data_type type, const std::vector<size_t> &idx,
-            const Mat<double> &data) {
+    virtual void perform(const std::string &name, const Mat<double> &mat) {
 
-        m_lst.push_back(exports(type, idx, data.n_rows));
+        std::vector<size_t> idx;
+        m_lst.push_back(exports(name, idx, mat.n_rows));
     }
+
+    virtual void perform(const std::string &prefix,
+            const std::vector<size_t> &idx, const Mat<double> &vecs) {
+
+        m_lst.push_back(exports(prefix, idx, vecs.n_rows));
+    }
+
 
     size_t n_exports() const { return m_lst.size(); }
 
@@ -40,7 +47,7 @@ public:
 
     iterator end() const { return m_lst.end(); }
 
-    cube::data_type type(iterator i) const { return i->type; }
+    const std::string &name(iterator i) const { return i->name; }
 
     const std::vector<size_t> &indexes(iterator i) const { return i->idx; }
 
@@ -68,19 +75,20 @@ void export_orbitals_cube_test::test_1() {
     export_cube_test core;
     export_orbitals_cube export_c(core);
 
+    std::string mo("mo");
     size_t nb = 5;
     ab_matrix c(nb);
     ab_vector ene(nb);
     ab_selector s(nb);
     s.alpha().select_all();
 
-    export_c.perform(c, ene, s);
+    export_c.perform(mo, c, ene, s);
 
     if (core.n_exports() != 1) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.type(i) != cube::data_type::orb_a) {
+    if (core.name(i) != mo) {
         fail_test(testname, __FILE__, __LINE__, "Data type.");
     }
     if (core.indexes(i).size() != nb) {
@@ -108,19 +116,20 @@ void export_orbitals_cube_test::test_2() {
     export_cube_test core;
     export_orbitals_cube export_c(core);
 
+    std::string mo("mo");
     size_t nb = 5;
     ab_matrix c(nb, nb + 1, nb, nb - 1);
     ab_vector ene(nb + 1, nb - 1);
     ab_selector s(nb + 1, nb - 1);
     s.alpha().select_all();
     s.beta().select_all();
-    export_c.perform(c, ene, s);
+    export_c.perform(mo, c, ene, s);
 
     if (core.n_exports() != 2) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.type(i) != cube::data_type::orb_a) {
+    if (core.name(i) != mo + ".alpha") {
         fail_test(testname, __FILE__, __LINE__, "Data type (1).");
     }
     if (core.indexes(i).size() != nb + 1) {
@@ -136,7 +145,7 @@ void export_orbitals_cube_test::test_2() {
         fail_test(testname, __FILE__, __LINE__, "Size of coeff vector (1).");
     }
     i++;
-    if (core.type(i) != cube::data_type::orb_b) {
+    if (core.name(i) != mo + ".beta") {
         fail_test(testname, __FILE__, __LINE__, "Data type (2).");
     }
     if (core.indexes(i).size() != nb - 1) {
@@ -165,19 +174,20 @@ void export_orbitals_cube_test::test_3() {
     export_cube_test core;
     export_orbitals_cube export_c(core);
 
+    std::string mo("mo");
     size_t nb = 5;
     ab_matrix c(nb, nb + 1, nb, nb - 1);
     ab_vector ene(nb + 1, nb - 1);
     ab_selector s(nb + 1, nb - 1);
     s.alpha().select(2, 4);
     s.beta().deselect_all();
-    export_c.perform(c, ene, s);
+    export_c.perform(mo, c, ene, s);
 
     if (core.n_exports() != 1) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.type(i) != cube::data_type::orb_a) {
+    if (core.name(i) != mo + ".alpha") {
         fail_test(testname, __FILE__, __LINE__, "Data type (1).");
     }
     if (core.indexes(i).size() != 3) {

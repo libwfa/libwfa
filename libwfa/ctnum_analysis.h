@@ -29,9 +29,7 @@ public:
 
     /** \copydoc ctnum_analysis_i::dim
      **/
-    virtual size_t dim() const {
-        return m_natoms;
-    }
+    virtual size_t size() const { return m_natoms; }
 
     /** \copydoc ctnum_analysis_i::perform
      **/

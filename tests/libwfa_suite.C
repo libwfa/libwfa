@@ -10,7 +10,6 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("ab_vector", m_utf_ab_vector);
     add_test("ctnum_analysis", m_utf_ctnum_analysis);
     add_test("ctnum_export", m_utf_ctnum_export);
-    add_test("dm_list", m_utf_dm_list);
     add_test("export_densities_cube", m_utf_export_densities_cube);
     add_test("export_orbitals_cube", m_utf_export_orbitals_cube);
     add_test("export_orbitals_molden", m_utf_export_orbitals_molden);
