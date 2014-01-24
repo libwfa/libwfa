@@ -35,7 +35,7 @@ public:
 
     /** \copydoc export_densities_i::perform
      **/
-    virtual void perform(dm_type type, const ab_matrix &dm);
+    virtual void perform(density_type type, const ab_matrix &dm);
 };
 
 

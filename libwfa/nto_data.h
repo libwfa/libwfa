@@ -31,7 +31,7 @@ public:
 
     /** \copydoc nto_data_i::perform
      **/
-    virtual size_t perform(dm_type type, const ab_vector &ni);
+    virtual size_t perform(density_type type, const ab_vector &ni);
 
 private:
     size_t print(const arma::Col<double> &ni);
@@ -48,13 +48,13 @@ public:
 
 public:
     struct ntoinfo {
-        dm_type type;
+        density_type type;
         double total;
         double pr;
         std::vector<double> ni;
 
         ntoinfo(size_t n = 0) :
-            type(dm_type::state), total(0.0), pr(0.0), ni(n, 0.0) { }
+            type(density_type::state), total(0.0), pr(0.0), ni(n, 0.0) { }
     };
     typedef ab_object<ntoinfo> ab_ntoinfo;
     typedef std::list<ab_ntoinfo>::const_iterator iterator;
@@ -68,7 +68,7 @@ public:
     nto_data_extract(double thresh, size_t nnto) :
         m_thresh(thresh), m_nnto(nnto) { }
 
-    virtual size_t perform(dm_type type, const ab_vector &ni);
+    virtual size_t perform(density_type type, const ab_vector &ni);
 
     void clear() { return m_sets.clear(); }
     size_t size() const { return m_sets.size(); }

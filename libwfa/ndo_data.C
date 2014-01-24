@@ -10,11 +10,11 @@ using namespace arma;
 const char ndo_data_print::k_clazz[] = "ndo_data_print";
 
 
-size_t ndo_data_print::perform(dm_type type, const ab_vector &ni) {
+size_t ndo_data_print::perform(density_type type, const ab_vector &ni) {
 
-    static const char *method = "perform(dm_type, const ab_vector &)";
+    static const char *method = "perform(density_type, const ab_vector &)";
 
-    if (type != dm_type::difference)
+    if (type != density_type::difference)
         throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "type.");
 
     std::string title("NDOs");

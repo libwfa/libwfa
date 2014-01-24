@@ -10,14 +10,14 @@ using namespace arma;
 const char nto_data_print::k_clazz[] = "nto_data_print";
 
 
-size_t nto_data_print::perform(dm_type type, const ab_vector &ni) {
+size_t nto_data_print::perform(density_type type, const ab_vector &ni) {
 
-    static const char *method = "perform(dm_type, const ab_vector &)";
+    static const char *method = "perform(density_type, const ab_vector &)";
 
     std::string title;
-    if (type == dm_type::particle)
+    if (type == density_type::particle)
         title = "Electron:";
-    else if (type == dm_type::hole)
+    else if (type == density_type::hole)
         title = "Hole:";
     else
         throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "type.");
@@ -56,11 +56,11 @@ size_t nto_data_print::print(const Col<double> &ni) {
 }
 
 
-size_t nto_data_extract::perform(dm_type type, const ab_vector &ni) {
+size_t nto_data_extract::perform(density_type type, const ab_vector &ni) {
 
-    static const char *method = "perform(dm_type, const ab_vector &)";
+    static const char *method = "perform(density_type, const ab_vector &)";
 
-    if (type != dm_type::particle && type != dm_type::hole) {
+    if (type != density_type::particle && type != density_type::hole) {
         throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "type.");
     }
 

@@ -13,7 +13,7 @@ void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
     ab_vector ev;
     diagonalize_dm(m_c, ddm, ev, u);
 
-    size_t n = pr.perform(dm_type::difference, ev);
+    size_t n = pr.perform(density_type::difference, ev);
 
     // Form full matrix u and vector e (properly sorted)
 
@@ -40,8 +40,8 @@ void ndo_analysis::perform(const ab_matrix &ddm,
     ab_matrix_pair ad;
     perform(ddm, ad, ndo_print, pr);
 
-    dm_print.perform(dm_type::attach, ad.first);
-    dm_print.perform(dm_type::detach, ad.second);
+    dm_print.perform(density_type::attach, ad.first);
+    dm_print.perform(density_type::detach, ad.second);
 }
 
 } // namespace libwfa

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <list>
 #include "ab_vector.h"
-#include "dm_type.h"
+#include "density_type.h"
 
 namespace libwfa {
 
@@ -21,7 +21,7 @@ public:
         \param ni Occupation number vector (= vector of eigenvalues)
         \return Number of important occupation numbers
      **/
-    virtual size_t perform(dm_type type, const ab_vector &ni) = 0;
+    virtual size_t perform(density_type type, const ab_vector &ni) = 0;
 };
 
 

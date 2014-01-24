@@ -27,7 +27,7 @@ void no_analysis::perform(const ab_matrix &sdm,
 
         n2_no.alpha() *= 0.5;
 
-        pr.perform(dm_type::state, n2_no);
+        pr.perform(density_type::state, n2_no);
 
         ab_selector s2_no(true);
         s2_no.alpha().select_all();
@@ -35,7 +35,7 @@ void no_analysis::perform(const ab_matrix &sdm,
         no_print.perform(orbital_type::no, c2_no, n2_no, s2_no);
     }
 
-    pr.perform(dm_type::state, n_no);
+    pr.perform(density_type::state, n_no);
 
     // Form full matrix u and vector e (properly sorted)
 

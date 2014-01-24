@@ -1,18 +1,18 @@
-#include "dm_type.h"
+#include "density_type.h"
 
 namespace libwfa {
 
 
-const dm_type dm_type::state = dm_type(0);
-const dm_type dm_type::transition = dm_type(1);
-const dm_type dm_type::difference = dm_type(2);
-const dm_type dm_type::attach = dm_type(3);
-const dm_type dm_type::detach = dm_type(4);
-const dm_type dm_type::particle = dm_type(5);
-const dm_type dm_type::hole = dm_type(6);
+const density_type density_type::state = density_type(0);
+const density_type density_type::transition = density_type(1);
+const density_type density_type::difference = density_type(2);
+const density_type density_type::attach = density_type(3);
+const density_type density_type::detach = density_type(4);
+const density_type density_type::particle = density_type(5);
+const density_type density_type::hole = density_type(6);
 
 
-std::string dm_type::convert() const {
+std::string density_type::convert() const {
     switch (m_type) {
     case 0: return "sdm";
     case 1: return "tdm";

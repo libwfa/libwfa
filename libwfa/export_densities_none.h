@@ -2,7 +2,7 @@
 #define LIBWFA_EXPORT_DENSITIES_I_H
 
 #include "ab_matrix.h"
-#include "dm_type.h"
+#include "density_type.h"
 
 namespace libwfa {
 

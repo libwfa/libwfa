@@ -75,7 +75,7 @@ void export_densities_cube_test::test_1() {
     export_densities_cube dm_export(core, "state_1");
 
     ab_matrix dm(5, 5);
-    dm_export.perform(dm_type::state, dm);
+    dm_export.perform(density_type::state, dm);
 
     if (core.n_exports() != 1) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
@@ -105,7 +105,7 @@ void export_densities_cube_test::test_2() {
     export_densities_cube dm_export(core, "state_2");
 
     ab_matrix dm(5, 5, 5, 5);
-    dm_export.perform(dm_type::transition, dm);
+    dm_export.perform(density_type::transition, dm);
 
     if (core.n_exports() != 2) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");

@@ -13,12 +13,12 @@ void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
     // Diagonalize particle density matrix
     ab_vector ee;
     diagonalize_dm(m_c, dm.first, ee, u.first);
-    size_t ne = pr.perform(dm_type::particle, ee);
+    size_t ne = pr.perform(density_type::particle, ee);
 
     // Diagonalize hole density matrix
     ab_vector eh;
     diagonalize_dm(m_c, dm.second, eh, u.second);
-    size_t nh = pr.perform(dm_type::hole, eh);
+    size_t nh = pr.perform(density_type::hole, eh);
 
     // Form full matrix u and vector e (properly sorted)
     bool aeqb = u.first.is_alpha_eq_beta();

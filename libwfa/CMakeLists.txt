@@ -8,7 +8,7 @@ set(SRC_HEADER
     ctnum_export.h
     ctnum_data_i.h
     ctnumbers.h
-    dm_type.h
+    density_type.h
     ev_data_i.h
     export_cube_base.h
     export_densities_cube.h
@@ -44,7 +44,7 @@ set(SRC
     ctnum_analysis.C
     ctnum_export.C
     ctnumbers.C
-    dm_type.C
+    density_type.C
     export_cube_base.C
     export_densities_cube.C
     export_orbitals_cube.C

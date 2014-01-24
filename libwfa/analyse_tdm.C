@@ -14,9 +14,9 @@ void analyse_tdm::perform(const ab_matrix &tdm, ab_matrix_pair &av,
     m_nto.perform(tdm, eh, nto_print, prn);
     m_ct.perform(tdm, prct);
 
-    dm_print.perform(dm_type::transition, tdm);
-    dm_print.perform(dm_type::particle, eh.first);
-    dm_print.perform(dm_type::hole, eh.second);
+    dm_print.perform(density_type::transition, tdm);
+    dm_print.perform(density_type::particle, eh.first);
+    dm_print.perform(density_type::hole, eh.second);
 
     av.first += eh.first;
     av.second += eh.second;
@@ -30,8 +30,8 @@ void analyse_tdm::nto_analysis(const ab_matrix &tdm,
     ab_matrix_pair eh;
     m_nto.perform(tdm, eh, nto_print, pr);
 
-    dm_print.perform(dm_type::particle, eh.first);
-    dm_print.perform(dm_type::hole, eh.second);
+    dm_print.perform(density_type::particle, eh.first);
+    dm_print.perform(density_type::hole, eh.second);
 }
 
 

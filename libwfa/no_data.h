@@ -30,7 +30,7 @@ public:
 
     /** \copydoc nto_data_i::perform
      **/
-    virtual size_t perform(dm_type type, const ab_vector &ni);
+    virtual size_t perform(density_type type, const ab_vector &ni);
 
 private:
     size_t print(const arma::Col<double> &ni);

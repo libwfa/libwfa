@@ -19,9 +19,9 @@ void analyse_sdm::perform(const ab_matrix &sdm, export_densities_i &dm_print,
 
     pop_analysis(sdm, ad, pr);
 
-    dm_print.perform(dm_type::state, sdm);
-    dm_print.perform(dm_type::attach, ad.first);
-    dm_print.perform(dm_type::detach, ad.second);
+    dm_print.perform(density_type::state, sdm);
+    dm_print.perform(density_type::attach, ad.first);
+    dm_print.perform(density_type::detach, ad.second);
 }
 
 
