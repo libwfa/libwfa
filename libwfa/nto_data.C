@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iomanip>
 #include "nto_data.h"
 
 namespace libwfa {
@@ -8,25 +9,44 @@ using namespace arma;
 
 size_t nto_data_print::perform(dm_type type, const ab_vector &ni) {
 
-    const Col<double> &ni_a = ni.alpha();
+    if (ni.is_alpha_eq_beta()) {
+        if (type == dm_type::hdm) m_out << " Hole:";
+        else if (type == dm_type::edm) { m_out << " Electron:"; }
+        m_out << std::endl;
 
-    double tot_a = accu(ni_a);
-    double pr_a = tot_a * tot_a / dot(ni_a, ni_a);
-    std::vector<double> nx_a(m_nnto, 0.0);
-    for (size_t i = 0; i < m_nnto; i++) nx_a[i] = ni_a[i];
-    Col<uword> x_a = find(ni_a < m_thresh, 1, "first");
+        return print(ni.alpha());
+    }
+    else {
+        if (type == dm_type::hdm) m_out << " a-Hole:";
+        else if (type == dm_type::edm) m_out << " a-Electron:";
+        m_out << std::endl;
+        size_t na = print(ni.alpha());
 
-    if (ni.is_alpha_eq_beta()) return x_a(0);
+        if (type == dm_type::hdm) m_out << " b-Hole:";
+        else if (type == dm_type::edm) m_out << " b-Electron:";
+        m_out << std::endl;
+        size_t nb = print(ni.beta());
 
-    const Col<double> &ni_b = ni.beta();
+        return std::max(na, nb);
+    }
+}
 
-    double tot_b = accu(ni_b);
-    double pr_b = tot_b * tot_b / dot(ni_b, ni_b);
-    std::vector<double> nx_b(m_nnto, 0.0);
-    for (size_t i = 0; i < m_nnto; i++) nx_b[i] = ni_b[i];
-    Col<uword> x_b = find(ni_b < m_thresh, 1, "first");
 
-    return std::max(x_a(0), x_b(0));
+size_t nto_data_print::print(const Col<double> &ni) {
+
+    m_out << "Leading SVs: ";
+    for (size_t i = 0; i < m_nnto; i++) {
+        m_out << std::setw(7) << std::setprecision(4) << std::fixed << ni[i];
+    }
+    double total = accu(ni);
+    m_out << "Sum of SVs: ";
+    m_out << std::setw(9) << std::setprecision(6) << std::fixed << total;
+    m_out << "NTO participation ratio (PR_NTO): ";
+    m_out << std::setw(9) << std::setprecision(6) << std::fixed;
+    m_out << total * total / dot(ni, ni);
+    Col<uword> x = find(ni < m_thresh, 1, "first");
+
+    return x(0);
 }
 
 
