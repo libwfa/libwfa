@@ -9,7 +9,7 @@ namespace libwfa {
 /** \brief Exporting density matrices as cube files
 
     Class implementing the interface export_densities_i for export of density
-    matrices as cube files.
+    matrices as cube files. The export is done by the core.
 
     \ingroup libwfa
  **/
@@ -29,8 +29,7 @@ public:
 
     /** \copydoc export_densities_i::perform
      **/
-    virtual void perform(const state_info &si,
-            dm_type type, const ab_matrix &dm);
+    virtual void perform(const std::string &name, const ab_matrix &dm);
 };
 
 

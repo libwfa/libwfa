@@ -36,7 +36,8 @@ public:
      **/
     ~ctnumbers() { }
 
-    /** \brief
+    /** \brief Return \f$\omega_{\text{tot}}\f$ for latest transition density
+        \param alpha If \f$\omega\f$ of alpha or beta part
      **/
     double omega(bool alpha) { return m_omega[(alpha ? 0 : 1)]; }
 

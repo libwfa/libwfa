@@ -74,15 +74,14 @@ void export_densities_cube_test::test_1() {
     export_cube_test core;
     export_densities_cube dm_export(core);
 
-    state_info si(1, spin::singlet, "A", 0.0, 0.0);
     ab_matrix dm(5, 5);
-    dm_export.perform(si, dm_type::sdm, dm);
+    dm_export.perform("dm", dm);
 
     if (core.n_exports() != 1) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.name(i) != dm_type::sdm.convert() + "." + si.convert('.')) {
+    if (core.name(i) != "dm") {
         fail_test(testname, __FILE__, __LINE__, "Name.");
     }
     if (core.indexes(i).size() != 0) {
@@ -105,16 +104,14 @@ void export_densities_cube_test::test_2() {
     export_cube_test core;
     export_densities_cube dm_export(core);
 
-    state_info si(1, spin::unspecified, "A", 0.2, 0.0);
     ab_matrix dm(5, 5, 5, 5);
-    dm_export.perform(si, dm_type::tdm, dm);
+    dm_export.perform("tdm", dm);
 
     if (core.n_exports() != 2) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.name(i) !=
-            dm_type::tdm.convert() + "." + si.convert('.') + ".alpha") {
+    if (core.name(i) != "tdm_a") {
         fail_test(testname, __FILE__, __LINE__, "Name (1).");
     }
     if (core.indexes(i).size() != 0) {
@@ -125,8 +122,7 @@ void export_densities_cube_test::test_2() {
         fail_test(testname, __FILE__, __LINE__, "Size of density matrix (1).");
     }
     i++;
-    if (core.name(i) !=
-            dm_type::tdm.convert() + "." + si.convert('.') + ".beta") {
+    if (core.name(i) != "tdm_b") {
         fail_test(testname, __FILE__, __LINE__, "Name (2).");
     }
     if (core.indexes(i).size() != 0) {
