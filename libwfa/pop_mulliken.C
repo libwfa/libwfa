@@ -17,7 +17,7 @@ pop_mulliken::pop_mulliken(const std::vector<size_t> &b2c,
 
 
 void pop_mulliken::perform(
-        const arma::Mat<double> &d_bb, std::vector<double> &p) {
+        const arma::Mat<double> &d_bb, std::vector<double> &p) const {
 
     p.clear();
     p.resize(m_natoms, 0.0);

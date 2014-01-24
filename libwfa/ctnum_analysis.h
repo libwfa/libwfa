@@ -36,7 +36,7 @@ public:
     /** \copydoc ctnum_analysis_i::perform
      **/
     virtual void perform(const arma::Mat<double>& om_ao,
-            arma::Mat<double> &om_at);
+            arma::Mat<double> &om_at) const;
 };
 
 } // namespace libwfa

@@ -19,7 +19,8 @@ ctnum_analysis::ctnum_analysis(const std::vector<size_t> &b2c) :
 }
         
 
-void ctnum_analysis::perform(const Mat<double> &om_ao, Mat<double> &om_at) {
+void ctnum_analysis::perform(const Mat<double> &om_ao,
+        Mat<double> &om_at) const {
 
     om_at.resize(m_natoms, m_natoms);
     om_at.fill(0.0);

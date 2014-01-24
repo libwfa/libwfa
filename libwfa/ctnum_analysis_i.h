@@ -28,7 +28,7 @@ public:
         routine should adjust the output matrix to the correct size.
      **/
     virtual void perform(const arma::Mat<double> &om_ao,
-            arma::Mat<double> &om_at) = 0;
+            arma::Mat<double> &om_at) const = 0;
 };
 
 

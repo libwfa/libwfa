@@ -34,7 +34,8 @@ public:
 
     /** \copydoc pop_analysis_i::perform
      **/
-    virtual void perform(const arma::Mat<double> &d_bb, std::vector<double> &p);
+    virtual void perform(const arma::Mat<double> &d_bb,
+            std::vector<double> &p) const;
 
 };
 
