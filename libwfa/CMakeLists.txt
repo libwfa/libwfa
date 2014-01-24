@@ -1,10 +1,11 @@
 set(SRC_HEADER
     ab_matrix.h
     ab_vector.h
+    analyse_tdm.h
     ctnum_analysis_i.h
     ctnum_analysis.h
     ctnum_export.h
-    ctnum_print_i.h
+    ctnum_data_i.h
     ctnumbers.h
     dm_type.h
     export_cube_base.h
@@ -29,6 +30,7 @@ set(SRC_HEADER
 )
 
 set(SRC
+    analyse_tdm.C
     ctnum_analysis.C
     ctnum_export.C
     ctnumbers.C

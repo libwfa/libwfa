@@ -29,7 +29,7 @@ void ctnumbers::perform(const ab_matrix &tdm,
 }
 
 void ctnumbers::perform(const ab_matrix &tdm, std::ostream &out,
-    ctnum_print_i &pr) {
+    ctnum_data_i &pr) {
 
     std::vector<double> om_tot;
     ab_matrix om;

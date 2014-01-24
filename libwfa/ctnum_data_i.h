@@ -9,11 +9,11 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class ctnum_print_i {
+class ctnum_data_i {
 public:
     /** \brief Virtual destructor
      **/
-    virtual ~ctnum_print_i() { }
+    virtual ~ctnum_data_i() { }
 
     /** \brief Print the CT number data
         \param om CT number data (omega matrix)

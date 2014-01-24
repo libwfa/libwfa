@@ -3,7 +3,7 @@
 
 #include <cstddef>
 #include <string>
-#include "ctnum_print_i.h"
+#include "ctnum_data_i.h"
 
 namespace libwfa {
 
@@ -15,7 +15,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class ctnum_export : public ctnum_print_i {
+class ctnum_export : public ctnum_data_i {
 protected:    
     std::string m_prefix; //!< File prefix for the data
     double m_energy; //!< Excitation energy of the state

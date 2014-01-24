@@ -3,7 +3,7 @@
 
 #include "ab_matrix.h"
 #include "ctnum_analysis_i.h"
-#include "ctnum_print_i.h"
+#include "ctnum_data_i.h"
 #include "state_info.h"
 
 namespace libwfa {
@@ -50,7 +50,7 @@ public:
         Performs the CT number analysis using the analysis object and prints
         the results to output stream and using the ctnum_print_i object.
      **/
-    void perform(const ab_matrix &tdm, std::ostream &out, ctnum_print_i &pr);
+    void perform(const ab_matrix &tdm, std::ostream &out, ctnum_data_i &pr);
 };
 
 } // namespace libwfa
