@@ -18,6 +18,8 @@ set(SRC_HEADER
     molden_file_base.h
     nto_analysis.h
     nto_data.h
+    pop_analysis_ad.h
+    pop_analysis_dm.h
     pop_analysis_i.h
     pop_data.h
     pop_mulliken.h
@@ -42,6 +44,8 @@ set(SRC
     libwfa_exception.C
     nto_analysis.C
     nto_data.C
+    pop_analysis_ad.C
+    pop_analysis_dm.C
     pop_mulliken.C
     pop_print_default.C
     transformations_dm.C
