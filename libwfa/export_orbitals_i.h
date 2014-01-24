@@ -20,13 +20,12 @@ public:
     virtual ~export_orbitals_i() { }
 
     /** \brief Write the given orbital coefficients to the file.
-        \param name Name of orbital coefficients to export (e.g. mo, nto, ...)
         \param coeff Orbital coefficients
-        \param ene Orbital energies
+        \param ev Orbital eigenvalues
         \param s Selector of specific orbital coefficients
      **/
-    virtual void perform(const std::string &name, const ab_matrix &coeff,
-            const ab_vector &ene, const ab_selector &s) = 0;
+    virtual void perform(const ab_matrix &coeff,
+            const ab_vector &ev, const ab_selector &s) = 0;
 };
 
 

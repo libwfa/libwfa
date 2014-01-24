@@ -6,9 +6,9 @@ namespace libwfa {
 using namespace arma;
 
 
-void export_densities_cube::perform(const std::string &name,
-        const ab_matrix &dm) {
+void export_densities_cube::perform(dm_type type, const ab_matrix &dm) {
 
+    std::string name(m_prefix + "_" + type.convert());
     if (dm.is_alpha_eq_beta()) {
         const Mat<double> &dmx = dm.alpha();
         m_core.perform(name, dmx);

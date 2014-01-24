@@ -17,10 +17,10 @@ public:
     virtual ~export_densities_i() { }
 
     /** \brief Export the density matrix
-        \param name Name of density matrix
+        \param type Type of density matrix
         \param dm Density matrix
      **/
-    virtual void perform(const std::string &name, const ab_matrix &dm) = 0;
+    virtual void perform(dm_type type, const ab_matrix &dm) = 0;
 };
 
 } // namespace libwfa

@@ -16,20 +16,26 @@ namespace libwfa {
 class export_densities_cube : public export_densities_i {
 private:
     export_cube_base &m_core; //!< Core class for export as cube files
+    std::string m_prefix; //!< Prefix for the densities to export
 
 public:
     /** \brief Constructor
         \param core Export object into cube files
      **/
-    export_densities_cube(export_cube_base &core) : m_core(core) { }
+    export_densities_cube(export_cube_base &core,
+            const std::string &prefix) : m_core(core), m_prefix(prefix) { }
 
     /** \brief Destructor
      **/
     virtual ~export_densities_cube() { }
 
+    /** \brief Set the prefix
+     **/
+    void set_prefix(const std::string &prefix) {  m_prefix = prefix; }
+
     /** \copydoc export_densities_i::perform
      **/
-    virtual void perform(const std::string &name, const ab_matrix &dm);
+    virtual void perform(dm_type type, const ab_matrix &dm);
 };
 
 

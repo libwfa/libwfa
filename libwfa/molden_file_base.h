@@ -27,8 +27,7 @@ public:
         Assume that the first nocc_a (nocc_b) coefficients refer to occupied
         orbitals.
      **/
-    virtual void perform(
-            const ab_matrix &coeff, const ab_vector &ene,
+    virtual void perform(const ab_matrix &coeff, const ab_vector &ene,
             size_t nocc_a, size_t nocc_b) = 0;
 };
 

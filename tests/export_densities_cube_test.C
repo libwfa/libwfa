@@ -72,16 +72,16 @@ void export_densities_cube_test::test_1() {
     //
 
     export_cube_test core;
-    export_densities_cube dm_export(core);
+    export_densities_cube dm_export(core, "state_1");
 
     ab_matrix dm(5, 5);
-    dm_export.perform("dm", dm);
+    dm_export.perform(dm_type::sdm, dm);
 
     if (core.n_exports() != 1) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.name(i) != "dm") {
+    if (core.name(i) != "state_1_sdm") {
         fail_test(testname, __FILE__, __LINE__, "Name.");
     }
     if (core.indexes(i).size() != 0) {
@@ -102,16 +102,16 @@ void export_densities_cube_test::test_2() {
     //
 
     export_cube_test core;
-    export_densities_cube dm_export(core);
+    export_densities_cube dm_export(core, "state_2");
 
     ab_matrix dm(5, 5, 5, 5);
-    dm_export.perform("tdm", dm);
+    dm_export.perform(dm_type::tdm, dm);
 
     if (core.n_exports() != 2) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.name(i) != "tdm_a") {
+    if (core.name(i) != "state_2_tdm_a") {
         fail_test(testname, __FILE__, __LINE__, "Name (1).");
     }
     if (core.indexes(i).size() != 0) {
@@ -122,7 +122,7 @@ void export_densities_cube_test::test_2() {
         fail_test(testname, __FILE__, __LINE__, "Size of density matrix (1).");
     }
     i++;
-    if (core.name(i) != "tdm_b") {
+    if (core.name(i) != "state_2_tdm_b") {
         fail_test(testname, __FILE__, __LINE__, "Name (2).");
     }
     if (core.indexes(i).size() != 0) {

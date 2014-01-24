@@ -6,8 +6,8 @@ namespace libwfa {
 using namespace arma;
 
 
-void export_orbitals_cube::perform(const std::string &name,
-        const ab_matrix &coeff, const ab_vector &ene, const ab_selector &s) {
+void export_orbitals_cube::perform(const ab_matrix &coeff,
+        const ab_vector &ene, const ab_selector &s) {
 
     static const char *clazz = "export_orbitals_cube";
     static const char *method = "perform(const ab_matrix &, "
@@ -19,7 +19,7 @@ void export_orbitals_cube::perform(const std::string &name,
 
     bool aeqb = coeff.is_alpha_eq_beta();
 
-    std::string na(aeqb ? name : name + ".alpha");
+    std::string na(aeqb ? m_prefix : m_prefix + "_a");
 
     const selector &sa = s.alpha();
     const Mat<double> &ca = coeff.alpha();
@@ -35,7 +35,7 @@ void export_orbitals_cube::perform(const std::string &name,
 
     if (aeqb) return;
 
-    std::string nb(name + ".beta");
+    std::string nb(m_prefix + "_b");
 
     const selector &sb = s.beta();
     const Mat<double> &cb = coeff.beta();
