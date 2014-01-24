@@ -1,6 +1,7 @@
 #ifndef LIBWFA_AB_SELECTOR_H
 #define LIBWFA_AB_SELECTOR_H
 
+#include "ab_object.h"
 #include "selector.h"
 
 namespace libwfa {
@@ -28,7 +29,7 @@ public:
         \param nidx_a Number of alpha-spin indexes
         \param nidx_b Number of beta-spin indexes
      **/
-    ab_selector(size_t nidx_a, size_t nidx_b) : ab_object<selector>(true) {
+    ab_selector(size_t nidx_a, size_t nidx_b) : ab_object<selector>(false) {
         alpha() = selector(nidx_a);
         beta()  = selector(nidx_b);
     }

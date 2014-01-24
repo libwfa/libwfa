@@ -2,6 +2,7 @@
 #define LIBWFA_AB_VECTOR_H
 
 #include <armadillo>
+#include "ab_object.h"
 
 namespace libwfa {
 
