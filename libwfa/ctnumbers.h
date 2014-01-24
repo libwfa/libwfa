@@ -11,41 +11,46 @@ namespace libwfa {
 /** \brief Charge transfer (CT) number analysis.
 
     Puts together the components of CT number analysis to create
-    \f$\omega\f$ matrices and to print them using an implementation of
-    ctnum_print_i. In addition \f$\omega_{\text{total}}\f$ is computed.
+    \f$\omega\f$ matrices and compute \f$\omega_{\text{total}}\f$.
 
     \ingroup libwfa
  **/
 class ctnumbers {
 private:
-    const arma::Mat<double> &m_s; //!< Overlap matrix
     const ctnum_analysis_i &m_analysis; //!< Class to perform the analysis
-    ctnum_print_i &m_printer; //!< Printer of CT number data
-    double m_omega[2]; //!< Total \f$\omega\f$
+    const arma::Mat<double> &m_s; //!< Overlap matrix
 
 public:
     /** \brief Constructor
      **/
-    ctnumbers(const arma::Mat<double> &s, const ctnum_analysis_i &a,
-        ctnum_print_i &pr) : m_s(s), m_analysis(a), m_printer(pr) {
-
-        m_omega[0] = m_omega[1] = 0.0;
-    }
+    ctnumbers(const ctnum_analysis_i &a, const arma::Mat<double> &s) :
+        m_analysis(a), m_s(s) {   }
 
     /** \brief Destructor
      **/
     ~ctnumbers() { }
 
-    /** \brief Return \f$\omega_{\text{tot}}\f$ for latest transition density
-        \param alpha If \f$\omega\f$ of alpha or beta part
+    /** \brief Perform analysis
+        \param[in] tdm Transition density matrix
+        \param[out] om Resulting omega matrix
+        \param[out] om_tot Total omega
+
+        Performs the CT number analysis using the analysis object and returns
+        the resulting data.
      **/
-    double omega(bool alpha) { return m_omega[(alpha ? 0 : 1)]; }
+    void perform(const ab_matrix& tdm,
+        ab_matrix &om, std::vector<double> &om_tot);
+
 
     /** \brief Perform analysis
-        \param state State information
-        \param tdm Transition density matrix
+        \param[in] tdm Transition density matrix
+        \param[out] out Output stream
+        \param[out] pr Printer for omega data
+
+        Performs the CT number analysis using the analysis object and prints
+        the results to output stream and using the ctnum_print_i object.
      **/
-    void perform(const state_info &state, const ab_matrix& tdm);
+    void perform(const ab_matrix &tdm, std::ostream &out, ctnum_print_i &pr);
 };
 
 } // namespace libwfa

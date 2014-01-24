@@ -7,6 +7,7 @@ namespace libwfa {
 
 using namespace arma;
 
+
 void ctnum_export_test::perform() throw(libtest::test_exception) {
 
     test_1();
@@ -22,15 +23,18 @@ void ctnum_export_test::test_1() {
 
     size_t na = 4;
 
-    Mat<double> r(na, na);
-    r.randu();
+    ab_matrix r1(true), r2(true);
+    r1.alpha() = symmatu(randu(na, na));
+    r2.alpha() = symmatu(randu(na, na));
 
-    ctnum_data ct;
-    ct.add("set_1", 1.23456, 0.015) = symmatu(r);
-    ct.add("set_2", 2.34566, 0.121) = symmatl(r);
+    ctnum_export pr;
+    pr.set_prefix("test_1_set_1");
+    pr.set_state_info(1.23456, 0.015);
+    pr.perform(r1);
+    pr.set_prefix("test_1_set_2");
+    pr.set_state_info(2.34566, 0.121);
+    pr.perform(r2);
 
-    ctnum_export pr("test1_");
-    pr.perform(ct);
 
 }
 
@@ -43,17 +47,19 @@ void ctnum_export_test::test_2() {
 
     size_t na = 4;
 
-    Mat<double> r1(na, na), r2(na + 1, na + 1);
-    r1.randu(); r2.randu();
+    ab_matrix r1, r2;
+    r1.alpha() = symmatu(randu(na, na));
+    r1.beta()  = symmatu(randu(na, na));
+    r2.alpha() = symmatu(randu(na + 1, na + 1));
+    r2.beta()  = symmatu(randu(na + 1, na + 1));
 
-    ctnum_data ct;
-    ct.add("set_1", 0.12348, 0.001) = symmatu(r1);
-    ct.add("set_2", 1.30566, 0.012) = symmatl(r1);
-    ct.add("set_3", 2.34902, 0.382) = symmatu(r2);
-    ct.add("set_4", 2.93426, 0.102) = symmatl(r2);
-
-    ctnum_export pr("test2_", 5);
-    pr.perform(ct);
+    ctnum_export pr(5);
+    pr.set_prefix("test_2_set_1");
+    pr.set_state_info(0.12348, 0.001);
+    pr.perform(r1);
+    pr.set_prefix("test_2_set_2");
+    pr.set_state_info(2.34902, 0.382);
+    pr.perform(r2);
 }
 
 

@@ -1,7 +1,7 @@
 #ifndef LIBWFA_CTNUM_PRINT_I_H
 #define LIBWFA_CTNUM_PRINT_I_H
 
-#include "ctnum_data.h"
+#include "ab_matrix.h"
 
 namespace libwfa {
 
@@ -16,9 +16,9 @@ public:
     virtual ~ctnum_print_i() { }
 
     /** \brief Print the CT number data
-        \param ct CT number data
+        \param om CT number data (omega matrix)
      **/
-    virtual void perform(const ctnum_data &ct) = 0;
+    virtual void perform(const ab_matrix &om) = 0;
 };
 
 } // namespace libwfa

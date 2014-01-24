@@ -3,7 +3,6 @@ set(SRC_HEADER
     ab_vector.h
     ctnum_analysis_i.h
     ctnum_analysis.h
-    ctnum_data.h
     ctnum_export.h
     ctnum_print_i.h
     ctnumbers.h
