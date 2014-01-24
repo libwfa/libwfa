@@ -3,34 +3,18 @@
 
 #include <iostream>
 #include <list>
-#include "ab_vector.h"
-#include "dm_type.h"
+#include "ev_data_i.h"
 
 namespace libwfa {
-
-/** \brief Interface class to extract information on occupation numbers the
-        eigenvector of a density matrix
-
-    \ingroup libwfa
- **/
-class nto_data_i {
-public:
-    virtual ~nto_data_i() { }
-
-    /** \brief Perform the operation
-        \param type Type of density matrix
-        \param ni Occupation number vector
-        \return Number of important occupation numbers
-     **/
-    virtual size_t perform(dm_type type, const ab_vector &ni) = 0;
-};
-
 
 /** \brief Implementation of nto_data_i to print to output stream
 
     \ingroup libwfa
  **/
-class nto_data_print : public nto_data_i {
+class nto_data_print : public ev_data_i {
+public:
+    static const char k_clazz[]; //!< Class name
+
 private:
     std::ostream &m_out; //!< Output stream
     double m_thresh; //!< Threshold of important NTOs
@@ -42,7 +26,7 @@ public:
         \param thresh Threshold for important NTOs
         \param nnto # of leading occupation numbers to print
      */
-    nto_data_print(std::ostream &out, double thresh, size_t nnto) :
+    nto_data_print(std::ostream &out, double thresh = 1e-6, size_t nnto = 3) :
         m_out(out), m_thresh(thresh), m_nnto(nnto) { }
 
     /** \copydoc nto_data_i::perform
@@ -58,7 +42,10 @@ private:
 
     \ingroup libwfa
  **/
-class nto_data_extract : public nto_data_i {
+class nto_data_extract : public ev_data_i {
+public:
+    static const char k_clazz[]; //!< Class name
+
 public:
     struct ntoinfo {
         dm_type type;
@@ -67,7 +54,7 @@ public:
         std::vector<double> ni;
 
         ntoinfo(size_t n = 0) :
-            type(dm_type::sdm), total(0.0), pr(0.0), ni(n, 0.0) { }
+            type(dm_type::state), total(0.0), pr(0.0), ni(n, 0.0) { }
     };
     typedef ab_object<ntoinfo> ab_ntoinfo;
     typedef std::list<ab_ntoinfo>::const_iterator iterator;

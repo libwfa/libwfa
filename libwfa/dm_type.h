@@ -29,12 +29,13 @@ public:
 
     //! \name Density matrix types
     //@{
-    static const dm_type sdm; //!< State density matrix type
-    static const dm_type tdm; //!< Transition density matrix type
-    static const dm_type adm; //!< Attachment density matrix type
-    static const dm_type ddm; //!< Detachment density matrix type
-    static const dm_type hdm; //!< Hole density matrix type
-    static const dm_type edm; //!< Electron density matrix type
+    static const dm_type state; //!< State density matrix type
+    static const dm_type transition; //!< Transition density matrix type
+    static const dm_type difference; //!< Difference density matrix type
+    static const dm_type attach; //!< Attachment density matrix type
+    static const dm_type detach; //!< Detachment density matrix type
+    static const dm_type particle; //!< Particle density matrix type
+    static const dm_type hole; //!< Hole density matrix type
     //@}
 
 

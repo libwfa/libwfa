@@ -8,6 +8,7 @@ set(SRC_HEADER
     ctnum_data_i.h
     ctnumbers.h
     dm_type.h
+    ev_data_i.h
     export_cube_base.h
     export_densities_cube.h
     export_densities_i.h

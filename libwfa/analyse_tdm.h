@@ -38,7 +38,7 @@ public:
      **/
     void perform(const ab_matrix &tdm, ab_matrix_pair &av,
         export_densities_i &dm_print, export_orbitals_i &nto_print,
-        nto_data_i &prn, ctnum_data_i &prct) const;
+        ev_data_i &prn, ctnum_data_i &prct) const;
 
     /** \brief Perform CT number analysis
         \param tdm Transition density matrix
@@ -57,7 +57,7 @@ public:
      **/
     void nto_analysis(const ab_matrix &tdm, ab_matrix_pair &av,
         export_densities_i &dm_print, export_orbitals_i &nto_print,
-        nto_data_i &pr) const {
+        ev_data_i &pr) const {
         m_nto.perform(tdm, av, dm_print, nto_print, pr);
     }
 };

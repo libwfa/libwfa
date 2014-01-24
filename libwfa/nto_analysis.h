@@ -2,7 +2,7 @@
 #define LIBWFA_NTO_ANALYSIS_H
 
 #include <utility>
-#include "nto_data.h"
+#include "ev_data_i.h"
 #include "export_densities_i.h"
 #include "export_orbitals_i.h"
 
@@ -40,7 +40,7 @@ public:
         (Assumes the electron density matrix is first in dm)
      **/
     void perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
-            export_orbitals_i &nto_print, nto_data_i &pr) const;
+            export_orbitals_i &nto_print, ev_data_i &pr) const;
 
     /** \brief Perform NTO analysis
         \param[in] tdm Transition density matrix
@@ -53,7 +53,7 @@ public:
      **/
     void perform(const ab_matrix &tdm, ab_matrix_pair &av,
         export_densities_i &dm_print, export_orbitals_i &nto_print,
-        nto_data_i &pr) const;
+        ev_data_i &pr) const;
 };
 
 } // namespace adcman

@@ -1,30 +1,36 @@
 #include <algorithm>
 #include <iomanip>
+#include "libwfa_exception.h"
 #include "nto_data.h"
 
 namespace libwfa {
 
 using namespace arma;
 
+const char nto_data_print::k_clazz[] = "nto_data_print";
+
 
 size_t nto_data_print::perform(dm_type type, const ab_vector &ni) {
 
-    if (ni.is_alpha_eq_beta()) {
-        if (type == dm_type::hdm) m_out << " Hole:";
-        else if (type == dm_type::edm) { m_out << " Electron:"; }
-        m_out << std::endl;
+    static const char *method = "perform(dm_type, const ab_vector &)";
 
+    std::string title;
+    if (type == dm_type::particle)
+        title = "Electron:";
+    else if (type == dm_type::hole)
+        title = "Hole:";
+    else
+        throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "type.");
+
+    if (ni.is_alpha_eq_beta()) {
+        m_out << " " << title << std::endl;
         return print(ni.alpha());
     }
     else {
-        if (type == dm_type::hdm) m_out << " a-Hole:";
-        else if (type == dm_type::edm) m_out << " a-Electron:";
-        m_out << std::endl;
+        m_out << " a-" << title << std::endl;
         size_t na = print(ni.alpha());
 
-        if (type == dm_type::hdm) m_out << " b-Hole:";
-        else if (type == dm_type::edm) m_out << " b-Electron:";
-        m_out << std::endl;
+        m_out << " b-" << title << std::endl;
         size_t nb = print(ni.beta());
 
         return std::max(na, nb);
@@ -51,6 +57,12 @@ size_t nto_data_print::print(const Col<double> &ni) {
 
 
 size_t nto_data_extract::perform(dm_type type, const ab_vector &ni) {
+
+    static const char *method = "perform(dm_type, const ab_vector &)";
+
+    if (type != dm_type::particle && type != dm_type::hole) {
+        throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "type.");
+    }
 
     m_sets.push_back(ab_ntoinfo(ni.is_alpha_eq_beta()));
 
