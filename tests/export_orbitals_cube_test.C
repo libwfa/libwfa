@@ -73,7 +73,7 @@ void export_orbitals_cube_test::test_1() {
     //
 
     export_cube_test core;
-    export_orbitals_cube export_c(core, "mo");
+    export_orbitals_cube export_c(core, "test_1");
 
     size_t nb = 5;
     ab_matrix c(nb);
@@ -81,13 +81,13 @@ void export_orbitals_cube_test::test_1() {
     ab_selector s(nb);
     s.alpha().select_all();
 
-    export_c.perform(c, ene, s);
+    export_c.perform(orbital_type::mo, c, ene, s);
 
     if (core.n_exports() != 1) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.name(i) != "mo") {
+    if (core.name(i) != "test_1_mo") {
         fail_test(testname, __FILE__, __LINE__, "Data type.");
     }
     if (core.indexes(i).size() != nb) {
@@ -113,7 +113,7 @@ void export_orbitals_cube_test::test_2() {
     //
 
     export_cube_test core;
-    export_orbitals_cube export_c(core, "mo");
+    export_orbitals_cube export_c(core, "test_2");
 
     size_t nb = 5;
     ab_matrix c(nb, nb + 1, nb, nb - 1);
@@ -121,13 +121,13 @@ void export_orbitals_cube_test::test_2() {
     ab_selector s(nb + 1, nb - 1);
     s.alpha().select_all();
     s.beta().select_all();
-    export_c.perform(c, ene, s);
+    export_c.perform(orbital_type::mo, c, ene, s);
 
     if (core.n_exports() != 2) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.name(i) != "mo_a") {
+    if (core.name(i) != "test_2_mo_a") {
         fail_test(testname, __FILE__, __LINE__, "Data type (1).");
     }
     if (core.indexes(i).size() != nb + 1) {
@@ -143,7 +143,7 @@ void export_orbitals_cube_test::test_2() {
         fail_test(testname, __FILE__, __LINE__, "Size of coeff vector (1).");
     }
     i++;
-    if (core.name(i) != "mo_b") {
+    if (core.name(i) != "test_2_mo_b") {
         fail_test(testname, __FILE__, __LINE__, "Data type (2).");
     }
     if (core.indexes(i).size() != nb - 1) {
@@ -170,7 +170,7 @@ void export_orbitals_cube_test::test_3() {
     //
 
     export_cube_test core;
-    export_orbitals_cube export_c(core, "nto");
+    export_orbitals_cube export_c(core, "test_3");
 
     size_t nb = 5;
     ab_matrix c(nb, nb + 1, nb, nb - 1);
@@ -178,13 +178,13 @@ void export_orbitals_cube_test::test_3() {
     ab_selector s(nb + 1, nb - 1);
     s.alpha().select(2, 4);
     s.beta().deselect_all();
-    export_c.perform(c, ene, s);
+    export_c.perform(orbital_type::nto, c, ene, s);
 
     if (core.n_exports() != 1) {
         fail_test(testname, __FILE__, __LINE__, "# exports.");
     }
     export_cube_test::iterator i = core.begin();
-    if (core.name(i) != "nto_a") {
+    if (core.name(i) != "test_3_nto_a") {
         fail_test(testname, __FILE__, __LINE__, "Data type (1).");
     }
     if (core.indexes(i).size() != 3) {

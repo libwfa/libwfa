@@ -24,6 +24,7 @@ set(SRC_HEADER
     nto_data.h
     no_analysis.h
     no_data.h
+    orbital_type.h
     pop_analysis_ad.h
     pop_analysis_dm.h
     pop_analysis_i.h
@@ -55,6 +56,7 @@ set(SRC
     nto_data.C
     no_analysis.C
     no_data.C
+    orbital_type.C
     pop_analysis_ad.C
     pop_analysis_dm.C
     pop_mulliken.C

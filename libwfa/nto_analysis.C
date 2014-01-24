@@ -44,7 +44,7 @@ void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
         n_nto.beta() = join_cols(flipud(eh.beta()) * -1., ee.beta());
     }
 
-    nto_print.perform(c_nto, n_nto, s_nto);
+    nto_print.perform(orbital_type::nto, c_nto, n_nto, s_nto);
 }
 
 

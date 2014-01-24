@@ -28,12 +28,12 @@ public:
         m_pop(pop), m_no(c), m_ndo(s, c), m_gs_dm(gs_dm) { }
 
     /** \brief Performs density matrix analyses
-        \param tdm Transition density matrix
-        \param av Average electron and hole density matrices
+        \param sdm State density matrix
         \param dm_print Density matrix export / print
-        \param nto_print NTO export / print
-        \param prn Printer of NTO summary
-        \param prct Printer of CT number data
+        \param orb_print Orbital export / print
+        \param no Printer of NO summary
+        \param ndo Printer of NDO summary
+        \param pr Printer of population data
 
         Perform the following analyses:
         - Export of TDM
@@ -41,8 +41,7 @@ public:
         - CT number analysis (\sa ctnumbers.h)
      **/
     void perform(const ab_matrix &sdm, export_densities_i &dm_print,
-        export_orbitals_i &no_print, ev_data_i &no,
-        export_orbitals_i &ndo_print, ev_data_i &ndo,
+        export_orbitals_i &orb_print, ev_data_i &no, ev_data_i &ndo,
         pop_print_i &pr) const;
 
     /** \brief Perform population analysis

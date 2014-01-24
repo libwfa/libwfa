@@ -32,7 +32,7 @@ void no_analysis::perform(const ab_matrix &sdm,
         ab_selector s2_no(true);
         s2_no.alpha().select_all();
 
-        no_print.perform(c2_no, n2_no, s2_no);
+        no_print.perform(orbital_type::no, c2_no, n2_no, s2_no);
     }
 
     pr.perform(dm_type::state, n_no);
@@ -44,7 +44,7 @@ void no_analysis::perform(const ab_matrix &sdm,
     s_no.alpha().select_all();
     if (! aeqb) s_no.beta().select_all();
 
-    no_print.perform(c_no, n_no, s_no);
+    no_print.perform(orbital_type::no, c_no, n_no, s_no);
 }
 
 

@@ -60,7 +60,7 @@ struct export_cube_base {
         const arma::Mat<double> &mat) = 0;
 
     /** \brief Evaluate a set of vectors in AO basis on the grid and export as cube
-        \param prefix Name associated with the matrix (used as prefix)
+        \param prefix Name associated with the vectors (used as prefix)
         \param idx Vector of indexes
         \param vecs Set of vectors in AO basis
      **/

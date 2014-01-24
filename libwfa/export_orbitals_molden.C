@@ -17,7 +17,7 @@ export_orbitals_molden::export_orbitals_molden(molden_file_base &file,
 }
 
 
-void export_orbitals_molden::perform(const ab_matrix &coeff,
+void export_orbitals_molden::perform(orbital_type type, const ab_matrix &coeff,
     const ab_vector &ene, const ab_selector &s) {
 
     static const char *clazz = "export_orbitals_molden";

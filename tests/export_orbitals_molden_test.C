@@ -92,7 +92,7 @@ void export_orbitals_molden_test::test_1() {
     s.alpha().select_all();
 
     try {
-        export_c.perform(c, ene, s);
+        export_c.perform(orbital_type::mo, c, ene, s);
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }
@@ -133,7 +133,7 @@ void export_orbitals_molden_test::test_2() {
     s.beta().select_all();
 
     try {
-        export_c.perform(c, ene, s);
+        export_c.perform(orbital_type::mo, c, ene, s);
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }
@@ -174,7 +174,7 @@ void export_orbitals_molden_test::test_3() {
     s.beta().deselect_all();
 
     try {
-        export_c.perform(c, ene, s);
+        export_c.perform(orbital_type::mo, c, ene, s);
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }

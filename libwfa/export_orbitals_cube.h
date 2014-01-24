@@ -32,7 +32,7 @@ public:
 
     /** \copydoc export_orbitals_i::perform
      **/
-    virtual void perform(const ab_matrix &coeff,
+    virtual void perform(orbital_type type, const ab_matrix &coeff,
         const ab_vector &ev, const ab_selector &s);
 };
 

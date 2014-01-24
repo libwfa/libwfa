@@ -22,7 +22,7 @@ void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
     s.alpha().select_all();
     if (! aeqb) s.beta().select_all();
 
-    ndo_print.perform(u, ev, s);
+    ndo_print.perform(orbital_type::ndo, u, ev, s);
 
     // Compute u^-1 = u' * s
     u.alpha() = u.alpha().t() * m_s;

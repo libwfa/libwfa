@@ -9,13 +9,13 @@ using namespace arma;
 
 
 void analyse_sdm::perform(const ab_matrix &sdm, export_densities_i &dm_print,
-    export_orbitals_i &no_print, ev_data_i &no,
-    export_orbitals_i &ndo_print, ev_data_i &ndo, pop_print_i &pr) const {
+    export_orbitals_i &orb_print, ev_data_i &no, ev_data_i &ndo,
+    pop_print_i &pr) const {
 
-    no_analysis(sdm, no_print, no);
+    no_analysis(sdm, orb_print, no);
 
     ab_matrix_pair ad;
-    ndo_analysis(sdm, ad, ndo_print, ndo);
+    ndo_analysis(sdm, ad, orb_print, ndo);
 
     pop_analysis(sdm, ad, pr);
 
