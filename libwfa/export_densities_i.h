@@ -2,7 +2,7 @@
 #define LIBWFA_EXPORT_DENSITIES_I_H
 
 #include "ab_matrix.h"
-#include "density_list.h"
+#include "dm_list.h"
 
 namespace libwfa {
 
@@ -21,13 +21,12 @@ public:
         \param idx Index of density matrix
         \param dm Density matrix
      **/
-    virtual void perform(density_type type, size_t idx,
-            const ab_matrix &dm) = 0;
+    virtual void perform(dm_type type, size_t idx, const ab_matrix &dm) = 0;
 
     /** \brief Export the list of density matrices
         \param lst Density matrix list
      **/
-    virtual void perform(const density_list &lst) = 0;
+    virtual void perform(const dm_list &lst) = 0;
 };
 
 

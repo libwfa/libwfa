@@ -7,6 +7,9 @@ set(SRC_HEADER
     ctnum_export.h
     ctnum_print_i.h
     dm_list.h
+    export_cube_base.h
+    export_densities_cube.h
+    export_densities_i.h
     libwfa_exception.h
     pop_analysis_i.h
     pop_data.h
@@ -22,6 +25,8 @@ set(SRC
     ctnum_analysis.C
     ctnum_export.C
     dm_list.C
+    export_cube_base.C
+    export_densities_cube.C
     libwfa_exception.C
     pop_mulliken.C
     pop_print_default.C

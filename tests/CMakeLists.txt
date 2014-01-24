@@ -5,6 +5,7 @@ set(SRC_HEADER
     ctnum_analysis_test.h
     ctnum_export_test.h
     dm_list_test.h
+    export_densities_cube_test.h
     libwfa_suite.h
     pop_mulliken_test.h
     pop_print_default_test.h
@@ -20,6 +21,7 @@ set(SRC
     ctnum_analysis_test.C
     ctnum_export_test.C
     dm_list_test.C
+    export_densities_cube_test.C
     libwfa_tests.C
     libwfa_suite.C
     pop_mulliken_test.C
