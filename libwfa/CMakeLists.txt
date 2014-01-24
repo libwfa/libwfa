@@ -21,6 +21,8 @@ set(SRC_HEADER
     ndo_data.h
     nto_analysis.h
     nto_data.h
+    no_analysis.h
+    no_data.h
     pop_analysis_ad.h
     pop_analysis_dm.h
     pop_analysis_i.h
@@ -49,6 +51,8 @@ set(SRC
     ndo_data.C
     nto_analysis.C
     nto_data.C
+    no_analysis.C
+    no_data.C
     pop_analysis_ad.C
     pop_analysis_dm.C
     pop_mulliken.C

@@ -1,5 +1,5 @@
-#ifndef LIBWFA_NDO_DATA_H
-#define LIBWFA_NDO_DATA_H
+#ifndef LIBWFA_NO_DATA_H
+#define LIBWFA_NO_DATA_H
 
 #include <iostream>
 #include <list>
@@ -7,26 +7,26 @@
 
 namespace libwfa {
 
-/** \brief Implementation of ev_data_i to print NDO occupation numbers to
+/** \brief Implementation of ev_data_i to print NO occupation numbers to
         output stream
 
     \ingroup libwfa
  **/
-class ndo_data_print : public ev_data_i {
+class no_data_print : public ev_data_i {
 public:
     static const char k_clazz[]; //!< Class name
 
 private:
     std::ostream &m_out; //!< Output stream
-    size_t m_nndo; //!< Number of leading occupation numbers to print
+    size_t m_nno; //!< Number of leading occupation numbers to print
 
 public:
     /** \brief Constructor
         \param out Output stream
-        \param nndo # of leading occupation numbers to print
+        \param nno # of leading occupation numbers to print
      */
-    ndo_data_print(std::ostream &out, size_t nndo = 3) :
-        m_out(out), m_nndo(nndo) { }
+    no_data_print(std::ostream &out, size_t nno = 3) :
+        m_out(out), m_nno(nno) { }
 
     /** \copydoc nto_data_i::perform
      **/

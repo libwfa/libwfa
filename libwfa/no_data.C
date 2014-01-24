@@ -1,26 +1,26 @@
 #include <algorithm>
 #include <iomanip>
 #include "libwfa_exception.h"
-#include "ndo_data.h"
+#include "no_data.h"
 
 namespace libwfa {
 
 using namespace arma;
 
-const char ndo_data_print::k_clazz[] = "ndo_data_print";
+const char no_data_print::k_clazz[] = "no_data_print";
 
 
-size_t ndo_data_print::perform(dm_type type, const ab_vector &ni) {
+size_t no_data_print::perform(dm_type type, const ab_vector &ni) {
 
     static const char *method = "perform(dm_type, const ab_vector &)";
 
-    if (type != dm_type::difference)
+    if (type != dm_type::state)
         throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "type.");
 
-    std::string title("NDOs");
+    std::string title("NOs");
     if (ni.is_alpha_eq_beta()) {
-        m_out << " " << title << std::endl;
-        return print(ni.alpha());
+        m_out << " " << title << "(spin-traced)" << std::endl;
+        return print(ni.alpha() * 2.0);
     }
     else {
         m_out << " " << title << "(alpha)" << std::endl;
@@ -34,14 +34,14 @@ size_t ndo_data_print::perform(dm_type type, const ab_vector &ni) {
 }
 
 
-size_t ndo_data_print::print(const Col<double> &ni) {
+size_t no_data_print::print(const Col<double> &ni) {
 
     m_out << "Leading detachment eigenvalues: ";
-    for (size_t i = 0; i < m_nndo; i++) {
+    for (size_t i = 0; i < m_nno; i++) {
         m_out << std::setw(7) << std::setprecision(4) << std::fixed << ni[i];
     }
     m_out << "Leading attachment eigenvalues: ";
-    for (size_t i = 0, j = ni.n_elem - 1; i < m_nndo; i++, j--) {
+    for (size_t i = 0, j = ni.n_elem - 1; i < m_nno; i++, j--) {
         m_out << std::setw(7) << std::setprecision(4) << std::fixed << ni[j];
     }
 
