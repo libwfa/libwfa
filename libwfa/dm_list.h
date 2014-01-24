@@ -85,6 +85,11 @@ public:
         return m_lst.find(idx) != m_lst.end();
     }
 
+    /** \brief Return iterator to the element with idx in list or end()
+        \param idx Index
+     **/
+    iterator find(size_t idx) const { return m_lst.find(idx); }
+
     /** \brief STL-style iterator to begin of list
      **/
     iterator begin() const { return m_lst.begin(); }
@@ -100,8 +105,8 @@ public:
     /** \brief Get current density
      **/
     const ab_matrix &get_density(iterator i) const { return *(i->second); }
-
 };
+
 
 } // namespace libwfa
 
