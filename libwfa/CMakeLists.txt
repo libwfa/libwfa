@@ -1,6 +1,7 @@
 set(SRC_HEADER
     ab_matrix.h
     ab_vector.h
+    analyse_sdm.h
     analyse_tdm.h
     ctnum_analysis_i.h
     ctnum_analysis.h
@@ -37,6 +38,7 @@ set(SRC_HEADER
 )
 
 set(SRC
+    analyse_sdm.C
     analyse_tdm.C
     ctnum_analysis.C
     ctnum_export.C
