@@ -7,6 +7,7 @@ set(SRC_HEADER
     dm_list_test.h
     export_densities_cube_test.h
     export_orbitals_cube_test.h
+    export_orbitals_molden_test.h
     libwfa_suite.h
     pop_mulliken_test.h
     pop_print_default_test.h
@@ -24,6 +25,7 @@ set(SRC
     dm_list_test.C
     export_densities_cube_test.C
     export_orbitals_cube_test.C
+    export_orbitals_molden_test.C
     libwfa_tests.C
     libwfa_suite.C
     pop_mulliken_test.C

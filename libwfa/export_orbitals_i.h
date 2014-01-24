@@ -9,7 +9,9 @@ namespace libwfa {
 
 /** \brief Interface for exporting orbital data.
 
-    Interface to implement for export of orbital data to a file.
+    Interface to implement for export of orbital data to a file. The
+    orbital coefficient data should be ordered such that the coefficient
+    vectors are the columns of the coefficient matrix.
 
     \ingroup libwfa
  **/

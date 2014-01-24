@@ -10,6 +10,7 @@
 #include "dm_list_test.h"
 #include "export_densities_cube_test.h"
 #include "export_orbitals_cube_test.h"
+#include "export_orbitals_molden_test.h"
 #include "pop_mulliken_test.h"
 #include "pop_print_default_test.h"
 #include "selector_test.h"
@@ -36,6 +37,7 @@ namespace libwfa {
     - \c dm_list_test
     - \c export_densities_cube_test
     - \c export_orbitals_cube_test
+    - \c export_orbitals_molden_test
     - \c pop_mulliken_test
     - \c pop_print_default_test
     - \c selector_test
@@ -54,6 +56,7 @@ private:
     unit_test_factory<dm_list_test> m_utf_dm_list;
     unit_test_factory<export_densities_cube_test> m_utf_export_densities_cube;
     unit_test_factory<export_orbitals_cube_test> m_utf_export_orbitals_cube;
+    unit_test_factory<export_orbitals_molden_test> m_utf_export_orbitals_molden;
     unit_test_factory<pop_mulliken_test> m_utf_pop_mulliken;
     unit_test_factory<pop_print_default_test> m_utf_pop_print_default;
     unit_test_factory<selector_test> m_utf_selector;
