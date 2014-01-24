@@ -66,6 +66,22 @@ public:
     /** \brief Return the number of alpha-spin columns
      **/
     size_t ncols_b() const { return beta().n_cols; }
+
+    /** \brief Add other to current matrix
+     **/
+    ab_matrix &operator+=(const ab_matrix &other) {
+        alpha() += other.alpha();
+        if (! is_alpha_eq_beta()) beta() += other.beta();
+        return *this;
+    }
+
+    /** \brief Subtract other from current matrix
+     **/
+    ab_matrix &operator-=(const ab_matrix &other) {
+        alpha() -= other.alpha();
+        if (! is_alpha_eq_beta()) beta() -= other.beta();
+        return *this;
+    }
 };
 
 } // namespace adcman
