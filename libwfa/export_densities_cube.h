@@ -14,11 +14,16 @@ namespace libwfa {
  **/
 class export_densities_cube : public export_densities_i {
 private:
-    export_cube_base &m_core; //!< Export class into cube files
+    export_cube_base &m_core; //!< Export object into cube files
 
 public:
+    /** \brief Constructor
+        \param core Export object into cube files
+     **/
     export_densities_cube(export_cube_base &core) : m_core(core) { }
 
+    /** \brief Destructor
+     **/
     virtual ~export_densities_cube() { }
 
     /** \copydoc export_densities_i::perform(dm_type, size_t, const ab_matrix &)

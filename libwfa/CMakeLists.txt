@@ -10,6 +10,8 @@ set(SRC_HEADER
     export_cube_base.h
     export_densities_cube.h
     export_densities_i.h
+    export_orbitals_i.h
+    export_orbitals_cube.h
     libwfa_exception.h
     pop_analysis_i.h
     pop_data.h
@@ -27,6 +29,7 @@ set(SRC
     dm_list.C
     export_cube_base.C
     export_densities_cube.C
+    export_orbitals_cube.C
     libwfa_exception.C
     pop_mulliken.C
     pop_print_default.C

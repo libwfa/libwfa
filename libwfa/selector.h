@@ -1,6 +1,7 @@
 #ifndef LIBWFA_SELECTOR_H
 #define LIBWFA_SELECTOR_H
 
+#include <armadillo>
 #include <cstdlib>
 #include <vector>
 
@@ -69,6 +70,10 @@ public:
     /** \brief Construct a vector of selected elements
      **/
     std::vector<size_t> get_selected() const;
+
+    /** \brief Construct a vector of selected elements (return Armadillo vector)
+     **/
+    arma::Col<arma::uword> get_selected_arma() const;
 
 private:
     void check(size_t i) const;

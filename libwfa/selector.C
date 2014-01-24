@@ -57,6 +57,17 @@ std::vector<size_t> selector::get_selected() const {
 }
 
 
+arma::Col<arma::uword> selector::get_selected_arma() const {
+
+    arma::Col<arma::uword> el(m_nselected);
+    size_t pos = 0;
+    for (size_t i = 0; i < m_indexes.size() && pos < el.size(); i++) {
+        if (m_indexes[i]) el[pos++] = i;
+    }
+    return el;
+}
+
+
 void selector::check(size_t i) const {
 
     if (i >= m_indexes.size()) {
