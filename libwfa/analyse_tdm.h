@@ -25,16 +25,17 @@ public:
 
     /** \brief Performs transition density matrix analyses
         \param tdm Transition density matrix
-        \param av Average electron and hole density matrices
+        \param av Average particle and hole density matrices (particle first)
         \param dm_print Density matrix export / print
         \param nto_print NTO export / print
         \param prn Printer of NTO summary
         \param prct Printer of CT number data
 
         Perform the following analyses:
-        - Export of TDM
         - NTO analysis (\sa nto_analysis.h)
         - CT number analysis (\sa ctnumbers.h)
+        - Export of TDM, EDM, and HDM
+        - EDM and HDM are added to av
      **/
     void perform(const ab_matrix &tdm, ab_matrix_pair &av,
         export_densities_i &dm_print, export_orbitals_i &nto_print,
@@ -50,16 +51,15 @@ public:
 
     /** \brief Performs NTO analysis
         \param tdm Transition density matrix
-        \param av Average electron and hole density matrices
         \param dm_print Density matrix export / print
         \param nto_print NTO export / print
         \param prn Printer of NTO summary
+
+        EDM and HDM are exported and discarded afterwards.
      **/
-    void nto_analysis(const ab_matrix &tdm, ab_matrix_pair &av,
-        export_densities_i &dm_print, export_orbitals_i &nto_print,
-        ev_data_i &pr) const {
-        m_nto.perform(tdm, av, dm_print, nto_print, pr);
-    }
+    void nto_analysis(const ab_matrix &tdm, export_densities_i &dm_print,
+        export_orbitals_i &nto_print, ev_data_i &pr) const;
+
 };
 
 } // namespace libwfa

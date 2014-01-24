@@ -37,7 +37,7 @@ public:
         (Assumes the electron density matrix is first in av)
      **/
     void perform(const ab_matrix &sdm,
-        export_orbitals_i &nto_print, ev_data_i &pr) const;
+        export_orbitals_i &no_print, ev_data_i &pr) const;
 };
 
 } // namespace adcman

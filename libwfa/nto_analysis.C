@@ -10,15 +10,17 @@ using namespace arma;
 void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
     export_orbitals_i &nto_print, ev_data_i &pr) const {
 
-    ab_vector eh, ee;
+    // Diagonalize particle density matrix
+    ab_vector ee;
     diagonalize_dm(m_c, dm.first, ee, u.first);
-    diagonalize_dm(m_c, dm.second, eh, u.second);
-
     size_t ne = pr.perform(dm_type::particle, ee);
+
+    // Diagonalize hole density matrix
+    ab_vector eh;
+    diagonalize_dm(m_c, dm.second, eh, u.second);
     size_t nh = pr.perform(dm_type::hole, eh);
 
     // Form full matrix u and vector e (properly sorted)
-
     bool aeqb = u.first.is_alpha_eq_beta();
     ab_matrix c_nto(aeqb);
     ab_vector n_nto(aeqb);
@@ -46,26 +48,13 @@ void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
 }
 
 
-void nto_analysis::perform(const ab_matrix &tdm, ab_matrix_pair &av,
-    export_densities_i &dm_print, export_orbitals_i &nto_print,
-    ev_data_i &pr) const {
+void nto_analysis::perform(const ab_matrix &tdm, ab_matrix_pair &eh,
+    export_orbitals_i &nto_print, ev_data_i &pr) const {
 
-    ab_matrix_pair dm;
-    form_eh(m_s, tdm, dm.first, dm.second);
-
-    dm_print.perform(dm_type::particle, dm.first);
-    dm_print.perform(dm_type::hole, dm.second);
+    form_eh(m_s, tdm, eh.first, eh.second);
 
     ab_matrix_pair u;
-    nto_analysis::perform(dm, u, nto_print, pr);
-
-    av.first.alpha() += dm.first.alpha();
-    av.second.alpha() += dm.second.alpha();
-
-    if (tdm.is_alpha_eq_beta()) return;
-
-    av.first.beta()  += dm.first.beta();
-    av.second.beta() += dm.second.beta();
+    nto_analysis::perform(eh, u, nto_print, pr);
 }
 
 
