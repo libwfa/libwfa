@@ -7,6 +7,7 @@
 #include "ab_vector_test.h"
 #include "ctnum_analysis_test.h"
 #include "ctnum_export_test.h"
+#include "dm_list_test.h"
 #include "pop_mulliken_test.h"
 #include "pop_print_default_test.h"
 #include "selector_test.h"
@@ -30,6 +31,7 @@ namespace libwfa {
     - \c ab_vector_test
     - \c ctnum_analysis_test
     - \c ctnum_export_test
+    - \c dm_list_test
     - \c pop_mulliken_test
     - \c pop_print_default_test
     - \c selector_test
@@ -45,6 +47,7 @@ private:
     unit_test_factory<ab_vector_test> m_utf_ab_vector;
     unit_test_factory<ctnum_analysis_test> m_utf_ctnum_analysis;
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
+    unit_test_factory<dm_list_test> m_utf_dm_list;
     unit_test_factory<pop_mulliken_test> m_utf_pop_mulliken;
     unit_test_factory<pop_print_default_test> m_utf_pop_print_default;
     unit_test_factory<selector_test> m_utf_selector;
