@@ -17,6 +17,8 @@ set(SRC_HEADER
     export_orbitals_molden.h
     libwfa_exception.h
     molden_file_base.h
+    ndo_analysis.h
+    ndo_data.h
     nto_analysis.h
     nto_data.h
     pop_analysis_ad.h
@@ -43,6 +45,8 @@ set(SRC
     export_orbitals_cube.C
     export_orbitals_molden.C
     libwfa_exception.C
+    ndo_analysis.C
+    ndo_data.C
     nto_analysis.C
     nto_data.C
     pop_analysis_ad.C
