@@ -3,7 +3,7 @@
 
 #include "ab_matrix.h"
 #include "pop_analysis_i.h"
-#include "pop_print_i.h"
+#include "pop_data.h"
 
 namespace libwfa {
 
@@ -25,10 +25,12 @@ public:
     pop_analysis_ad(const pop_analysis_i &a) : m_analysis(a) { }
 
     /** \brief Perform population analysis
-        \param[in] ad Attachment and detachment density matrix (attach first)
+        \param[in] attach Attachment density matrix
+        \param[in] detach Detachment density matrix
         \param[out] pop Population data
      **/
-    void perform(const ab_matrix_pair &ad, pop_data &pr) const;
+    void perform(const ab_matrix &attach, const ab_matrix &detach,
+            pop_data &pr) const;
 };
 
 } // namespace libwfa

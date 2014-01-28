@@ -1,10 +1,10 @@
 #ifndef LIBWFA_ANALYSE_TDM_H
 #define LIBWFA_ANALYSE_TDM_H
 
-#include "pop_analysis_i.h"
-#include "pop_print_i.h"
 #include "no_analysis.h"
 #include "ndo_analysis.h"
+#include "pop_analysis_i.h"
+#include "pop_print_i.h"
 
 namespace libwfa {
 

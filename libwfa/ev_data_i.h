@@ -1,8 +1,6 @@
 #ifndef LIBWFA_EV_DATA_I_H
 #define LIBWFA_EV_DATA_I_H
 
-#include <iostream>
-#include <list>
 #include "ab_vector.h"
 #include "density_type.h"
 

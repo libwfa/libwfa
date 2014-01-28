@@ -30,7 +30,7 @@ void analyse_sdm::pop_analysis(const ab_matrix &sdm,
 
     pop_data res;
     pop_analysis_dm(m_pop).perform(sdm, res);
-    pop_analysis_ad(m_pop).perform(ad, res);
+    pop_analysis_ad(m_pop).perform(ad.first, ad.second, res);
 
     pr.perform(res);
 }

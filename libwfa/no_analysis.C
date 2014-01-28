@@ -1,6 +1,6 @@
 #include <algorithm>
-#include "no_analysis.h"
 #include "transformations_dm.h"
+#include "no_analysis.h"
 
 namespace libwfa {
 

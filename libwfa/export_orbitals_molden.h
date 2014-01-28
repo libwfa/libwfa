@@ -14,6 +14,9 @@ namespace libwfa {
     \ingroup libwfa
  **/
 class export_orbitals_molden : public export_orbitals_i {
+public:
+    static const char k_clazz[]; //!< Class name
+
 private:
     molden_file_base &m_file; //!< Molden file
     size_t m_norbs[4]; //!< Total number of orbitals

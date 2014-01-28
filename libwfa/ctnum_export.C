@@ -1,6 +1,6 @@
-#include "ctnum_export.h"
 #include <iomanip>
 #include <fstream>
+#include "ctnum_export.h"
 
 namespace libwfa {
 

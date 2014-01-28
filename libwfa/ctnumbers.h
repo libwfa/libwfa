@@ -4,7 +4,6 @@
 #include "ab_matrix.h"
 #include "ctnum_analysis_i.h"
 #include "ctnum_data_i.h"
-#include "state_info.h"
 
 namespace libwfa {
 

@@ -14,9 +14,6 @@ namespace libwfa {
      \ingroup libwfa
  **/
 class no_analysis {
-public:
-    typedef std::pair<ab_matrix, ab_matrix> ab_matrix_pair;
-
 private:
     const ab_matrix &m_c; //!< MO coefficients
 
@@ -36,8 +33,8 @@ public:
 
         (Assumes the electron density matrix is first in av)
      **/
-    void perform(const ab_matrix &sdm,
-        export_orbitals_i &no_print, ev_data_i &pr) const;
+    void perform(const ab_matrix &sdm, export_orbitals_i &no_print,
+        ev_data_i &pr) const;
 };
 
 } // namespace adcman

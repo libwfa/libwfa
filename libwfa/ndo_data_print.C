@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <iomanip>
 #include "libwfa_exception.h"
-#include "ndo_data.h"
+#include "ndo_data_print.h"
 
 namespace libwfa {
 

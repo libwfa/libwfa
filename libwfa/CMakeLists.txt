@@ -19,11 +19,11 @@ set(SRC_HEADER
     libwfa_exception.h
     molden_file_base.h
     ndo_analysis.h
-    ndo_data.h
+    ndo_data_print.h
     nto_analysis.h
-    nto_data.h
+    nto_data_print.h
     no_analysis.h
-    no_data.h
+    no_data_print.h
     orbital_type.h
     pop_analysis_ad.h
     pop_analysis_dm.h
@@ -51,11 +51,11 @@ set(SRC
     export_orbitals_molden.C
     libwfa_exception.C
     ndo_analysis.C
-    ndo_data.C
+    ndo_data_print.C
     nto_analysis.C
-    nto_data.C
+    nto_data_print.C
     no_analysis.C
-    no_data.C
+    no_data_print.C
     orbital_type.C
     pop_analysis_ad.C
     pop_analysis_dm.C

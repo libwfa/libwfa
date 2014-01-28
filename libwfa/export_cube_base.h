@@ -1,6 +1,7 @@
 #ifndef LIBWFA_MOLDEN_FILE_BASE_H
 #define LIBWFA_MOLDEN_FILE_BASE_H
 
+#include <string>
 #include "ab_matrix.h"
 #include "ab_vector.h"
 

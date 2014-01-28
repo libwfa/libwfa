@@ -3,7 +3,6 @@
 
 #include <utility>
 #include "ev_data_i.h"
-#include "export_densities_i.h"
 #include "export_orbitals_i.h"
 
 namespace libwfa {

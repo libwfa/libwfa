@@ -2,6 +2,7 @@
 #define LIBWFA_ANALYSE_TDM_H
 
 #include "ctnumbers.h"
+#include "export_densities_i.h"
 #include "nto_analysis.h"
 
 namespace libwfa {
