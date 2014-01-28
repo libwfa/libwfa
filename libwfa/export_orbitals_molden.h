@@ -2,7 +2,7 @@
 #define LIBWFA_EXPORT_ORBITALS_MOLDEN_H
 
 #include "export_orbitals_i.h"
-#include "molden_file_i.h"
+#include "export_molden_i.h"
 
 namespace libwfa {
 
@@ -18,23 +18,28 @@ public:
     static const char k_clazz[]; //!< Class name
 
 private:
-    molden_file_i &m_file; //!< Molden file
+    export_molden_i &m_core; //!< Molden file
+    std::string m_prefix; //!< Prefix to use for export
     size_t m_norbs[4]; //!< Total number of orbitals
 
 public:
     /** \brief Constructor
-        \param file Molden file
+        \param core Exporter in Molden format
         \param no_a Total number of occupied alpha orbitals
         \param nv_a Total number of virtual alpha orbitals
         \param no_b Total number of occupied beta orbitals
         \param nv_b Total number of virtual beta orbitals
      **/
-    export_orbitals_molden(molden_file_i &file,
+    export_orbitals_molden(export_molden_i &core, const std::string &prefix,
         size_t no_a, size_t nv_a, size_t no_b, size_t nv_b);
 
     /** \brief Destructor
      **/
     virtual ~export_orbitals_molden() { }
+
+    /** \brief Set the prefix
+     **/
+    void set_prefix(const std::string &prefix) {  m_prefix = prefix; }
 
     /** \copydoc export_orbitals_i::perform
      **/

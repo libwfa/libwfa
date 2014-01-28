@@ -1,5 +1,5 @@
-#ifndef LIBWFA_MOLDEN_FILE_I_H
-#define LIBWFA_MOLDEN_FILE_I_H
+#ifndef LIBWFA_EXPORT_MOLDEN_I_H
+#define LIBWFA_EXPORT_MOLDEN_I_H
 
 #include "ab_matrix.h"
 #include "ab_vector.h"
@@ -14,11 +14,12 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class molden_file_i {
+class export_molden_i {
 public:
-    virtual ~molden_file_i() { }
+    virtual ~export_molden_i() { }
 
     /** \brief Write the orbital coefficients and orbital energies to file.
+        \param name Name associated with the orbitals (use as file prefix!?)
         \param coeff Orbital coefficients
         \param ene Orbital energies
         \param nocc_a Number of occupied alpha orbitals
@@ -27,11 +28,11 @@ public:
         Assume that the first nocc_a (nocc_b) coefficients refer to occupied
         orbitals.
      **/
-    virtual void perform(const ab_matrix &coeff, const ab_vector &ene,
-            size_t nocc_a, size_t nocc_b) = 0;
+    virtual void perform(const std::string &name, const ab_matrix &coeff,
+        const ab_vector &ene, size_t nocc_a, size_t nocc_b) = 0;
 };
 
 
 } // namespace adcman
 
-#endif
+#endif // LIBWFA_EXPORT_MOLDEN_I_H

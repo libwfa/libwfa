@@ -9,7 +9,7 @@ using namespace arma;
 
 namespace {
 
-class molden_file_test : public molden_file_i {
+class molden_file_test : public export_molden_i {
 private:
     struct exports {
         size_t norbs[5];
@@ -31,7 +31,7 @@ public:
 
     virtual ~molden_file_test() { }
 
-    virtual void perform(const ab_matrix &coeff,
+    virtual void perform(const std::string &name, const ab_matrix &coeff,
             const ab_vector &ene, size_t nocc_a, size_t nocc_b) {
 
         const Mat<double> &ca = coeff.alpha(), &cb = coeff.beta();
@@ -84,7 +84,7 @@ void export_orbitals_molden_test::test_1() {
     size_t nb = 5, no = 2;
 
     molden_file_test core;
-    export_orbitals_molden export_c(core, no, nb - no, no, nb - no);
+    export_orbitals_molden export_c(core, "test_1", no, nb - no, no, nb - no);
 
     ab_matrix c(nb);
     ab_vector ene(nb);
@@ -124,7 +124,8 @@ void export_orbitals_molden_test::test_2() {
     size_t nb = 5, no_a = 2, no_b = 1;
 
     molden_file_test core;
-    export_orbitals_molden export_c(core, no_a, nb - no_a, no_b, nb - no_b);
+    export_orbitals_molden export_c(core, "test_2",
+            no_a, nb - no_a, no_b, nb - no_b);
 
     ab_matrix c(nb, nb, nb, nb);
     ab_vector ene(nb, nb);
@@ -165,7 +166,8 @@ void export_orbitals_molden_test::test_3() {
     size_t nb = 5, no_a = 2, no_b = 1;
 
     molden_file_test core;
-    export_orbitals_molden export_c(core, no_a, nb - no_a, no_b, nb - no_b);
+    export_orbitals_molden export_c(core, "test_3",
+            no_a, nb - no_a, no_b, nb - no_b);
 
     ab_matrix c(nb, nb, nb, nb);
     ab_vector ene(nb, nb);

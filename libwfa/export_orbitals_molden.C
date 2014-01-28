@@ -9,9 +9,9 @@ using namespace arma;
 const char export_orbitals_molden::k_clazz[] = "export_orbitals_molden";
 
 
-export_orbitals_molden::export_orbitals_molden(molden_file_i &file,
-    size_t no_a, size_t nv_a, size_t no_b, size_t nv_b) :
-    m_file(file) {
+export_orbitals_molden::export_orbitals_molden(export_molden_i &core,
+    const std::string &prefix, size_t no_a, size_t nv_a, size_t no_b,
+    size_t nv_b) : m_core(core), m_prefix(prefix) {
 
     m_norbs[0] = no_a;
     m_norbs[1] = nv_a;
@@ -48,10 +48,12 @@ void export_orbitals_molden::perform(orbital_type type, const ab_matrix &coeff,
         }
     }
 
+    std::string name(m_prefix + "_" + type.convert());
+
     const selector &sa = s.alpha(), &sb = s.beta();
     if (sa.all_selected() && sb.all_selected()) {
 
-        m_file.perform(coeff, ene, m_norbs[0], m_norbs[2]);
+        m_core.perform(name, coeff, ene, m_norbs[0], m_norbs[2]);
         return;
     }
 
@@ -74,7 +76,7 @@ void export_orbitals_molden::perform(orbital_type type, const ab_matrix &coeff,
         e.beta() = ene.beta().rows(ib);
     }
 
-    m_file.perform(c, e, no_a, no_b);
+    m_core.perform(name, c, e, no_a, no_b);
 }
 
 

@@ -1,4 +1,4 @@
-set(SRC_HEADER
+set(HEADERS
     ab_matrix.h
     ab_vector.h
     analyse_sdm.h
@@ -11,13 +11,13 @@ set(SRC_HEADER
     density_type.h
     ev_data_i.h
     export_cube_i.h
+    export_molden_i.h
     export_densities_cube.h
     export_densities_i.h
     export_orbitals_i.h
     export_orbitals_cube.h
     export_orbitals_molden.h
     libwfa_exception.h
-    molden_file_i.h
     ndo_analysis.h
     ndo_data_print.h
     nto_analysis.h
@@ -66,6 +66,23 @@ set(SRC
     version.C
 )
 
-add_library(wfa ${SRC} ${SRC_HEADER})
+set(HEADERS_QCHEM
+    qchem/export_cube_qchem.h
+    qchem/export_molden_qchem.h
+)
+
+set(SRC_QCHEM
+    qchem/export_cube_qchem.C
+    qchem/export_molden_qchem.C
+)
+
+
+if(QCHEM_SOURCE_DIR)
+    add_library(wfa_qchem ${SRC} ${HEADERS} ${SRC_QCHEM} ${HEADERS_QCHEM})
+    set(TARGETS wfa_qchem)
+else(QCHEM_SOURCE_DIR)
+    add_library(wfa ${SRC} ${HEADERS})
+    set(TARGETS wfa)
+endif(QCHEM_SOURCE_DIR)
 
 
