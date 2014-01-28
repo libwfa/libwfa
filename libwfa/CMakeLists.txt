@@ -10,14 +10,14 @@ set(SRC_HEADER
     ctnumbers.h
     density_type.h
     ev_data_i.h
-    export_cube_base.h
+    export_cube_i.h
     export_densities_cube.h
     export_densities_i.h
     export_orbitals_i.h
     export_orbitals_cube.h
     export_orbitals_molden.h
     libwfa_exception.h
-    molden_file_base.h
+    molden_file_i.h
     ndo_analysis.h
     ndo_data_print.h
     nto_analysis.h
@@ -45,7 +45,6 @@ set(SRC
     ctnum_export.C
     ctnumbers.C
     density_type.C
-    export_cube_base.C
     export_densities_cube.C
     export_orbitals_cube.C
     export_orbitals_molden.C

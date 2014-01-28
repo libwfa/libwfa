@@ -9,7 +9,7 @@ using namespace arma;
 
 namespace {
 
-class molden_file_test : public molden_file_base {
+class molden_file_test : public molden_file_i {
 private:
     struct exports {
         size_t norbs[5];

@@ -9,7 +9,7 @@ using namespace arma;
 const char export_orbitals_molden::k_clazz[] = "export_orbitals_molden";
 
 
-export_orbitals_molden::export_orbitals_molden(molden_file_base &file,
+export_orbitals_molden::export_orbitals_molden(molden_file_i &file,
     size_t no_a, size_t nv_a, size_t no_b, size_t nv_b) :
     m_file(file) {
 

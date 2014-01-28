@@ -8,7 +8,7 @@
 
 namespace libwfa {
 
-/** \brief Combines various state density matrix analyses
+/** \brief Combines various analyses of a state density matrix
 
     \ingroup libwfa
  **/
@@ -74,7 +74,8 @@ public:
     void ndo_analysis(const ab_matrix &sdm, ab_matrix_pair &ad,
             export_orbitals_i &ndo_print, ev_data_i &pr) const {
 
-        ab_matrix ddm(sdm); ddm -= m_gs_dm;
+        ab_matrix ddm(sdm);
+        ddm -= m_gs_dm;
         m_ndo.perform(ddm, ad, ndo_print, pr);
     }
 };

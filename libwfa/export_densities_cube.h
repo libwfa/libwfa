@@ -1,7 +1,7 @@
 #ifndef LIBWFA_EXPORT_DENSITIES_CUBE_H
 #define LIBWFA_EXPORT_DENSITIES_CUBE_H
 
-#include "export_cube_base.h"
+#include "export_cube_i.h"
 #include "export_densities_i.h"
 
 namespace libwfa {
@@ -15,15 +15,15 @@ namespace libwfa {
  **/
 class export_densities_cube : public export_densities_i {
 private:
-    export_cube_base &m_core; //!< Core class for export as cube files
+    export_cube_i &m_core; //!< Core class for export as cube files
     std::string m_prefix; //!< Prefix for the densities to export
 
 public:
     /** \brief Constructor
         \param core Export object into cube files
      **/
-    export_densities_cube(export_cube_base &core,
-            const std::string &prefix) : m_core(core), m_prefix(prefix) { }
+    export_densities_cube(export_cube_i &core, const std::string &prefix) :
+        m_core(core), m_prefix(prefix) { }
 
     /** \brief Destructor
      **/

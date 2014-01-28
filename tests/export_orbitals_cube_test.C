@@ -8,7 +8,7 @@ using namespace arma;
 
 namespace {
 
-class export_cube_test : public export_cube_base {
+class export_cube_test : public export_cube_i {
 private:
     struct exports {
         std::string name;
@@ -24,7 +24,7 @@ public:
     typedef std::list<exports>::const_iterator iterator;
 
 public:
-    export_cube_test() : export_cube_base(grid3d()) { }
+    export_cube_test()  { }
 
     virtual ~export_cube_test() { }
 

@@ -1,5 +1,5 @@
-#ifndef LIBWFA_MOLDEN_FILE_BASE_H
-#define LIBWFA_MOLDEN_FILE_BASE_H
+#ifndef LIBWFA_MOLDEN_FILE_I_H
+#define LIBWFA_MOLDEN_FILE_I_H
 
 #include "ab_matrix.h"
 #include "ab_vector.h"
@@ -14,9 +14,9 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class molden_file_base {
+class molden_file_i {
 public:
-    virtual ~molden_file_base() { }
+    virtual ~molden_file_i() { }
 
     /** \brief Write the orbital coefficients and orbital energies to file.
         \param coeff Orbital coefficients
