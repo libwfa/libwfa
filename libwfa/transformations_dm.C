@@ -54,7 +54,7 @@ void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
     const Mat<double> &c_a = c.alpha(), &dm_a = dm.alpha();
     Col<double> &ev_a = ev.alpha();
     Mat<double> &u_a = u.alpha();
-    Mat<double> evec(c_a.n_rows, c_a.n_rows);
+    Mat<double> evec(c_a.n_cols, c_a.n_cols);
 
     eig_sym(ev_a, evec, c_a.t() * dm_a * c_a);
     u_a = c_a * evec;

@@ -25,23 +25,25 @@ namespace {
 // Test data
 class system_data {
 private:
-    static const size_t k_n = 8;
+    static const size_t k_nao = 8;
+    static const size_t k_nmo = 7;
     static const double k_s[64];
-    static const double k_ca[64];
-    static const double k_cb[64];
+    static const double k_ca[56];
+    static const double k_cb[56];
 
 public:
-    static size_t dim() { return k_n; }
+    static size_t dim_ao() { return k_nao; }
+    static size_t dim_mo() { return k_nmo; }
 
     static ab_matrix mo_coeff(bool aeqb) {
         ab_matrix c(aeqb);
-        c.alpha() = Mat<double>(k_ca, k_n, k_n);
-        if (! aeqb) c.beta() = Mat<double>(k_cb, k_n, k_n);
+        c.alpha() = Mat<double>(k_ca, k_nao, k_nmo);
+        if (! aeqb) c.beta() = Mat<double>(k_cb, k_nao, k_nmo);
         return c;
     }
 
     static Mat<double> overlap() {
-        Mat<double> s(k_s, k_n, k_n);
+        Mat<double> s(k_s, k_nao, k_nao);
         return s;
     }
 
@@ -68,7 +70,7 @@ const double system_data::k_s[64] = {
 };
 
 
-const double system_data::k_ca[64] = {
+const double system_data::k_ca[56] = {
     -1.4386374805937,  1.7273835631264, -0.2481673864552,  0.0479179178774,
      0.1356497801719,  0.8318525719125,  0.1341667273838, -1.3595739082117,
      0.0850381455299, -0.0562263732423,  1.7516616217993, -1.1503457280556,
@@ -82,13 +84,11 @@ const double system_data::k_ca[64] = {
     -0.7174843291853, -0.5581910006327,  0.2570407372517,  0.0572963601103,
     -0.2632793560247,  0.5000885529216,  0.3621625819052,  0.3205582354551,
     -0.2912347029489,  0.3856273338740,  0.1900512993005,  0.0458631483621,
-    -0.1963887340220, -0.3586375137324, -0.2187854906981,  0.5044324883450,
-     0.1639130687966,  0.1616708335398,  0.1960238051475,  0.1878590905217,
-     0.1642332311630,  0.1646800918484,  0.1755542880717,  0.1372727588120
+    -0.1963887340220, -0.3586375137324, -0.2187854906981,  0.5044324883450
 };
 
 
-const double system_data::k_cb[64] = {
+const double system_data::k_cb[56] = {
     -1.4315480636661,  1.7109043326431, -0.5485700147404,  0.2469453763977,
      0.1234259678329,  0.8447851396450,  0.1636199488363, -1.2305877032621,
      0.0941847259226,  0.3068026509167,  1.4268212119308, -1.1016570609886,
@@ -102,9 +102,7 @@ const double system_data::k_cb[64] = {
     -0.5350252079374, -0.5413603936305,  0.2299895114151,  0.0776460766286,
     -0.5029167531278,  0.5106056382204,  0.5299488880724,  0.1531558750939,
     -0.4226045092075,  0.2229669218637,  0.1524084386925, -0.0076240622465,
-    -0.3268928895579, -0.3139279781949, -0.1809968809003,  0.4597507108957,
-     0.0206171822135,  0.2531998302950,  0.2640763114492,  0.1971405367688,
-     0.0557940725132,  0.0609884535480,  0.1209434940860,  0.3134181926429
+    -0.3268928895579, -0.3139279781949, -0.1809968809003,  0.4597507108957
 };
 
 
@@ -119,7 +117,7 @@ void transformations_dm_test::test_form_eh_1a() {
     // Test transform of restricted TDM into electron and hole densities
     //
 
-    size_t nb = system_data::dim();
+    size_t nb = system_data::dim_ao();
 
     Mat<double> s = system_data::overlap();
 
@@ -185,7 +183,7 @@ void transformations_dm_test::test_form_eh_1b() {
     // Test transform of unrestricted TDM into electron and hole densities
     //
 
-    size_t nb = system_data::dim();
+    size_t nb = system_data::dim_ao();
 
     Mat<double> s = system_data::overlap();
 
@@ -273,7 +271,7 @@ void transformations_dm_test::test_form_om_1a() {
     // Test transform of restricted TDM into CT number matrix
     //
 
-    size_t nb = system_data::dim();
+    size_t nb = system_data::dim_ao();
 
     Mat<double> s = system_data::overlap();
 
@@ -324,7 +322,7 @@ void transformations_dm_test::test_form_om_1b() {
     // Test transform of unrestricted TDM into electron and hole densities
     //
 
-    size_t nb = system_data::dim();
+    size_t nb = system_data::dim_ao();
 
     Mat<double> s = system_data::overlap();
 
@@ -383,7 +381,7 @@ void transformations_dm_test::test_diagonalize_dm_1a() {
 
     // Test diagonalization of a restricted and symmetric density matrix
 
-    size_t nb = system_data::dim();
+    size_t nb = system_data::dim_ao(), nmo = system_data::dim_mo();
 
     Mat<double> s = system_data::overlap();
 
@@ -417,7 +415,7 @@ void transformations_dm_test::test_diagonalize_dm_1a() {
     if (accu(abs(u_a.t() * dm_a * u_a - diagmat(ev_a)) > 1e-12) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Bad transform.");
     }
-    if (accu(abs(u_a.t() * s * u_a - eye(nb, nb)) > 1e-12) != 0) {
+    if (accu(abs(u_a.t() * s * u_a - eye(nmo, nmo)) > 1e-12) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Bad transform.");
     }
 }
@@ -430,7 +428,7 @@ void transformations_dm_test::test_diagonalize_dm_1b() {
 
     // Test diagonalization of a restricted and symmetric density matrix
 
-    size_t nb = system_data::dim();
+    size_t nb = system_data::dim_ao(), nmo = system_data::dim_mo();
 
     Mat<double> s = system_data::overlap();
 
@@ -470,10 +468,10 @@ void transformations_dm_test::test_diagonalize_dm_1b() {
     if (accu(abs(u_b.t() * dm_b * u_b - diagmat(ev_b)) > 1e-12) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Bad transform.");
     }
-    if (accu(abs(u_a.t() * s * u_a - eye(nb, nb)) > 1e-12) != 0) {
+    if (accu(abs(u_a.t() * s * u_a - eye(nmo, nmo)) > 1e-12) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Bad transform.");
     }
-    if (accu(abs(u_b.t() * s * u_b - eye(nb, nb)) > 1e-12) != 0) {
+    if (accu(abs(u_b.t() * s * u_b - eye(nmo, nmo)) > 1e-12) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Bad transform.");
     }
 }
@@ -495,7 +493,7 @@ void transformations_dm_test::test_form_ad_1a() {
 
     try { // Preparation of inputs
 
-        size_t nb = system_data::dim();
+        size_t nb = system_data::dim_ao();
 
         Mat<double> s = system_data::overlap();
         ab_matrix dm(nb, nb);
@@ -565,7 +563,7 @@ void transformations_dm_test::test_form_ad_1b() {
 
     try { // Preparation of inputs
 
-        size_t nb = system_data::dim();
+        size_t nb = system_data::dim_ao();
 
         Mat<double> s = system_data::overlap();
         ab_matrix dm(nb, nb, nb);
@@ -646,7 +644,7 @@ void transformations_dm_test::test_form_ad_2() {
     // Test formation of a/d densities from unrestricted and symmetric
     // density matrix
 
-    size_t nb = system_data::dim();
+    size_t nb = system_data::dim_ao();
 
     Mat<double> s = system_data::overlap();
 
