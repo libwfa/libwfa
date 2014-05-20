@@ -8,7 +8,7 @@ using namespace arma;
 
 
 void no_analysis::perform(const ab_matrix &sdm,
-        export_orbitals_i &no_print, ev_data_i &pr) const {
+        export_orbitals_i &pr_o, ev_printer_i &pr_e) const {
 
     ab_matrix c_no;
     ab_vector n_no;
@@ -27,15 +27,15 @@ void no_analysis::perform(const ab_matrix &sdm,
 
         n2_no.alpha() *= 0.5;
 
-        pr.perform(density_type::state, n2_no);
+        pr_e.perform(density_type::state, n2_no);
 
         ab_selector s2_no(true);
         s2_no.alpha().select_all();
 
-        no_print.perform(orbital_type::no, c2_no, n2_no, s2_no);
+        pr_o.perform(orbital_type::no, c2_no, n2_no, s2_no);
     }
 
-    pr.perform(density_type::state, n_no);
+    pr_e.perform(density_type::state, n_no);
 
     // Form full matrix u and vector e (properly sorted)
 
@@ -44,7 +44,7 @@ void no_analysis::perform(const ab_matrix &sdm,
     s_no.alpha().select_all();
     if (! aeqb) s_no.beta().select_all();
 
-    no_print.perform(orbital_type::no, c_no, n_no, s_no);
+    pr_o.perform(orbital_type::no, c_no, n_no, s_no);
 }
 
 

@@ -1,23 +1,23 @@
-#ifndef LIBWFA_EV_DATA_I_H
-#define LIBWFA_EV_DATA_I_H
+#ifndef LIBWFA_EV_PRINTER_I_H
+#define LIBWFA_EV_PRINTER_I_H
 
 #include "ab_vector.h"
 #include "density_type.h"
 
 namespace libwfa {
 
-/** \brief Interface class to analyse eigenvalues of density matrices
+/** \brief Interface to export / print eigenvalues of density matrices
 
     \ingroup libwfa
  **/
-class ev_data_i {
+class ev_printer_i {
 public:
-    virtual ~ev_data_i() { }
+    virtual ~ev_printer_i() { }
 
-    /** \brief Perform the operation
+    /** \brief Print the eigenvalues
         \param type Type of density matrix
         \param ni Occupation number vector (= vector of eigenvalues)
-        \return Number of important occupation numbers
+        \return Number of important eigenvalues
      **/
     virtual size_t perform(density_type type, const ab_vector &ni) = 0;
 };
@@ -25,4 +25,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_EV_DATA_I_H
+#endif // LIBWFA_EV_PRINTER_I_H

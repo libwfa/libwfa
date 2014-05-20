@@ -27,10 +27,10 @@ public:
     /** \brief Performs transition density matrix analyses
         \param tdm Transition density matrix
         \param av Average particle and hole density matrices (particle first)
-        \param dm_print Density matrix export / print
-        \param nto_print NTO export / print
-        \param prn Printer of NTO summary
-        \param prct Printer of CT number data
+        \param pr_d Density matrix export / print
+        \param pr_o NTO export / print
+        \param pr_e Printer of NTO summary
+        \param pr_c Printer of CT number data
 
         Perform the following analyses:
         - NTO analysis (\sa nto_analysis.h)
@@ -39,27 +39,27 @@ public:
         - EDM and HDM are added to av
      **/
     void perform(const ab_matrix &tdm, ab_matrix_pair &av,
-        export_densities_i &dm_print, export_orbitals_i &nto_print,
-        ev_data_i &prn, ctnum_data_i &prct) const;
+        export_densities_i &pr_d, export_orbitals_i &pr_o,
+        ev_printer_i &pr_e, ctnum_printer_i &pr_c) const;
 
     /** \brief Perform CT number analysis
         \param tdm Transition density matrix
         \param pr Printer of CT number data
      **/
-    void ctnumbers(const ab_matrix &tdm, ctnum_data_i &pr) const {
+    void ctnumbers(const ab_matrix &tdm, ctnum_printer_i &pr) const {
         m_ct.perform(tdm, pr);
     }
 
     /** \brief Performs NTO analysis
         \param tdm Transition density matrix
-        \param dm_print Density matrix export / print
-        \param nto_print NTO export / print
-        \param prn Printer of NTO summary
+        \param pr_d Density matrix export / print
+        \param pr_o NTO export / print
+        \param pr_e Printer of NTO summary
 
         EDM and HDM are exported and discarded afterwards.
      **/
-    void nto_analysis(const ab_matrix &tdm, export_densities_i &dm_print,
-        export_orbitals_i &nto_print, ev_data_i &pr) const;
+    void nto_analysis(const ab_matrix &tdm, export_densities_i &pr_d,
+        export_orbitals_i &pr_o, ev_printer_i &pr_e) const;
 
 };
 

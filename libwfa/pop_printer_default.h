@@ -1,9 +1,9 @@
-#ifndef LIBWFA_POP_PRINT_DEFAULT_H
-#define LIBWFA_POP_PRINT_DEFAULT_H
+#ifndef LIBWFA_POP_PRINTER_DEFAULT_H
+#define LIBWFA_POP_PRINTER_DEFAULT_H
 
 #include <cstddef>
 #include <iostream>
-#include "pop_print_i.h"
+#include "pop_printer_i.h"
 
 namespace libwfa {
 
@@ -14,7 +14,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class pop_print_default : public pop_print_i {
+class pop_printer_default : public pop_printer_i {
 private:
     const std::vector<std::string> &m_labels; //!< Labels for each line
     std::ostream &m_out; //!< Output stream
@@ -28,7 +28,7 @@ public:
         \param colwidth Max column width
         \param prec Precision the data columns
      **/
-    pop_print_default(const std::vector<std::string> &l,
+    pop_printer_default(const std::vector<std::string> &l,
         std::ostream &out, size_t colwidth = 20, size_t prec = 6) :
         m_labels(l), m_out(out), m_colwidth(colwidth), m_prec(prec) { }
 
@@ -47,4 +47,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_POP_PRINT_DEFAULT_H
+#endif // LIBWFA_POP_PRINTER_DEFAULT_H

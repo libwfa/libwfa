@@ -2,7 +2,7 @@
 #define LIBWFA_NDO_ANALYSIS_H
 
 #include <utility>
-#include "ev_data_i.h"
+#include "ev_printer_i.h"
 #include "export_densities_i.h"
 #include "export_orbitals_i.h"
 
@@ -32,20 +32,20 @@ public:
     /** \brief Perform NDO analysis
         \param[in] ddm Difference density matrix
         \param[out] ad Attachment / detachment densities (first attach)
-        \param[out] ndo_print Printer of NTOs
-        \param[out] pr Printer of NTO data
+        \param[out] pr_o Printer of NTOs
+        \param[out] pr_e Printer of NTO occupation numbers
      **/
     void perform(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_orbitals_i &ndo_print, ev_data_i &pr) const;
+        export_orbitals_i &pr_o, ev_printer_i &pr_e) const;
 
     /** \brief Perform NDO analysis
         \param[in] ddm Difference density matrix
-        \param[out] dm_print Printer of density matrices
-        \param[out] ndo_print Printer of NTOs
-        \param[out] pr Printer of NTO data
+        \param[out] pr_d Printer of density matrices
+        \param[out] pr_o Printer of NTOs
+        \param[out] pr_e Printer of NTO occupation numbers
      **/
-    void perform(const ab_matrix &ddm, export_densities_i &dm_print,
-        export_orbitals_i &ndo_print, ev_data_i &pr) const;
+    void perform(const ab_matrix &ddm, export_densities_i &pr_d,
+        export_orbitals_i &pr_o, ev_printer_i &pr_e) const;
 };
 
 } // namespace libwfa

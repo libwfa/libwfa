@@ -2,7 +2,7 @@
 #define LIBWFA_NTO_ANALYSIS_H
 
 #include <utility>
-#include "ev_data_i.h"
+#include "ev_printer_i.h"
 #include "export_orbitals_i.h"
 
 namespace libwfa {
@@ -31,22 +31,22 @@ public:
     /** \brief Perform basic NTO analysis
         \param[in] eh Particle and hole density matrices (particle is first)
         \param[out] u Eigenvectors of electron and hole density
-        \param[out] nto_print Printer of NTOs
-        \param[out] pr Printer of NTO data
+        \param[out] pr_o Printer of NTOs
+        \param[out] pr_e Printer of NTO occupation numbers
 
         (Assumes the electron density matrix is first in dm)
      **/
     void perform(const ab_matrix_pair &eh, ab_matrix_pair &u,
-            export_orbitals_i &nto_print, ev_data_i &pr) const;
+            export_orbitals_i &pr_o, ev_printer_i &pr_e) const;
 
     /** \brief Perform NTO analysis
         \param[in] tdm Transition density matrix
         \param[out] eh Particle and hole density matrices (particle is first)
-        \param[out] nto_print Printer of NTOs
-        \param[out] pr Printer of NTO data
+        \param[out] pr_o Printer of NTOs
+        \param[out] pr_e Printer of NTO occupation numbers
      **/
     void perform(const ab_matrix &tdm, ab_matrix_pair &eh,
-        export_orbitals_i &nto_print, ev_data_i &pr) const;
+        export_orbitals_i &pr_o, ev_printer_i &pr_e) const;
 };
 
 } // namespace libwfa

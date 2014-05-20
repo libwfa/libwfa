@@ -1,7 +1,7 @@
 #include <sstream>
 #include <libwfa/libwfa_exception.h>
-#include <libwfa/pop_print_default.h>
-#include "pop_print_default_test.h"
+#include <libwfa/pop_printer_default.h>
+#include "pop_printer_default_test.h"
 
 namespace libwfa {
 
@@ -22,7 +22,7 @@ void init_random_vector(size_t n, std::vector<double> &v) {
 } // unnamed namespace
 
 
-void pop_print_default_test::perform() throw(libtest::test_exception) {
+void pop_printer_default_test::perform() throw(libtest::test_exception) {
 
     test_1();
     test_2();
@@ -30,11 +30,11 @@ void pop_print_default_test::perform() throw(libtest::test_exception) {
 }
 
 
-void pop_print_default_test::test_1() {
+void pop_printer_default_test::test_1() {
 
     // Basic functionality test
 
-    static const char *testname = "pop_print_default_test::test_1()";
+    static const char *testname = "pop_printer_default_test::test_1()";
 
     size_t na = 4;
     std::vector<std::string> labels(na, "");
@@ -44,7 +44,7 @@ void pop_print_default_test::test_1() {
     labels[3] = "H";
 
     std::stringstream ss;
-    pop_print_default pr(labels, ss);
+    pop_printer_default pr(labels, ss);
 
     pop_data p;
     init_random_vector(na, p.add("Set 1"));
@@ -69,11 +69,11 @@ void pop_print_default_test::test_1() {
 }
 
 
-void pop_print_default_test::test_2() {
+void pop_printer_default_test::test_2() {
 
     // Test adjustment of columns
 
-    static const char *testname = "pop_print_default_test::test_2()";
+    static const char *testname = "pop_printer_default_test::test_2()";
 
     size_t na = 4;
     std::vector<std::string> labels(na, "");
@@ -83,7 +83,7 @@ void pop_print_default_test::test_2() {
     labels[3] = "H";
 
     std::stringstream ss;
-    pop_print_default pr(labels, ss);
+    pop_printer_default pr(labels, ss);
 
     pop_data p;
     init_random_vector(na, p.add("Set 1"));
@@ -110,11 +110,11 @@ void pop_print_default_test::test_2() {
 }
 
 
-void pop_print_default_test::test_exc() {
+void pop_printer_default_test::test_exc() {
 
     // Test exception
 
-    static const char *testname = "pop_print_default_test::test_exc()";
+    static const char *testname = "pop_printer_default_test::test_exc()";
 
     size_t na = 4;
     std::vector<std::string> labels(na, "");
@@ -124,7 +124,7 @@ void pop_print_default_test::test_exc() {
     labels[3] = "H";
 
     std::ostringstream oss;
-    pop_print_default pr(labels, oss);
+    pop_printer_default pr(labels, oss);
 
     pop_data p1, p2, p3;
     init_random_vector(na + 1, p1.add("Set 1"));

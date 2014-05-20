@@ -13,9 +13,7 @@ void ctnum_export::perform(const ab_matrix &om, const double (&om_tot)[2]) {
     m_out << "omega = ";
     m_out << std::setw(w) << std::setprecision(prec) << std::fixed;
     m_out << om_tot[0] + om_tot[1] << " (alpha: ";
-    m_out << std::setw(w) << std::setprecision(prec) << std::fixed;
     m_out << om_tot[0] << ", beta: ";
-    m_out << std::setw(w) << std::setprecision(prec) << std::fixed;
     m_out << om_tot[1] << ")" << std::endl;
 
     if (om.is_alpha_eq_beta()) {

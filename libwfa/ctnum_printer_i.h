@@ -1,19 +1,19 @@
-#ifndef LIBWFA_CTNUM_PRINT_I_H
-#define LIBWFA_CTNUM_PRINT_I_H
+#ifndef LIBWFA_CTNUM_PRINTER_I_H
+#define LIBWFA_CTNUM_PRINTER_I_H
 
 #include "ab_matrix.h"
 
 namespace libwfa {
 
-/** \brief Interface for printer of CT number data
+/** \brief Interface to export / print CT number data
 
     \ingroup libwfa
  **/
-class ctnum_data_i {
+class ctnum_printer_i {
 public:
     /** \brief Virtual destructor
      **/
-    virtual ~ctnum_data_i() { }
+    virtual ~ctnum_printer_i() { }
 
     /** \brief Print the CT number data
         \param om CT number data (omega matrix)
@@ -24,4 +24,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_CTNUM_PRINT_I_H
+#endif // LIBWFA_CTNUM_PRINTER_I_H

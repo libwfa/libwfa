@@ -10,7 +10,7 @@ set(SRC_HEADER
     grid3d_test.h
     libwfa_suite.h
     pop_mulliken_test.h
-    pop_print_default_test.h
+    pop_printer_default_test.h
     selector_test.h
     transformations_dm_test.h
     version_test.h
@@ -29,7 +29,7 @@ set(SRC
     libwfa_tests.C
     libwfa_suite.C
     pop_mulliken_test.C
-    pop_print_default_test.C
+    pop_printer_default_test.C
     selector_test.C
     transformations_dm_test.C
     version_test.C

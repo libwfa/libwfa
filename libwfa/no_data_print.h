@@ -2,16 +2,16 @@
 #define LIBWFA_NO_DATA_PRINT_H
 
 #include <iostream>
-#include "ev_data_i.h"
+#include "ev_printer_i.h"
 
 namespace libwfa {
 
-/** \brief Implementation of ev_data_i to print NO occupation numbers to
+/** \brief Implementation of ev_printer_i to print NO occupation numbers to
         output stream
 
     \ingroup libwfa
  **/
-class no_data_print : public ev_data_i {
+class no_data_print : public ev_printer_i {
 public:
     static const char k_clazz[]; //!< Class name
 
@@ -27,7 +27,7 @@ public:
     no_data_print(std::ostream &out, size_t nno = 3) :
         m_out(out), m_nno(nno) { }
 
-    /** \copydoc nto_data_i::perform
+    /** \copydoc ev_printer_i::perform
      **/
     virtual size_t perform(density_type type, const ab_vector &ni);
 

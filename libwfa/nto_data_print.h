@@ -2,7 +2,7 @@
 #define LIBWFA_NTO_DATA_PRINT_H
 
 #include <iostream>
-#include "ev_data_i.h"
+#include "ev_printer_i.h"
 
 namespace libwfa {
 
@@ -10,7 +10,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class nto_data_print : public ev_data_i {
+class nto_data_print : public ev_printer_i {
 public:
     static const char k_clazz[]; //!< Class name
 

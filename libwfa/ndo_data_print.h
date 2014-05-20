@@ -2,7 +2,7 @@
 #define LIBWFA_NDO_DATA_PRINT_H
 
 #include <iostream>
-#include "ev_data_i.h"
+#include "ev_printer_i.h"
 
 namespace libwfa {
 
@@ -11,7 +11,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class ndo_data_print : public ev_data_i {
+class ndo_data_print : public ev_printer_i {
 public:
     static const char k_clazz[]; //!< Class name
 
@@ -27,7 +27,7 @@ public:
     ndo_data_print(std::ostream &out, size_t nndo = 3) :
         m_out(out), m_nndo(nndo) { }
 
-    /** \copydoc nto_data_i::perform
+    /** \copydoc ev_data_i::perform
      **/
     virtual size_t perform(density_type type, const ab_vector &ni);
 

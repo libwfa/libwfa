@@ -12,7 +12,7 @@
 #include "export_orbitals_molden_test.h"
 #include "grid3d_test.h"
 #include "pop_mulliken_test.h"
-#include "pop_print_default_test.h"
+#include "pop_printer_default_test.h"
 #include "selector_test.h"
 #include "transformations_dm_test.h"
 #include "version_test.h"
@@ -39,7 +39,7 @@ namespace libwfa {
     - \c export_orbitals_molden_test
     - \c grid3d_test
     - \c pop_mulliken_test
-    - \c pop_print_default_test
+    - \c pop_printer_default_test
     - \c selector_test
     - \c transformations_dm_test
     - \c version_test
@@ -58,7 +58,7 @@ private:
     unit_test_factory<export_orbitals_molden_test> m_utf_export_orbitals_molden;
     unit_test_factory<pop_mulliken_test> m_utf_grid3d;
     unit_test_factory<pop_mulliken_test> m_utf_pop_mulliken;
-    unit_test_factory<pop_print_default_test> m_utf_pop_print_default;
+    unit_test_factory<pop_printer_default_test> m_utf_pop_printer_default;
     unit_test_factory<selector_test> m_utf_selector;
     unit_test_factory<transformations_dm_test> m_utf_transformations_dm;
     unit_test_factory<version_test> m_utf_version;

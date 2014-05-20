@@ -4,7 +4,7 @@
 #include "no_analysis.h"
 #include "ndo_analysis.h"
 #include "pop_analysis_i.h"
-#include "pop_print_i.h"
+#include "pop_printer_i.h"
 
 namespace libwfa {
 
@@ -29,20 +29,20 @@ public:
 
     /** \brief Performs density matrix analyses
         \param sdm State density matrix
-        \param dm_print Density matrix export / print
-        \param orb_print Orbital export / print
-        \param no Printer of NO summary
-        \param ndo Printer of NDO summary
-        \param pr Printer of population data
+        \param pr_d Density matrix export / print
+        \param pr_o Orbital export / print
+        \param pr_e1 Printer of NO summary
+        \param pr_e2 Printer of NDO summary
+        \param pr_p Printer of population data
 
         Perform the following analyses:
         - Export of TDM
         - NTO analysis (\sa nto_analysis.h)
         - CT number analysis (\sa ctnumbers.h)
      **/
-    void perform(const ab_matrix &sdm, export_densities_i &dm_print,
-        export_orbitals_i &orb_print, ev_data_i &no, ev_data_i &ndo,
-        pop_print_i &pr) const;
+    void perform(const ab_matrix &sdm,
+        export_densities_i &pr_d, export_orbitals_i &pr_o,
+        ev_printer_i &pr_e1, ev_printer_i &pr_e2, pop_printer_i &pr_p) const;
 
     /** \brief Perform population analysis
         \param sdm State density matrix
@@ -50,19 +50,17 @@ public:
         \param pr Printer of population data
      **/
     void pop_analysis(const ab_matrix &sdm, const ab_matrix_pair &ad,
-            pop_print_i &pr) const;
+            pop_printer_i &pr) const;
 
     /** \brief Performs NO analysis
         \param sdm State density matrix
-        \param av Average electron and hole density matrices
-        \param dm_print Density matrix export / print
-        \param nto_print NTO export / print
-        \param prn Printer of NTO summary
+        \param pr_o NTO export / print
+        \param pr_e Printer of NTO summary
      **/
-    void no_analysis(const ab_matrix &sdm, export_orbitals_i &no_print,
-        ev_data_i &pr) const {
+    void no_analysis(const ab_matrix &sdm, export_orbitals_i &pr_o,
+        ev_printer_i &pr_e) const {
 
-        m_no.perform(sdm, no_print, pr);
+        m_no.perform(sdm, pr_o, pr_e);
     }
 
     /** \brief Performs NO analysis
@@ -72,11 +70,11 @@ public:
         \param pr Printer of NDO summary
      **/
     void ndo_analysis(const ab_matrix &sdm, ab_matrix_pair &ad,
-            export_orbitals_i &ndo_print, ev_data_i &pr) const {
+            export_orbitals_i &pr_o, ev_printer_i &pr_e) const {
 
         ab_matrix ddm(sdm);
         ddm -= m_gs_dm;
-        m_ndo.perform(ddm, ad, ndo_print, pr);
+        m_ndo.perform(ddm, ad, pr_o, pr_e);
     }
 };
 

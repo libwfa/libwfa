@@ -1,5 +1,5 @@
-#ifndef LIBWFA_POP_PRINT_I_H
-#define LIBWFA_POP_PRINT_I_H
+#ifndef LIBWFA_POP_PRINTER_I_H
+#define LIBWFA_POP_PRINTER_I_H
 
 #include "pop_data.h"
 
@@ -9,11 +9,11 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class pop_print_i {
+class pop_printer_i {
 public:
     /** \brief Virtual destructor
      **/
-    virtual ~pop_print_i() { }
+    virtual ~pop_printer_i() { }
 
     /** \brief Print the population data
         \param p Population data
@@ -23,4 +23,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_POP_PRINT_I_H
+#endif // LIBWFA_POP_PRINTER_I_H

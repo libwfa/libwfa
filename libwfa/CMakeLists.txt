@@ -7,11 +7,11 @@ set(HEADERS
     ctnum_analysis_i.h
     ctnum_analysis.h
     ctnum_export.h
-    ctnum_data_i.h
+    ctnum_printer_i.h
     ctnumbers.h
     cube_writer.h
     density_type.h
-    ev_data_i.h
+    ev_printer_i.h
     export_cube_i.h
     export_molden_i.h
     export_densities_cube.h
@@ -33,8 +33,8 @@ set(HEADERS
     pop_analysis_i.h
     pop_data.h
     pop_mulliken.h
-    pop_print_default.h
-    pop_print_i.h
+    pop_printer_default.h
+    pop_printer_i.h
     transformations_dm.h
     selector.h
     state_info.h
@@ -65,7 +65,7 @@ set(SRC
     pop_analysis_ad.C
     pop_analysis_dm.C
     pop_mulliken.C
-    pop_print_default.C
+    pop_printer_default.C
     transformations_dm.C
     selector.C
     state_info.C

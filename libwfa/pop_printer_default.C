@@ -1,19 +1,19 @@
 #include <algorithm>
 #include <iomanip>
 #include "libwfa_exception.h"
-#include "pop_print_default.h"
+#include "pop_printer_default.h"
 
 namespace libwfa {
 
 
-void pop_print_default::perform(const pop_data &p) {
+void pop_printer_default::perform(const pop_data &p) {
 
     if (p.size() == 0) return;
 
     // Check if all data sets have the correct size
     for (pop_data::iterator i = p.begin(); i != p.end(); i++) {
         if (m_labels.size() != p.data(i).size()) {
-            throw libwfa_exception("pop_print_default",
+            throw libwfa_exception("pop_printer_default",
                     "perform(const pop_data&)", __FILE__, __LINE__,
                     "Length of population data.");
         }

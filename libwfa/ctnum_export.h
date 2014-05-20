@@ -3,19 +3,18 @@
 
 #include <cstddef>
 #include <string>
-#include "ctnum_data_i.h"
+#include "ctnum_printer_i.h"
 
 namespace libwfa {
 
 /** \brief Printer for CT number data (export to file)
 
     This printer exports the CT number data obtained from one transition density
-    to one or two files in the current
-    directory.
+    to one or two files in the current directory.
 
     \ingroup libwfa
  **/
-class ctnum_export : public ctnum_data_i {
+class ctnum_export : public ctnum_printer_i {
 protected:    
     std::ostream &m_out; //!< Output stream
     size_t m_ncols; //!< Max number of columns
@@ -32,14 +31,10 @@ public:
         \param colwidth Max column width
         \param prec Precision the data columns
      **/
-    ctnum_export(std::ostream &out, size_t ncols = 3,
-        size_t colwidth = 15, size_t prec = 6):
+    ctnum_export(std::ostream &out, const std::string &prefix = "ctnum",
+        size_t ncols = 3, size_t colwidth = 15, size_t prec = 6):
         m_out(out), m_ncols(ncols), m_colwidth(colwidth), m_prec(prec),
-        m_prefix("ctnum"), m_energy(0.0), m_osc_strength(0.0) { }
-    
-    /** \brief Set file prefix
-     **/
-    void set_prefix(const std::string &prefix) { m_prefix = prefix; }
+        m_prefix(prefix), m_energy(0.0), m_osc_strength(0.0) { }
 
     /** \brief Set state information
      **/
