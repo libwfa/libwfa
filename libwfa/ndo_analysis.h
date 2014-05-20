@@ -48,6 +48,6 @@ public:
         export_orbitals_i &ndo_print, ev_data_i &pr) const;
 };
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif

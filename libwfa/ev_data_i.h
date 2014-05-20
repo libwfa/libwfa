@@ -23,6 +23,6 @@ public:
 };
 
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_EV_DATA_I_H

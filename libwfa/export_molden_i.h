@@ -33,6 +33,6 @@ public:
 };
 
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_EXPORT_MOLDEN_I_H

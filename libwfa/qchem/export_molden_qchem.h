@@ -34,6 +34,6 @@ public:
 };
 
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_EXPORT_MOLDEN_QCHEM_H

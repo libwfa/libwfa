@@ -43,6 +43,6 @@ public:
     size_t nidx_b() const { return beta().n_indexes(); }
 };
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_AB_SELECTOR_H

@@ -36,6 +36,6 @@ private:
 };
 
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif

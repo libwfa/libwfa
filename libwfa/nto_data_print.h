@@ -36,6 +36,6 @@ private:
     size_t print(const arma::Col<double> &ni);
 };
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif

@@ -32,6 +32,6 @@ public:
 };
 
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif

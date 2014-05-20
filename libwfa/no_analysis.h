@@ -37,6 +37,6 @@ public:
         ev_data_i &pr) const;
 };
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_NO_ANALYSIS_H

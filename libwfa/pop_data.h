@@ -78,6 +78,6 @@ public:
     }
 };
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_POP_DATA_H

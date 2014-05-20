@@ -8,6 +8,8 @@ namespace libwfa {
 
 /** \brief Simple wrapper around atomic coordinates
 
+    Do not copy the objects
+
     \ingroup libwfa
  **/
 class atom_list {
@@ -23,7 +25,7 @@ public:
      **/
     atom_list(size_t natoms);
 
-    /** \brief Constructor to copy data
+    /** \brief Constructor copying the data
         \param natoms Number of atoms
         \param atnum Atomic numbers
         \param coords Atomic coordinates

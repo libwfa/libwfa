@@ -84,6 +84,6 @@ public:
     }
 };
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_AB_MATRIX_H

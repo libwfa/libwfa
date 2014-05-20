@@ -115,6 +115,6 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
 void form_ad(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &dm, ab_matrix &da, ab_matrix &dd);
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_TRANSFORMATIONS_H

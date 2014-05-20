@@ -45,6 +45,6 @@ public:
     size_t nrows_b() const { return beta().n_rows; }
 };
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_AB_VECTOR_H

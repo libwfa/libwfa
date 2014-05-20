@@ -8,7 +8,7 @@
 namespace libwfa {
 
 
-/** \brief Interface class to export data as cube files.
+/** \brief Interface class to export density and orbital as cube files.
 
     Interface class to export certain data (see data_type for possible data) as
     grid data into cube files.
@@ -28,7 +28,8 @@ public:
     virtual void perform(const std::string &name,
         const arma::Mat<double> &mat) = 0;
 
-    /** \brief Evaluate a set of vectors in AO basis on the grid and export as cube
+    /** \brief Evaluate a set of vectors in AO basis on the grid and
+            export as cube
         \param name Name associated with the vectors (used as prefix)
         \param idx Vector of indexes
         \param vecs Set of vectors in AO basis
@@ -38,6 +39,6 @@ public:
 
 };
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif

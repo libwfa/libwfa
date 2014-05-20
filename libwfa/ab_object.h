@@ -85,7 +85,7 @@ public:
     const T &beta() const { return *m_data_b; }
 };
 
-} // namespace adcman
+} // namespace libwfa
 
 #endif // LIBWFA_AB_MATRIX_H
 
