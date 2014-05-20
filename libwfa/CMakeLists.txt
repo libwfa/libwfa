@@ -3,11 +3,13 @@ set(HEADERS
     ab_vector.h
     analyse_sdm.h
     analyse_tdm.h
+    atom_list.h
     ctnum_analysis_i.h
     ctnum_analysis.h
     ctnum_export.h
     ctnum_data_i.h
     ctnumbers.h
+    cube_writer.h
     density_type.h
     ev_data_i.h
     export_cube_i.h
@@ -17,6 +19,7 @@ set(HEADERS
     export_orbitals_i.h
     export_orbitals_cube.h
     export_orbitals_molden.h
+    grid3d.h
     libwfa_exception.h
     ndo_analysis.h
     ndo_data_print.h
@@ -41,13 +44,16 @@ set(HEADERS
 set(SRC
     analyse_sdm.C
     analyse_tdm.C
+    atom_list.C
     ctnum_analysis.C
     ctnum_export.C
     ctnumbers.C
+    cube_writer.C
     density_type.C
     export_densities_cube.C
     export_orbitals_cube.C
     export_orbitals_molden.C
+    grid3d.C
     libwfa_exception.C
     ndo_analysis.C
     ndo_data_print.C

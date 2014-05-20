@@ -1,4 +1,4 @@
-#ifndef LIBWFA_NTO_ANALYSIS_H
+#ifndef LIBWFA_NO_ANALYSIS_H
 #define LIBWFA_NO_ANALYSIS_H
 
 #include <utility>
@@ -39,4 +39,4 @@ public:
 
 } // namespace adcman
 
-#endif
+#endif // LIBWFA_NO_ANALYSIS_H
