@@ -9,7 +9,13 @@ namespace libwfa {
 /** \brief Exporting density matrices as cube files
 
     Class implementing the interface export_densities_i for export of density
-    matrices as cube files. The export is done by the core.
+    matrices as cube files. The real export is done by the core class
+    export_cube_i.
+    The core export class uses a string as name to identify densities. This
+    string is constructed by concatenating the prefix with the density type:
+    \code
+    m_prefix + "_" + type.str()
+    \endcode
 
     \ingroup libwfa
  **/
