@@ -1,6 +1,9 @@
 #ifndef LIBWFA_GRID3D_H
 #define LIBWFA_GRID3D_H
 
+
+#include <cstddef>
+
 namespace libwfa {
 
 
@@ -75,6 +78,18 @@ public:
     /** \brief Perform consistency check
      **/
     void check() const;
+
+    /** \brief Build 3d coordinates for a set of grid points
+        \param pts Data array to store points (expected size: 3 * sz)
+        \param i0 Index of first grid point to compute
+        \param sz Number of grid points
+
+        Computes sz grid points starting with the i0-th grid point. The
+        algorithm assumes the usual linearization of 3d indexes using
+        the last direction as the running index, i.e.
+        \f$ (i,j,k) \rightarrow (i\cdot n_1 + j) \cdot n_2 + k \f$
+     **/
+    void build_pts(double *pts, size_t i0, size_t sz) const;
 
 private:
     static void check_idx(unsigned int dim);
