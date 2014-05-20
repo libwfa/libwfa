@@ -22,7 +22,7 @@ void analyse_tdm::perform(const ab_matrix &tdm, ab_matrix_pair &av,
 }
 
 
-void analyse_tdm::nto_analysis(const ab_matrix &tdm,
+void analyse_tdm::analyse_ntos(const ab_matrix &tdm,
     export_densities_i &pr_d, export_orbitals_i &pr_o,
     ev_printer_i &pr_e) const {
 

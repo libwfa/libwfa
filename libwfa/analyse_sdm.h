@@ -57,7 +57,7 @@ public:
         \param pr_o NTO export / print
         \param pr_e Printer of NTO summary
      **/
-    void no_analysis(const ab_matrix &sdm, export_orbitals_i &pr_o,
+    void analyse_nos(const ab_matrix &sdm, export_orbitals_i &pr_o,
         ev_printer_i &pr_e) const {
 
         m_no.perform(sdm, pr_o, pr_e);
@@ -69,7 +69,7 @@ public:
         \param ndo_print NDO export / print
         \param pr Printer of NDO summary
      **/
-    void ndo_analysis(const ab_matrix &sdm, ab_matrix_pair &ad,
+    void analyse_ndos(const ab_matrix &sdm, ab_matrix_pair &ad,
             export_orbitals_i &pr_o, ev_printer_i &pr_e) const {
 
         ab_matrix ddm(sdm);

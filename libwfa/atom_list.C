@@ -1,3 +1,4 @@
+#include <cstring>
 #include <iomanip>
 #include "atom_list.h"
 #include "libwfa_exception.h"

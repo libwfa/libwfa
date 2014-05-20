@@ -46,7 +46,7 @@ public:
         \param tdm Transition density matrix
         \param pr Printer of CT number data
      **/
-    void ctnumbers(const ab_matrix &tdm, ctnum_printer_i &pr) const {
+    void ana_ctnumbers(const ab_matrix &tdm, ctnum_printer_i &pr) const {
         m_ct.perform(tdm, pr);
     }
 
@@ -58,7 +58,7 @@ public:
 
         EDM and HDM are exported and discarded afterwards.
      **/
-    void nto_analysis(const ab_matrix &tdm, export_densities_i &pr_d,
+    void analyse_ntos(const ab_matrix &tdm, export_densities_i &pr_d,
         export_orbitals_i &pr_o, ev_printer_i &pr_e) const;
 
 };

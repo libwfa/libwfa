@@ -12,10 +12,10 @@ void analyse_sdm::perform(const ab_matrix &sdm, export_densities_i &pr_d,
     export_orbitals_i &pr_o, ev_printer_i &pr_e1, ev_printer_i &pr_e2,
     pop_printer_i &pr_p) const {
 
-    no_analysis(sdm, pr_o, pr_e1);
+    analyse_nos(sdm, pr_o, pr_e1);
 
     ab_matrix_pair ad;
-    ndo_analysis(sdm, ad, pr_o, pr_e2);
+    analyse_ndos(sdm, ad, pr_o, pr_e2);
 
     pop_analysis(sdm, ad, pr_p);
 
