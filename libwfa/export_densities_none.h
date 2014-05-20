@@ -1,5 +1,5 @@
-#ifndef LIBWFA_EXPORT_DENSITIES_I_H
-#define LIBWFA_EXPORT_DENSITIES_I_H
+#ifndef LIBWFA_EXPORT_DENSITIES_NONE_H
+#define LIBWFA_EXPORT_DENSITIES_NONE_H
 
 #include "ab_matrix.h"
 #include "density_type.h"
@@ -21,4 +21,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_EXPORT_DENSITIES_I_H
+#endif // LIBWFA_EXPORT_DENSITIES_NONE_H
