@@ -4,10 +4,6 @@ set(SRC_HEADER
     ab_selector_test.h
     ctnum_analysis_test.h
     ctnum_export_test.h
-    export_densities_cube_test.h
-    export_orbitals_cube_test.h
-    export_orbitals_molden_test.h
-    grid3d_test.h
     libwfa_suite.h
     pop_mulliken_test.h
     pop_printer_default_test.h
@@ -22,10 +18,6 @@ set(SRC
     ab_selector_test.C
     ctnum_analysis_test.C
     ctnum_export_test.C
-    export_densities_cube_test.C
-    export_orbitals_cube_test.C
-    export_orbitals_molden_test.C
-    grid3d_test.C
     libwfa_tests.C
     libwfa_suite.C
     pop_mulliken_test.C

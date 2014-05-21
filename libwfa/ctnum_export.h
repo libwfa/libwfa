@@ -36,6 +36,12 @@ public:
         m_out(out), m_ncols(ncols), m_colwidth(colwidth), m_prec(prec),
         m_prefix(prefix), m_energy(0.0), m_osc_strength(0.0) { }
 
+    /** \brief Set prefix
+     **/
+    void set_prefix(const std::string &prefix) {
+        m_prefix = prefix;
+    }
+
     /** \brief Set state information
      **/
     void set_state_info(double energy, double osc) {

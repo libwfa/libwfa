@@ -16,7 +16,7 @@ public:
 
     /** \copydoc export_densities_i::perform
      **/
-    virtual void perform(const std::string &name, const ab_matrix &dm) { }
+    virtual void perform(density_type type, const ab_matrix &dm) { }
 };
 
 } // namespace libwfa

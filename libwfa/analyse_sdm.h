@@ -1,5 +1,5 @@
-#ifndef LIBWFA_ANALYSE_TDM_H
-#define LIBWFA_ANALYSE_TDM_H
+#ifndef LIBWFA_ANALYSE_SDM_H
+#define LIBWFA_ANALYSE_SDM_H
 
 #include "no_analysis.h"
 #include "ndo_analysis.h"
@@ -95,4 +95,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_ANALYSE_TDM_H
+#endif // LIBWFA_ANALYSE_SDM_H
