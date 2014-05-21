@@ -1,7 +1,7 @@
+#include <libwfa/analyses/pop_analysis_ad.h>
+#include <libwfa/analyses/pop_analysis_dm.h>
+#include <libwfa/core/transformations_dm.h>
 #include "analyse_sdm.h"
-#include "pop_analysis_ad.h"
-#include "pop_analysis_dm.h"
-#include "transformations_dm.h"
 
 namespace libwfa {
 

@@ -1,5 +1,5 @@
 #include <sstream>
-#include <libwfa/selector.h>
+#include <libwfa/core/selector.h>
 #include "selector_test.h"
 
 namespace libwfa {

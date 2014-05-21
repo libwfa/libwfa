@@ -1,58 +1,93 @@
+set(ANALYSES_HEADERS
+    analyses/ctnum_analysis_i.h
+    analyses/ctnum_analysis.h
+    analyses/ctnumbers.h
+    analyses/ndo_analysis.h
+    analyses/nto_analysis.h
+    analyses/no_analysis.h
+    analyses/pop_analysis_ad.h
+    analyses/pop_analysis_dm.h
+    analyses/pop_analysis_i.h
+    analyses/pop_data.h
+    analyses/pop_mulliken.h
+)
+
+set(ANALYSES_SRC
+    analyses/ctnum_analysis.C
+    analyses/ctnumbers.C
+    analyses/ndo_analysis.C
+    analyses/nto_analysis.C
+    analyses/no_analysis.C
+    analyses/pop_analysis_ad.C
+    analyses/pop_analysis_dm.C
+    analyses/pop_mulliken.C
+)
+
+
+set(CORE_HEADERS
+    core/ab_matrix.h
+    core/ab_object.h
+    core/ab_selector.h
+    core/ab_vector.h
+    core/density_type.h
+    core/orbital_type.h
+    core/selector.h
+    core/transformations_dm.h
+)
+
+set(CORE_SRC
+    core/density_type.C
+    core/orbital_type.C
+    core/selector.C
+    core/transformations_dm.C
+)
+
+
+set(EXPORT_HEADERS
+    export/ctnum_export.h
+    export/ctnum_printer_i.h
+    export/ev_printer_i.h
+    export/export_densities_i.h
+    export/export_densities_none.h
+    export/export_densities_print.h
+    export/export_orbitals_i.h
+    export/export_orbitals_none.h
+    export/export_orbitals_print.h
+    export/ndo_data_print.h
+    export/no_data_print.h
+    export/nto_data_print.h
+    export/pop_printer_default.h
+    export/pop_printer_i.h
+)
+
+set(EXPORT_SRC
+    export/ctnum_export.C
+    export/export_densities_print.C
+    export/export_orbitals_print.C
+    export/ndo_data_print.C
+    export/nto_data_print.C
+    export/no_data_print.C
+    export/pop_printer_default.C
+)
+
+
 set(HEADERS
-    ab_matrix.h
-    ab_vector.h
+    ${CORE_HEADERS}
+    ${EXPORT_HEADERS}
+    ${ANALYSES_HEADERS}
     analyse_sdm.h
     analyse_tdm.h
-    ctnum_analysis_i.h
-    ctnum_analysis.h
-    ctnum_export.h
-    ctnum_printer_i.h
-    ctnumbers.h
-    density_type.h
-    ev_printer_i.h
-    export_densities_i.h
-    export_orbitals_i.h
     libwfa_exception.h
-    ndo_analysis.h
-    ndo_data_print.h
-    nto_analysis.h
-    nto_data_print.h
-    no_analysis.h
-    no_data_print.h
-    orbital_type.h
-    pop_analysis_ad.h
-    pop_analysis_dm.h
-    pop_analysis_i.h
-    pop_data.h
-    pop_mulliken.h
-    pop_printer_default.h
-    pop_printer_i.h
-    transformations_dm.h
-    selector.h
     version.h
 )
 
 set(SRC
+    ${CORE_SRC}
+    ${EXPORT_SRC}
+    ${ANALYSES_SRC}
     analyse_sdm.C
     analyse_tdm.C
-    ctnum_analysis.C
-    ctnum_export.C
-    ctnumbers.C
-    density_type.C
     libwfa_exception.C
-    ndo_analysis.C
-    ndo_data_print.C
-    nto_analysis.C
-    nto_data_print.C
-    no_analysis.C
-    no_data_print.C
-    orbital_type.C
-    pop_analysis_ad.C
-    pop_analysis_dm.C
-    pop_mulliken.C
-    pop_printer_default.C
-    transformations_dm.C
-    selector.C
     version.C
 )
 

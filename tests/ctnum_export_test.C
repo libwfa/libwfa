@@ -1,6 +1,6 @@
 #include <sstream>
 #include <libwfa/libwfa_exception.h>
-#include <libwfa/ctnum_export.h>
+#include <libwfa/export/ctnum_export.h>
 #include "ctnum_export_test.h"
 
 namespace libwfa {

@@ -1,5 +1,5 @@
 #include <iomanip>
-#include <libwfa/pop_mulliken.h>
+#include <libwfa/analyses/pop_mulliken.h>
 #include "pop_mulliken_test.h"
 
 namespace libwfa {

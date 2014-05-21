@@ -21,10 +21,13 @@ private:
 
 public:
     /** \brief Constructor
-        \param g Grid of the cube
+        \param grid Grid to generate the volumetric data
+        \param atoms List of atoms
+        \param path Path where to put the cube files
      **/
-    export_cube_qchem(const grid3d &g, const atom_list &atoms,
-        const std::string path) : m_grid(g), m_atoms(atoms), m_path(path)
+    export_cube_qchem(const grid3d &grid, const atom_list &atoms,
+        const std::string path = "") :
+        m_grid(grid), m_atoms(atoms), m_path(path)
     { }
 
     /** \brief Virtual destructor
@@ -46,7 +49,8 @@ public:
      **/
     virtual void perform(const std::string &prefix,
         const std::vector<size_t> &idx, const arma::Mat<double> &vecs);
-
+private:
+    void build_grid_points(double *gpts, size_t start, size_t sz)
 };
 
 

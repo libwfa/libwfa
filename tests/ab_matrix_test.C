@@ -1,4 +1,4 @@
-#include <libwfa/ab_matrix.h>
+#include <libwfa/core/ab_matrix.h>
 #include "ab_matrix_test.h"
 
 namespace libwfa {

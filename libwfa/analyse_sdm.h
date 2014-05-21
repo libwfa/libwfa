@@ -1,14 +1,14 @@
 #ifndef LIBWFA_ANALYSE_SDM_H
 #define LIBWFA_ANALYSE_SDM_H
 
-#include "no_analysis.h"
-#include "ndo_analysis.h"
-#include "pop_analysis_i.h"
-#include "pop_printer_i.h"
+#include <libwfa/analyses/no_analysis.h>
+#include <libwfa/analyses/ndo_analysis.h>
+#include <libwfa/analyses/pop_analysis_i.h>
+#include <libwfa/export/pop_printer_i.h>
 
 namespace libwfa {
 
-/** \brief Combines various analyses of a state density matrix
+/** \brief Combines various analyses of state density matrices
 
     \ingroup libwfa
  **/
@@ -52,6 +52,8 @@ public:
 
     /** \brief Performs density matrix analyses
         \param dm State or difference density matrix
+        \param id Unique id assigned to the density matrix
+        \param desc Descripiton of density matrix
         \param is_diff Is difference density matrix?
 
         Perform the following analyses:

@@ -1,4 +1,4 @@
-#include <libwfa/ab_selector.h>
+#include <libwfa/core/ab_selector.h>
 #include "ab_selector_test.h"
 
 namespace libwfa {

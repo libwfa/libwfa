@@ -1,6 +1,6 @@
 #include <sstream>
 #include <libwfa/libwfa_exception.h>
-#include <libwfa/pop_printer_default.h>
+#include <libwfa/export/pop_printer_default.h>
 #include "pop_printer_default_test.h"
 
 namespace libwfa {
