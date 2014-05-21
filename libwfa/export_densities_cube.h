@@ -35,10 +35,6 @@ public:
      **/
     virtual ~export_densities_cube() { }
 
-    /** \brief Set the prefix
-     **/
-    void set_prefix(const std::string &prefix) {  m_prefix = prefix; }
-
     /** \copydoc export_densities_i::perform
      **/
     virtual void perform(density_type type, const ab_matrix &dm);

@@ -8,24 +8,38 @@ namespace libwfa {
 using namespace arma;
 
 
-void analyse_sdm::perform(const ab_matrix &sdm, export_densities_i &pr_d,
-    export_orbitals_i &pr_o, ev_printer_i &pr_e1, ev_printer_i &pr_e2,
-    pop_printer_i &pr_p) const {
+analyse_sdm::analyse_sdm(const arma::Mat<double> &s, const ab_matrix &c,
+    const ab_matrix &dm0, const pop_analysis_i &pop, export_densities_i &pr_d,
+    export_orbitals_i &pr_o, ev_printer_i &pr_no, ev_printer_i &pr_ndo,
+    pop_printer_i &pr_p) : m_dm0(dm0), m_ndo(s, c), m_no(c), m_pop(pop),
+    m_pr_d(pr_d), m_pr_o(pr_o), m_pr_no(pr_no), m_pr_ndo(pr_ndo),
+    m_pr_p(pr_p) {
 
-    analyse_nos(sdm, pr_o, pr_e1);
+}
+
+void analyse_sdm::perform(const ab_matrix &dm, bool is_diff) {
+
+    ab_matrix dm2(dm);
+    if (is_diff) dm2 += m_dm0;
+    else dm2 -= m_dm0;
+
+    const ab_matrix &sdm(is_diff ? dm2 : dm);
+    const ab_matrix &ddm(is_diff ? dm : dm2);
+
+    analyse_no(sdm, m_pr_o, m_pr_no);
 
     ab_matrix_pair ad;
-    analyse_ndos(sdm, ad, pr_o, pr_e2);
+    analyse_ndo(ddm, ad, m_pr_o, m_pr_ndo);
 
-    pop_analysis(sdm, ad, pr_p);
+    analyse_pop(sdm, ad, m_pr_p);
 
-    pr_d.perform(density_type::state, sdm);
-    pr_d.perform(density_type::attach, ad.first);
-    pr_d.perform(density_type::detach, ad.second);
+    m_pr_d.perform(density_type::state, sdm);
+    m_pr_d.perform(density_type::attach, ad.first);
+    m_pr_d.perform(density_type::detach, ad.second);
 }
 
 
-void analyse_sdm::pop_analysis(const ab_matrix &sdm,
+void analyse_sdm::analyse_pop(const ab_matrix &sdm,
         const ab_matrix_pair &ad, pop_printer_i &pr) const {
 
     pop_data res;

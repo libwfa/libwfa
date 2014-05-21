@@ -37,10 +37,6 @@ public:
      **/
     virtual ~export_orbitals_molden() { }
 
-    /** \brief Set the prefix
-     **/
-    void set_prefix(const std::string &prefix) {  m_prefix = prefix; }
-
     /** \copydoc export_orbitals_i::perform
      **/
     virtual void perform(orbital_type type, const ab_matrix &coeff,
