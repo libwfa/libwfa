@@ -1,4 +1,4 @@
-#include <libwfa/ab_vector.h>
+#include <libwfa/core/ab_vector.h>
 #include "ab_vector_test.h"
 
 namespace libwfa {

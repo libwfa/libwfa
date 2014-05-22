@@ -1,4 +1,4 @@
-#include <libwfa/transformations_dm.h>
+#include <libwfa/core/transformations_dm.h>
 #include "transformations_dm_test.h"
 
 namespace libwfa {

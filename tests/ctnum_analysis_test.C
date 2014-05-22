@@ -1,5 +1,5 @@
 #include <iomanip>
-#include <libwfa/ctnum_analysis.h>
+#include <libwfa/analyses/ctnum_analysis.h>
 #include "ctnum_analysis_test.h"
 
 namespace libwfa {

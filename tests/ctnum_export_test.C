@@ -1,6 +1,6 @@
 #include <sstream>
 #include <libwfa/libwfa_exception.h>
-#include <libwfa/ctnum_export.h>
+#include <libwfa/export/ctnum_export.h>
 #include "ctnum_export_test.h"
 
 namespace libwfa {
@@ -29,15 +29,11 @@ void ctnum_export_test::test_1() {
     r2.alpha() = symmatu(randu(na, na));
 
     std::ostringstream ss1;
-    ctnum_export pr(ss1);
-    pr.set_prefix("test_1_set_1");
-    pr.set_state_info(1.23456, 0.015);
-    pr.perform(r1, tot);
-    pr.set_prefix("test_1_set_2");
-    pr.set_state_info(2.34566, 0.121);
-    pr.perform(r2, tot);
-
-
+    ctnum_export pr1, pr2;
+    pr1.set_state_info("test_1_set_1", "Test 1, Set 1", 1.23456, 0.015);
+    pr1.perform(r1, tot, ss1);
+    pr2.set_state_info("test_1_set_2", "Test 1, Set 2", 2.34566, 0.121);
+    pr2.perform(r2, tot, ss1);
 }
 
 
@@ -57,13 +53,11 @@ void ctnum_export_test::test_2() {
     r2.beta()  = symmatu(randu(na + 1, na + 1));
 
     std::ostringstream ss2;
-    ctnum_export pr(ss2, 5);
-    pr.set_prefix("test_2_set_1");
-    pr.set_state_info(0.12348, 0.001);
-    pr.perform(r1, tot);
-    pr.set_prefix("test_2_set_2");
-    pr.set_state_info(2.34902, 0.382);
-    pr.perform(r2, tot);
+    ctnum_export pr1(5), pr2(5);
+    pr1.set_state_info("test_2_set_1", "Test 2, Set 1", 0.12348, 0.001);
+    pr1.perform(r1, tot, ss2);
+    pr2.set_state_info("test_2_set_2", "Test 2, Set 2", 2.34902, 0.382);
+    pr2.perform(r2, tot, ss2);
 }
 
 
