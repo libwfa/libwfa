@@ -57,7 +57,7 @@ void analyse_sdm::analyse_pop(const ab_matrix &sdm,
         if ((pop.flag & pa_dm) == pa_dm) {
             pop_analysis_dm(pop.analysis).perform(sdm, res);
         }
-        if ((i->second.flag & pa_ad) == pa_ad) {
+        if ((pop.flag & pa_ad) == pa_ad) {
             pop_analysis_ad(pop.analysis).perform(ad.first, ad.second, res);
         }
         pop.printer.perform(res, out);
