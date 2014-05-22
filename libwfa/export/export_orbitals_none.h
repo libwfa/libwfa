@@ -12,6 +12,8 @@ namespace libwfa {
  **/
 class export_orbitals_none : public export_orbitals_i {
 public:
+    /** \brief Destructor
+     **/
     virtual ~export_orbitals_none() { }
 
     /** \copydoc export_orbitals_i::perform

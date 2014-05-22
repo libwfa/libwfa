@@ -32,22 +32,22 @@ public:
     /** \brief Perform basic NTO analysis
         \param[in] eh Particle and hole density matrices (particle is first)
         \param[out] u Eigenvectors of electron and hole density
-        \param[out] pr_o Printer of NTOs
+        \param[out] opr Printer of NTOs
         \param[out] out Output stream
 
         (Assumes the electron density matrix is first in dm)
      **/
     void perform(const ab_matrix_pair &eh, ab_matrix_pair &u,
-            export_orbitals_i &pr_o, std::ostream &out) const;
+            export_orbitals_i &opr, std::ostream &out) const;
 
     /** \brief Perform NTO analysis
         \param[in] tdm Transition density matrix
         \param[out] eh Particle and hole density matrices (particle is first)
-        \param[out] pr_o Printer of NTOs
+        \param[out] opr Printer of NTOs
         \param[out] out Output stream
      **/
     void perform(const ab_matrix &tdm, ab_matrix_pair &eh,
-        export_orbitals_i &pr_o, std::ostream &out) const;
+        export_orbitals_i &opr, std::ostream &out) const;
 };
 
 } // namespace libwfa

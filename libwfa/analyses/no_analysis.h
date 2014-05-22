@@ -27,13 +27,13 @@ public:
 
     /** \brief Perform NTO analysis
         \param[in] sdm State density matrix
-        \param[out] pr_o Printer of NOs
+        \param[out] opr Printer of NOs
         \param[out] out Output stream
 
         (Assumes the electron density matrix is first in av)
      **/
     void perform(const ab_matrix &sdm,
-        export_orbitals_i &pr_o, std::ostream &out) const;
+        export_orbitals_i &opr, std::ostream &out) const;
 };
 
 } // namespace libwfa

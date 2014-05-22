@@ -18,6 +18,8 @@ public:
     export_densities_print(std::ostream &out, const std::string &title) :
         m_out(out), m_title(title) { }
 
+    /** \brief Destructor
+     **/
     virtual ~export_densities_print() { }
 
     /** \copydoc export_densities_i::perform

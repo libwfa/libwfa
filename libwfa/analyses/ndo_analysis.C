@@ -7,7 +7,7 @@ using namespace arma;
 
 
 void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_orbitals_i &pr_o, std::ostream &out) const {
+        export_orbitals_i &opr, std::ostream &out) const {
 
     ab_matrix u;
     ab_vector ev;
@@ -22,7 +22,7 @@ void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
     s.alpha().select_all();
     if (! aeqb) s.beta().select_all();
 
-    pr_o.perform(orbital_type::ndo, u, ev, s);
+    opr.perform(orbital_type::ndo, u, ev, s);
 
     // Compute u^-1 = u' * s
     u.alpha() = u.alpha().t() * m_s;
@@ -33,15 +33,14 @@ void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
 
 
 
-void ndo_analysis::perform(const ab_matrix &ddm,
-        export_densities_i &pr_d, export_orbitals_i &pr_o,
-        std::ostream &out) const {
+void ndo_analysis::perform(const ab_matrix &ddm, export_densities_i &dpr,
+    export_orbitals_i &opr, std::ostream &out) const {
 
     ab_matrix_pair ad;
-    perform(ddm, ad, pr_o, out);
+    perform(ddm, ad, opr, out);
 
-    pr_d.perform(density_type::attach, ad.first);
-    pr_d.perform(density_type::detach, ad.second);
+    dpr.perform(density_type::attach, ad.first);
+    dpr.perform(density_type::detach, ad.second);
 }
 
 } // namespace libwfa

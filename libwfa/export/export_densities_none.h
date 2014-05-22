@@ -12,6 +12,8 @@ namespace libwfa {
  **/
 class export_densities_none : public export_densities_i {
 public:
+    /** \brief Destructor
+     **/
     virtual ~export_densities_none() { }
 
     /** \copydoc export_densities_i::perform

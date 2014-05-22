@@ -14,6 +14,8 @@ namespace libwfa {
  **/
 class export_densities_i {
 public:
+    /** \brief Destructor
+     **/
     virtual ~export_densities_i() { }
 
     /** \brief Export the density matrix

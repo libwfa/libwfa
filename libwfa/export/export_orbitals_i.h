@@ -18,6 +18,8 @@ namespace libwfa {
  **/
 class export_orbitals_i {
 public:
+    /** \brief Destructor
+     **/
     virtual ~export_orbitals_i() { }
 
     /** \brief Write the given orbital coefficients to the file.

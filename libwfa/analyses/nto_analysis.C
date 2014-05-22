@@ -8,7 +8,7 @@ using namespace arma;
 
 
 void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
-    export_orbitals_i &pr_o, std::ostream &out) const {
+    export_orbitals_i &opr, std::ostream &out) const {
 
     // Diagonalize particle density matrix
     ab_vector ee;
@@ -44,17 +44,17 @@ void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
         n_nto.beta() = join_cols(flipud(eh.beta()) * -1., ee.beta());
     }
 
-    pr_o.perform(orbital_type::nto, c_nto, n_nto, s_nto);
+    opr.perform(orbital_type::nto, c_nto, n_nto, s_nto);
 }
 
 
 void nto_analysis::perform(const ab_matrix &tdm, ab_matrix_pair &eh,
-    export_orbitals_i &pr_o, std::ostream &out) const {
+    export_orbitals_i &opr, std::ostream &out) const {
 
     form_eh(m_s, tdm, eh.first, eh.second);
 
     ab_matrix_pair u;
-    nto_analysis::perform(eh, u, pr_o, out);
+    nto_analysis::perform(eh, u, opr, out);
 }
 
 

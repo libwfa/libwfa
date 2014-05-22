@@ -33,20 +33,20 @@ public:
     /** \brief Perform NDO analysis
         \param[in] ddm Difference density matrix
         \param[out] ad Attachment / detachment densities (first attach)
-        \param[out] pr_o Printer of NTOs
+        \param[out] opr Printer of NTOs
         \param[out] out Printer object
      **/
     void perform(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_orbitals_i &pr_o, std::ostream &out) const;
+        export_orbitals_i &opr, std::ostream &out) const;
 
     /** \brief Perform NDO analysis
         \param[in] ddm Difference density matrix
-        \param[out] pr_d Printer of density matrices
-        \param[out] pr_o Printer of NTOs
+        \param[out] dpr Printer of density matrices
+        \param[out] opr Printer of NTOs
         \param[out] out Printer object
      **/
-    void perform(const ab_matrix &ddm, export_densities_i &pr_d,
-        export_orbitals_i &pr_o, std::ostream &out) const;
+    void perform(const ab_matrix &ddm, export_densities_i &dpr,
+        export_orbitals_i &opr, std::ostream &out) const;
 };
 
 } // namespace libwfa
