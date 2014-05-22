@@ -32,7 +32,6 @@ void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
 }
 
 
-
 void ndo_analysis::perform(const ab_matrix &ddm, export_densities_i &dpr,
     export_orbitals_i &opr, std::ostream &out) const {
 
@@ -43,6 +42,5 @@ void ndo_analysis::perform(const ab_matrix &ddm, export_densities_i &dpr,
     dpr.perform(density_type::detach, ad.second);
 }
 
+
 } // namespace libwfa
-
-

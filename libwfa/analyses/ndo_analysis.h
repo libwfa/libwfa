@@ -28,7 +28,7 @@ public:
         \param pr Printer object
      **/
     ndo_analysis(const arma::Mat<double> &s, const ab_matrix &c,
-        ev_printer_i &pr) : m_s(s), m_c(c), m_pr(pr) { }
+        const ev_printer_i &pr) : m_s(s), m_c(c), m_pr(pr) { }
 
     /** \brief Perform NDO analysis
         \param[in] ddm Difference density matrix
