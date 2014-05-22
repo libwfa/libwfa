@@ -15,6 +15,7 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("selector", m_utf_selector);
     add_test("transformations_dm", m_utf_transformations_dm);
     add_test("version", m_utf_version);
+    add_test("ex_ana_test", m_utf_ex_ana_test);
 }
 
 

@@ -10,6 +10,7 @@ set(ANALYSES_HEADERS
     analyses/pop_analysis_i.h
     analyses/pop_data.h
     analyses/pop_mulliken.h
+    analyses/ex_analyse.h
 )
 
 set(ANALYSES_SRC
@@ -21,6 +22,7 @@ set(ANALYSES_SRC
     analyses/pop_analysis_ad.C
     analyses/pop_analysis_dm.C
     analyses/pop_mulliken.C
+    analyses/ex_analyse.C
 )
 
 

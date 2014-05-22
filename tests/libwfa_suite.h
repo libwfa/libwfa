@@ -12,6 +12,7 @@
 #include "selector_test.h"
 #include "transformations_dm_test.h"
 #include "version_test.h"
+#include "ex_ana_test.h"
 
 using libtest::unit_test_factory;
 
@@ -50,6 +51,7 @@ private:
     unit_test_factory<selector_test> m_utf_selector;
     unit_test_factory<transformations_dm_test> m_utf_transformations_dm;
     unit_test_factory<version_test> m_utf_version;
+    unit_test_factory<ex_ana_test> m_utf_ex_ana_test;
 
 public:
     //! Creates the suite

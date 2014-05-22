@@ -10,6 +10,7 @@ set(SRC_HEADER
     selector_test.h
     transformations_dm_test.h
     version_test.h
+    ex_ana_test.h
 )
 
 set(SRC
@@ -25,6 +26,7 @@ set(SRC
     selector_test.C
     transformations_dm_test.C
     version_test.C
+    ex_ana_test.C
 )
 
 add_executable(libwfa_tests ${SRC} ${SRC_HEADER})
