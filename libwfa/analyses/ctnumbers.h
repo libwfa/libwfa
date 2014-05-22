@@ -20,14 +20,17 @@ namespace libwfa {
 class ctnumbers {
 private:
     const arma::Mat<double> &m_s; //!< Overlap matrix
-    const ctnum_analysis_i &m_analysis; //!< Class to perform the analysis
+    const ctnum_analysis_i &m_analysis; //!< Analysis object
+    const ctnum_printer_i &m_printer; //!< Printer
 
 public:
     /** \brief Constructor
-        \
+        \param s Overlap matrix
+        \param a Analysis object
+        \param pr Result printer
      **/
-    ctnumbers(const arma::Mat<double> &s, const ctnum_analysis_i &a) :
-        m_s(s), m_analysis(a) {   }
+    ctnumbers(const arma::Mat<double> &s, const ctnum_analysis_i &a,
+        const ctnum_printer_i &pr) : m_s(s), m_analysis(a), m_printer(pr) { }
 
     /** \brief Destructor
      **/
@@ -47,18 +50,18 @@ public:
 
     /** \brief Perform analysis
         \param[in] tdm Transition density matrix
-        \param[out] pr Printer for omega data
+        \param[out] out Output stream
 
         Performs the CT number analysis using the analysis object and prints
         the results using an ctnum_print_i object.
      **/
-    void perform(const ab_matrix &tdm, ctnum_printer_i &pr) const {
+    void perform(const ab_matrix &tdm, std::ostream &out) const {
 
         double om_tot[2];
         ab_matrix om;
 
         perform(tdm, om, om_tot);
-        pr.perform(om, om_tot);
+        m_printer.perform(om, om_tot, out);
     }
 };
 

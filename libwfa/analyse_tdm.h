@@ -54,8 +54,8 @@ public:
         \param tdm Transition density matrix
         \param pr Printer of CT number data
      **/
-    void analyse_ctnum(const ab_matrix &tdm, ctnum_printer_i &pr) const {
-        m_ct.perform(tdm, pr);
+    void analyse_ctnum(const ab_matrix &tdm, std::ostream &out) const {
+        m_ct.perform(tdm, out);
     }
 
     /** \brief Performs NTO analysis

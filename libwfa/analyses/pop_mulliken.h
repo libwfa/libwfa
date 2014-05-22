@@ -14,16 +14,21 @@ namespace libwfa {
 class pop_mulliken : public pop_analysis_i {
 private:
     size_t m_nparts; //!< Number of atoms
-    const std::vector<size_t> &m_b2p; //!< Map of basis functions to parts
     const arma::Mat<double> &m_s; //!< Overlap matrix
+    const std::vector<size_t> &m_b2p; //!< Map of basis functions to parts
+    const std::vector<double> &m_p0; //!<  Population data to add
 
 public:
     /** \brief Constructor
-        \param b2p Map of atomic basis functions to molecular parts
         \param s Overlap matrix
+        \param b2p Map of atomic basis functions to molecular parts
+        \param p0 Population data to add
      **/
-    pop_mulliken(const std::vector<size_t> &b2p, const arma::Mat<double> &s);
+    pop_mulliken(const arma::Mat<double> &s,
+        const std::vector<size_t> &b2p, const std::vector<double> &p0);
 
+    /** \brief Destructor
+     **/
     virtual ~pop_mulliken() { }
 
     /** \copydoc pop_analysis_i::size

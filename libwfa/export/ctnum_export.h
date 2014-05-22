@@ -16,13 +16,13 @@ namespace libwfa {
     \ingroup libwfa
  **/
 class ctnum_export : public ctnum_printer_i {
-protected:    
-    std::ostream &m_out; //!< Output stream
+private:
     size_t m_ncols; //!< Max number of columns
     size_t m_colwidth; //!< Column width
     size_t m_prec; //!< Precision of printed numbers
 
-    std::string m_prefix; //!< File prefix for the data
+    std::string m_sid; //!< State ID (used as file prefix)
+    std::string m_sdesc; //!< State description
     double m_energy; //!< Excitation energy of the state
     double m_osc_strength; //!< Oscillator strength of the state
 
@@ -32,24 +32,23 @@ public:
         \param colwidth Max column width
         \param prec Precision the data columns
      **/
-    ctnum_export(std::ostream &out, const std::string &prefix = "ctnum",
-        size_t ncols = 3, size_t colwidth = 15, size_t prec = 6):
-        m_out(out), m_ncols(ncols), m_colwidth(colwidth), m_prec(prec),
-        m_prefix(prefix), m_energy(0.0), m_osc_strength(0.0) { }
-
-    /** \brief Set prefix
-     **/
-    void set_prefix(const std::string &prefix) {
-        m_prefix = prefix;
-    }
+    ctnum_export(size_t ncols = 3, size_t colwidth = 15, size_t prec = 6):
+        m_ncols(ncols), m_colwidth(colwidth), m_prec(prec),
+        m_energy(0.0), m_osc_strength(0.0) { }
 
     /** \brief Set state information
+        \param sid State ID
+        \param sdesc State descripion
+        \param energy State energy
+        \param osc Oscillator strength
      **/
-    void set_state_info(double energy, double osc) {
-        m_energy = energy; m_osc_strength = osc;
-    }
+    void set_state_info(const std::string &sid,
+        const std::string &sdesc, double energy, double osc);
 
     /** \brief Export the CT number data
+        \param om CT number data (omega matrix)
+        \param om_tot Omega total
+        \param out Output stream
 
         The CT number data which is passed as argument ct is exported into one
         or two files. If ct contains one matrix (alpha == beta), one file is
@@ -70,10 +69,11 @@ public:
         \c run_dens_ana.py available at
         http://www.iwr.uni-heidelberg.de/groups/compchem/personal/felix_plasser/download.html
      **/
-    virtual void perform(const ab_matrix &om, const double (&om_tot)[2]);
+    virtual void perform(const ab_matrix &om,
+        const double (&om_tot)[2], std::ostream &out) const;
 
 private:
-    void do_export(const std::string &fname, const arma::Mat<double> &ct);
+    void do_export(const std::string &fname, const arma::Mat<double> &ct) const;
 };
 
 } // namespace libwfa

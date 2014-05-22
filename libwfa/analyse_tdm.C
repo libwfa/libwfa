@@ -9,7 +9,7 @@ void analyse_tdm::perform(const ab_matrix &tdm, ab_matrix_pair &av) {
 
     ab_matrix_pair eh;
     m_nto.perform(tdm, eh, m_pr_o, m_pr_nto);
-    m_ct.perform(tdm, m_pr_ct);
+    m_ct.perform(tdm, std::cout);
 
     m_pr_d.perform(density_type::transition, tdm);
     m_pr_d.perform(density_type::particle, eh.first);

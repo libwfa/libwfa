@@ -17,7 +17,6 @@ namespace libwfa {
 class pop_printer_default : public pop_printer_i {
 private:
     const std::vector<std::string> &m_labels; //!< Labels for each line
-    std::ostream &m_out; //!< Output stream
     size_t m_colwidth; //!< Column width
     size_t m_prec; //!< Precision of printed numbers
     
@@ -29,8 +28,8 @@ public:
         \param prec Precision the data columns
      **/
     pop_printer_default(const std::vector<std::string> &l,
-        std::ostream &out, size_t colwidth = 20, size_t prec = 6) :
-        m_labels(l), m_out(out), m_colwidth(colwidth), m_prec(prec) { }
+        size_t colwidth = 20, size_t prec = 6) :
+        m_labels(l), m_colwidth(colwidth), m_prec(prec) { }
 
     /** \brief Print the population data
 
@@ -41,7 +40,7 @@ public:
         introduce line breaks, if the table exceeds the total width of 80
         characters.
      **/
-    virtual void perform(const pop_data &p);
+    virtual void perform(const pop_data &p, std::ostream &out) const;
 };
 
 

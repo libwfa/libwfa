@@ -22,6 +22,7 @@ void pop_mulliken_test::test_1() {
 
     std::vector<size_t> b2c(nb, 0);
     for (size_t i = nb1; i < nb; i++) b2c[i] = 1;
+    std::vector<double> p0(na, 0.0);
 
     // Use the upper and lower triagonal of a random matrix to
     // form symmetric overlap and density matrices
@@ -45,7 +46,7 @@ void pop_mulliken_test::test_1() {
         p_ref[1] += tmp;
     }
 
-    pop_mulliken(b2c, ov).perform(dm, p);
+    pop_mulliken(ov, b2c, p0).perform(dm, p);
 
     if (p.size() != na) {
         fail_test(testname, __FILE__, __LINE__, "Length of population vector");

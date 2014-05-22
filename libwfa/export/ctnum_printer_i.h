@@ -20,8 +20,10 @@ public:
     /** \brief Print the CT number data
         \param om CT number data (omega matrix)
         \param om_tot Omega total
+        \param out Output stream
      **/
-    virtual void perform(const ab_matrix &om, const double (&om_tot)[2]) = 0;
+    virtual void perform(const ab_matrix &om,
+        const double (&om_tot)[2], std::ostream &out) const = 0;
 };
 
 } // namespace libwfa

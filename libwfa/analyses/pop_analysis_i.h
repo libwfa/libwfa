@@ -6,8 +6,7 @@
 
 namespace libwfa {
 
-/** \brief Interface for classes to perform a specific type of population
-        analysis
+/** \brief Interface for performing population analysis
 
     Simple interface for specific types of population analysis.
 
@@ -19,7 +18,7 @@ public:
      **/
     virtual ~pop_analysis_i() { }
 
-    /** \brief Return the length of a population data generated (e.g. # atoms)
+    /** \brief Return the size of population data (e.g. # atoms)
      **/
     virtual size_t size() const = 0;
 

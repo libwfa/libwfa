@@ -43,15 +43,14 @@ void pop_printer_default_test::test_1() {
     labels[2] = "H";
     labels[3] = "H";
 
-    std::stringstream ss;
-    pop_printer_default pr(labels, ss);
-
     pop_data p;
     init_random_vector(na, p.add("Set 1"));
     init_random_vector(na, p.add("Set 2"));
     init_random_vector(na, p.add("Set 3"));
 
-    pr.perform(p);
+    std::stringstream ss;
+    pop_printer_default pr(labels);
+    pr.perform(p, ss);
 
     // Check for proper line length
     std::string line;
@@ -82,9 +81,6 @@ void pop_printer_default_test::test_2() {
     labels[2] = "H";
     labels[3] = "H";
 
-    std::stringstream ss;
-    pop_printer_default pr(labels, ss);
-
     pop_data p;
     init_random_vector(na, p.add("Set 1"));
     init_random_vector(na, p.add("Set 2"));
@@ -92,7 +88,9 @@ void pop_printer_default_test::test_2() {
     init_random_vector(na, p.add("Set 4"));
     init_random_vector(na, p.add("Set 5"));
 
-    pr.perform(p);
+    std::stringstream ss;
+    pop_printer_default pr(labels);
+    pr.perform(p, ss);
 
     // Check for proper line length
     std::string line;
@@ -123,9 +121,6 @@ void pop_printer_default_test::test_exc() {
     labels[2] = "H";
     labels[3] = "H";
 
-    std::ostringstream oss;
-    pop_printer_default pr(labels, oss);
-
     pop_data p1, p2, p3;
     init_random_vector(na + 1, p1.add("Set 1"));
     init_random_vector(na, p2.add("Set 2"));
@@ -133,9 +128,12 @@ void pop_printer_default_test::test_exc() {
     init_random_vector(na, p3.add("Set 4"));
     init_random_vector(na - 1, p3.add("Set 5"));
 
+    std::ostringstream oss;
+    pop_printer_default pr(labels);
+
     bool ok = false;
     try {
-        pr.perform(p1);
+        pr.perform(p1, oss);
     } catch(libwfa_exception &e){
         ok = true;
     }
@@ -144,7 +142,7 @@ void pop_printer_default_test::test_exc() {
     }
     ok = false;
     try {
-        pr.perform(p2);
+        pr.perform(p2, oss);
     } catch(libwfa_exception &e){
         ok = true;
     }
@@ -153,7 +151,7 @@ void pop_printer_default_test::test_exc() {
     }
     ok = false;
     try {
-        pr.perform(p3);
+        pr.perform(p3, oss);
     } catch(libwfa_exception &e){
         ok = true;
     }

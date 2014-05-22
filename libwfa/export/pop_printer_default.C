@@ -6,7 +6,7 @@
 namespace libwfa {
 
 
-void pop_printer_default::perform(const pop_data &p) {
+void pop_printer_default::perform(const pop_data &p, std::ostream &out) const {
 
     if (p.size() == 0) return;
 
@@ -47,40 +47,41 @@ void pop_printer_default::perform(const pop_data &p) {
     }
 
     // Print header
-    m_out << std::setw(nw) << std::right << "Atom";
-    for (pop_data::iterator i = p.begin(); i != p.end(); i++) {
-        m_out << std::setw(colwidth) << std::right << p.name(i);
-    }
-    m_out << std::endl;
-    m_out << std::string(width, '-') << std::endl;
+    out << std::setw(nw) << std::right << "Atom";
+    out << std::setw(colwidth) << std::right;
+    for (pop_data::iterator i = p.begin(); i != p.end(); i++) out << p.name(i);
+
+    out << std::endl;
+    out << std::string(width, '-') << std::endl;
         
     std::vector<double> total(p.size(), 0.0);
     for (size_t i = 0, j = 1; i != m_labels.size(); i++, j++) {
 
-        m_out << offset << std::setw(nw1) << j;
-        m_out << " " << std::setw(nw2) << m_labels[i];
+        out << offset << std::setw(nw1) << j;
+        out << " " << std::setw(nw2) << m_labels[i];
+        out << std::setw(colwidth) << std::right;
+        out << std::fixed << std::setprecision(m_prec);
 
         size_t k = 0;
         for (pop_data::iterator kk = p.begin();
                 kk != p.end(); k++, kk++) {
 
             const std::vector<double> &set = p.data(kk);
-            m_out << std::setw(colwidth) << std::right << std::fixed <<
-                    std::setprecision(m_prec) << set[i];
             total[k] += set[i];
+
+            out << set[i];
         }
-        m_out << std::endl;
+        out << std::endl;
     }
 
     // sum
-    m_out << std::string(width, '-') << std::endl;
+    out << std::string(width, '-') << std::endl;
 
-    m_out << std::setw(nw) << std::right << "Sum:";
+    out << std::setw(nw) << std::right << "Sum:";
+    out << std::setw(colwidth) << std::right;
     for (std::vector<double>::const_iterator i = total.begin();
-            i != total.end(); i++) {
-        m_out << std::setw(colwidth) << std::right << *i;
-    }
-    m_out << std::endl;
+            i != total.end(); i++) out << *i;
+    out << std::endl;
 }
 
 

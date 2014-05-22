@@ -17,8 +17,9 @@ public:
 
     /** \brief Print the population data
         \param p Population data
+        \param out Output stream
      **/
-    virtual void perform(const pop_data &p) = 0;
+    virtual void perform(const pop_data &p, std::ostream &out) const = 0;
 };
 
 } // namespace libwfa
