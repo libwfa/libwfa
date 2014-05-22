@@ -23,8 +23,6 @@ private:
     const pop_analysis_i &m_pop; //!< Population analysis to perform
     export_densities_i &m_pr_d; //!< Density printer
     export_orbitals_i &m_pr_o; //!< Orbital printer
-    ev_printer_i &m_pr_no; //!< NO summary printer
-    ev_printer_i &m_pr_ndo; //!< NDO summary printer
     pop_printer_i &m_pr_p; //!< Printer of population data
 
 public:
@@ -66,32 +64,32 @@ public:
     /** \brief Perform population analysis
         \param sdm State density matrix
         \param ad Attachment / detachment densities
-        \param pr Printer of population data
+        \param out Output stream
      **/
     void analyse_pop(const ab_matrix &sdm,
-        const ab_matrix_pair &ad, pop_printer_i &pr) const;
+        const ab_matrix_pair &ad, std::ostream &out) const;
 
     /** \brief Performs NO analysis
         \param sdm State density matrix
         \param pr_o NTO export / print
-        \param pr_e Printer of NTO summary
+        \param out Output stream
      **/
     void analyse_no(const ab_matrix &sdm, export_orbitals_i &pr_o,
-        ev_printer_i &pr_e) const {
+        std::ostream &out) const {
 
-        m_no.perform(sdm, pr_o, pr_e);
+        m_no.perform(sdm, pr_o, out);
     }
 
     /** \brief Performs NDO analysis
         \param ddm Difference density matrix
         \param[out] ad Attachment / detachment density matrices
         \param pr_o NDO export / print
-        \param pr_e Printer of NDO summary
+        \param out Output stream
      **/
     void analyse_ndo(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_orbitals_i &pr_o, ev_printer_i &pr_e) const {
+        export_orbitals_i &pr_o, std::ostream &out) const {
 
-        m_ndo.perform(ddm, ad, pr_o, pr_e);
+        m_ndo.perform(ddm, ad, pr_o, out);
     }
 };
 

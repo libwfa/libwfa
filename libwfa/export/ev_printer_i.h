@@ -17,9 +17,11 @@ public:
     /** \brief Print the eigenvalues
         \param type Type of density matrix
         \param ni Occupation number vector (= vector of eigenvalues)
+        \param out Output stream
         \return Number of important eigenvalues
      **/
-    virtual size_t perform(density_type type, const ab_vector &ni) = 0;
+    virtual size_t perform(density_type type,
+        const ab_vector &ni, std::ostream &out) const = 0;
 };
 
 

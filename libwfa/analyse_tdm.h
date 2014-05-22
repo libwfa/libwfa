@@ -20,8 +20,6 @@ private:
     nto_analysis m_nto; //!< NTO analysis
     export_densities_i &m_pr_d; //!< Density printer
     export_orbitals_i &m_pr_o; //!< Orbital printer
-    ev_printer_i &m_pr_nto; //!< NTO summary printer
-    ctnum_printer_i &m_pr_ct; //!< CT number printer
 
 public:
     /** \brief Constructor
@@ -62,12 +60,12 @@ public:
         \param tdm Transition density matrix
         \param pr_d Density matrix export / print
         \param pr_o NTO export / print
-        \param pr_e Printer of NTO summary
+        \param out Output stream
 
         EDM and HDM are exported and discarded afterwards.
      **/
     void analyse_nto(const ab_matrix &tdm, export_densities_i &pr_d,
-        export_orbitals_i &pr_o, ev_printer_i &pr_nto) const;
+        export_orbitals_i &pr_o, std::ostream &out) const;
 
 };
 

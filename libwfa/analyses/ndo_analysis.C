@@ -7,13 +7,13 @@ using namespace arma;
 
 
 void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_orbitals_i &pr_o, ev_printer_i &pr_e) const {
+        export_orbitals_i &pr_o, std::ostream &out) const {
 
     ab_matrix u;
     ab_vector ev;
     diagonalize_dm(m_c, ddm, ev, u);
 
-    pr_e.perform(density_type::difference, ev);
+    m_pr.perform(density_type::difference, ev, out);
 
     // Form full matrix u and vector e (properly sorted)
 
@@ -35,10 +35,10 @@ void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
 
 void ndo_analysis::perform(const ab_matrix &ddm,
         export_densities_i &pr_d, export_orbitals_i &pr_o,
-        ev_printer_i &pr_e) const {
+        std::ostream &out) const {
 
     ab_matrix_pair ad;
-    perform(ddm, ad, pr_o, pr_e);
+    perform(ddm, ad, pr_o, out);
 
     pr_d.perform(density_type::attach, ad.first);
     pr_d.perform(density_type::detach, ad.second);

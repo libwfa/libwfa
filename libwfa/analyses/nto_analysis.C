@@ -8,17 +8,17 @@ using namespace arma;
 
 
 void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
-    export_orbitals_i &pr_o, ev_printer_i &pr_e) const {
+    export_orbitals_i &pr_o, std::ostream &out) const {
 
     // Diagonalize particle density matrix
     ab_vector ee;
     diagonalize_dm(m_c, dm.first, ee, u.first);
-    size_t ne = pr_e.perform(density_type::particle, ee);
+    size_t ne = m_pr.perform(density_type::particle, ee, out);
 
     // Diagonalize hole density matrix
     ab_vector eh;
     diagonalize_dm(m_c, dm.second, eh, u.second);
-    size_t nh = pr_e.perform(density_type::hole, eh);
+    size_t nh = m_pr.perform(density_type::hole, eh, out);
 
     // Form full matrix u and vector e (properly sorted)
     bool aeqb = u.first.is_alpha_eq_beta();
@@ -49,12 +49,12 @@ void nto_analysis::perform(const ab_matrix_pair &dm, ab_matrix_pair &u,
 
 
 void nto_analysis::perform(const ab_matrix &tdm, ab_matrix_pair &eh,
-    export_orbitals_i &pr_o, ev_printer_i &pr_e) const {
+    export_orbitals_i &pr_o, std::ostream &out) const {
 
     form_eh(m_s, tdm, eh.first, eh.second);
 
     ab_matrix_pair u;
-    nto_analysis::perform(eh, u, pr_o, pr_e);
+    nto_analysis::perform(eh, u, pr_o, out);
 }
 
 

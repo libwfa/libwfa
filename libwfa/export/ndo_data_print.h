@@ -15,23 +15,21 @@ public:
     static const char k_clazz[]; //!< Class name
 
 private:
-    std::ostream &m_out; //!< Output stream
     size_t m_nndo; //!< Number of leading occupation numbers to print
 
 public:
     /** \brief Constructor
-        \param out Output stream
         \param nndo # of leading occupation numbers to print
      */
-    ndo_data_print(std::ostream &out, size_t nndo = 3) :
-        m_out(out), m_nndo(nndo) { }
+    ndo_data_print(size_t nndo = 3) : m_nndo(nndo) { }
 
     /** \copydoc ev_printer_i::perform
      **/
-    virtual size_t perform(density_type type, const ab_vector &ni);
+    virtual size_t perform(density_type type,
+        const ab_vector &ni, std::ostream &out) const;
 
 private:
-    size_t print(const arma::Col<double> &ni);
+    size_t print(const arma::Col<double> &ni, std::ostream &out) const;
 };
 
 

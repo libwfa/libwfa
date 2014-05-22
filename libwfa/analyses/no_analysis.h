@@ -15,22 +15,25 @@ namespace libwfa {
 class no_analysis {
 private:
     const ab_matrix &m_c; //!< MO coefficients
+    const ev_printer_i &m_pr; //!< Printer object
 
 public:
     /** \brief Constructor
         \param c Orbital coefficient matrix for transform in orthogonal basis
+        \param pr Printer object
      **/
-    no_analysis(const ab_matrix &c) : m_c(c) { }
+    no_analysis(const ab_matrix &c, const ev_printer_i &pr) :
+        m_c(c), m_pr(pr) { }
 
     /** \brief Perform NTO analysis
         \param[in] sdm State density matrix
         \param[out] pr_o Printer of NOs
-        \param[out] pr_e Printer of NO occupation numbers
+        \param[out] out Output stream
 
         (Assumes the electron density matrix is first in av)
      **/
-    void perform(const ab_matrix &sdm, export_orbitals_i &pr_o,
-        ev_printer_i &pr_e) const;
+    void perform(const ab_matrix &sdm,
+        export_orbitals_i &pr_o, std::ostream &out) const;
 };
 
 } // namespace libwfa
