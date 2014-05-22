@@ -24,7 +24,7 @@ void analyse_sdm::do_register(const std::string &name,
 
 
 void analyse_sdm::perform(const ab_matrix &dm, export_densities_i &dpr,
-    export_orbitals_i &opr, std::ostream &out, bool is_diff) {
+    export_orbitals_i &opr, std::ostream &out, bool is_diff) const {
 
     ab_matrix dm2(dm);
     if (is_diff) dm2 += m_dm0;
