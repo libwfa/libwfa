@@ -29,7 +29,7 @@ private:
 
 private:
     cna_map_t m_lst; //!< List of CT number analysis
-    const arma::Mat<double> &m_s;
+    const arma::Mat<double> &m_s; //!< Overlap matrix
     nto_analysis m_nto; //!< NTO analysis
 
 public:

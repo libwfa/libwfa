@@ -32,7 +32,7 @@ private:
     typedef std::map<std::string, pa> pa_map_t;
 
 private:
-    pa_map_t m_lst; //!< List of population analysis
+    pa_map_t m_lst; //!< List of population analyses
     const ab_matrix &m_dm0; //!< Ground state density matrix
     no_analysis m_no; //!< NO analysis
     ndo_analysis m_ndo; //!< NDO analysis
@@ -70,7 +70,7 @@ public:
         - Population analysis
      **/
     void perform(const ab_matrix &dm, export_densities_i &dpr,
-            export_orbitals_i &opr, std::ostream &out, bool is_diff = true);
+        export_orbitals_i &opr, std::ostream &out, bool is_diff = true) const;
 
     /** \brief Perform population analysis
         \param[in] sdm State density matrix
@@ -78,7 +78,7 @@ public:
         \param[out] out Output stream
      **/
     void analyse_pop(const ab_matrix &sdm, const ab_matrix_pair &ad,
-            std::ostream &out) const;
+        std::ostream &out) const;
 
     /** \brief Performs NO analysis
         \param[in] sdm State density matrix

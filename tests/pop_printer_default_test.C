@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <sstream>
 #include <libwfa/libwfa_exception.h>
 #include <libwfa/export/pop_printer_default.h>
