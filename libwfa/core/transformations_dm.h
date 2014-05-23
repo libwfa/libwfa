@@ -97,24 +97,32 @@ void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
 void form_ad(const ab_vector &ev, const ab_matrix &u,
         ab_matrix &da, ab_matrix &dd);
 
-/** \brief Constructs attachement and detachment densities from a
-        difference density matrix
-    \param[in] s Overap matrix
-    \param[in] c AO2MO coefficient matrix
-    \param[in] dm Density matrix
+/** \brief Constructs attachement and detachment densities from
+         eigenvalues and NDO coefficients
+    \param[in] ev eigenvalues
+    \param[in] u  NDO coefficients (AO basis)
     \param[out] da Attachment density matrix
     \param[out] dd Detachment density matrix
-
-    The function diagonalizes the density matrix first. Then it sorts the
-    eigenvectors based on the eigenvalues into vectors belonging to the
-    attachment and detachment densities, respectively. These are then used to
-    back-transform into density matrices.
 
     \ingroup libwfa
  **/
 void form_ad(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &dm, ab_matrix &da, ab_matrix &dd);
 
+ /** \brief Constructs attachement and detachment densities from a
+         difference density matrix
+     \param[in] s Overlap matrix
+     \param[in] c AO2MO coefficient matrix
+     \param[in] dm Density matrix
+     \param[out] da Attachment density matrix
+     \param[out] dd Detachment density matrix
+
+     The function diagonalizes the density matrix first. Then it sorts the
+     eigenvectors based on the eigenvalues into vectors belonging to the
+     attachment and detachment densities, respectively. These are then used to
+     back-transform into density matrices.
+
+     \ingroup libwfa
 } // namespace libwfa
 
 #endif // LIBWFA_TRANSFORMATIONS_H
