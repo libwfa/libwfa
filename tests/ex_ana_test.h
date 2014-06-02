@@ -14,7 +14,9 @@ class ex_ana_test : public libtest::unit_test {
 public:
 	virtual void perform() throw(libtest::test_exception);
 private:
-	void test_ex_multip();
+	/**\brief Tests all exciton tests and prints the results.
+	 **/
+	void test_ex_total();
 }; //end class
 
 

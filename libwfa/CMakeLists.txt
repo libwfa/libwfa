@@ -11,6 +11,9 @@ set(ANALYSES_HEADERS
     analyses/pop_data.h
     analyses/pop_mulliken.h
     analyses/ex_analyse.h
+    analyses/ex_analyse_ad.h
+    export/ex_ana_printer.h
+    export/ex_ana_printer_ad.h
 )
 
 set(ANALYSES_SRC
@@ -23,6 +26,9 @@ set(ANALYSES_SRC
     analyses/pop_analysis_dm.C
     analyses/pop_mulliken.C
     analyses/ex_analyse.C
+    analyses/ex_analyse_ad.C
+    export/ex_ana_printer.C
+    export/ex_ana_printer_ad.C
 )
 
 

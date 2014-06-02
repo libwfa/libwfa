@@ -1,0 +1,511 @@
+                  Welcome to Q-Chem
+     A Quantum Leap Into The Future Of Chemistry
+
+ Y. Shao, L. Fusti-Molnar, Y. Jung, J. Kussmann, C. Ochsenfeld, S. T. Brown, 
+ A. T. B. Gilbert, L. V. Slipchenko, S. V. Levchenko, D. P. O'Neill, 
+ R. A. DiStasio Jr., R. C. Lochan, T. Wang, G. J. O. Beran, N. A. Besley, 
+ J. M. Herbert, C. Y. Lin, T. Van Voorhis, S. H. Chien, A. Sodt, R. P. Steele, 
+ V. A. Rassolov, P. E. Maslen, P. P. Korambath, R. D. Adamson, B. Austin, 
+ J. Baker, E. F. C. Byrd, H. Dachsel, R. J. Doerksen, A. Dreuw, B. D. Dunietz, 
+ A. D. Dutoi, T. R. Furlani, S. R. Gwaltney, A. Heyden, S. Hirata, C.-P. Hsu, 
+ G. Kedziora, R. Z. Khaliullin, P. Klunzinger, A. M. Lee, M. S. Lee, W. Liang, 
+ I. Lotan, N. Nair, B. Peters, E. I. Proynov, P. A. Pieniazek, Y. M. Rhee, 
+ J. Ritchie, E. Rosta, C. D. Sherrill, A. C. Simmonett, J. E. Subotnik, 
+ H. L. Woodcock III, W. Zhang, A. T. Bell, A. K. Chakraborty, D. M. Chipman, 
+ F. J. Keil, A. Warshel, W. J. Hehre, H. F. Schaefer III, J. Kong, 
+ A. I. Krylov, P. M. W. Gill, M. Head-Gordon
+
+ Additional authors for Version 3.1: 
+ Z. Gan, Y. Zhao, N. E. SchultzD. Truhlar, E. Epifanovsky, M. Oana
+
+ Additional authors for Version 3.2: 
+ R. Baer, B. R. Brooks, D. Casanova, J.-D. Chai, C.-L. Cheng, C. Cramer, 
+ D. Crittenden, A. Ghysels, G. Hawkins, E. G. Hohenstein, C. Kelley, 
+ W. Kurlancheek, D. Liotard, E. Livshits, P. Manohar, A. Marenich, 
+ D. Neuhauser, R. Olson, M. A. Rohrdanz, K. S. Thanthiriwatte, A. J. W. Thom, 
+ V. Vanovschi, C. F. Williams, Q. Wu, Z.-Q. You
+
+ Additional authors for Version 4.0: 
+ A. Aspuru-Guzik, Y. Bernard, C. Chang, J. Deng, A. Dreuw, M. Diedenhofen, 
+ R. G. Edgar, D. Ghosh, W. A. Goddard III, M. Goldey, L. D. Jacobson, 
+ M. Gordon, B. Kaduk, I. Kaliman, K. Khistyaev, R. King, A. Klamt, 
+ D. Kosenkov, T. Kus, D. Lambrecht, A. Landau, A. W. Lange, K. Lawler, F. Liu, 
+ J. Liu, R. Olivares-Amaya, S. P. Mao, J. Parkhill, N. Russ, M. Schmidt, 
+ N. Shenvi, D. Small, Y. C. Su, E. Sundstrom, L. Vogt, O. Vydrov, M. Watson, 
+ M. Wormit, X. Xu, S. Yeganeh, I. Y. Zhang, D. Zuev
+
+ Additional authors for Version 4.1: 
+ X. Feng, M. W. D. Hanson-Heine, P. Horn, H. Ji, A. Laurent, R. Peverati, 
+ N. Mardirossian, N. Sergueev, S. Sharada, P. Zimmerman
+
+
+ Q-Chem, Version 4.1, Q-Chem, Inc., Pittsburgh, PA (2013).
+
+ Intel X86 EM64T Linux Version 4.1.0.1 
+
+ Q-chem begins on Tue May 20 16:13:06 2014  
+
+
+Host: 0
+
+     Scratch files written to /export/home/sbaepple/03_Qchem_dev/TESTS/07_H_He/10/RUN3/SAVEDIR//
+ Sep2613 |scratch|sbaepple|QChem-dev|libmdc|qstr_info.C -1
+ Using version located at 
+
+Total Memory Limit in MB = 7000
+Mega-Array Size in MB = 1000
+Finally everything over in PARseQInput
+
+--------------------------------------------------------------
+User input:
+--------------------------------------------------------------
+$molecule
++1 1 
+H	0.000000	0.000000	0.0000000
+He	0.000000	0.000000	10.0000000
+$end
+
+$rem
+jobtype         sp
+correlation     none
+exchange        hf
+adc_order       2
+adc_singlets    1
+sym_ignore      true
+adc_prop_es     true
+mem_total       7000
+mem_static      1000
+basis           3-21G 
+threads         2
+n_frozen_core   fc
+make_cube_files false
+cis_ampl_anal   true
+molden_format   false
+$end
+
+$plots
+Plot all four types of quantities
+100 -2.0 2.0
+100 -2.0 2.0
+100 -2.0 10.0
+0 8 8 8
+1 2 3 4 5 6 7 8
+$end
+--------------------------------------------------------------
+ ----------------------------------------------------
+       Standard Nuclear Orientation (Angstroms)
+    I     Atom         X            Y            Z
+ ----------------------------------------------------
+    1      H       0.000000     0.000000     0.000000
+    2      He      0.000000     0.000000    10.000000
+ ----------------------------------------------------
+ Nuclear Repulsion Energy =     0.1058354422 hartrees
+ There are        1 alpha and        1 beta electrons
+ Requested basis set is 3-21G
+ There are 4 shells and 4 basis functions
+
+Total QAlloc Memory Limit   7000 MB
+Mega-Array Size       978 MB
+MEM_STATIC part      1000 MB
+
+finished with qalloc call
+
+                       Distance Matrix (Angstroms)
+             H (  1)
+   He(  2) 10.000000
+
+ Job number = 2, Threshold = 1.00E-08
+Integral type ranges set in mkLRange.C for JobNum: 2  <1-1|1-1>
+Symmetry turned off temporarily
+ Using the largest function pair in Schwarz integrals
+Total number of integrals generated =               6
+Symmetry turned back on
+ A cutoff of  1.0D-08 yielded      6 shell pairs
+ There are         6 function pairs
+ Job number = 11, Threshold = 1.00E-08
+Integral type ranges set in mkLRange.C for JobNum: 11  <1-1|2-2>
+Total number of integrals generated =              12
+ Smallest overlap matrix eigenvalue = 3.54E-01
+ Multipole matrices computed through 2nd order
+
+  Scale SEOQF with 1.000000e+00/1.000000e+00/1.000000e-02
+
+ Standard Electronic Orientation quadrupole field applied
+ Nucleus-field energy     =    -0.0000000021 hartrees
+ Guess from superposition of atomic densities
+ Warning:  Energy on first SCF cycle will be non-variational
+scfman initvdwdat 
+ A restricted Hartree-Fock SCF calculation will be
+ performed using Pulay DIIS extrapolation
+ SCF converges when DIIS error is below 1.0E-05
+Finding J and K together
+ Job number = 22, Threshold = 1.00E-08
+Integral type ranges set in mkLRange.C for JobNum: 22  <1-1|1-1>
+Approximate symmetry reduction factor = 1.000000
+Storing 8658008.66% of integrals
+Total number of integrals generated =              21
+Fock build time:  0.00 s (CPU) 0.00 s (wall)
+DIIS Errors:  Max 9.19E-02 RMS 3.25E-02
+
+Current DIIS subspace size = 1
+REM_GRID_RESTART_DIIS = 0
+
+ ---------------------------------------
+  Cycle       Energy         DIIS Error
+ ---------------------------------------
+    1      -3.1718830015      3.25E-02  00000
+Finding J and K together
+ Job number = 22, Threshold = 1.00E-08
+Integral type ranges set in mkLRange.C for JobNum: 22  <1-1|1-1>
+Approximate symmetry reduction factor = 1.000000
+Storing 8658008.66% of integrals
+Reusing in-core integrals buffer for job 22
+Fock build time:  0.00 s (CPU) 0.00 s (wall)
+DIIS Errors:  Max 6.58E-09 RMS 2.33E-09
+ Singularity in Pulay DIIS matrix
+
+Current DIIS subspace size = 2
+REM_GRID_RESTART_DIIS = 0
+
+NextCycle: DoReset = 1
+    2      -2.8356798738      2.33E-09  00000 Convergence criterion met
+ ---------------------------------------
+ SCF time:  CPU 0.00 s  wall 0.04 s
+ SCF   energy in the final basis set = -2.8356798738
+ Total energy in the final basis set = -2.8356798738
++------------------------------------------------------------------------------+
+|                                                                              |
+|                                 A D C  M A N                                 |
+|                                                                              |
++------------------------------------------------------------------------------+
+|                                                                              |
+| Components:                                                                  |
+|                                                                              |
+| - libvmm - 1.2-release                                                       |
+|   Authors:                                                                   |
+|   Evgeny Epifanovsky, Ilya Kaliman                                           |
+|                                                                              |
+| - libtensor - 2.3-trunk                                                      |
+|   Authors:                                                                   |
+|   Evgeny Epifanovsky, Michael Wormit, Dmitry Zuev                            |
+|                                                                              |
+| - adcman - 2.2-trunk                                                         |
+|   Authors:                                                                   |
+|   Michael Wormit, Philipp H. P. Harbach, Dirk Rehn, Andreas Dreuw            |
+|                                                                              |
+| Authors of earlier versions of ADCMAN:                                       |
+| Andreas Dreuw, Jan Hendrik Starcke, Dirk Rehn, Michael Wormit                |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+
+ Alpha MOs, Restricted
+ -- Occupied --                  
+ -0.956
+  1 A                                                                          
+ -- Virtual --                   
+ -0.496   0.586   2.029
+  2 A     3 A     4 A                                                          
+
+ Beta MOs, Restricted
+ -- Occupied --                  
+ -0.956
+  1 A                                                                          
+ -- Virtual --                   
+ -0.496   0.586   2.029
+  2 A     3 A     4 A                                                          
+
+ Entering first-index batching code with I1Strt =    1 batch size =    4
+ Job number = 52, Threshold = 1.00E-08
+Integral type ranges set in mkLRange.C for JobNum: 52  <1-1|1-1>
+Symmetry turned off temporarily
+Storing 8658008.66% of integrals
+Total number of integrals generated =              36
+Symmetry turned back on
+    Total MP energy contribution: -0.0114966134
+  Starting Davidson ... 
++------------------------------------------------------------------------------+
+|  It  NVec  Conv    Avg. Norm    Max. Norm  Lowest states           Remark    |
++------------------------------------------------------------------------------+
+          1     0    3.192e-01    3.192e-01  0.4189                  Guess.
+    1     2     1    2.035e-16    2.035e-16  0.3856                  Converged.
++------------------------------------------------------------------------------+
+  ... Davidson done.
+
+  Summary: 
+ ----------------------------------------------------------
+  State  0: excitation energy:   0.3856 a.u. (converged)
+ ----------------------------------------------------------
+
+
++------------------------------------------------------------------------------+
+|                            Excited State Summary                             |
++------------------------------------------------------------------------------+
+
+  Excited state 1:
+  ----------------
+  Excitation energy:            10.49176 eV, Abs. energy:       -2.4616114833 a.u.
+
+  State properties:
+    Term symbol:                    2 (1) A                     
+    Multiplicity:                   Singlet                     
+    Norm^2 of doubles amplitudes:   0.01                        
+    Total dipole [Debye]:           48.032056                   
+    Dipole moment [a.u.]:           [ 0.00000,  0.00000,  0.00000]
+    <r^2> [a.u.]:                   721.448292                  
+
+  Transition properties from ground state:
+    Irreducible representation:        A                              
+    Osc. strength:                     0.000000                       
+    Transition dipole moment [a.u.]:   [ 0.00000,  0.00000,  0.00000] 
+    r^2 [a.u.]:                        0.000000                       
+    r_i^2 [a.u.]:                      [ 0.00000,  0.00000,  0.00000] 
+
+  Important amplitudes:
+       i         j         a         b           v
+   ---------------------------------------------------
+    1 (A) A             2 (A) A               -0.7033
+    1 (A) A   1 (A) B   2 (A) A   4 (A) B      0.0367
+   ---------------------------------------------------
+
+
++------------------------------------------------------------------------------+
+Created directory /export/home/sbaepple/03_Qchem_dev/TESTS/07_H_He/10/RUN3/SAVEDIR/NOs
+
+ ### Ground state NOs ###
+Occupation of frontier NOs: -1.096 1.256 1.996 | 0.004 0.000 0.000
+Number of electrons: 2.000000
+Number of unpaired electrons: n_u = 0.00770, n_u,nl = 0.00012
+NO participation ratio (PR_NO): 2.000000
+
+         Gr. state Mulliken Net Atomic Charges
+
+     Atom                 Charge (a.u.)
+  ----------------------------------------
+      1 H                     1.000000
+      2 He                    0.000000
+  ----------------------------------------
+  Sum of atomic charges =     1.000000
+
+ ### State 1 NOs ###
+Occupation of frontier NOs: -1.096 1.256 1.000 | 1.000 0.000 -0.000
+Number of electrons: 2.000000
+Number of unpaired electrons: n_u = 1.99993, n_u,nl = 2.00000
+NO participation ratio (PR_NO): 1.999930
+
+         State 1: Mulliken Net Atomic Charges
+
+     Atom                 Charge (a.u.)
+  ----------------------------------------
+      1 H                     0.000000
+      2 He                    1.000000
+  ----------------------------------------
+  Sum of atomic charges =     1.000000
+Created directory /export/home/sbaepple/03_Qchem_dev/TESTS/07_H_He/10/RUN3/SAVEDIR/NTOs
+Created directory /export/home/sbaepple/03_Qchem_dev/TESTS/07_H_He/10/RUN3/SAVEDIR/Omega
+
+ ### State 1 NTOs ###
+Singular values of the transition density matrix
+Leading SVs: 0.987, 0.000, 0.000
+Sum of SVs: 0.9873
+NTO participation ratio (PR_NTO): 1.000009
+omega: 1.9746764893
+++++++++++++++++++++++++++++++++++++++++++++
+Analyzing exciton properties for state 1
+--------------------------------------------
+Exciton radius of state 1
+operator printing
+2 4 4
+    0.261802     0.307013     0.000000
+    0.000000     0.307013     1.364688
+    0.000000     0.000000     0.000000
+    0.000000     0.105856     0.119238
+    0.000000     0.000000     0.119238
+    0.652753 
+2 4 4
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000 
+overlap matrix printing
+2 4 4
+    1.000000     0.645899     0.000000
+    0.000000     0.645899     1.000000
+    0.000000     0.000000     0.000000
+    0.000000     1.000000     0.595216
+    0.000000     0.000000     0.595216
+    1.000000 
+density printing
+2 4 4
+    0.000000     0.000000    -0.238998
+   -0.346058     0.000000     0.000000
+   -0.459122    -0.664786     0.001281
+    0.002462     0.000000     0.000000
+   -0.001170    -0.002248     0.000000
+    0.000000 
+exradius holesqrd dxx_bb 1.783484
+exradius holesqrd 2 dxx_bb 0.745465
+exradius elesqrd dxx_bb 0.745465
+exradius elesqrd  2 dxx_bb 1.783484
+exradius holeele dx_bb 0.000000
+rsrq dx_bb 2.528949
+operator printing
+2 4 4
+    0.261802     0.307013     0.000000
+    0.000000     0.307013     1.364688
+    0.000000     0.000000     0.000000
+    0.000000     0.105856     0.119238
+    0.000000     0.000000     0.119238
+    0.652753 
+2 4 4
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000 
+overlap matrix printing
+2 4 4
+    1.000000     0.645899     0.000000
+    0.000000     0.645899     1.000000
+    0.000000     0.000000     0.000000
+    0.000000     1.000000     0.595216
+    0.000000     0.000000     0.595216
+    1.000000 
+density printing
+2 4 4
+    0.000000     0.000000    -0.238998
+   -0.346058     0.000000     0.000000
+   -0.459122    -0.664786     0.001281
+    0.002462     0.000000     0.000000
+   -0.001170    -0.002248     0.000000
+    0.000000 
+exradius holesqrd dyy_bb 1.783484
+exradius holesqrd 2 dyy_bb 0.745465
+exradius elesqrd dyy_bb 0.745465
+exradius elesqrd  2 dyy_bb 1.783484
+exradius holeele dy_bb 0.000000
+rsrq dy_bb 2.528949
+operator printing
+2 4 4
+    0.261802     0.307013     0.000000
+    0.000000     0.307013     1.364688
+    0.000000     0.000000     0.000000
+    0.000000   357.212338   212.674712
+    0.000000     0.000000   212.674712
+  357.759236 
+2 4 4
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000     0.000000     0.000000
+    0.000000    18.897261    11.247951
+    0.000000     0.000000    11.247951
+   18.897261 
+overlap matrix printing
+2 4 4
+    1.000000     0.645899     0.000000
+    0.000000     0.645899     1.000000
+    0.000000     0.000000     0.000000
+    0.000000     1.000000     0.595216
+    0.000000     0.000000     0.595216
+    1.000000 
+density printing
+2 4 4
+    0.000000     0.000000    -0.238998
+   -0.346058     0.000000     0.000000
+   -0.459122    -0.664786     0.001281
+    0.002462     0.000000     0.000000
+   -0.001170    -0.002248     0.000000
+    0.000000 
+exradius holesqrd dzz_bb 1.786624
+exradius holesqrd 2 dzz_bb 705.912100
+exradius elesqrd dzz_bb 705.912100
+exradius elesqrd  2 dzz_bb 1.786624
+exradius holeele dz_bb 0.000000
+rsrq dz_bb 707.698725
+--------------------------------------------
+Exciton binding energy of state 1
+++++++++++++++++++++++++++++++++++++++++++++
+Created directory /export/home/sbaepple/03_Qchem_dev/TESTS/07_H_He/10/RUN3/SAVEDIR/NDOs
+
+ ### State 1 A/D density ###
+Leading detachment eigenvalues: -1.017, -0.000,  0.017
+Leading attachment eigenvalues:  1.000,  0.017, -0.000
+Number of detached / attached electrons: n_d = 1.0173, n_a = 1.0173
+Number of involved orbitals: PR_D = 1.00000, PR_A = 1.03456
+ ======================================================
+    State 1: Mulliken analysis of the total  
+    attachment (e-) and detachment (h+) densities              
+ ======================================================
+ -------------------------------------
+   Atom      e-      h+     (Del)q    
+ -------------------------------------
+      1  -1.0000   0.0000  -1.0000
+      2  -0.0173   1.0173   1.0000
+  Sum:   -1.0173   1.0173  -0.0000
+  Time of ADC calculation:  CPU 1.45 s  wall 4.79 s
++------------------------------------------------------------------------------+
+Symmetry turned off temporarily
+ Analysis of SCF Wavefunction
+
+ --------------------------------------------------------------
+                    Orbital Energies (a.u.)
+ --------------------------------------------------------------
+
+ Alpha MOs
+ -- Occupied --
+ -0.956
+ -- Virtual --
+ -0.496   0.586   2.029
+ --------------------------------------------------------------
+
+          Ground-State Mulliken Net Atomic Charges
+
+     Atom                 Charge (a.u.)
+  ----------------------------------------
+      1 H                     1.000000
+      2 He                    0.000000
+  ----------------------------------------
+  Sum of atomic charges =     1.000000
+
+ -----------------------------------------------------------------
+                    Cartesian Multipole Moments
+ -----------------------------------------------------------------
+    Charge (ESU x 10^10)
+                 4.8032
+    Dipole Moment (Debye)
+         X       0.0000      Y       0.0000      Z       0.0000
+       Tot       0.0000
+    Quadrupole Moments (Debye-Ang)
+        XX      -1.0114     XY       0.0000     YY      -1.0114
+        XZ       0.0000     YZ       0.0000     ZZ      -1.0114
+    Octapole Moments (Debye-Ang^2)
+       XXX       0.0000    XXY       0.0000    XYY       0.0000
+       YYY       0.0000    XXZ     -10.1139    XYZ       0.0000
+       YYZ     -10.1139    XZZ       0.0000    YZZ       0.0000
+       ZZZ     -30.3417
+    Hexadecapole Moments (Debye-Ang^3)
+      XXXX      -0.4558   XXXY       0.0000   XXYY      -0.1519
+      XYYY       0.0000   YYYY      -0.4558   XXXZ       0.0000
+      XXYZ       0.0000   XYYZ       0.0000   YYYZ       0.0000
+      XXZZ    -101.2909   XYZZ       0.0000   YYZZ    -101.2909
+      XZZZ       0.0000   YZZZ       0.0000   ZZZZ    -607.2898
+ -----------------------------------------------------------------
+ JobOver = TRUE
+Archival summary:
+1\1\CompChem04\SP\HF\3-21G\e11(1+,1)\sbaepple\TueMay2016:13:152014TueMay2016:13:152014\0\\#,HF,3-21G,\\1,1\H\He,1,10\\HF=-2.83567987\\@
+
+ Total job time:  9.49s(wall), 5.54s(cpu) 
+ Tue May 20 16:13:16 2014
+
+        *************************************************************
+        *                                                           *
+        *  Thank you very much for using Q-Chem.  Have a nice day.  *
+        *                                                           *
+        *************************************************************
+
+
+*** MISSION COMPLETED -- STARFLEET OUT ***
+
