@@ -1,5 +1,5 @@
-#ifndef LIBWFA_ANALYSE_ESDM_H
-#define LIBWFA_ANALYSE_ESDM_H
+#ifndef LIBWFA_ANALYSE_OPDM_H
+#define LIBWFA_ANALYSE_OPDM_H
 
 #include <map>
 #include <libwfa/analyses/pop_analysis_i.h>
@@ -11,7 +11,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class analyse_esdm {
+class analyse_opdm {
 public:
     /** \brief Flag when to perform specific population analysis
      **/
@@ -34,13 +34,13 @@ private:
     typedef std::map<std::string, pa> pa_map_t;
 
 private:
-    pa_map_t m_lst; //!< List of population analyses
+    pa_map_t m_pa; //!< List of population analyses
     const arma::Mat<double> &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficient matrix
     const ab_matrix &m_dm0; //!< Ground state density matrix
     const ab_matrix &m_dm; //!< Excited state (or difference) density matrix
-    const ev_printer_i &m_prno; //!< Formating object of NO summary
-    const ev_printer_i &m_prndo; //!< Formating object of NDO summary
+    const ev_printer_i *m_no; //!< Formating object of NO summary
+    const ev_printer_i *m_ndo; //!< Formating object of NDO summary
     bool m_is_diff; //!< Density matrix is difference density
 
 public:
@@ -49,18 +49,20 @@ public:
         \param c MO coefficients
         \param dm0 Ground state density matrix
         \param dm State or difference density matrix
-        \param prno NO summary printer
-        \param prndo NDO summary printer
         \param is_diff Is difference density?
      **/
-    analyse_esdm(
+    analyse_opdm(
         const arma::Mat<double> &s,
         const ab_matrix &c,
         const ab_matrix &dm0,
         const ab_matrix &dm,
-        const ev_printer_i &prno,
-        const ev_printer_i &prndo,
         bool is_diff = true);
+
+    /** \brief Register orbital analysis and printer
+        \param ot Type of orbital analysis (valid values: no and ndo)
+        \param pr Printer for orbital analysis
+     **/
+    void do_register(orbital_type ot, const ev_printer_i &pr);
 
     /** \brief Register population analyses that should be performed
         \param name Name for population analysis
@@ -85,4 +87,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_ANALYSE_SDM_H
+#endif // LIBWFA_ANALYSE_OPDM_H

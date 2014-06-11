@@ -84,10 +84,8 @@ set(HEADERS
     ${CORE_HEADERS}
     ${EXPORT_HEADERS}
     ${ANALYSES_HEADERS}
-    analyse_ddm.h
-    analyse_esdm.h
-    analyse_sdm.h
-    analyse_tdm.h
+    analyse_opdm.h
+    analyse_optdm.h
     libwfa_exception.h
     version.h
 )
@@ -96,10 +94,8 @@ set(SRC
     ${CORE_SRC}
     ${EXPORT_SRC}
     ${ANALYSES_SRC}
-    analyse_ddm.C
-    analyse_esdm.C
-    analyse_sdm.C
-    analyse_tdm.C
+    analyse_opdm.C
+    analyse_optdm.C
     libwfa_exception.C
     version.C
 )

@@ -1,5 +1,5 @@
-#ifndef LIBWFA_ANALYSE_TDM_H
-#define LIBWFA_ANALYSE_TDM_H
+#ifndef LIBWFA_ANALYSE_OPTDM_H
+#define LIBWFA_ANALYSE_OPTDM_H
 
 #include <map>
 #include <libwfa/analyses/ctnum_analysis_i.h>
@@ -13,7 +13,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class analyse_tdm {
+class analyse_optdm {
 private:
     struct cna {
         const ctnum_analysis_i &analysis;
@@ -26,11 +26,11 @@ private:
 
 
 private:
-    cna_map_t m_lst; //!< List of CT number analysis
+    cna_map_t m_ca; //!< List of CT number analysis
     const arma::Mat<double> &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficient matrix
     const ab_matrix &m_tdm; //!< Transition density matrix
-    const ev_printer_i &m_prnto; //!< Formating object of NTO summary
+    const ev_printer_i *m_nto; //!< Formating object of NTO summary
 
 public:
     /** \brief Constructor
@@ -39,8 +39,13 @@ public:
         \param tdm Transition density matrix
         \param prnto NTO summary formating object
      **/
-    analyse_tdm(const arma::Mat<double> &s, const ab_matrix &c,
-        const ab_matrix &tdm, const ev_printer_i &prnto);
+    analyse_optdm(const arma::Mat<double> &s,
+        const ab_matrix &c, const ab_matrix &tdm);
+
+    /** \brief Register NTO analysis
+        \param pr NTO summary printer
+     **/
+    void do_register(const ev_printer_i &pr) { m_nto = &pr; }
 
     /** \brief Register CT number analysis to be performed
         \param name Name for CT number analysis
@@ -64,8 +69,19 @@ public:
      **/
     void perform(ab_matrix &edm_av, ab_matrix &hdm_av,
         export_data_i &pr, std::ostream &out);
+
+    /** \brief Performs transition density matrix analyses
+        \param pr Export / printer for densities and orbitals
+        \param out Output stream
+
+        Perform the following analyses:
+        - NTO analysis (\sa nto_analysis.h
+        - CT number analysis (\sa ctnumbers.h)
+        - Export of TDM, EDM, and HDM
+     **/
+    void perform(export_data_i &pr, std::ostream &out);
 };
 
 } // namespace libwfa
 
-#endif // LIBWFA_ANALYSE_TDM_H
+#endif // LIBWFA_ANALYSE_OPTDM_H
