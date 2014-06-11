@@ -18,8 +18,8 @@ public:
     virtual ~ctnum_printer_i() { }
 
     /** \brief Print the CT number data
-        \param om CT number data (omega matrix)
-        \param om_tot Omega total
+        \param om CT number data (\f$ \Omega \f$ matrix)
+        \param om_tot \f$ \Omega_{\text{total}}\f$
         \param out Output stream
      **/
     virtual void perform(const ab_matrix &om,

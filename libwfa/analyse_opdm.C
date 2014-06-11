@@ -25,10 +25,10 @@ analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
 }
 
 
-void analyse_opdm::do_register(orbital_type ot, const ev_printer_i &pr) {
+void analyse_opdm::do_register(const ev_printer_i &pr, bool is_no) {
 
-    if (ot == orbital_type::no) m_pr[0] = &pr;
-    else if (m_dm2.get() != 0 && ot == orbital_type::ndo) m_pr[1] = &pr;
+    if (is_no) m_pr[0] = &pr;
+    else if (m_dm2.get() != 0) m_pr[1] = &pr;
 }
 
 
@@ -36,8 +36,7 @@ void analyse_opdm::do_register(const std::string &name,
     const pop_analysis_i &ana, const pop_printer_i &pr, pa_flag fl) {
 
     if (m_dm2.get() == 0) fl = (fl & pa_dm) == pa_dm ? pa_dm : pa_none;
-    if (fl != pa_none)
-        m_pa.insert(pa_map_t::value_type(name, pa(ana, pr, fl)));
+    if (fl != pa_none) m_pa.insert(pa_map_t::value_type(name, pa(ana, pr, fl)));
 }
 
 
@@ -46,9 +45,7 @@ void analyse_opdm::perform(export_data_i &pr, std::ostream &out) const {
     pr.perform(density_type::state, m_sdm);
     if (m_dm2.get() != 0) pr.perform(density_type::difference, m_ddm);
 
-    if (m_pr[0] != 0) {
-        no_analysis(m_c, m_sdm, *m_pr[0]).perform(pr, out);
-    }
+    if (m_pr[0] != 0) no_analysis(m_c, m_sdm, *m_pr[0]).perform(pr, out);
 
     ab_matrix at, de;
     if (m_pr[1] != 0) {

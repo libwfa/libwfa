@@ -3,6 +3,8 @@
 
 #include <map>
 #include <libwfa/analyses/pop_analysis_i.h>
+#include <libwfa/export/ev_printer_i.h>
+#include <libwfa/export/export_data_i.h>
 #include <libwfa/export/pop_printer_i.h>
 
 namespace libwfa {
@@ -51,10 +53,8 @@ public:
         \param c MO coefficients
         \param dm State density matrix
      **/
-    analyse_opdm(
-        const arma::Mat<double> &s,
-        const ab_matrix &c,
-        const ab_matrix &dm);
+    analyse_opdm(const arma::Mat<double> &s,
+        const ab_matrix &c, const ab_matrix &dm);
 
     /** \brief Constructor
         \param s Overlap matrix
@@ -63,18 +63,14 @@ public:
         \param dm State or difference density matrix
         \param is_diff Is difference density?
      **/
-    analyse_opdm(
-        const arma::Mat<double> &s,
-        const ab_matrix &c,
-        const ab_matrix &dm0,
-        const ab_matrix &dm,
-        bool is_diff = true);
+    analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
+        const ab_matrix &dm0, const ab_matrix &dm, bool is_diff = true);
 
     /** \brief Register orbital analysis and printer
-        \param ot Type of orbital analysis (valid values: no and ndo)
         \param pr Printer for orbital analysis
+        \param is_no True: register NO analysis; false: register NDO analysis
      **/
-    void do_register(orbital_type ot, const ev_printer_i &pr);
+    void do_register(const ev_printer_i &pr, bool is_no);
 
     /** \brief Register population analyses that should be performed
         \param name Name for population analysis
@@ -86,7 +82,7 @@ public:
         const pop_printer_i &pr, pa_flag fl);
 
     /** \brief Performs density matrix analyses
-        \param pr Density and NTO export / printer
+        \param pr Density and orbital export / printer
         \param out Output stream
 
         Perform the following analyses:
