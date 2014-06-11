@@ -1,5 +1,5 @@
-#ifndef LIBWFA_ANALYSE_SDM_H
-#define LIBWFA_ANALYSE_SDM_H
+#ifndef LIBWFA_ANALYSE_DDM_H
+#define LIBWFA_ANALYSE_DDM_H
 
 #include <map>
 #include <libwfa/analyses/pop_analysis_i.h>
@@ -7,11 +7,11 @@
 
 namespace libwfa {
 
-/** \brief Combines various analyses of state density matrices
+/** \brief Combines various analyses of a difference density matrix
 
     \ingroup libwfa
  **/
-class analyse_sdm {
+class analyse_ddm {
 private:
     struct pa {
         const pop_analysis_i &analysis;
@@ -24,35 +24,38 @@ private:
 
 private:
     pa_map_t m_lst; //!< List of population analyses
+    const arma::Mat<double> &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficient matrix
-    const ab_matrix &m_sdm; //!< State density matrix
-    const ev_printer_i &m_prno; //!< Formating object of NO summary
+    const ab_matrix &m_ddm; //!< Difference density matrix
+    const ev_printer_i &m_prndo; //!< Formating object of NDO summary
 
 public:
     /** \brief Constructor
+        \param s Overlap matrix
         \param c MO coefficients
-        \param sdm State density matrix
-        \param prno NO summary printer
+        \param ddm Difference density matrix
+        \param pr NDO summary formating object
      **/
-    analyse_sdm(
+    analyse_ddm(
+        const arma::Mat<double> &s,
         const ab_matrix &c,
-        const ab_matrix &sdm,
-        const ev_printer_i &prno);
+        const ab_matrix &ddm,
+        const ev_printer_i &pr);
 
-    /** \brief Register population analyses that should be performed
+    /** \brief Register population analyses to be performed
         \param name Name for population analysis
         \param pa Population analysis
         \param pr Population printer / formatter
      **/
-    void do_register(const std::string &name, const pop_analysis_i &pa,
-        const pop_printer_i &pr);
+    void do_register(const std::string &name,
+        const pop_analysis_i &pa, const pop_printer_i &pr);
 
     /** \brief Performs density matrix analyses
         \param pr Density and orbital export / printer
         \param out Output stream
 
         Perform the following analyses:
-        - NO analysis
+        - NDO analysis
         - Population analysis
      **/
     void perform(export_data_i &pr, std::ostream &out) const;

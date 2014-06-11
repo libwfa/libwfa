@@ -7,19 +7,18 @@ namespace libwfa {
 using namespace arma;
 
 
-void no_analysis::perform(const ab_matrix &sdm,
-        export_data_i &opr, std::ostream &out) const {
+void no_analysis::perform(export_data_i &opr, std::ostream &out) const {
 
     ab_matrix c_no;
     ab_vector n_no;
-    diagonalize_dm(m_c, sdm, n_no, c_no);
+    diagonalize_dm(m_c, m_sdm, n_no, c_no);
 
     bool aeqb = c_no.is_alpha_eq_beta();
 
     // Perform spin-traced calculation
     if (! aeqb) {
         ab_matrix sdm2(true);
-        sdm2.alpha() = sdm.alpha() + sdm.beta();
+        sdm2.alpha() = m_sdm.alpha() + m_sdm.beta();
 
         ab_matrix c2_no;
         ab_vector n2_no;
@@ -38,7 +37,6 @@ void no_analysis::perform(const ab_matrix &sdm,
     m_pr.perform(density_type::state, n_no, out);
 
     // Form full matrix u and vector e (properly sorted)
-
 
     ab_selector s_no(aeqb);
     s_no.alpha().select_all();

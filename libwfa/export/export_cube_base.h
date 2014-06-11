@@ -1,5 +1,5 @@
-#ifndef LIBWFA_EXPORT_CUBE_H
-#define LIBWFA_EXPORT_CUBE_H
+#ifndef LIBWFA_EXPORT_CUBE_BASE_H
+#define LIBWFA_EXPORT_CUBE_BASE_H
 
 #include <armadillo>
 #include <map>
@@ -122,4 +122,4 @@ private:
 
 } // namespace libwfa
 
-#endif // LIBWFA_EXPORT_CUBE_H
+#endif // LIBWFA_EXPORT_CUBE_BASE_H

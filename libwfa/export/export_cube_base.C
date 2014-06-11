@@ -157,8 +157,6 @@ void export_cube_base::clear_data() {
 }
 
 
-
-
 } // namespace libwfa
 
 

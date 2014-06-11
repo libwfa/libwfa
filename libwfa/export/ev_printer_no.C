@@ -1,16 +1,16 @@
 #include <algorithm>
 #include <iomanip>
 #include <libwfa/libwfa_exception.h>
-#include "no_data_print.h"
+#include "ev_printer_no.h"
 
 namespace libwfa {
 
 using namespace arma;
 
-const char no_data_print::k_clazz[] = "no_data_print";
+const char ev_printer_no::k_clazz[] = "ev_printer_no";
 
 
-size_t no_data_print::perform(density_type type,
+size_t ev_printer_no::perform(density_type type,
     const ab_vector &ni, std::ostream &out) const {
 
     static const char *method =
@@ -36,7 +36,7 @@ size_t no_data_print::perform(density_type type,
 }
 
 
-size_t no_data_print::print(const Col<double> &ni, std::ostream &out) const {
+size_t ev_printer_no::print(const Col<double> &ni, std::ostream &out) const {
 
     double nelec = accu(ni);
     size_t ihomo = ni.n_elem - (nelec + 0.5);
@@ -52,7 +52,7 @@ size_t no_data_print::print(const Col<double> &ni, std::ostream &out) const {
     return nelec + 0.5;
 }
 
-size_t no_data_print::print_total(
+size_t ev_printer_no::print_total(
     const Col<double> &ni, std::ostream &out) const {
 
     double nelec = 0.0, nu = 0.0, nu2 = 0.0, nunl = 0.0;

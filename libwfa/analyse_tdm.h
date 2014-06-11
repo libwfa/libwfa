@@ -2,8 +2,9 @@
 #define LIBWFA_ANALYSE_TDM_H
 
 #include <map>
-#include <libwfa/analyses/ctnumbers.h>
-#include <libwfa/analyses/nto_analysis.h>
+#include <libwfa/analyses/ctnum_analysis_i.h>
+#include <libwfa/export/ctnum_printer_i.h>
+#include <libwfa/export/ev_printer_i.h>
 #include <libwfa/export/export_data_i.h>
 
 namespace libwfa {
@@ -13,9 +14,6 @@ namespace libwfa {
     \ingroup libwfa
  **/
 class analyse_tdm {
-public:
-    typedef std::pair<ab_matrix, ab_matrix> ab_matrix_pair;
-
 private:
     struct cna {
         const ctnum_analysis_i &analysis;
@@ -30,20 +28,19 @@ private:
 private:
     cna_map_t m_lst; //!< List of CT number analysis
     const arma::Mat<double> &m_s; //!< Overlap matrix
-    nto_analysis m_nto; //!< NTO analysis
+    const ab_matrix &m_c; //!< MO coefficient matrix
+    const ab_matrix &m_tdm; //!< Transition density matrix
+    const ev_printer_i &m_prnto; //!< Formating object of NTO summary
 
 public:
     /** \brief Constructor
         \param s Overlap matrix
         \param c Coefficient matrix
-        \param ctnum Charge transfer number analysis
-        \param pr_d Density printer
-        \param pr_o Orbital printer
-        \param pr_nto NTO summary printer
-        \param pr_ct CT number printer
+        \param tdm Transition density matrix
+        \param prnto NTO summary formating object
      **/
     analyse_tdm(const arma::Mat<double> &s, const ab_matrix &c,
-        ev_printer_i &pr_nto);
+        const ab_matrix &tdm, const ev_printer_i &prnto);
 
     /** \brief Register CT number analysis to be performed
         \param name Name for CT number analysis
@@ -54,35 +51,19 @@ public:
         const ctnum_printer_i &pr);
 
     /** \brief Performs transition density matrix analyses
-        \param tdm Transition density matrix
-        \param[out] av Average particle and hole density matrices (particle first)
+        \param edm_av Average electron density matrix
+        \param hdm_av Average hole density matrix
+        \param pr Export / printer for densities and orbitals
+        \param out Output stream
 
         Perform the following analyses:
         - NTO analysis (\sa nto_analysis.h)
         - CT number analysis (\sa ctnumbers.h)
         - Export of TDM, EDM, and HDM
-        - EDM and HDM are added to av
+        - EDM and HDM are added to average density matrices
      **/
-    void perform(const ab_matrix &tdm, ab_matrix_pair &av,
+    void perform(ab_matrix &edm_av, ab_matrix &hdm_av,
         export_data_i &pr, std::ostream &out);
-
-    /** \brief Perform CT number analysis
-        \param tdm Transition density matrix
-        \param pr Printer of CT number data
-     **/
-    void analyse_ctnum(const ab_matrix &tdm, std::ostream &out) const;
-
-    /** \brief Performs NTO analysis
-        \param tdm Transition density matrix
-        \param dpr Density matrix export / print
-        \param opr NTO export / print
-        \param out Output stream
-
-        EDM and HDM are exported and discarded afterwards.
-     **/
-    void analyse_nto(const ab_matrix &tdm,
-        export_data_i &pr, std::ostream &out) const;
-
 };
 
 } // namespace libwfa

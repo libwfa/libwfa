@@ -1,5 +1,5 @@
-#ifndef LIBWFA_NTO_DATA_PRINT_H
-#define LIBWFA_NTO_DATA_PRINT_H
+#ifndef LIBWFA_EV_PRINTER_NTO_H
+#define LIBWFA_EV_PRINTER_NTO_H
 
 #include <iostream>
 #include "ev_printer_i.h"
@@ -10,7 +10,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class nto_data_print : public ev_printer_i {
+class ev_printer_nto : public ev_printer_i {
 public:
     static const char k_clazz[]; //!< Class name
 
@@ -20,11 +20,10 @@ private:
 
 public:
     /** \brief Constructor
-        \param out Output stream
         \param thresh Threshold for important NTOs
         \param nnto # of leading occupation numbers to print
      */
-    nto_data_print(double thresh = 1e-6, size_t nnto = 3) :
+    ev_printer_nto(double thresh = 1e-6, size_t nnto = 3) :
         m_thresh(thresh), m_nnto(nnto) { }
 
     /** \copydoc ev_printer_i::perform

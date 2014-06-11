@@ -1,16 +1,16 @@
 #include <algorithm>
 #include <iomanip>
 #include <libwfa/libwfa_exception.h>
-#include "ndo_data_print.h"
+#include "ev_printer_ndo.h"
 
 namespace libwfa {
 
 using namespace arma;
 
-const char ndo_data_print::k_clazz[] = "ndo_data_print";
+const char ev_printer_ndo::k_clazz[] = "ev_printer_ndo";
 
 
-size_t ndo_data_print::perform(density_type type,
+size_t ev_printer_ndo::perform(density_type type,
     const ab_vector &ni, std::ostream &out) const {
 
     static const char *method =
@@ -34,7 +34,7 @@ size_t ndo_data_print::perform(density_type type,
 }
 
 
-size_t ndo_data_print::print(const Col<double> &ni, std::ostream &out) const {
+size_t ev_printer_ndo::print(const Col<double> &ni, std::ostream &out) const {
 
     out << std::setw(7) << std::setprecision(4) << std::fixed;
     out << "Leading detachment eigenvalues: ";

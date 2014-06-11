@@ -6,12 +6,12 @@ namespace libwfa {
 using namespace arma;
 
 
-void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_data_i &opr, std::ostream &out) const {
+void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
+    export_data_i &opr, std::ostream &out) const {
 
     ab_matrix u;
     ab_vector ev;
-    diagonalize_dm(m_c, ddm, ev, u);
+    diagonalize_dm(m_c, m_ddm, ev, u);
 
     m_pr.perform(density_type::difference, ev, out);
 
@@ -28,18 +28,17 @@ void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
     u.alpha() = u.alpha().t() * m_s;
     if (! aeqb) u.beta() = u.beta().t() * m_s;
 
-    form_ad(ev, u, ad.first, ad.second);
+    form_ad(ev, u, at, de);
 }
 
 
-void ndo_analysis::perform(const ab_matrix &ddm, export_data_i &pr,
-    std::ostream &out) const {
+void ndo_analysis::perform(export_data_i &pr, std::ostream &out) const {
 
-    ab_matrix_pair ad;
-    perform(ddm, ad, pr, out);
+    ab_matrix at, de;
+    perform(at, de, pr, out);
 
-    pr.perform(density_type::attach, ad.first);
-    pr.perform(density_type::detach, ad.second);
+    pr.perform(density_type::attach, at);
+    pr.perform(density_type::detach, de);
 }
 
 

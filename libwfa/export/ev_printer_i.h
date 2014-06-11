@@ -15,9 +15,9 @@ public:
     virtual ~ev_printer_i() { }
 
     /** \brief Print the eigenvalues
-        \param type Type of density matrix
-        \param ni Occupation number vector (= vector of eigenvalues)
-        \param out Output stream
+        \param[in] type Type of density matrix
+        \param[in] ni Occupation number vector (= vector of eigenvalues)
+        \param[out] out Output stream
         \return Number of important eigenvalues
      **/
     virtual size_t perform(density_type type,

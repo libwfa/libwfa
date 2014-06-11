@@ -1,3 +1,4 @@
+#include <libwfa/analyses/no_analysis.h>
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
 #include <libwfa/core/transformations_dm.h>
@@ -8,46 +9,23 @@ namespace libwfa {
 using namespace arma;
 
 
-analyse_sdm::analyse_sdm(const arma::Mat<double> &s,
-    const ab_matrix &c, const ab_matrix &dm0,
-    const ev_printer_i &pr_no, const ev_printer_i &pr_ndo) :
-    m_dm0(dm0), m_no(c, pr_no), m_ndo(s, c, pr_ndo) {
+analyse_sdm::analyse_sdm(const ab_matrix &c,
+    const ab_matrix &sdm, const ev_printer_i &prno) :
+    m_c(c), m_sdm(sdm), m_prno(prno) {
 
 }
 
 
 void analyse_sdm::do_register(const std::string &name,
-    const pop_analysis_i &ana, const pop_printer_i &pr, pa_flag fl) {
+    const pop_analysis_i &ana, const pop_printer_i &pr) {
 
-    m_lst.insert(pa_map_t::value_type(name, pa(ana, pr, fl)));
+    m_lst.insert(pa_map_t::value_type(name, pa(ana, pr)));
 }
 
 
-void analyse_sdm::perform(const ab_matrix &dm, export_data_i &pr,
-    std::ostream &out, bool is_diff) const {
+void analyse_sdm::perform(export_data_i &pr, std::ostream &out) const {
 
-    ab_matrix dm2(dm);
-    if (is_diff) dm2 += m_dm0;
-    else dm2 -= m_dm0;
-
-    const ab_matrix &sdm(is_diff ? dm2 : dm);
-    const ab_matrix &ddm(is_diff ? dm : dm2);
-
-    analyse_no(sdm, pr, out);
-
-    ab_matrix_pair ad;
-    analyse_ndo(ddm, ad, pr, out);
-
-    analyse_pop(sdm, ad, out);
-
-    pr.perform(density_type::state, sdm);
-    pr.perform(density_type::attach, ad.first);
-    pr.perform(density_type::detach, ad.second);
-}
-
-
-void analyse_sdm::analyse_pop(const ab_matrix &sdm,
-    const ab_matrix_pair &ad, std::ostream &out) const {
+    no_analysis(m_c, m_sdm, m_prno).perform(pr, out);
 
     for (pa_map_t::const_iterator i = m_lst.begin(); i != m_lst.end(); i++) {
 
@@ -62,6 +40,8 @@ void analyse_sdm::analyse_pop(const ab_matrix &sdm,
         }
         pop.printer.perform(res, out);
     }
+
+    pr.perform(density_type::state, m_sdm);
 }
 
 

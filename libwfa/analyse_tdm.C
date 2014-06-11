@@ -1,3 +1,5 @@
+#include <libwfa/analyses/ctnumbers.h>
+#include <libwfa/analyses/nto_analysis.h>
 #include "analyse_tdm.h"
 
 namespace libwfa {
@@ -5,8 +7,9 @@ namespace libwfa {
 using namespace arma;
 
 
-analyse_tdm::analyse_tdm(const arma::Mat<double> &s, const ab_matrix &c,
-    ev_printer_i &pr_nto) : m_s(s), m_nto(s, c, pr_nto) {
+analyse_tdm::analyse_tdm(const Mat<double> &s, const ab_matrix &c,
+    const ab_matrix &tdm, const ev_printer_i &prnto) :
+    m_s(s), m_c(c), m_tdm(tdm), m_prnto(prnto) {
 
 }
 
@@ -18,43 +21,31 @@ void analyse_tdm::do_register(const std::string &name,
 }
 
 
-void analyse_tdm::perform(const ab_matrix &tdm, ab_matrix_pair &av,
+void analyse_tdm::perform(ab_matrix &edm_av, ab_matrix &hdm_av,
     export_data_i &pr, std::ostream &out) {
 
-    ab_matrix_pair eh;
-    m_nto.perform(tdm, eh, pr, std::cout);
-    analyse_ctnum(tdm, out);
+    {
+    ab_matrix edm, hdm;
+    nto_analysis(m_s, m_c, m_tdm, m_prnto).perform(edm, hdm, pr, out);
 
-    pr.perform(density_type::transition, tdm);
-    pr.perform(density_type::particle, eh.first);
-    pr.perform(density_type::hole, eh.second);
+    pr.perform(density_type::transition, m_tdm);
+    pr.perform(density_type::particle, edm);
+    pr.perform(density_type::hole, hdm);
 
-    av.first += eh.first;
-    av.second += eh.second;
-}
-
-
-void analyse_tdm::analyse_ctnum(const ab_matrix &tdm,
-    std::ostream &out) const {
+    edm_av += edm;
+    hdm_av += hdm;
+    }
 
     for (cna_map_t::const_iterator i = m_lst.begin(); i != m_lst.end(); i++) {
 
         out << i->first << std::endl;
         const cna &ctnum = i->second;
 
-        ctnumbers(m_s, ctnum.analysis, ctnum.printer).perform(tdm, out);
+        ab_matrix om;
+        double om_tot[2];
+        ctnumbers(ctnum.analysis, m_s, m_tdm).perform(om, om_tot);
+        ctnum.printer.perform(om, om_tot, out);
     }
-}
-
-
-void analyse_tdm::analyse_nto(const ab_matrix &tdm,
-    export_data_i &pr, std::ostream &out) const {
-
-    ab_matrix_pair eh;
-    m_nto.perform(tdm, eh, pr, out);
-
-    pr.perform(density_type::particle, eh.first);
-    pr.perform(density_type::hole, eh.second);
 }
 
 

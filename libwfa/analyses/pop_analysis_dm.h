@@ -13,19 +13,21 @@ namespace libwfa {
  **/
 class pop_analysis_dm {
 private:
-    const pop_analysis_i &m_analysis;
+    const pop_analysis_i &m_analysis; //!< Analysis
+    const ab_matrix &m_sdm; //!< State density matrix
 
 public:
     /** \brief Constructor
         \param a Analysis object
+        \param sdm State density matrix
      **/
-    pop_analysis_dm(const pop_analysis_i &a) : m_analysis(a) { }
+    pop_analysis_dm(const pop_analysis_i &a, const ab_matrix &sdm) :
+        m_analysis(a), m_sdm(sdm) { }
 
     /** \brief Perform population analysis
-        \param[in] sdm State density matrix
-        \param[out] pop Resulting population data
+        \param pop Resulting population data
      **/
-    void perform(const ab_matrix &sdm, pop_data &pop) const;
+    void perform(pop_data &pop) const;
 };
 
 } // namespace libwfa

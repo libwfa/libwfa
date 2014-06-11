@@ -48,6 +48,10 @@ set(EXPORT_HEADERS
     export/ctnum_printer_i.h
     export/cube_writer.h
     export/ev_printer_i.h
+    export/ev_printer_ndo.h
+    export/ev_printer_no.h
+    export/ev_printer_none.h
+    export/ev_printer_nto.h
     export/export_cube_base.h
     export/export_data_cm.h
     export/export_data_cube.h
@@ -57,9 +61,6 @@ set(EXPORT_HEADERS
     export/export_molden_i.h
     export/export_orbitals_molden.h
     export/grid3d.h
-    export/ndo_data_print.h
-    export/no_data_print.h
-    export/nto_data_print.h
     export/pop_printer_default.h
     export/pop_printer_i.h
 )
@@ -72,9 +73,9 @@ set(EXPORT_SRC
     export/export_data_print.C
     export/export_orbitals_molden.C
     export/grid3d.C
-    export/ndo_data_print.C
-    export/nto_data_print.C
-    export/no_data_print.C
+    export/ev_printer_ndo.C
+    export/ev_printer_no.C
+    export/ev_printer_nto.C
     export/pop_printer_default.C
 )
 
@@ -83,6 +84,8 @@ set(HEADERS
     ${CORE_HEADERS}
     ${EXPORT_HEADERS}
     ${ANALYSES_HEADERS}
+    analyse_ddm.h
+    analyse_esdm.h
     analyse_sdm.h
     analyse_tdm.h
     libwfa_exception.h
@@ -93,6 +96,8 @@ set(SRC
     ${CORE_SRC}
     ${EXPORT_SRC}
     ${ANALYSES_SRC}
+    analyse_ddm.C
+    analyse_esdm.C
     analyse_sdm.C
     analyse_tdm.C
     libwfa_exception.C

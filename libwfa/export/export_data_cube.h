@@ -1,5 +1,5 @@
-#ifndef LIBWFA_EXPORT_DENSITIES_CUBE_H
-#define LIBWFA_EXPORT_DENSITIES_CUBE_H
+#ifndef LIBWFA_EXPORT_DATA_CUBE_H
+#define LIBWFA_EXPORT_DATA_CUBE_H
 
 #include "export_cube_base.h"
 #include "export_data_i.h"
