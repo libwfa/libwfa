@@ -6,12 +6,14 @@ set(SRC_HEADER
     ctnum_export_test.h
     ctnumbers_test.h
     cube_writer_test.h
+    density_type_test.h
     export_cube_base_test.h
     grid3d_test.h
     libwfa_suite.h
     ndo_analysis_test.h
     no_analysis_test.h
     nto_analysis_test.h
+    orbital_type_test.h
     orbital_selector_test.h
     pop_analysis_ad_test.h
     pop_analysis_dm_test.h
@@ -30,6 +32,7 @@ set(SRC
     ctnum_export_test.C
     ctnumbers_test.C
     cube_writer_test.C
+    density_type_test.C
     export_cube_base_test.C
     grid3d_test.C
     libwfa_tests.C
@@ -38,6 +41,7 @@ set(SRC
     no_analysis_test.C
     nto_analysis_test.C
     orbital_selector_test.C
+    orbital_type_test.C
     pop_analysis_ad_test.C
     pop_analysis_dm_test.C
     pop_mulliken_test.C

@@ -1,11 +1,9 @@
 #include <sstream>
 #include <libwfa/libwfa_exception.h>
-#include <libwfa/analyses/orbital_type.h>
+#include <libwfa/core/orbital_type.h>
 #include "orbital_type_test.h"
 
 namespace libwfa {
-
-using namespace arma;
 
 
 void orbital_type_test::perform() throw(libtest::test_exception) {
