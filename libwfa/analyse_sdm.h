@@ -23,7 +23,7 @@ public:
         pa_none = 0, //!< Do not perform PA
         pa_dm = 1, //!< Perform PA on state density matrix
         pa_ad = 2, //!< Perform PA on attachment / detachment density matrices
-        both = 3 //!< Perform both PAs
+        pa_both = 3 //!< Perform both PAs
     } pa_flag;
 
 private:

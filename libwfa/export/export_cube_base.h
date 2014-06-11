@@ -68,7 +68,7 @@ public:
         \param grid Grid to generate the volumetric data
         \param atnum List of atomic numbers
         \param coords List of atomic coords (#atoms columns x 3 rows)
-        \param prefix Prefix to use for the filenames
+        \param prefix Prefix to use for the filenames (e.g. directory)
      **/
     export_cube_base(const grid3d &grid, const arma::Col<unsigned int> &atnum,
         const arma::Mat<double> &coord, const std::string prefix = "");

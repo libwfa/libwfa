@@ -21,14 +21,14 @@ size_t no_data_print::perform(density_type type,
 
     std::string title("NOs");
     if (ni.is_alpha_eq_beta()) {
-        out << " " << title << "(spin-traced)" << std::endl;
+        out << " " << title << " (spin-traced)" << std::endl;
         return print_total(ni.alpha() * 2.0, out);
     }
     else {
-        out << " " << title << "(alpha)" << std::endl;
+        out << " " << title << " (alpha)" << std::endl;
         size_t na = print(ni.alpha(), out);
 
-        out << " " << title << "(beta)" << std::endl;
+        out << " " << title << " (beta)" << std::endl;
         size_t nb = print(ni.beta(), out);
 
         return std::max(na, nb);

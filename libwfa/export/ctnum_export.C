@@ -41,8 +41,8 @@ void ctnum_export::perform(const ab_matrix &om,
 }
 
 
-void ctnum_export::do_export(
-    const std::string &fname, const Mat<double> &ct) const {
+void ctnum_export::do_export(const std::string &fname,
+    const Mat<double> &ct) const {
 
     std::ofstream out;
     out.open(fname.c_str());
