@@ -1,11 +1,12 @@
 #ifndef LIBWFA_ANALYSE_OPDM_H
 #define LIBWFA_ANALYSE_OPDM_H
 
-#include <map>
 #include <libwfa/analyses/pop_analysis_i.h>
 #include <libwfa/export/ev_printer_i.h>
 #include <libwfa/export/export_data_i.h>
 #include <libwfa/export/pop_printer_i.h>
+#include <map>
+#include <memory>
 
 namespace libwfa {
 

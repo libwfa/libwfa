@@ -1,11 +1,12 @@
 #ifndef LIBWFA_ANALYSE_OPTDM_H
 #define LIBWFA_ANALYSE_OPTDM_H
 
-#include <map>
 #include <libwfa/analyses/ctnum_analysis_i.h>
 #include <libwfa/export/ctnum_printer_i.h>
 #include <libwfa/export/ev_printer_i.h>
 #include <libwfa/export/export_data_i.h>
+#include <map>
+#include <memory>
 
 namespace libwfa {
 
