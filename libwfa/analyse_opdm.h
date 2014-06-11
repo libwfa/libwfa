@@ -35,15 +35,27 @@ private:
 
 private:
     pa_map_t m_pa; //!< List of population analyses
+    const ev_printer_i *m_pr[2]; //!< Formating objects for NO and NDO summary
+
     const arma::Mat<double> &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficient matrix
-    const ab_matrix &m_dm0; //!< Ground state density matrix
-    const ab_matrix &m_dm; //!< Excited state (or difference) density matrix
-    const ev_printer_i *m_no; //!< Formating object of NO summary
-    const ev_printer_i *m_ndo; //!< Formating object of NDO summary
-    bool m_is_diff; //!< Density matrix is difference density
+
+    const ab_matrix &m_dm1; //!< State or difference density matrix
+    std::auto_ptr<ab_matrix> m_dm2; //!< State or differnce density matrix
+    const ab_matrix &m_sdm; //!< State density matrix
+    const ab_matrix &m_ddm; //!< Difference density matrix
 
 public:
+    /** \brief Constructor
+        \param s Overlap matrix
+        \param c MO coefficients
+        \param dm State density matrix
+     **/
+    analyse_opdm(
+        const arma::Mat<double> &s,
+        const ab_matrix &c,
+        const ab_matrix &dm);
+
     /** \brief Constructor
         \param s Overlap matrix
         \param c MO coefficients
@@ -83,6 +95,10 @@ public:
         - Population analysis
      **/
     void perform(export_data_i &pr, std::ostream &out) const;
+
+private:
+    static std::auto_ptr<ab_matrix> build_dm(const ab_matrix &dm,
+        const ab_matrix &dm0, bool is_diff);
 };
 
 } // namespace libwfa

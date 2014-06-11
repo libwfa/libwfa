@@ -10,46 +10,49 @@ namespace libwfa {
 using namespace arma;
 
 
+analyse_opdm::analyse_opdm(const arma::Mat<double> &s,
+    const ab_matrix &c, const ab_matrix &dm) :
+    m_s(s), m_c(c), m_dm1(dm), m_dm2(0), m_sdm(dm), m_ddm(dm) {
+
+}
+
+
 analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
     const ab_matrix &dm0, const ab_matrix &dm, bool is_diff) :
-    m_s(s), m_c(c), m_dm0(dm0), m_dm(dm), m_no(0), m_ndo(0), m_is_diff(is_diff) {
+    m_s(s), m_c(c), m_dm1(dm), m_dm2(build_dm(dm, dm0, is_diff)),
+    m_sdm(is_diff ? *m_dm2 : m_dm1), m_ddm(is_diff ? m_dm1 : *m_dm2) {
 
 }
 
 
 void analyse_opdm::do_register(orbital_type ot, const ev_printer_i &pr) {
 
-    if (ot == orbital_type::no) m_no = &pr;
-    else if (ot == orbital_type::ndo) m_ndo = &pr;
+    if (ot == orbital_type::no) m_pr[0] = &pr;
+    else if (m_dm2.get() != 0 && ot == orbital_type::ndo) m_pr[1] = &pr;
 }
 
 
 void analyse_opdm::do_register(const std::string &name,
     const pop_analysis_i &ana, const pop_printer_i &pr, pa_flag fl) {
 
-    m_pa.insert(pa_map_t::value_type(name, pa(ana, pr, fl)));
+    if (m_dm2.get() == 0) fl = (fl & pa_dm) == pa_dm ? pa_dm : pa_none;
+    if (fl != pa_none)
+        m_pa.insert(pa_map_t::value_type(name, pa(ana, pr, fl)));
 }
 
 
 void analyse_opdm::perform(export_data_i &pr, std::ostream &out) const {
 
-    ab_matrix dm2(m_dm);
-    if (m_is_diff) dm2 += m_dm0;
-    else dm2 -= m_dm0;
+    pr.perform(density_type::state, m_sdm);
+    if (m_dm2.get() != 0) pr.perform(density_type::difference, m_ddm);
 
-    const ab_matrix &sdm(m_is_diff ? dm2 : m_dm);
-    const ab_matrix &ddm(m_is_diff ? m_dm : dm2);
-
-    pr.perform(density_type::state, sdm);
-    pr.perform(density_type::difference, ddm);
-
-    if (m_no != 0) {
-        no_analysis(m_c, sdm, *m_no).perform(pr, out);
+    if (m_pr[0] != 0) {
+        no_analysis(m_c, m_sdm, *m_pr[0]).perform(pr, out);
     }
 
     ab_matrix at, de;
-    if (m_ndo != 0) {
-        ndo_analysis(m_s, m_c, ddm, *m_ndo).perform(at, de, pr, out);
+    if (m_pr[1] != 0) {
+        ndo_analysis(m_s, m_c, m_ddm, *m_pr[1]).perform(at, de, pr, out);
         pr.perform(density_type::attach, at);
         pr.perform(density_type::detach, de);
     }
@@ -60,12 +63,21 @@ void analyse_opdm::perform(export_data_i &pr, std::ostream &out) const {
         const pa &pop = i->second;
         pop_data res;
         if ((pop.flag & pa_dm) == pa_dm)
-            pop_analysis_dm(pop.analysis, sdm).perform(res);
-        if (m_ndo != 0 && (pop.flag & pa_ad) == pa_ad)
+            pop_analysis_dm(pop.analysis, m_sdm).perform(res);
+        if (m_pr[1] != 0 && (pop.flag & pa_ad) == pa_ad)
             pop_analysis_ad(pop.analysis, at, de).perform(res);
         pop.printer.perform(res, out);
     }
 }
 
+
+std::auto_ptr<ab_matrix> analyse_opdm::build_dm(const ab_matrix &dm,
+    const ab_matrix &dm0, bool is_diff) {
+
+    std::auto_ptr<ab_matrix> dm2(new ab_matrix(dm));
+    if (is_diff) *dm2 += dm0;
+    else *dm2 -= dm0;
+    return dm2;
+}
 
 } // end namespace
