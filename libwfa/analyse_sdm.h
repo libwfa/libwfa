@@ -16,8 +16,14 @@ namespace libwfa {
 class analyse_sdm {
 public:
     typedef std::pair<ab_matrix, ab_matrix> ab_matrix_pair;
+
+    /** \brief Flag when to perform specific population analysis
+     **/
     typedef enum {
-        pa_dm = 1, pa_ad = 2, both = 3
+        pa_none = 0, //!< Do not perform PA
+        pa_dm = 1, //!< Perform PA on state density matrix
+        pa_ad = 2, //!< Perform PA on attachment / detachment density matrices
+        both = 3 //!< Perform both PAs
     } pa_flag;
 
 private:
@@ -49,11 +55,11 @@ public:
         const ab_matrix &dm0, const ev_printer_i &pr_no,
         const ev_printer_i &pr_ndo);
 
-    /** \brief Register population analysis to be performed
+    /** \brief Register population analyses that should be performed
         \param name Name for population analysis
         \param pa Population analysis
-        \param pr Population printer
-        \param fl Flag to apply
+        \param pr Population printer / formatter
+        \param fl Flag for which density the population analysis is used
      **/
     void do_register(const std::string &name, const pop_analysis_i &pa,
             const pop_printer_i &pr, pa_flag fl);

@@ -10,6 +10,7 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("ab_vector", m_utf_ab_vector);
     add_test("ctnum_analysis", m_utf_ctnum_analysis);
     add_test("ctnum_export", m_utf_ctnum_export);
+    add_test("grid3d", m_utf_grid3d);
     add_test("pop_mulliken", m_utf_pop_mulliken);
     add_test("pop_printer_default", m_utf_pop_printer_default);
     add_test("selector", m_utf_selector);

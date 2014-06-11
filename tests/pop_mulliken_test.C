@@ -36,14 +36,14 @@ void pop_mulliken_test::test_1() {
         for (size_t j = 0; j < nb; j++) {
             tmp += dm(i, j) * ov(i, j);
         }
-        p_ref[0] += tmp;
+        p_ref[0] -= tmp;
     }
     for (size_t i = nb1; i < nb; i++) {
         double tmp = 0.0;
         for (size_t j = 0; j < nb; j++) {
             tmp += dm(i, j) * ov(i, j);
         }
-        p_ref[1] += tmp;
+        p_ref[1] -= tmp;
     }
 
     pop_mulliken(ov, b2c, p0).perform(dm, p);
