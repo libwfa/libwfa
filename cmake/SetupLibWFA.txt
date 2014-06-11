@@ -1,0 +1,19 @@
+#
+#	Set up libwfa as an external library
+#
+
+include(${LIBWFA_DIR}/cmake/DepsLibWFA.txt)
+
+#	Debugging options
+#
+add_definitions(-DLIBWFA_DEBUG)
+
+#	Include and library paths
+#
+include_directories(${LIBWFA_DIR} ${ARMADILLO_INCLUDE_DIRS})
+add_library(wfa STATIC IMPORTED)
+set_target_properties(wfa PROPERTIES
+	IMPORTED_LOCATION ${LIBWFA_DIR}/build/libwfa.a
+)
+
+
