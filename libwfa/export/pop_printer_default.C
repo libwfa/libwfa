@@ -54,7 +54,7 @@ void pop_printer_default::perform(const pop_data &p, std::ostream &out) const {
     out << std::endl;
     out << std::string(width, '-') << std::endl;
         
-    std::vector<double> total(p.size(), 0.0);
+    arma::Col<double> total(p.size(), 0.0);
     for (size_t i = 0, j = 1; i != m_labels.size(); i++, j++) {
 
         out << offset << std::setw(nw1) << j;
@@ -66,10 +66,10 @@ void pop_printer_default::perform(const pop_data &p, std::ostream &out) const {
         for (pop_data::iterator kk = p.begin();
                 kk != p.end(); k++, kk++) {
 
-            const std::vector<double> &set = p.data(kk);
-            total[k] += set[i];
+            const arma::Col<double> &set = p.data(kk);
+            total(k) += set(i);
 
-            out << set[i];
+            out << set(i);
         }
         out << std::endl;
     }
@@ -79,8 +79,7 @@ void pop_printer_default::perform(const pop_data &p, std::ostream &out) const {
 
     out << std::setw(nw) << std::right << "Sum:";
     out << std::setw(colwidth) << std::right;
-    for (std::vector<double>::const_iterator i = total.begin();
-            i != total.end(); i++) out << *i;
+    for (size_t i = 0; i < total.size(); i++) out << total(i);
     out << std::endl;
 }
 

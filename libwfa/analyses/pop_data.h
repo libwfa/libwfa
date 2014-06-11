@@ -1,9 +1,9 @@
 #ifndef LIBWFA_POP_DATA_H
 #define LIBWFA_POP_DATA_H
 
+#include <armadillo>
 #include <list>
 #include <string>
-#include <vector>
 
 namespace libwfa {
 
@@ -17,10 +17,10 @@ private:
      **/
     struct data_set{
         std::string name;
-        std::vector<double> data;
+        arma::Col<double> data;
 
         data_set(const std::string &name_,
-            const std::vector<double> &data_ = std::vector<double>(0, 0.0)) :
+            const arma::Col<double> &data_ = arma::Col<double>()) :
             name(name_), data(data_) {
         }
     };
@@ -36,7 +36,7 @@ public:
         \param name Name of data set
         \return Reference to the empty data set.
      **/
-    std::vector<double> &add(const std::string &name) {
+    arma::Col<double> &add(const std::string &name) {
         m_sets.push_back(data_set(name));
         return m_sets.back().data;
     }
@@ -45,7 +45,7 @@ public:
         \param name Name of data set
         \param data The data to be added
      **/
-    void add(const std::string &name, const std::vector<double> &data) {
+    void add(const std::string &name, const arma::Col<double> &data) {
         m_sets.push_back(data_set(name, data));
     }
 
@@ -73,7 +73,7 @@ public:
 
     /** \brief Access to the current data set (const)
      **/
-    const std::vector<double> &data(iterator i) const {
+    const arma::Col<double> &data(iterator i) const {
         return i->data;
     }
 };
