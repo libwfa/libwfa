@@ -5,6 +5,7 @@ set(SRC_HEADER
     ctnum_analysis_test.h
     ctnum_export_test.h
     cube_writer_test.h
+    export_cube_base_test.h
     grid3d_test.h
     libwfa_suite.h
     pop_mulliken_test.h
@@ -21,6 +22,7 @@ set(SRC
     ctnum_analysis_test.C
     ctnum_export_test.C
     cube_writer_test.C
+    export_cube_base_test.C
     grid3d_test.C
     libwfa_tests.C
     libwfa_suite.C

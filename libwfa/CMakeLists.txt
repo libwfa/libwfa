@@ -48,6 +48,7 @@ set(EXPORT_HEADERS
     export/ctnum_printer_i.h
     export/cube_writer.h
     export/ev_printer_i.h
+    export/export_cube_base.h
     export/export_densities_i.h
     export/export_densities_none.h
     export/export_densities_print.h
@@ -65,6 +66,7 @@ set(EXPORT_HEADERS
 set(EXPORT_SRC
     export/ctnum_export.C
     export/cube_writer.C
+    export/export_cube_base.C
     export/export_densities_print.C
     export/export_orbitals_print.C
     export/grid3d.C
