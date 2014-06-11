@@ -47,7 +47,7 @@ public:
     /** \brief Write batch of data to disk
         \param data Data array
         \return Number of points written
-     */
+     **/
     size_t write(const arma::Col<double> &data);
 
 private:
