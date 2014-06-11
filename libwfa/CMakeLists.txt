@@ -49,12 +49,13 @@ set(EXPORT_HEADERS
     export/cube_writer.h
     export/ev_printer_i.h
     export/export_cube_base.h
-    export/export_densities_i.h
-    export/export_densities_none.h
-    export/export_densities_print.h
-    export/export_orbitals_i.h
-    export/export_orbitals_none.h
-    export/export_orbitals_print.h
+    export/export_data_cm.h
+    export/export_data_cube.h
+    export/export_data_i.h
+    export/export_data_none.h
+    export/export_data_print.h
+    export/export_molden_i.h
+    export/export_orbitals_molden.h
     export/grid3d.h
     export/ndo_data_print.h
     export/no_data_print.h
@@ -67,8 +68,9 @@ set(EXPORT_SRC
     export/ctnum_export.C
     export/cube_writer.C
     export/export_cube_base.C
-    export/export_densities_print.C
-    export/export_orbitals_print.C
+    export/export_data_cube.C
+    export/export_data_print.C
+    export/export_orbitals_molden.C
     export/grid3d.C
     export/ndo_data_print.C
     export/nto_data_print.C
@@ -97,23 +99,8 @@ set(SRC
     version.C
 )
 
-set(HEADERS_QCHEM
-#    qchem/export_cube_qchem.h
-#    qchem/export_molden_qchem.h
-)
-
-set(SRC_QCHEM
-#    qchem/export_cube_qchem.C
-#    qchem/export_molden_qchem.C
-)
-
 set(TARGETS wfa)
 add_library(wfa ${SRC} ${HEADERS})
-
-if(QCHEM_SOURCE_DIR)
-    set(TARGETS ${TARGETS} wfa_qchem)
-    add_library(wfa_qchem ${SRC_QCHEM} ${HEADERS_QCHEM})
-endif(QCHEM_SOURCE_DIR)
 
 set_property(TARGET ${TARGETS} APPEND PROPERTY 
     COMPILE_DEFINITIONS_DEBUG LIBWFA_DEBUG)

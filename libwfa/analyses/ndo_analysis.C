@@ -7,7 +7,7 @@ using namespace arma;
 
 
 void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_orbitals_i &opr, std::ostream &out) const {
+        export_data_i &opr, std::ostream &out) const {
 
     ab_matrix u;
     ab_vector ev;
@@ -32,14 +32,14 @@ void ndo_analysis::perform(const ab_matrix &ddm, ab_matrix_pair &ad,
 }
 
 
-void ndo_analysis::perform(const ab_matrix &ddm, export_densities_i &dpr,
-    export_orbitals_i &opr, std::ostream &out) const {
+void ndo_analysis::perform(const ab_matrix &ddm, export_data_i &pr,
+    std::ostream &out) const {
 
     ab_matrix_pair ad;
-    perform(ddm, ad, opr, out);
+    perform(ddm, ad, pr, out);
 
-    dpr.perform(density_type::attach, ad.first);
-    dpr.perform(density_type::detach, ad.second);
+    pr.perform(density_type::attach, ad.first);
+    pr.perform(density_type::detach, ad.second);
 }
 
 

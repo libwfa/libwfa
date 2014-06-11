@@ -3,8 +3,7 @@
 
 #include <utility>
 #include <libwfa/export/ev_printer_i.h>
-#include <libwfa/export/export_densities_i.h>
-#include <libwfa/export/export_orbitals_i.h>
+#include <libwfa/export/export_data_i.h>
 
 namespace libwfa {
 
@@ -33,20 +32,19 @@ public:
     /** \brief Perform NDO analysis
         \param[in] ddm Difference density matrix
         \param[out] ad Attachment / detachment densities (first attach)
-        \param[out] opr Printer of NTOs
+        \param[out] pr Printer of NTOs
         \param[out] out Printer object
      **/
     void perform(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_orbitals_i &opr, std::ostream &out) const;
+        export_data_i &pr, std::ostream &out) const;
 
     /** \brief Perform NDO analysis
         \param[in] ddm Difference density matrix
-        \param[out] dpr Printer of density matrices
-        \param[out] opr Printer of NTOs
+        \param[out] pr Printer of density matrices and NTOs
         \param[out] out Printer object
      **/
-    void perform(const ab_matrix &ddm, export_densities_i &dpr,
-        export_orbitals_i &opr, std::ostream &out) const;
+    void perform(const ab_matrix &ddm,
+            export_data_i &pr, std::ostream &out) const;
 };
 
 } // namespace libwfa

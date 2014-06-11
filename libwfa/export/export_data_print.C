@@ -1,15 +1,28 @@
 #include <libwfa/libwfa_exception.h>
-#include "export_orbitals_print.h"
+#include "export_data_print.h"
 
 namespace libwfa {
 
 using namespace arma;
 
 
-const char export_orbitals_print::k_clazz[] = "export_orbitals_print";
+const char export_data_print::k_clazz[] = "export_data_print";
 
 
-void export_orbitals_print::perform(orbital_type type, const ab_matrix &coeff,
+void export_data_print::perform(density_type type, const ab_matrix &dm) {
+
+    m_out << m_title << " - " << type << std::endl;
+    if (dm.is_alpha_eq_beta()) {
+        dm.alpha().print(m_out);
+    }
+    else {
+        dm.alpha().print(m_out, "Alpha spin part:");
+        dm.beta().print(m_out, "Beta spin part:");
+    }
+}
+
+
+void export_data_print::perform(orbital_type type, const ab_matrix &coeff,
         const ab_vector &ev, const ab_selector &s) {
 
     static const char method[] = "perform(const ab_matrix &, "

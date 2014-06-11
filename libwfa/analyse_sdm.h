@@ -51,8 +51,11 @@ public:
         \param pr_no NO summary printer
         \param pr_ndo NDO summary printer
      **/
-    analyse_sdm(const arma::Mat<double> &s, const ab_matrix &c,
-        const ab_matrix &dm0, const ev_printer_i &pr_no,
+    analyse_sdm(
+        const arma::Mat<double> &s,
+        const ab_matrix &c,
+        const ab_matrix &dm0,
+        const ev_printer_i &pr_no,
         const ev_printer_i &pr_ndo);
 
     /** \brief Register population analyses that should be performed
@@ -62,11 +65,11 @@ public:
         \param fl Flag for which density the population analysis is used
      **/
     void do_register(const std::string &name, const pop_analysis_i &pa,
-            const pop_printer_i &pr, pa_flag fl);
+        const pop_printer_i &pr, pa_flag fl);
 
     /** \brief Performs density matrix analyses
         \param[in] dm State or difference density matrix
-        \param[out] dpr Density export / printer
+        \param[out] pr Density and NTO export / printer
         \param[out] opr NTO export / printer
         \param[out] is_diff Is the first argument a difference density matrix?
 
@@ -75,8 +78,8 @@ public:
         - NDO analysis
         - Population analysis
      **/
-    void perform(const ab_matrix &dm, export_densities_i &dpr,
-        export_orbitals_i &opr, std::ostream &out, bool is_diff = true) const;
+    void perform(const ab_matrix &dm, export_data_i &pr,
+        std::ostream &out, bool is_diff = true) const;
 
     /** \brief Perform population analysis
         \param[in] sdm State density matrix
@@ -91,7 +94,7 @@ public:
         \param[out] opr NTO export / print
         \param[out] out Output stream
      **/
-    void analyse_no(const ab_matrix &sdm, export_orbitals_i &opr,
+    void analyse_no(const ab_matrix &sdm, export_data_i &opr,
         std::ostream &out) const {
 
         m_no.perform(sdm, opr, out);
@@ -104,7 +107,7 @@ public:
         \param[out] out Output stream
      **/
     void analyse_ndo(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_orbitals_i &opr, std::ostream &out) const {
+        export_data_i &opr, std::ostream &out) const {
 
         m_ndo.perform(ddm, ad, opr, out);
     }

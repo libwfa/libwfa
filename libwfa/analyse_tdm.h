@@ -4,7 +4,7 @@
 #include <map>
 #include <libwfa/analyses/ctnumbers.h>
 #include <libwfa/analyses/nto_analysis.h>
-#include <libwfa/export/export_densities_i.h>
+#include <libwfa/export/export_data_i.h>
 
 namespace libwfa {
 
@@ -64,7 +64,7 @@ public:
         - EDM and HDM are added to av
      **/
     void perform(const ab_matrix &tdm, ab_matrix_pair &av,
-        export_densities_i &dpr, export_orbitals_i &opr, std::ostream &out);
+        export_data_i &pr, std::ostream &out);
 
     /** \brief Perform CT number analysis
         \param tdm Transition density matrix
@@ -80,8 +80,8 @@ public:
 
         EDM and HDM are exported and discarded afterwards.
      **/
-    void analyse_nto(const ab_matrix &tdm, export_densities_i &dpr,
-        export_orbitals_i &opr, std::ostream &out) const;
+    void analyse_nto(const ab_matrix &tdm,
+        export_data_i &pr, std::ostream &out) const;
 
 };
 

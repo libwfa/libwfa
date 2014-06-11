@@ -8,7 +8,7 @@ using namespace arma;
 
 
 void no_analysis::perform(const ab_matrix &sdm,
-        export_orbitals_i &opr, std::ostream &out) const {
+        export_data_i &opr, std::ostream &out) const {
 
     ab_matrix c_no;
     ab_vector n_no;

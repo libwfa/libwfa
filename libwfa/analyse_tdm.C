@@ -19,22 +19,23 @@ void analyse_tdm::do_register(const std::string &name,
 
 
 void analyse_tdm::perform(const ab_matrix &tdm, ab_matrix_pair &av,
-    export_densities_i &dpr, export_orbitals_i &opr, std::ostream &out) {
+    export_data_i &pr, std::ostream &out) {
 
     ab_matrix_pair eh;
-    m_nto.perform(tdm, eh, opr, std::cout);
+    m_nto.perform(tdm, eh, pr, std::cout);
     analyse_ctnum(tdm, out);
 
-    dpr.perform(density_type::transition, tdm);
-    dpr.perform(density_type::particle, eh.first);
-    dpr.perform(density_type::hole, eh.second);
+    pr.perform(density_type::transition, tdm);
+    pr.perform(density_type::particle, eh.first);
+    pr.perform(density_type::hole, eh.second);
 
     av.first += eh.first;
     av.second += eh.second;
 }
 
 
-void analyse_tdm::analyse_ctnum(const ab_matrix &tdm, std::ostream &out) const {
+void analyse_tdm::analyse_ctnum(const ab_matrix &tdm,
+    std::ostream &out) const {
 
     for (cna_map_t::const_iterator i = m_lst.begin(); i != m_lst.end(); i++) {
 
@@ -46,14 +47,14 @@ void analyse_tdm::analyse_ctnum(const ab_matrix &tdm, std::ostream &out) const {
 }
 
 
-void analyse_tdm::analyse_nto(const ab_matrix &tdm, export_densities_i &dpr,
-    export_orbitals_i &opr, std::ostream &out) const {
+void analyse_tdm::analyse_nto(const ab_matrix &tdm,
+    export_data_i &pr, std::ostream &out) const {
 
     ab_matrix_pair eh;
-    m_nto.perform(tdm, eh, opr, out);
+    m_nto.perform(tdm, eh, pr, out);
 
-    dpr.perform(density_type::particle, eh.first);
-    dpr.perform(density_type::hole, eh.second);
+    pr.perform(density_type::particle, eh.first);
+    pr.perform(density_type::hole, eh.second);
 }
 
 

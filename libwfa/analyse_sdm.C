@@ -23,8 +23,8 @@ void analyse_sdm::do_register(const std::string &name,
 }
 
 
-void analyse_sdm::perform(const ab_matrix &dm, export_densities_i &dpr,
-    export_orbitals_i &opr, std::ostream &out, bool is_diff) const {
+void analyse_sdm::perform(const ab_matrix &dm, export_data_i &pr,
+    std::ostream &out, bool is_diff) const {
 
     ab_matrix dm2(dm);
     if (is_diff) dm2 += m_dm0;
@@ -33,16 +33,16 @@ void analyse_sdm::perform(const ab_matrix &dm, export_densities_i &dpr,
     const ab_matrix &sdm(is_diff ? dm2 : dm);
     const ab_matrix &ddm(is_diff ? dm : dm2);
 
-    analyse_no(sdm, opr, out);
+    analyse_no(sdm, pr, out);
 
     ab_matrix_pair ad;
-    analyse_ndo(ddm, ad, opr, out);
+    analyse_ndo(ddm, ad, pr, out);
 
     analyse_pop(sdm, ad, out);
 
-    dpr.perform(density_type::state, sdm);
-    dpr.perform(density_type::attach, ad.first);
-    dpr.perform(density_type::detach, ad.second);
+    pr.perform(density_type::state, sdm);
+    pr.perform(density_type::attach, ad.first);
+    pr.perform(density_type::detach, ad.second);
 }
 
 

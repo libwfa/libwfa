@@ -3,7 +3,7 @@
 
 #include <utility>
 #include <libwfa/export/ev_printer_i.h>
-#include <libwfa/export/export_orbitals_i.h>
+#include <libwfa/export/export_data_i.h>
 
 namespace libwfa {
 
@@ -33,7 +33,7 @@ public:
         (Assumes the electron density matrix is first in av)
      **/
     void perform(const ab_matrix &sdm,
-        export_orbitals_i &opr, std::ostream &out) const;
+        export_data_i &opr, std::ostream &out) const;
 };
 
 } // namespace libwfa

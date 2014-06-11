@@ -3,7 +3,7 @@
 
 #include <utility>
 #include <libwfa/export/ev_printer_i.h>
-#include <libwfa/export/export_orbitals_i.h>
+#include <libwfa/export/export_data_i.h>
 
 namespace libwfa {
 
@@ -38,7 +38,7 @@ public:
         (Assumes the electron density matrix is first in dm)
      **/
     void perform(const ab_matrix_pair &eh, ab_matrix_pair &u,
-            export_orbitals_i &opr, std::ostream &out) const;
+            export_data_i &opr, std::ostream &out) const;
 
     /** \brief Perform NTO analysis
         \param[in] tdm Transition density matrix
@@ -47,7 +47,7 @@ public:
         \param[out] out Output stream
      **/
     void perform(const ab_matrix &tdm, ab_matrix_pair &eh,
-        export_orbitals_i &opr, std::ostream &out) const;
+        export_data_i &opr, std::ostream &out) const;
 };
 
 } // namespace libwfa
