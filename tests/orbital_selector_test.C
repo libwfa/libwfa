@@ -75,8 +75,8 @@ void orbital_selector_test::test_2() {
         if (indexes[i] != n - i - 1)
             fail_test(testname, __FILE__, __LINE__, "i");
     }
-    for (size_t i = 4; i < 7; i++) {
-        if (indexes[i] != i - 4)
+    for (size_t i = 3; i < 6; i++) {
+        if (indexes[i] != i - 3)
             fail_test(testname, __FILE__, __LINE__, "i");
     }
 

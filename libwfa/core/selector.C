@@ -98,7 +98,7 @@ arma::Col<arma::uword> selector::get_selected_arma() const {
 void selector::check(size_t i) const {
 
 #ifdef LIBWFA_DEBUG
-    if (i >= m_indexes.size()) {
+    if (i >= m_ntotal) {
         throw libwfa_exception("selector", "check(size_t &) const",
                 __FILE__, __LINE__, "i");
     }

@@ -54,7 +54,7 @@ void pop_printer_default::perform(const pop_data &p, std::ostream &out) const {
     out << std::endl;
     out << std::string(width, '-') << std::endl;
         
-    arma::Col<double> total(p.size(), 0.0);
+    arma::Col<double> total(p.size(), arma::fill::zeros);
     for (size_t i = 0, j = 1; i != m_labels.size(); i++, j++) {
 
         out << offset << std::setw(nw1) << j;

@@ -20,9 +20,9 @@ void pop_mulliken_test::test_1() {
 
     size_t na = 2, nb = 10, nb1 = 6;
 
-    Col<size_t> b2c(nb, 0);
+    Col<size_t> b2c(nb, fill::zeros);
     for (size_t i = nb1; i < nb; i++) b2c(i) = 1;
-    Col<double> p0(na, 0.0);
+    Col<double> p0(na, fill::zeros);
 
     // Use the upper and lower triagonal of a random matrix to
     // form symmetric overlap and density matrices
@@ -30,7 +30,7 @@ void pop_mulliken_test::test_1() {
     Mat<double> ov = symmatu(base);
     Mat<double> dm = symmatl(base);
 
-    Col<double> p, p_ref(na, 0.0);
+    Col<double> p, p_ref(na, fill::zeros);
     for (size_t i = 0; i < nb1; i++) {
         double tmp = 0.0;
         for (size_t j = 0; j < nb; j++) {

@@ -30,7 +30,7 @@ void pop_mulliken::perform(
     }
 
     for (size_t i = 0; i != m_b2p.size(); i++) {
-        p[m_b2p[i]] -= dot(d_bb.row(i), m_s.row(i));
+        p(m_b2p(i)) -= dot(d_bb.row(i), m_s.row(i));
     }
 }
 
