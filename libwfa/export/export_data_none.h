@@ -1,7 +1,7 @@
 #ifndef LIBWFA_EXPORT_DATA_NONE_H
 #define LIBWFA_EXPORT_DATA_NONE_H
 
-#include "export_data_i.h
+#include "export_data_i.h"
 
 namespace libwfa {
 
@@ -14,7 +14,7 @@ class export_data_none : public export_data_i {
 public:
     /** \brief Destructor
      **/
-    virtual ~export_densities_none() { }
+    virtual ~export_data_none() { }
 
     //! \brief Implementation of export_data_i interface
     //@{
