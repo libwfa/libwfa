@@ -34,9 +34,7 @@ public:
         \param sdm State density matrix
         \param prno NO summary printer
      **/
-    analyse_sdm(
-        const ab_matrix &c,
-        const ab_matrix &sdm,
+    analyse_sdm(const ab_matrix &c, const ab_matrix &sdm,
         const ev_printer_i &prno);
 
     /** \brief Register population analyses that should be performed

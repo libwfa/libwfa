@@ -27,19 +27,29 @@ class export_data_cube : public export_data_i {
 public:
     static const char k_clazz[]; //!< Class name
 
+public:
+    typedef density_type::flag_t dt_flag;
+    typedef orbital_type::flag_t ot_flag;
+
 private:
     export_cube_base &m_core; //!< Core class for export as cube files
     std::string m_id; //!< ID / name of density (or -ies)
     std::string m_desc; //!< Description
+    dt_flag m_dt; //!< Flag which density types to export
+    ot_flag m_ot; //!< Flag which orbital types to export
 
 public:
     /** \brief Constructor
         \param core Export object into cube files
         \param id ID / name of orbitals and densities
         \param desc Description of orbitals and densities
+        \param dt Flag which density types to export
+        \param ot Flag which orbital types to export
      **/
-    export_data_cube(export_cube_base &core, const std::string &id,
-        const std::string &desc) :
+    export_data_cube(export_cube_base &core,
+        const std::string &id, const std::string &desc,
+        const dt_flag &dt = dt_flag(density_type::DT_ALL),
+        const ot_flag &ot = ot_flag(orbital_type::OT_ALL)) :
         m_core(core), m_id(id), m_desc(desc) { }
 
     /** \brief Destructor

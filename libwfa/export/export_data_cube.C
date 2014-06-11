@@ -11,6 +11,8 @@ const char export_data_cube::k_clazz[] = "export_data_cube";
 
 void export_data_cube::perform(density_type type, const ab_matrix &dm) {
 
+    if (! m_dt.test(type)) return;
+
     std::string name, desc;
     name = m_id + "_" + type.convert();
     {
@@ -35,6 +37,8 @@ void export_data_cube::perform(orbital_type type, const ab_matrix &coeff,
 
     static const char method[] = "perform(const ab_matrix &, "
             "const ab_vector &, const ab_selector &)";
+
+    if (! m_ot.test(type)) return;
 
     if (s.nidx_a() != coeff.ncols_a() || s.nidx_b() != coeff.ncols_b()) {
         throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "sizes");

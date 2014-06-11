@@ -10,13 +10,13 @@ const char export_orbitals_molden::k_clazz[] = "export_orbitals_molden";
 
 
 export_orbitals_molden::export_orbitals_molden(export_molden_i &core,
-    const std::string &id, size_t no_a, size_t nv_a, size_t no_b,
-    size_t nv_b) : m_core(core), m_id(id) {
+    const std::string &id, size_t nbf, size_t no_a, size_t no_b,
+    const ot_flag &ot) : m_core(core), m_id(id), m_ot(ot) {
 
     m_norbs[0] = no_a;
-    m_norbs[1] = nv_a;
+    m_norbs[1] = nbf - no_a;
     m_norbs[2] = no_b;
-    m_norbs[3] = nv_b;
+    m_norbs[3] = nbf - no_b;
 }
 
 
@@ -25,6 +25,8 @@ void export_orbitals_molden::perform(orbital_type type, const ab_matrix &coeff,
 
     static const char method[] = "perform(const ab_matrix &, "
             "const ab_vector &, const ab_selector &)";
+
+    if (! m_ot.test(type)) return;
 
     bool aeqb = coeff.is_alpha_eq_beta();
 

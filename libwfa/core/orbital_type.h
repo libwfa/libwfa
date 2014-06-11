@@ -1,6 +1,7 @@
 #ifndef LIBWFA_ORBITAL_TYPE_H
 #define LIBWFA_ORBITAL_TYPE_H
 
+#include <bitset>
 #include <ostream>
 #include <string>
 
@@ -11,11 +12,16 @@ namespace libwfa {
     \ingroup libwfa
  **/
 class orbital_type {
-private:
-    char m_type;
+public:
+    enum { NT = 4, OT_ALL = 15 };
+
+    typedef std::bitset<NT> flag_t; //!< Flag for density types
 
 private:
-    explicit orbital_type(char t = 0) : m_type(t) { }
+    size_t m_type;
+
+private:
+    explicit orbital_type(size_t t = 0) : m_type(t) { }
 
 public:
     //! \name Comparison operators
@@ -40,6 +46,10 @@ public:
     /** \brief Convert orbital_type into string
      **/
     std::string convert() const;
+
+    /** \brief Conversion to integer
+     **/
+    operator size_t() { return m_type; }
 };
 
 

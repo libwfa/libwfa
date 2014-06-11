@@ -11,6 +11,8 @@ const char export_data_print::k_clazz[] = "export_data_print";
 
 void export_data_print::perform(density_type type, const ab_matrix &dm) {
 
+    if (! m_dt.test(type)) return;
+
     m_out << m_title << " - " << type << std::endl;
     if (dm.is_alpha_eq_beta()) {
         dm.alpha().print(m_out);
@@ -27,6 +29,8 @@ void export_data_print::perform(orbital_type type, const ab_matrix &coeff,
 
     static const char method[] = "perform(const ab_matrix &, "
             "const ab_vector &, const ab_selector &)";
+
+    if (! m_ot.test(type)) return;
 
     bool aeqb = coeff.is_alpha_eq_beta();
 
