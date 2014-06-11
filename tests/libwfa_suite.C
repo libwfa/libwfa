@@ -12,12 +12,14 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("ctnum_export", m_utf_ctnum_export);
     add_test("ctnumbers", m_utf_ctnumbers);
     add_test("cube_writer", m_utf_cube_writer);
+    add_test("density_type", m_utf_density_type);
     add_test("export_cube_base", m_utf_export_cube_base);
     add_test("grid3d", m_utf_grid3d);
     add_test("ndo_analysis", m_utf_ndo_analysis);
     add_test("no_analysis", m_utf_no_analysis);
     add_test("nto_analysis", m_utf_nto_analysis);
     add_test("orbital_selector", m_utf_orbital_selector);
+    add_test("orbital_type", m_utf_orbital_type);
     add_test("pop_analysis_ad", m_utf_pop_analysis_ad);
     add_test("pop_analysis_dm", m_utf_pop_analysis_dm);
     add_test("pop_mulliken", m_utf_pop_mulliken);

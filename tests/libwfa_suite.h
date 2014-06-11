@@ -9,12 +9,14 @@
 #include "ctnum_export_test.h"
 #include "ctnumbers_test.h"
 #include "cube_writer_test.h"
+#include "density_type_test.h"
 #include "export_cube_base_test.h"
 #include "grid3d_test.h"
 #include "ndo_analysis_test.h"
 #include "no_analysis_test.h"
 #include "nto_analysis_test.h"
 #include "orbital_selector_test.h"
+#include "orbital_type_test.h"
 #include "pop_analysis_ad_test.h"
 #include "pop_analysis_dm_test.h"
 #include "pop_mulliken_test.h"
@@ -38,6 +40,7 @@ namespace libwfa {
     - \c ab_matrix_test
     - \c ab_orbital_selector_test
     - \c ab_vector_test
+    - \c density_type_test
     - \c ctnum_analysis_test
     - \c ctnum_export_test
     - \c ctnumbers_test
@@ -48,6 +51,7 @@ namespace libwfa {
     - \c no_analysis_test
     - \c nto_analysis_test
     - \c orbital_selector_test
+    - \c orbital_type_test
     - \c pop_analysis_ad_test
     - \c pop_analysis_dm_test
     - \c pop_mulliken_test
@@ -63,6 +67,7 @@ private:
     unit_test_factory<ab_matrix_test> m_utf_ab_matrix;
     unit_test_factory<ab_orbital_selector_test> m_utf_ab_orbital_selector;
     unit_test_factory<ab_vector_test> m_utf_ab_vector;
+    unit_test_factory<density_type_test> m_utf_density_type;
     unit_test_factory<ctnum_analysis_test> m_utf_ctnum_analysis;
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
     unit_test_factory<ctnumbers_test> m_utf_ctnumbers;
@@ -73,6 +78,7 @@ private:
     unit_test_factory<no_analysis_test> m_utf_no_analysis;
     unit_test_factory<nto_analysis_test> m_utf_nto_analysis;
     unit_test_factory<orbital_selector_test> m_utf_orbital_selector;
+    unit_test_factory<orbital_type_test> m_utf_orbital_type;
     unit_test_factory<pop_analysis_ad_test> m_utf_pop_analysis_ad;
     unit_test_factory<pop_analysis_dm_test> m_utf_pop_analysis_dm;
     unit_test_factory<pop_mulliken_test> m_utf_pop_mulliken;
