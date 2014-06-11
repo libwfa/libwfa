@@ -7,6 +7,7 @@
 #include "ab_vector_test.h"
 #include "ctnum_analysis_test.h"
 #include "ctnum_export_test.h"
+#include "cube_writer_test.h"
 #include "grid3d_test.h"
 #include "pop_mulliken_test.h"
 #include "pop_printer_default_test.h"
@@ -31,6 +32,7 @@ namespace libwfa {
     - \c ab_vector_test
     - \c ctnum_analysis_test
     - \c ctnum_export_test
+    - \c cube_writer_test
     - \c grid3d_test
     - \c pop_mulliken_test
     - \c pop_printer_default_test
@@ -47,6 +49,7 @@ private:
     unit_test_factory<ab_vector_test> m_utf_ab_vector;
     unit_test_factory<ctnum_analysis_test> m_utf_ctnum_analysis;
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
+    unit_test_factory<cube_writer_test> m_utf_cube_writer;
     unit_test_factory<grid3d_test> m_utf_grid3d;
     unit_test_factory<pop_mulliken_test> m_utf_pop_mulliken;
     unit_test_factory<pop_printer_default_test> m_utf_pop_printer_default;
