@@ -27,20 +27,24 @@ void no_analysis::perform(export_data_i &opr, std::ostream &out) const {
         n2_no.alpha() *= 0.5;
 
         m_pr.perform(density_type::state, n2_no, out);
-
-        ab_selector s2_no(true);
-        s2_no.alpha().select_all();
-
-        opr.perform(orbital_type::no, c2_no, n2_no, s2_no);
     }
 
-    m_pr.perform(density_type::state, n_no, out);
+    size_t nelec = m_pr.perform(density_type::state, n_no, out);
 
     // Form full matrix u and vector e (properly sorted)
 
-    ab_selector s_no(aeqb);
-    s_no.alpha().select_all();
-    if (! aeqb) s_no.beta().select_all();
+    ab_orbital_selector s_no(aeqb);
+
+    size_t ntot_a = n_no.alpha().size();
+    s_no.alpha() = orbital_selector(ntot_a);
+    s_no.alpha().select(true, ntot_a - nelec, ntot_a - 1, 1, true);
+    s_no.alpha().select(false, ntot_a - 2 * nelec , ntot_a - nelec - 1, 1, true);
+    if (! aeqb) {
+        size_t ntot_b = n_no.beta().size();
+        s_no.beta() = orbital_selector(ntot_b);
+        s_no.beta().select(true, ntot_b - nelec, ntot_b - 1, 1, true);
+        s_no.beta().select(false, ntot_b - 2 * nelec , ntot_b - nelec - 1, 1, true);
+    }
 
     opr.perform(orbital_type::no, c_no, n_no, s_no);
 }

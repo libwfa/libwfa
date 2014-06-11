@@ -33,7 +33,7 @@ void export_data_cube::perform(density_type type, const ab_matrix &dm) {
 
 
 void export_data_cube::perform(orbital_type type, const ab_matrix &coeff,
-        const ab_vector &ene, const ab_selector &s) {
+        const ab_vector &ene, const ab_orbital_selector &s) {
 
     static const char method[] = "perform(const ab_matrix &, "
             "const ab_vector &, const ab_selector &)";
@@ -63,17 +63,11 @@ void export_data_cube::perform(orbital_type type, const ab_matrix &coeff,
 
 
 void export_data_cube::perform(const std::string &name,
-    const std::string &desc, const Mat<double> &c, const selector &s) {
+    const std::string &desc, const Mat<double> &c, const orbital_selector &s) {
 
-    if (s.all_selected()) {
+    Mat<double> cc = c.cols(s.get_selected_arma());
 
-        m_core.add(name, desc, s.get_selected(), c);
-    }
-    else if (! s.none_selected()) {
-        Mat<double> cc = c.cols(s.get_selected_arma());
-
-        m_core.add(name, desc, s.get_selected(), cc);
-    }
+    m_core.add(name, desc, s.get_selected(), cc);
 
 }
 

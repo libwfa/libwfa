@@ -63,11 +63,11 @@ public:
     /** \copydoc export_data_i::perform
      **/
     virtual void perform(orbital_type type, const ab_matrix &coeff,
-        const ab_vector &ev, const ab_selector &s);
+        const ab_vector &ev, const ab_orbital_selector &s);
 
 private:
     void perform(const std::string &name, const std::string &desc,
-            const arma::Mat<double> &c, const selector &s);
+            const arma::Mat<double> &c, const orbital_selector &s);
 };
 
 

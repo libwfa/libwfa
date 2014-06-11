@@ -25,7 +25,7 @@ void export_data_print::perform(density_type type, const ab_matrix &dm) {
 
 
 void export_data_print::perform(orbital_type type, const ab_matrix &coeff,
-        const ab_vector &ev, const ab_selector &s) {
+        const ab_vector &ev, const ab_orbital_selector &s) {
 
     static const char method[] = "perform(const ab_matrix &, "
             "const ab_vector &, const ab_selector &)";
@@ -49,30 +49,30 @@ void export_data_print::perform(orbital_type type, const ab_matrix &coeff,
     m_out << m_title << " - " << type << std::endl;
     if (! aeqb) m_out << "Alpha spin part:";
 
-    const selector &sa = s.alpha();
-    const arma::Col<double> &eva = ev.alpha();
-    const arma::Mat<double> &ca = coeff.alpha();
+    const orbital_selector &sa = s.alpha();
+    const Col<double> &eva = ev.alpha();
+    const Mat<double> &ca = coeff.alpha();
+    Col<uword> ela = sa.get_selected_arma();
 
-    for (size_t i = 0; i < sa.n_indexes(); i++) {
-        if (! sa.is_selected(i)) continue;
+    for (size_t i = 0; i < ela.n_elem; i++) {
 
         std::ostringstream oss;
-        oss << " Occupation " << eva[i];
-        ca.col(i).t().print(m_out, oss.str());
+        oss << " Occupation " << eva(ela(i));
+        ca.col(ela(i)).t().print(m_out, oss.str());
     }
 
     if (aeqb) return;
 
-    const selector &sb = s.beta();
-    const arma::Col<double> &evb = ev.beta();
-    const arma::Mat<double> &cb = coeff.beta();
+    const orbital_selector &sb = s.beta();
+    const Col<double> &evb = ev.beta();
+    const Mat<double> &cb = coeff.beta();
+    Col<uword> elb = sb.get_selected_arma();
 
-    for (size_t i = 0; i < sb.n_indexes(); i++) {
-        if (! sb.is_selected(i)) continue;
+    for (size_t i = 0; i < elb.n_elem; i++) {
 
         std::ostringstream oss;
-        oss << " Occupation " << evb[i];
-        cb.col(i).t().print(m_out, oss.str());
+        oss << " Occupation " << evb(elb(i));
+        cb.col(elb(i)).t().print(m_out, oss.str());
     }
 }
 

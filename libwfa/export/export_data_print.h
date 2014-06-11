@@ -53,7 +53,7 @@ public:
         orbitals and eigenvalues to the output stream
      **/
     virtual void perform(orbital_type type, const ab_matrix &coeff,
-        const ab_vector &ev, const ab_selector &s);
+        const ab_vector &ev, const ab_orbital_selector &s);
 
 };
 

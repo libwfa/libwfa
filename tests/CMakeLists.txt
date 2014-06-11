@@ -1,13 +1,14 @@
 set(SRC_HEADER
     ab_matrix_test.h
+    ab_orbital_selector_test.h
     ab_vector_test.h
-    ab_selector_test.h
     ctnum_analysis_test.h
     ctnum_export_test.h
     cube_writer_test.h
     export_cube_base_test.h
     grid3d_test.h
     libwfa_suite.h
+    orbital_selector_test.h
     pop_mulliken_test.h
     pop_printer_default_test.h
     selector_test.h
@@ -17,8 +18,8 @@ set(SRC_HEADER
 
 set(SRC
     ab_matrix_test.C
+    ab_orbital_selector_test.C
     ab_vector_test.C
-    ab_selector_test.C
     ctnum_analysis_test.C
     ctnum_export_test.C
     cube_writer_test.C
@@ -26,6 +27,7 @@ set(SRC
     grid3d_test.C
     libwfa_tests.C
     libwfa_suite.C
+    orbital_selector_test.C
     pop_mulliken_test.C
     pop_printer_default_test.C
     selector_test.C

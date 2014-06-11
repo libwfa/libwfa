@@ -1,8 +1,8 @@
-#ifndef LIBWFA_AB_SELECTOR_H
-#define LIBWFA_AB_SELECTOR_H
+#ifndef LIBWFA_AB_ORBITAL_SELECTOR_H
+#define LIBWFA_AB_ORBITAL_SELECTOR_H
 
 #include "ab_object.h"
-#include "selector.h"
+#include "orbital_selector.h"
 
 namespace libwfa {
 
@@ -10,28 +10,30 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class ab_selector : public ab_object<selector> {
+class ab_orbital_selector : public ab_object<orbital_selector> {
 public:
     /** \brief Default constructor
         \param aeqb If true, alpha == beta spin vector
      **/
-    ab_selector(bool aeqb = false) : ab_object<selector>(aeqb) { }
+    ab_orbital_selector(bool aeqb = false) :
+        ab_object<orbital_selector>(aeqb) { }
 
 
     /** \brief Constructor for alpha == beta
         \param nidx Number of indexes in range
      **/
-    ab_selector(size_t nidx) : ab_object<selector>(true) {
-        alpha() = selector(nidx);
+    ab_orbital_selector(size_t nidx) : ab_object<orbital_selector>(true) {
+        alpha() = orbital_selector(nidx);
     }
 
     /** \brief Constructor for alpha != beta
         \param nidx_a Number of alpha-spin indexes
         \param nidx_b Number of beta-spin indexes
      **/
-    ab_selector(size_t nidx_a, size_t nidx_b) : ab_object<selector>(false) {
-        alpha() = selector(nidx_a);
-        beta()  = selector(nidx_b);
+    ab_orbital_selector(size_t nidx_a, size_t nidx_b) :
+        ab_object<orbital_selector>(false) {
+        alpha() = orbital_selector(nidx_a);
+        beta()  = orbital_selector(nidx_b);
     }
 
     /** \brief Return the number of alpha-spin rows
@@ -45,4 +47,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_AB_SELECTOR_H
+#endif // LIBWFA_AB_ORBITAL_SELECTOR_H

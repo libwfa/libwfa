@@ -1,16 +1,16 @@
-#ifndef LIBWFA_AB_SELECTOR_TEST_H
-#define LIBWFA_AB_SELECTOR_TEST_H
+#ifndef LIBWFA_AB_ORBITAL_SELECTOR_TEST_H
+#define LIBWFA_AB_ORBITAL_SELECTOR_TEST_H
 
 #include <libtest/unit_test.h>
 
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::ab_selector class
+/**	\brief Tests the libwfa::ab_orbital_selector class
 
 	\ingroup libmo_tests
  **/
-class ab_selector_test : public libtest::unit_test {
+class ab_orbital_selector_test : public libtest::unit_test {
 public:
 	virtual void perform() throw(libtest::test_exception);
 
@@ -26,4 +26,4 @@ private:
 
 } // namespace libwfa
 
-#endif // LIBWFA_AB_SELECTOR_TEST_H
+#endif // LIBWFA_AB_ORBITAL_SELECTOR_TEST_H

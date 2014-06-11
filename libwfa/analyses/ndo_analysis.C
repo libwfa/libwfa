@@ -13,14 +13,23 @@ void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
     ab_vector ev;
     diagonalize_dm(m_c, m_ddm, ev, u);
 
-    m_pr.perform(density_type::difference, ev, out);
+    size_t nndo = m_pr.perform(density_type::difference, ev, out);
 
     // Form full matrix u and vector e (properly sorted)
 
     bool aeqb = u.is_alpha_eq_beta();
-    ab_selector s(aeqb);
-    s.alpha().select_all();
-    if (! aeqb) s.beta().select_all();
+    ab_orbital_selector s(aeqb);
+
+    size_t na = ev.alpha().n_elem;
+    s.alpha() = orbital_selector(na);
+    s.alpha().select(0, nndo);
+    s.alpha().select(na - nndo, na - 1);
+    if (! aeqb) {
+        size_t nb = ev.beta().n_elem;
+        s.beta() = orbital_selector(nb);
+        s.beta().select(0, nndo);
+        s.beta().select(nb - nndo, nb - 1);
+    }
 
     opr.perform(orbital_type::ndo, u, ev, s);
 

@@ -2,8 +2,8 @@
 #define LIBWFA_EXPORT_DATA_I_H
 
 #include <libwfa/core/ab_matrix.h>
+#include <libwfa/core/ab_orbital_selector.h>
 #include <libwfa/core/ab_vector.h>
-#include <libwfa/core/ab_selector.h>
 #include <libwfa/core/density_type.h>
 #include <libwfa/core/orbital_type.h>
 
@@ -37,7 +37,7 @@ public:
         coefficient matrix.
      **/
     virtual void perform(orbital_type type, const ab_matrix &coeff,
-            const ab_vector &ev, const ab_selector &s) = 0;
+            const ab_vector &ev, const ab_orbital_selector &s) = 0;
 };
 
 } // namespace libwfa

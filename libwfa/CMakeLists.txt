@@ -27,9 +27,10 @@ set(ANALYSES_SRC
 set(CORE_HEADERS
     core/ab_matrix.h
     core/ab_object.h
-    core/ab_selector.h
+    core/ab_orbital_selector.h
     core/ab_vector.h
     core/density_type.h
+    core/orbital_selector.h
     core/orbital_type.h
     core/selector.h
     core/transformations_dm.h
@@ -37,6 +38,7 @@ set(CORE_HEADERS
 
 set(CORE_SRC
     core/density_type.C
+    core/orbital_selector.C
     core/orbital_type.C
     core/selector.C
     core/transformations_dm.C

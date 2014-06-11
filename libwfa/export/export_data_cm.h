@@ -18,6 +18,10 @@ class export_data_cm : public export_data_i {
 public:
     static const char k_clazz[]; //!< Class name
 
+public:
+    typedef density_type::flag_t dt_flag;
+    typedef orbital_type::flag_t ot_flag;
+
 private:
     export_data_cube m_edc; //!< Export as cube
     export_orbitals_molden m_edm; //!< Export as molden
@@ -34,12 +38,16 @@ public:
      **/
     export_data_cm(export_cube_base &ccore, export_molden_i &mcore,
         const std::string &id, const std::string &desc,
-        size_t nbf, size_t no_a, size_t no_b) : m_edc(ccore, id, desc),
-        m_edm(mcore, id, no_a, nbf - no_a, no_b, nbf - no_b) { }
+        const dt_flag &dt = dt_flag(density_type::DT_ALL),
+        const ot_flag &ot = ot_flag(orbital_type::OT_ALL)) :
+        m_edc(ccore, id, desc, dt, ot_flag()),
+        m_edm(mcore, id, ot) {
+
+    }
 
     /** \brief Destructor
      **/
-    virtual ~export_data_cube() { }
+    virtual ~export_data_cm() { }
 
     /** \copydoc export_data_i::perform
      **/
@@ -50,7 +58,7 @@ public:
     /** \copydoc export_data_i::perform
      **/
     virtual void perform(orbital_type type, const ab_matrix &coeff,
-        const ab_vector &ev, const ab_selector &s) {
+        const ab_vector &ev, const ab_orbital_selector &s) {
         m_edm.perform(type, coeff, ev, s);
     }
 };

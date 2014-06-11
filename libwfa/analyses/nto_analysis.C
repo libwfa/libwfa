@@ -25,21 +25,21 @@ void nto_analysis_basic::perform(export_data_i &opr, std::ostream &out) const {
     bool aeqb = ue.is_alpha_eq_beta();
     ab_matrix c_nto(aeqb);
     ab_vector n_nto(aeqb);
-    ab_selector s_nto(aeqb);
+    ab_orbital_selector s_nto(aeqb);
 
     size_t ntot_a = ue.alpha().n_cols + uh.alpha().n_cols;
-    s_nto.alpha() = selector(ntot_a);
-    s_nto.alpha().select(0, nh);
-    s_nto.alpha().select(ntot_a - ne, ntot_a);
+    s_nto.alpha() = orbital_selector(ntot_a);
+    s_nto.alpha().select(true, 0, nh, 1, true);
+    s_nto.alpha().select(false, ntot_a - ne, ntot_a, 1, true);
 
     c_nto.alpha() = join_cols(flipud(uh.alpha()), ue.alpha());
     n_nto.alpha() = join_cols(flipud(eh.alpha()) * -1., ee.alpha());
 
     if (! aeqb) {
         size_t ntot_b = ue.alpha().n_cols + uh.beta().n_cols;
-        s_nto.beta() = selector(ntot_b);
-        s_nto.beta().select(0, nh);
-        s_nto.beta().select(ntot_b - ne, ntot_b);
+        s_nto.beta() = orbital_selector(ntot_b);
+        s_nto.beta().select(true, 0, nh, 1, true);
+        s_nto.beta().select(false, ntot_b - ne, ntot_b, 1, true);
 
         c_nto.beta() = join_cols(flipud(uh.beta()), ue.beta());
         n_nto.beta() = join_cols(flipud(eh.beta()) * -1., ee.beta());
