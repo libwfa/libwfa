@@ -90,12 +90,12 @@ void export_cube_base_test::test_1() {
     for (size_t i = 0; i < 4; i++) i1[i] = 2 * i;
     for (size_t i = 0; i < 5; i++) i2[i] = i;
 
-    ex.add("dm1", "First test density matrix", dm1);
-    ex.add("dm2", "Second test density matrix", dm2);
-    ex.add("orb1", "First test density matrix", i1, orb1);
-    ex.add("orb2", "Second test density matrix", i2, orb2);
+    ex.perform("dm1", "First test density matrix", dm1);
+    ex.perform("dm2", "Second test density matrix", dm2);
+    ex.perform("orb1", "First test density matrix", i1, orb1);
+    ex.perform("orb2", "Second test density matrix", i2, orb2);
 
-    ex.perform();
+    ex.do_export();
 
     } catch (libwfa_exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());

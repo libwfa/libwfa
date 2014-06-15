@@ -1,7 +1,7 @@
 #ifndef LIBWFA_EXPORT_DATA_CUBE_H
 #define LIBWFA_EXPORT_DATA_CUBE_H
 
-#include "export_cube_base.h"
+#include "export_cube_i.h"
 #include "export_data_i.h"
 
 namespace libwfa {
@@ -32,7 +32,7 @@ public:
     typedef orbital_type::flag_t ot_flag;
 
 private:
-    export_cube_base &m_core; //!< Core class for export as cube files
+    export_cube_i &m_core; //!< Core class for export as cube files
     std::string m_id; //!< ID / name of density (or -ies)
     std::string m_desc; //!< Description
     dt_flag m_dt; //!< Flag which density types to export
@@ -46,7 +46,7 @@ public:
         \param dt Flag which density types to export
         \param ot Flag which orbital types to export
      **/
-    export_data_cube(export_cube_base &core,
+    export_data_cube(export_cube_i &core,
         const std::string &id, const std::string &desc,
         const dt_flag &dt = dt_flag(density_type::DT_ALL),
         const ot_flag &ot = ot_flag(orbital_type::OT_ALL)) :
