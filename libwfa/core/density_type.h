@@ -51,7 +51,7 @@ public:
 
     /** \brief Conversion to integer
      **/
-    operator size_t() { return m_type; }
+    operator size_t() const { return m_type; }
 };
 
 
