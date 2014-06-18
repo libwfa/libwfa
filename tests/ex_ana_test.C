@@ -4,6 +4,8 @@
 #include <libwfa/analyses/ex_analyse_ad.h>
 #include <libwfa/export/ex_ana_printer_ad.h>
 #include "ex_ana_test.h"
+#include <libwfa/core/contract.h>
+#include <libwfa/core/contract_ad.h>
 
 
 namespace libwfa{
@@ -170,9 +172,35 @@ void ex_ana_test::test_ex_total(){
         form_om (system_data::overlap(), tdm, om);
         om.set_alpha_eq_beta();
 
+        contract con(mx.alpha(), mxx.alpha(), my.alpha(), myy.alpha(),
+                mz.alpha(), mzz.alpha(), s.alpha());
+
+        ex_analyse analyse;
+        ex_ana_printer ana_p;
+
+        analyse.perform(tdm, om, con);
+        ana_p.perform(tdm.is_alpha_eq_beta(), analyse, cout);
+
+        contract_ad conad(mx.alpha(), mxx.alpha(), my.alpha(), myy.alpha(),
+                mz.alpha(), mzz.alpha(), s.alpha());
+
+        ex_analyse_ad analysead;
+        ex_ana_printer_ad anapad;
+
+        ab_matrix det(4,4);
+        det.alpha()=tdm.alpha()*s.alpha()*tdm.alpha().t();
+        det.set_alpha_eq_beta();
+
+        ab_matrix att(4,4);
+        att.alpha()=tdm.alpha().t()*s.alpha()*tdm.alpha();
+        att.set_alpha_eq_beta();
+
+        analysead.perform(att, det, s.alpha(), conad);
+        anapad.perform(tdm.is_alpha_eq_beta(), analysead, cout);
+
         //Creating the test and printer object, performing all tests and
         //printing the results
-        ex_analyse analyse;
+        /**ex_analyse analyse;
         ex_ana_printer ana_p;
         analyse.perform(tdm,s,mxx,mx,myy,my,mzz,mz,om);
         ana_p.perform(tdm.is_alpha_eq_beta(), analyse, cout);
@@ -189,9 +217,9 @@ void ex_ana_test::test_ex_total(){
         att.alpha()=tdm.alpha().t()*s.alpha()*tdm.alpha();
         att.set_alpha_eq_beta();
 
-        analyse_ad.perform(att,det,mx,mxx,my,myy,mz,mzz,om);
+        analyse_ad.perform(att,det,s,mx,mxx,my,myy,mz,mzz);
         ana_p_ad.perform(tdm.is_alpha_eq_beta(), analyse_ad, cout);
-
+         **/
 
 
 }// end fct

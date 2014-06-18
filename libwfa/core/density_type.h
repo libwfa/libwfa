@@ -1,6 +1,7 @@
 #ifndef LIBWFA_DENSITY_TYPE_H
 #define LIBWFA_DENSITY_TYPE_H
 
+#include <bitset>
 #include <ostream>
 #include <string>
 
@@ -11,11 +12,15 @@ namespace libwfa {
     \ingroup libwfa
  **/
 class density_type {
-private:
-    char m_type;
+public:
+    enum { NT = 7, DT_ALL = 127 };
+    typedef std::bitset<NT> flag_t; //!< Flag for density types
 
 private:
-    explicit density_type(char t = 0) : m_type(t) { }
+    size_t m_type;
+
+private:
+    explicit density_type(size_t t = 0) : m_type(t) { }
 
 public:
     //! \name Comparison operators
@@ -43,6 +48,10 @@ public:
     /** \brief Convert density_type into string
      **/
     std::string convert() const;
+
+    /** \brief Conversion to integer
+     **/
+    operator size_t() { return m_type; }
 };
 
 

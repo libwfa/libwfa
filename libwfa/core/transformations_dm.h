@@ -97,9 +97,10 @@ void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
 void form_ad(const ab_vector &ev, const ab_matrix &u,
         ab_matrix &da, ab_matrix &dd);
 
+
 /** \brief Constructs attachement and detachment densities from a
         difference density matrix
-    \param[in] s Overap matrix
+    \param[in] s Overlap matrix
     \param[in] c AO2MO coefficient matrix
     \param[in] dm Density matrix
     \param[out] da Attachment density matrix
@@ -111,9 +112,10 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
     back-transform into density matrices.
 
     \ingroup libwfa
- **/
+**/
 void form_ad(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &dm, ab_matrix &da, ab_matrix &dd);
+
 
 } // namespace libwfa
 

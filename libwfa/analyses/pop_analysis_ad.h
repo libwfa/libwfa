@@ -7,7 +7,7 @@
 
 namespace libwfa {
 
-/** \brief Perform population analysis on state density matrix
+/** \brief Perform population analysis on a/d density matrices
 
     \ingroup libwfa
  **/
@@ -16,21 +16,23 @@ public:
     typedef std::pair<ab_matrix, ab_matrix> ab_matrix_pair;
 
 private:
-    const pop_analysis_i &m_analysis;
+    const pop_analysis_i &m_analysis; //!< Analysis
+    const ab_matrix &m_at; //!< Attachment density matrix
+    const ab_matrix &m_de; //!< Detachment density matrix
 
 public:
     /** \brief Constructor
         \param a Analysis object
+        \param at Attachment density matrix
+        \param de Detachment density matrix
      **/
-    pop_analysis_ad(const pop_analysis_i &a) : m_analysis(a) { }
+    pop_analysis_ad(const pop_analysis_i &a, const ab_matrix &at,
+        const ab_matrix &de) : m_analysis(a), m_at(at), m_de(de) { }
 
     /** \brief Perform population analysis
-        \param[in] attach Attachment density matrix
-        \param[in] detach Detachment density matrix
-        \param[out] pop Population data
+        \param pop Population data
      **/
-    void perform(const ab_matrix &attach, const ab_matrix &detach,
-            pop_data &pr) const;
+    void perform(pop_data &pr) const;
 };
 
 } // namespace libwfa

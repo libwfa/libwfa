@@ -1,52 +1,47 @@
 #ifndef LIBWFA_NDO_ANALYSIS_H
 #define LIBWFA_NDO_ANALYSIS_H
 
-#include <utility>
 #include <libwfa/export/ev_printer_i.h>
-#include <libwfa/export/export_densities_i.h>
-#include <libwfa/export/export_orbitals_i.h>
+#include <libwfa/export/export_data_i.h>
 
 namespace libwfa {
 
 
-/** \brief Perform complete NDO analysis of a transition density matrix
+/** \brief Performs complete NDO analysis of a difference density matrix
 
      \ingroup libwfa
  **/
 class ndo_analysis {
-public:
-    typedef std::pair<ab_matrix, ab_matrix> ab_matrix_pair;
-
 private:
     const arma::Mat<double> &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficients
-    const ev_printer_i &m_pr; //!< Printer object
+    const ab_matrix &m_ddm; //!< Difference density matrix
+    const ev_printer_i &m_pr; //!< Formating object
 public:
     /** \brief Constructor
         \param s Overlap matrix
         \param c Orbital coefficient matrix for transform in orthogonal basis
-        \param pr Printer object
+        \param ddm Difference density matrix
+        \param pr Formating object
      **/
     ndo_analysis(const arma::Mat<double> &s, const ab_matrix &c,
-        const ev_printer_i &pr) : m_s(s), m_c(c), m_pr(pr) { }
+        const ab_matrix &ddm, const ev_printer_i &pr) :
+        m_s(s), m_c(c), m_ddm(ddm), m_pr(pr) { }
 
     /** \brief Perform NDO analysis
-        \param[in] ddm Difference density matrix
-        \param[out] ad Attachment / detachment densities (first attach)
-        \param[out] opr Printer of NTOs
-        \param[out] out Printer object
+        \param at Attachment density matrix
+        \param de Detachment density matrix
+        \param pr Printer of NTOs
+        \param out Output stream
      **/
-    void perform(const ab_matrix &ddm, ab_matrix_pair &ad,
-        export_orbitals_i &opr, std::ostream &out) const;
+    void perform(ab_matrix &at, ab_matrix &de,
+        export_data_i &pr, std::ostream &out) const;
 
     /** \brief Perform NDO analysis
-        \param[in] ddm Difference density matrix
-        \param[out] dpr Printer of density matrices
-        \param[out] opr Printer of NTOs
-        \param[out] out Printer object
+        \param pr Printer of density matrices and NTOs
+        \param out Output stream
      **/
-    void perform(const ab_matrix &ddm, export_densities_i &dpr,
-        export_orbitals_i &opr, std::ostream &out) const;
+    void perform(export_data_i &pr, std::ostream &out) const;
 };
 
 } // namespace libwfa

@@ -30,7 +30,7 @@ public:
         routine should adjust the output vector to the correct size.
      **/
     virtual void perform(const arma::Mat<double> &dm,
-            std::vector<double> &p) const = 0;
+            arma::Col<double> &p) const = 0;
 
 };
 

@@ -10,40 +10,32 @@ namespace libwfa {
 
 /** \brief Printer for CT number data (export to file)
 
-    This printer exports the CT number data obtained from one transition density
-    to one or two files in the current directory.
+    This printer exports the CT number data obtained from one transition
+    density to one or two files in the current directory.
 
     \ingroup libwfa
  **/
 class ctnum_export : public ctnum_printer_i {
 private:
+    std::string m_prefix; //!< File prefix
+    std::string m_desc; //!< State description
+
     size_t m_ncols; //!< Max number of columns
     size_t m_colwidth; //!< Column width
     size_t m_prec; //!< Precision of printed numbers
 
-    std::string m_sid; //!< State ID (used as file prefix)
-    std::string m_sdesc; //!< State description
-    double m_energy; //!< Excitation energy of the state
-    double m_osc_strength; //!< Oscillator strength of the state
-
 public:
     /** \brief Constructor
+        \param prefix File prefix
+        \param desc Description
         \param ncols Max number of columns
         \param colwidth Max column width
         \param prec Precision the data columns
      **/
-    ctnum_export(size_t ncols = 3, size_t colwidth = 15, size_t prec = 6):
-        m_ncols(ncols), m_colwidth(colwidth), m_prec(prec),
-        m_energy(0.0), m_osc_strength(0.0) { }
-
-    /** \brief Set state information
-        \param sid State ID
-        \param sdesc State descripion
-        \param energy State energy
-        \param osc Oscillator strength
-     **/
-    void set_state_info(const std::string &sid,
-        const std::string &sdesc, double energy, double osc);
+    ctnum_export(const std::string &prefix, const std::string &desc,
+        size_t ncols = 3, size_t colwidth = 15, size_t prec = 6) :
+        m_prefix(prefix), m_desc(desc),
+        m_ncols(ncols), m_colwidth(colwidth), m_prec(prec) { }
 
     /** \brief Export the CT number data
         \param om CT number data (omega matrix)
@@ -56,8 +48,8 @@ public:
         as two files named \<prefix\>(_a|_b).om. To avoid overwriting files
         the user should ensure that the prefix is changed after every call of
         perform. The format of the text files is as follows:
-        - the first line contains name, excitation energy and oscillator
-          strength each separated by spaces
+        - the first line contains the description which should be composed of
+          name, energy, and oscillator strength of the state
         - the second line contains the dimensions of the data (always 2) and
           the number of rows and columns of the data
         - in the remaining lines the CT number data is printed as linear

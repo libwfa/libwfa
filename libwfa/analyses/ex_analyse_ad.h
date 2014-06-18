@@ -2,6 +2,8 @@
 #define EX_ANALYSE_AD_H_
 
 #include <libwfa/core/ab_matrix.h>
+#include <libwfa/core/contract_ad_i.h>
+#include <libwfa/core/contract_ad.h>
 
 namespace libwfa {
 
@@ -27,39 +29,18 @@ private:
     double sep[2];
     double sig_h[2];
     double sig_e[2];
-    /** \brief Calculates the expected value for the multipol of an
-     exciton and returns either the alpha or beta value.
-     \param[in] ad Either attachment or detachment matrix
-     \param[in] op Multipoloperator
-     \param[in] om Omega Matrix
-     \param[in] spin Char Switch to set either 'a'=alpha or 'b'=beta
-     **/
-    double ex_multip_ad(const ab_matrix &ad, const ab_matrix &op,
-            const ab_matrix &om, char spin);
+    double prom[2];
 
     /** \brief Forms all needed expected values over all spacial coordinates
      and spins.
      \param[in] att Attachment matrix
      \param[in] det Detachment matrix
-     \param[in] mxx Multipoloperator for r² in x coordinate
-     \param[in] mx Multipoloperator for r in x coordinate
-     \param[in] myy Multipoloperator for r² in y coordinate
-     \param[in] my Multipoloperator for r in y coordinate
-     \param[in] mzz Multipoloperator for r² in z coordinate
-     \param[in] mz Multipoloperator for r in z coordinate
-     \param[in] om Omega Matrix
-     \param[out] rh[3][2] Multidimensional array to save
-     ex. values of <rh> --> 3 coordinates 2 spins.
-     \param[out] re[3][2] Multidimensional array to save
-     ex. values of <re> --> 3 coordinates 2 spins.
-     \param[out] rh2[3][2] Multidimensional array to save
-     ex. values of <rh²> --> 3 coordinates 2 spins.
-     \param[out] re2[3][2] Multidimensional array to save
-     ex. values of <re²> --> 3 coordinates 2 spins.
+     \param[in] s Overlap matrix
+     \param[in] name Contract interface reference
+
      **/
-    double ex_form_ad(const ab_matrix &att, const ab_matrix &det, const ab_matrix &mx,
-            const ab_matrix &mxx, const ab_matrix &my, const ab_matrix &myy,
-            const ab_matrix &mz, const ab_matrix &mzz, const ab_matrix &om);
+    void ex_form_ad(const ab_matrix &att, const ab_matrix &det,
+            const Mat<double> &s, const contract_ad_i &name);
     /** \brief Calculates the <rh>-<re> vector and returns its quantity.
      \param[in] spin Char to choose the spin --> a,b
      **/
@@ -109,21 +90,11 @@ public:
     /** \brief Performs every analysis in this class and saves it in arrays.
      \param[in] att Attachment matrix
      \param[in] det Detachment matrix
-     \param[in] mxx Multipoloperator for r² in x coordinate
-     \param[in] mx Multipoloperator for r in x coordinate
-     \param[in] myy Multipoloperator for r² in y coordinate
-     \param[in] my Multipoloperator for r in y coordinate
-     \param[in] mzz Multipoloperator for r² in z coordinate
-     \param[in] mz Multipoloperator for r in z coordinate
-     \param[in] om Omega Matrix
-    \param[out] sep Electron hole seperation
-    \param[out] sig_h Varianz (sigma) for the hole
-    \param[out] sig_e Varianz (sigma) for the electron
+     \param[in] s Overlap matrix
+     \param[in] name Contract Interface reference
      **/
     void perform (const ab_matrix &att, const ab_matrix &det,
-            const ab_matrix &mx,const ab_matrix &mxx, const ab_matrix &my,
-            const ab_matrix &myy, const ab_matrix &mz, const ab_matrix &mzz,
-            const ab_matrix &om);
+            const Mat<double> &s, const contract_ad_i &name);
 
 };
 

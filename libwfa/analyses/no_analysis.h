@@ -1,9 +1,8 @@
 #ifndef LIBWFA_NO_ANALYSIS_H
 #define LIBWFA_NO_ANALYSIS_H
 
-#include <utility>
 #include <libwfa/export/ev_printer_i.h>
-#include <libwfa/export/export_orbitals_i.h>
+#include <libwfa/export/export_data_i.h>
 
 namespace libwfa {
 
@@ -15,26 +14,25 @@ namespace libwfa {
 class no_analysis {
 private:
     const ab_matrix &m_c; //!< MO coefficients
-    const ev_printer_i &m_pr; //!< Printer object
+    const ab_matrix &m_sdm; //!< State density matrix
+    const ev_printer_i &m_pr; //!< Formating object
 
 public:
     /** \brief Constructor
         \param c Orbital coefficient matrix for transform in orthogonal basis
-        \param pr Printer object
+        \param sdm State density matrix
+        \param pr Formating object
      **/
-    no_analysis(const ab_matrix &c, const ev_printer_i &pr) :
-        m_c(c), m_pr(pr) { }
+    no_analysis(const ab_matrix &c, const ab_matrix &sdm,
+        const ev_printer_i &pr) : m_c(c), m_sdm(sdm), m_pr(pr) { }
 
     /** \brief Perform NTO analysis
-        \param[in] sdm State density matrix
-        \param[out] opr Printer of NOs
-        \param[out] out Output stream
-
-        (Assumes the electron density matrix is first in av)
+        \param pr Printer of NOs
+        \param out Output stream
      **/
-    void perform(const ab_matrix &sdm,
-        export_orbitals_i &opr, std::ostream &out) const;
+    void perform(export_data_i &pr, std::ostream &out) const;
 };
+
 
 } // namespace libwfa
 

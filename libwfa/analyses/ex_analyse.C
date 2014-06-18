@@ -5,88 +5,51 @@ namespace libwfa {
 using namespace arma;
 
 
-double ex_analyse::ex_multip (const ab_matrix &tdm, const ab_matrix &op1,
-        const ab_matrix &op2, const ab_matrix &om, char spin){
 
-    switch (spin){
-    case 'a':{
-            const Mat<double> &tdm_a=tdm.alpha();
-            const Mat<double> &op1_a=op1.alpha();
-            const Mat<double> &op2_a=op2.alpha();
-            double omval_a=accu(om.alpha());
-            double expval_a=0;
+void ex_analyse::ex_form (const ab_matrix &tdm, const ab_matrix &om,
+        const contract_i &name){
 
-            Mat<double> exp_a=(tdm_a*op2_a)%(op1_a*tdm_a);
+    rh[0][0]=name.perform(tdm, om, "s", "x", 'a');
+    rh[1][0]=name.perform(tdm, om, "s", "y", 'a');
+    rh[2][0]=name.perform(tdm, om, "s", "z", 'a');
 
-            expval_a=accu(exp_a)/omval_a;
-            return expval_a;
-            break;
-     }
+    re[0][0]=name.perform(tdm, om, "x", "s", 'a');
+    re[1][0]=name.perform(tdm, om, "y", "s", 'a');
+    re[2][0]=name.perform(tdm, om, "z", "s", 'a');
 
-    case 'b':{
-            const Mat<double> &tdm_b=tdm.beta();
-            const Mat<double> &op1_b=op1.beta();
-            const Mat<double> &op2_b=op2.beta();
-            double omval_b=accu(om.beta());
-            double expval_b=0;
+    rh2[0][0]=name.perform(tdm, om, "s", "xx", 'a');
+    rh2[1][0]=name.perform(tdm, om, "s", "yy", 'a');
+    rh2[2][0]=name.perform(tdm, om, "s", "zz", 'a');
 
-            Mat<double> exp_b=(tdm_b*op2_b)%(op1_b*tdm_b);
+    re2[0][0]=name.perform(tdm, om, "xx", "s", 'a');
+    re2[1][0]=name.perform(tdm, om, "yy", "s", 'a');
+    re2[2][0]=name.perform(tdm, om, "zz", "s", 'a');
 
-            expval_b=accu(exp_b)/omval_b;
-
-            return expval_b;
-            break;
-    }
-        default:
-            return 0;
-
-    } //end switch
-
-}//end fct
-
-
-void ex_analyse::ex_form (const ab_matrix &tdm, const ab_matrix &s,
-                const ab_matrix &mxx, const ab_matrix &mx, const ab_matrix &myy,
-                const ab_matrix &my, const ab_matrix &mzz,
-                const ab_matrix &mz, const ab_matrix &om){
-
-    rh[0][0]=ex_multip(tdm, mx, s, om, 'a');
-    rh[1][0]=ex_multip(tdm, my, s, om, 'a');
-    rh[2][0]=ex_multip(tdm, mz, s, om, 'a');
-
-    re[0][0]=ex_multip(tdm, s, mx, om, 'a');
-    re[1][0]=ex_multip(tdm, s, my, om, 'a');
-    re[2][0]=ex_multip(tdm, s, mz, om, 'a');
-
-    rh2[0][0]=ex_multip(tdm, mxx, s, om, 'a');
-    rh2[1][0]=ex_multip(tdm, myy, s, om, 'a');
-    rh2[2][0]=ex_multip(tdm, mzz, s, om, 'a');
-
-    re2[0][0]=ex_multip(tdm, s, mxx, om, 'a');
-    re2[1][0]=ex_multip(tdm, s, myy, om, 'a');
-    re2[2][0]=ex_multip(tdm, s, mzz, om, 'a');
-
-    rhre[0][0]=ex_multip(tdm, mx, mx, om, 'a');
-    rhre[1][0]=ex_multip(tdm, my, my, om, 'a');
-    rhre[2][0]=ex_multip(tdm, mz, mz, om, 'a');
+    rhre[0][0]=name.perform(tdm, om, "x", "x", 'a');
+    rhre[1][0]=name.perform(tdm, om, "y", "y", 'a');
+    rhre[2][0]=name.perform(tdm, om, "z", "z", 'a');
 
     if (!tdm.is_alpha_eq_beta()){
 
-        rh[0][1]=ex_multip(tdm, mx, s, om, 'b');
-        rh[1][1]=ex_multip(tdm, my, s, om, 'b');
-        rh[2][1]=ex_multip(tdm, mz, s, om, 'b');
-        rh2[0][1]=ex_multip(tdm, mxx, s, om, 'b');
-        rh2[1][1]=ex_multip(tdm, myy, s, om, 'b');
-        rh2[2][1]=ex_multip(tdm, mzz, s, om, 'b');
-        re[0][1]=ex_multip(tdm, s, mx, om, 'b');
-        re[1][1]=ex_multip(tdm, s, my, om, 'b');
-        re[2][1]=ex_multip(tdm, s, mz, om, 'b');
-        re2[0][1]=ex_multip(tdm, s, mxx, om, 'b');
-        re2[1][1]=ex_multip(tdm, s, myy, om, 'b');
-        re2[2][1]=ex_multip(tdm, s, mzz, om, 'b');
-        rhre[0][1]=ex_multip(tdm, mx, mx, om, 'b');
-        rhre[1][1]=ex_multip(tdm, my, my, om, 'b');
-        rhre[2][1]=ex_multip(tdm, mz, mz, om, 'b');
+        rh[0][1]=name.perform(tdm, om, "s", "x", 'b');
+        rh[1][1]=name.perform(tdm, om, "s", "y", 'b');
+        rh[2][1]=name.perform(tdm, om, "s", "z", 'b');
+
+        re[0][1]=name.perform(tdm, om, "x", "s", 'b');
+        re[1][1]=name.perform(tdm, om, "y", "s", 'b');perform(tdm, om, "s", "x", 'a
+        re[2][1]=name.perform(tdm, om, "z", "s", 'b');
+
+        rh2[0][1]=name.perform(tdm, om, "s", "xx", 'b');
+        rh2[1][1]=name.perform(tdm, om, "s", "yy", 'b');
+        rh2[2][1]=name.perform(tdm, om, "s", "zz", 'b');
+
+        re2[0][1]=name.perform(tdm, om, "xx", "s", 'b');
+        re2[1][1]=name.perform(tdm, om, "yy", "s", 'b');
+        re2[2][1]=name.perform(tdm, om, "zz", "s", 'b');
+
+        rhre[0][1]=name.perform(tdm, om, "x", "x", 'b');
+        rhre[1][1]=name.perform(tdm, om, "y", "y", 'b');
+        rhre[2][1]=name.perform(tdm, om, "z", "z", 'b');
 
     }else{
 
@@ -846,12 +809,10 @@ double ex_analyse::get_corr(char spin) {
     } //end switch
 } //end fct
 
-void ex_analyse::perform(const ab_matrix &tdm, const ab_matrix &s,
-                const ab_matrix &mxx, const ab_matrix &mx, const ab_matrix &myy,
-                const ab_matrix &my, const ab_matrix &mzz,
-                const ab_matrix &mz, const ab_matrix &om){
+void ex_analyse::perform(const ab_matrix &tdm, const ab_matrix &om,
+        const contract_i &name){
 //Forming all needed values for the calculations;
-    ex_form(tdm, s, mxx, mx, myy, my, mzz, mz, om);
+    ex_form(tdm, om, name);
 //Performing all calculations, saving them in the resp. arrays.
 
     sep[0]=ex_mean_sep('a');

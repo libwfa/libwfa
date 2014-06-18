@@ -5,17 +5,10 @@ namespace libwfa {
 using namespace arma;
 
 
-ctnum_analysis::ctnum_analysis(const std::vector<size_t> &b2p) :
+ctnum_analysis::ctnum_analysis(const Col<size_t> &b2p) :
     m_nparts(0), m_b2p(b2p) {
 
-    // Compute the number of parts according to the provided map:
-    //      largest part number in map + 1
-    for (std::vector<size_t>::const_iterator i = m_b2p.begin();
-            i != m_b2p.end(); i++) {
-
-        m_nparts = std::max(m_nparts, *i);
-    }
-    m_nparts++;
+    m_nparts = b2p.max() + 1;
 }
 
 

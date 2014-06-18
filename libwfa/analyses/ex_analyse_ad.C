@@ -4,69 +4,40 @@ namespace libwfa {
 
 using namespace arma;
 
-double ex_analyse_ad::ex_multip_ad (const ab_matrix &ad,
-        const ab_matrix &op, const ab_matrix &om, char spin){
 
-    switch (spin){
-    case 'a':{
-            const Mat<double> &ad_a=ad.alpha();
-            const Mat<double> &op_a=op.alpha();
-            double omval_a=accu(om.alpha());
-            double expval_a=0;
-            Mat<double> exp_a=ad_a*op_a;
-            expval_a=trace(exp_a)/omval_a;
-            return expval_a;
-            break;
-     }
+void ex_analyse_ad::ex_form_ad(const ab_matrix &att, const ab_matrix &det,
+        const Mat<double> &s, const contract_ad_i &name){
 
-    case 'b':{
-        const Mat<double> &ad_b=ad.beta();
-        const Mat<double> &op_b=op.beta();
-        double omval_b=accu(om.beta());
-        double expval_b=0;
-        Mat<double> exp_b=ad_b*op_b;
-        expval_b=trace(exp_b)/omval_b;
-        return expval_b;
-        break;
-    }
-        default:
-            return 0;
+    prom[0]=trace(att.alpha()*s);
+    prom[1]=trace(att.beta()*s);
 
-    } //end switch
-
-}//end fct
-
-double ex_analyse_ad::ex_form_ad(const ab_matrix &att, const ab_matrix &det,
-        const ab_matrix &mx, const ab_matrix &mxx, const ab_matrix &my, const ab_matrix &myy,
-        const ab_matrix &mz, const ab_matrix &mzz, const ab_matrix &om){
-
-    rh[0][0]=ex_multip_ad(det, mx, om, 'a');
-    rh[1][0]=ex_multip_ad(det, my, om, 'a');
-    rh[2][0]=ex_multip_ad(det, mz, om, 'a');
-    rh2[0][0]=ex_multip_ad(det, mxx, om, 'a');
-    rh2[1][0]=ex_multip_ad(det, myy, om, 'a');
-    rh2[2][0]=ex_multip_ad(det, mzz, om, 'a');
-    re[0][0]=ex_multip_ad(att, mx, om, 'a');
-    re[1][0]=ex_multip_ad(att, my, om, 'a');
-    re[2][0]=ex_multip_ad(att, mz, om, 'a');
-    re2[0][0]=ex_multip_ad(att, mxx, om, 'a');
-    re2[1][0]=ex_multip_ad(att, myy, om, 'a');
-    re2[2][0]=ex_multip_ad(att, mzz, om, 'a');
+    rh[0][0]=name.perform(det, prom[0],"x",'a');
+    rh[1][0]=name.perform(det, prom[0],"y",'a');
+    rh[2][0]=name.perform(det, prom[0],"z",'a');
+    rh2[0][0]=name.perform(det, prom[0],"xx",'a');
+    rh2[1][0]=name.perform(det, prom[0],"yy",'a');
+    rh2[2][0]=name.perform(det, prom[0],"zz",'a');
+    re[0][0]=name.perform(att, prom[0],"x",'a');
+    re[1][0]=name.perform(att, prom[0],"y",'a');
+    re[2][0]=name.perform(att, prom[0],"z",'a');
+    re2[0][0]=name.perform(att, prom[0],"xx",'a');
+    re2[1][0]=name.perform(att, prom[0],"yy",'a');
+    re2[2][0]=name.perform(att, prom[0],"zz",'a');
 
     if (!att.is_alpha_eq_beta()){
 
-        rh[0][1]=ex_multip_ad(det, mx, om, 'b');
-        rh[1][1]=ex_multip_ad(det, my, om, 'b');
-        rh[2][1]=ex_multip_ad(det, mz, om, 'b');
-        rh2[0][1]=ex_multip_ad(det, mxx, om, 'b');
-        rh2[1][1]=ex_multip_ad(det, myy, om, 'b');
-        rh2[2][1]=ex_multip_ad(det, mzz, om, 'b');
-        re[0][1]=ex_multip_ad(att, mx, om, 'b');
-        re[1][1]=ex_multip_ad(att, my, om, 'b');
-        re[2][1]=ex_multip_ad(att, mz, om, 'b');
-        re2[0][1]=ex_multip_ad(att, mxx, om, 'b');
-        re2[1][1]=ex_multip_ad(att, myy, om, 'b');
-        re2[2][1]=ex_multip_ad(att, mzz, om, 'b');
+        rh[0][1]=name.perform(det, prom[1],"x",'b');
+        rh[1][1]=name.perform(det, prom[1],"y",'b');
+        rh[2][1]=name.perform(det, prom[1],"z",'b');
+        rh2[0][1]=name.perform(det, prom[1],"xx",'b');
+        rh2[1][1]=name.perform(det, prom[1],"yy",'b');
+        rh2[2][1]=name.perform(det, prom[1],"zz",'b');
+        re[0][1]=name.perform(att, prom[1],"x",'b');
+        re[1][1]=name.perform(att, prom[1],"y",'b');
+        re[2][1]=name.perform(att, prom[1],"z",'b');
+        re2[0][1]=name.perform(att, prom[1],"xx",'b');
+        re2[1][1]=name.perform(att, prom[1],"yy",'b');
+        re2[2][1]=name.perform(att, prom[1],"zz",'b');
 
     }else{
 
@@ -178,11 +149,9 @@ double ex_analyse_ad::ex_sig_e_ad (char spin){
 }//end fct
 
 void ex_analyse_ad::perform(const ab_matrix &att, const ab_matrix &det,
-        const ab_matrix &mx,const ab_matrix &mxx, const ab_matrix &my,
-        const ab_matrix &myy, const ab_matrix &mz, const ab_matrix &mzz,
-        const ab_matrix &om){
+        const Mat<double> &s, const contract_ad_i &name){
 //Forming all needed values for the calculations;
-    ex_form_ad(att, det, mx, mxx, my, myy, mz, mzz, om);
+    ex_form_ad(att,det,s,name);
 //Performing all calculations, saving them in the resp. arrays.
 
     sep[0]=ex_mean_sep_ad('a');

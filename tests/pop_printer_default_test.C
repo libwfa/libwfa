@@ -6,22 +6,6 @@
 
 namespace libwfa {
 
-namespace {
-
-void init_random_vector(size_t n, std::vector<double> &v) {
-
-    v.resize(n, 0.0);
-    for (std::vector<double>::iterator i = v.begin(); i != v.end(); i++) {
-#ifdef HAVE_DRAND48
-        *i = ::drand48();
-#else
-        *i = double(::rand()) / double(RAND_MAX);
-#endif
-    }
-}
-
-} // unnamed namespace
-
 
 void pop_printer_default_test::perform() throw(libtest::test_exception) {
 
@@ -45,9 +29,9 @@ void pop_printer_default_test::test_1() {
     labels[3] = "H";
 
     pop_data p;
-    init_random_vector(na, p.add("Set 1"));
-    init_random_vector(na, p.add("Set 2"));
-    init_random_vector(na, p.add("Set 3"));
+    p.add("Set 1").randu(na);
+    p.add("Set 2").randu(na);
+    p.add("Set 3").randu(na);
 
     std::stringstream ss;
     pop_printer_default pr(labels);
@@ -83,11 +67,11 @@ void pop_printer_default_test::test_2() {
     labels[3] = "H";
 
     pop_data p;
-    init_random_vector(na, p.add("Set 1"));
-    init_random_vector(na, p.add("Set 2"));
-    init_random_vector(na, p.add("Set 3"));
-    init_random_vector(na, p.add("Set 4"));
-    init_random_vector(na, p.add("Set 5"));
+    p.add("Set 1").randu(na);
+    p.add("Set 2").randu(na);
+    p.add("Set 3").randu(na);
+    p.add("Set 4").randu(na);
+    p.add("Set 5").randu(na);
 
     std::stringstream ss;
     pop_printer_default pr(labels);
@@ -123,11 +107,11 @@ void pop_printer_default_test::test_exc() {
     labels[3] = "H";
 
     pop_data p1, p2, p3;
-    init_random_vector(na + 1, p1.add("Set 1"));
-    init_random_vector(na, p2.add("Set 2"));
-    init_random_vector(na + 1, p2.add("Set 3"));
-    init_random_vector(na, p3.add("Set 4"));
-    init_random_vector(na - 1, p3.add("Set 5"));
+    p1.add("Set 1").randu(na + 1);
+    p2.add("Set 2").randu(na);
+    p2.add("Set 3").randu(na + 1);
+    p3.add("Set 4").randu(na);
+    p3.add("Set 5").randu(na - 1);
 
     std::ostringstream oss;
     pop_printer_default pr(labels);

@@ -5,18 +5,10 @@ namespace libwfa {
 
 
 pop_mulliken::pop_mulliken(const arma::Mat<double> &s,
-    const std::vector<size_t> &b2p, const std::vector<double> &p0) :
-    m_nparts(p0.size()), m_s(s), m_b2p(b2p), m_p0(p0) {
+    const arma::Col<size_t> &b2p, const arma::Col<double> &p0) :
+    m_nparts(p0.n_elem), m_s(s), m_b2p(b2p), m_p0(p0) {
 
-    size_t nparts = 0;
-    // Compute the number of atoms according to the provided map:
-    //      largest atom number in map + 1
-    for (std::vector<size_t>::const_iterator i = m_b2p.begin();
-            i != m_b2p.end(); i++) {
-
-        nparts = std::max(nparts, *i);
-    }
-    nparts++;
+    size_t nparts = m_b2p.max() + 1;
 
     if (m_nparts == 0) m_nparts = nparts;
     else if (m_nparts != nparts) {
@@ -27,9 +19,9 @@ pop_mulliken::pop_mulliken(const arma::Mat<double> &s,
 
 
 void pop_mulliken::perform(
-        const arma::Mat<double> &d_bb, std::vector<double> &p) const {
+        const arma::Mat<double> &d_bb, arma::Col<double> &p) const {
 
-    if (m_p0.size() != m_nparts) {
+    if (m_p0.n_elem != m_nparts) {
         p.clear();
         p.resize(m_nparts, 0.0);
     }
@@ -38,7 +30,7 @@ void pop_mulliken::perform(
     }
 
     for (size_t i = 0; i != m_b2p.size(); i++) {
-        p[m_b2p[i]] -= dot(d_bb.row(i), m_s.row(i));
+        p(m_b2p(i)) -= dot(d_bb.row(i), m_s.row(i));
     }
 }
 

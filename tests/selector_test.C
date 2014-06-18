@@ -90,8 +90,8 @@ void selector_test::test_3() {
     size_t n = 10;
 
     selector s(n);
-    s.select(2);
     s.select(5);
+    s.select(2);
 
     if (s.n_indexes() != n) {
         fail_test(testname, __FILE__, __LINE__, "# indexes");
@@ -106,10 +106,10 @@ void selector_test::test_3() {
     if (indexes.size() != 2) {
         fail_test(testname, __FILE__, __LINE__, "# indexes");
     }
-    if (indexes[0] != 2) {
+    if (indexes[0] != 5) {
         fail_test(testname, __FILE__, __LINE__, "indexes[0]");
     }
-    if (indexes[1] != 5) {
+    if (indexes[1] != 2) {
         fail_test(testname, __FILE__, __LINE__, "indexes[1]");
     }
 }
@@ -126,7 +126,7 @@ void selector_test::test_4a() {
     size_t n = 10;
 
     selector s(n);
-    s.select(2, 4);
+    s.select(2, 4, 1, true);
 
     if (s.n_indexes() != n) {
         fail_test(testname, __FILE__, __LINE__, "# indexes");
@@ -141,13 +141,13 @@ void selector_test::test_4a() {
     if (indexes.size() != 3) {
         fail_test(testname, __FILE__, __LINE__, "# indexes");
     }
-    if (indexes[0] != 2) {
+    if (indexes[0] != 4) {
         fail_test(testname, __FILE__, __LINE__, "indexes[0]");
     }
     if (indexes[1] != 3) {
         fail_test(testname, __FILE__, __LINE__, "indexes[1]");
     }
-    if (indexes[2] != 4) {
+    if (indexes[2] != 2) {
         fail_test(testname, __FILE__, __LINE__, "indexes[2]");
     }
 }
