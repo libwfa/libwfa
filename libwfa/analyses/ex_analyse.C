@@ -36,7 +36,7 @@ void ex_analyse::ex_form (const ab_matrix &tdm, const ab_matrix &om,
         rh[2][1]=name.perform(tdm, om, "s", "z", 'b');
 
         re[0][1]=name.perform(tdm, om, "x", "s", 'b');
-        re[1][1]=name.perform(tdm, om, "y", "s", 'b');perform(tdm, om, "s", "x", 'a
+        re[1][1]=name.perform(tdm, om, "y", "s", 'b');
         re[2][1]=name.perform(tdm, om, "z", "s", 'b');
 
         rh2[0][1]=name.perform(tdm, om, "s", "xx", 'b');
