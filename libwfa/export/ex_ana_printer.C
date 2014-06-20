@@ -28,7 +28,7 @@ void ex_ana_printer::perform(ex_analyse &analyse, std::ostream &out) {
 	out << std::string(70, '-') << std::endl;
 	out << std::endl;
 
-}
+}//end fct
 
 void ex_ana_printer::do_print(char spin,
 		ex_analyse &analyse, std::ostream &out) {

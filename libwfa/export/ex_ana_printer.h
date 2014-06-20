@@ -14,6 +14,13 @@ class ex_ana_printer{
 private:
 	static const double k_au2ang;
 
+    /** \brief Prints the results of the exciton analysis.
+        \param[in] spin Print specific spin
+        \param[in] analyse Analysis class
+        \param[in] out Ostream name
+     **/
+	void do_print(char spin, ex_analyse &analyse, std::ostream &out);
+
 public:
     /** \brief Calls the print function.
         \param[in] analyse Analysis class
@@ -21,13 +28,6 @@ public:
      **/
     void perform(ex_analyse &analyse, std::ostream &out);
 
-private:
-    /** \brief Calls the print function.
-    	\param[in] spin Print specific spin
-        \param[in] analyse Analysis class
-        \param[in] out Ostream name
-     **/
-    void do_print(char spin, ex_analyse &analyse, std::ostream &out);
 };//end class
 
 

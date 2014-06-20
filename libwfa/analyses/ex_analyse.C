@@ -85,10 +85,19 @@ double ex_analyse::ex_d_ex_c (char koord, char spin){
 }//end fct
 
 double ex_analyse::ex_d_ex_tot (char spin){
-
+//TODO:discuss which would be better, private=will only be called by the class, additional calc not needed
 	return sqrt(ex_d_ex_c('x', spin) * ex_d_ex_c('x', spin)
 			+ ex_d_ex_c('y', spin) * ex_d_ex_c('y', spin)
 			+ ex_d_ex_c('z', spin) * ex_d_ex_c('z', spin));
+	/**
+	 size_t s=determine_spin(spin);
+	 return sqrt(dex_c[determine_coord('x')][s]
+	             * dex_c[determine_coord('x')][s]
+	             + dex_c[determine_coord('y')][s]
+	             * dex_c[determine_coord('y')][s]
+	             + dex_c[determine_coord('z')][s]
+	             * dex_c[determine_coord('z')][s]);
+	 **/
 
 }//end fct
 
@@ -155,7 +164,13 @@ double ex_analyse::ex_cov (char spin){
 
 double ex_analyse::ex_corr(char spin){
 
+//TODO:discuss which better, private=will only be called by the class, additional calc not needed
+
     return ex_cov(spin) / (ex_sig_e(spin) * ex_sig_h(spin));
+    /**
+     size_t s=determine_spin(spin);
+     return cov[s] / (sig_e[s]*sig_h[s]);
+     */
 }
 
 

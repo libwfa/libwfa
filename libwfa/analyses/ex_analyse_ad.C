@@ -8,6 +8,7 @@ using namespace arma;
 void ex_analyse_ad::ex_form_ad(const ab_matrix &att, const ab_matrix &det,
 		const contract_i &op){
 
+    m_aeqb = att.is_alpha_eq_beta();
     prom[0] = op.perform(att.alpha(), "s");
     rh[0][0]  = op.perform(det.alpha(), "x")  / prom[0];
     rh[1][0]  = op.perform(det.alpha(), "y")  / prom[0];
@@ -155,7 +156,7 @@ size_t ex_analyse_ad::determine_coord(char coord) {
 	else if (coord == 'z') return 2;
 	else
 		throw 1;
-}
+}//endfct
 
 
 size_t ex_analyse_ad::determine_spin(char spin) {
@@ -164,6 +165,6 @@ size_t ex_analyse_ad::determine_spin(char spin) {
 	else if (spin == 'b') return 1;
 	else
 		throw 1;
-}
+}//endfct
 
 } //end namespace

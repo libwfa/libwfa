@@ -53,7 +53,7 @@ void analyse_opdm::perform(export_data_i &pr, const contract_i &name,
         ex_ana_printer_ad ana_p_ad;
 
         analyse_ad.perform(at,de,name);
-        ana_p_ad.perform(m_dm1.is_alpha_eq_beta(), analyse_ad, out);
+        ana_p_ad.perform(analyse_ad, out);
     }
 
     for (pa_map_t::const_iterator i = m_pa.begin(); i != m_pa.end(); i++) {

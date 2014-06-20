@@ -29,74 +29,87 @@ private:
     double sig_h[2];
     double sig_e[2];
     double prom[2];
+    bool m_aeqb;
 
     /** \brief Forms all needed expected values over all spacial coordinates
      and spins.
-     \param[in] att Attachment matrix
-     \param[in] det Detachment matrix
-     \param[in] s Overlap matrix
-     \param[in] op Contract interface reference
+     \param att Attachment matrix
+     \param det Detachment matrix
+     \param s Overlap matrix
+     \param op Contract interface reference
 
      **/
     void ex_form_ad(const ab_matrix &att,
     		const ab_matrix &det, const contract_i &op);
     /** \brief Calculates the <rh>-<re> vector and returns its quantity.
-     \param[in] spin Char to choose the spin --> a,b
+     \param spin Char to choose the spin --> a,b
+     \return result
      **/
     double ex_mean_sep_ad(char spin);
     /** \brief Calculates the sigma for the hole.
-     \param[in] spin Char to choose the spin --> a,b
+     \param spin Char to choose the spin --> a,b
+     \return result
      **/
     double ex_sig_h_ad (char spin);
     /** \brief Calculates the sigma for the electron.
-     \param[in] spin Char to choose the spin --> a,b
+     \param spin Char to choose the spin --> a,b
+     \return result
      **/
     double ex_sig_e_ad (char spin);
 
 public:
     /** \brief Returns the exp. value of <rh> for a sp. coordinate and spin.
-     \param[in] coord Char to choose the sp. coord.--> x,y,z
-     \param[in] spin Char to choose the spin --> a,b
+     \param coord Char to choose the sp. coord.--> x,y,z
+     \param spin Char to choose the spin --> a,b
      **/
     double get_rh (char coord, char spin);
     /** \brief Returns the exp. value of <rh2> for a sp. coordinate and spin.
-     \param[in] coord Char to choose the sp. coord.--> x,y,z
-     \param[in] spin Char to choose the spin --> a,b
+     \param coord Char to choose the sp. coord.--> x,y,z
+     \param spin Char to choose the spin --> a,b
      **/
     double get_rh2 (char coord, char spin);
     /** \brief Returns the exp. value of <re> for a sp. coordinate and spin.
-     \param[in] coord Char to choose the sp. coord.--> x,y,z
-     \param[in] spin Char to choose the spin --> a,b
+     \param coord Char to choose the sp. coord.--> x,y,z
+     \param spin Char to choose the spin --> a,b
      **/
     double get_re (char coord, char spin);
     /** \brief Returns the exp. value of <re2> for a sp. coordinate and spin.
-     \param[in] coord Char to choose the sp. coord.--> x,y,z
-     \param[in] spin Char to choose the spin --> a,b
+     \param coord Char to choose the sp. coord.--> x,y,z
+     \param spin Char to choose the spin --> a,b
      **/
     double get_re2 (char coord, char spin);
     /** \brief Returns the separation for a sp. spin.
-     \param[in] spin Char to choose the spin --> a,b
+     \param spin Char to choose the spin --> a,b
      **/
     double get_sep (char spin);
     /** \brief Returns the sigma for the hole for a sp. spin.
-     \param[in] spin Char to choose the spin --> a,b
+     \param spin Char to choose the spin --> a,b
      **/
     double get_sig_h (char spin);
     /** \brief Returns the sigma for the electron for a sp. spin.
-     \param[in] spin Char to choose the spin --> a,b
+     \param spin Char to choose the spin --> a,b
      **/
     double get_sig_e (char spin);
     /** \brief Performs every analysis in this class and saves it in arrays.
-     \param[in] att Attachment matrix
-     \param[in] det Detachment matrix
-     \param[in] s Overlap matrix
-     \param[in] op Contract interface reference
+     \param att Attachment matrix
+     \param det Detachment matrix
+     \param s Overlap matrix
+     \param op Contract interface reference
      **/
     void perform (const ab_matrix &att, const ab_matrix &det,
     		const contract_i &op);
+    /** \brief Returns bool if \f$\alpha == \beta\f$
+     **/
+    bool aeqb() { return m_aeqb; }
 
 private:
-	static size_t determine_coord(char coord);
+    /**\brief Returns the coordinates as indices
+       \param coord Char to choose coordinate x,y,z
+     **/
+    static size_t determine_coord(char coord);
+    /**\brief Returns the spin as indices
+       \param spin Char to choose spin a,b
+     **/
 	static size_t determine_spin(char spin);
 };
 
