@@ -1,37 +1,51 @@
-#ifndef CONTRACT_H_
-#define CONTRACT_H_
+#ifndef LIBWFA_CONTRACT_H
+#define LIBWFA_CONTRACT_H
 
-#include "ab_matrix.h"
 #include "contract_i.h"
 
 namespace libwfa{
 
 using namespace arma;
 
+
+/** \brief Implementation of contract_i
+
+  	TODO: Rename (more concrete naming to avoid confusion with general contractions)
+  	TODO: Document properly (in particular the constructor).
+
+	\ingroup libwfa
+ **/
 class contract : public contract_i {
 private:
-    const Mat<double> &m_x;
-    const Mat<double> &m_xx;
-    const Mat<double> &m_y;
-    const Mat<double> &m_yy;
-    const Mat<double> &m_z;
-    const Mat<double> &m_zz;
-    const Mat<double> &m_s;
+    const arma::Mat<double> &m_x;
+    const arma::Mat<double> &m_xx;
+    const arma::Mat<double> &m_y;
+    const arma::Mat<double> &m_yy;
+    const arma::Mat<double> &m_z;
+    const arma::Mat<double> &m_zz;
+    const arma::Mat<double> &m_s;
 
 
 public:
+    contract(
+		const arma::Mat<double> &mx, const arma::Mat<double> &mxx,
+		const arma::Mat<double> &my, const arma::Mat<double> &myy,
+		const arma::Mat<double> &mz, const arma::Mat<double> &mzz,
+        const arma::Mat<double> &ms) :
+		m_x(mx), m_xx(mxx), m_y(my), m_yy(my), m_z(mz), m_zz(mzz), m_s(ms) {
 
-    contract (const Mat<double> &mx, const Mat<double> &mxx, const Mat<double> &my,
-        const Mat<double> &myy, const Mat<double> &mz, const Mat<double> &mzz,
-        const Mat<double> &ms):m_x(mx), m_xx(mxx), m_y(my), m_yy(my), m_z(mz),
-        m_zz(mzz), m_s(ms){}
+    }
 
-    virtual double perform (const ab_matrix &tdm, const ab_matrix &om,
-            const std::string op1,const std::string op2,
-            const char spin) const;//endfct
+    virtual double perform (const Mat<double> &dm, const std::string &op1,
+    		const std::string &op2) const;
+
+    virtual double perform (const Mat<double> &dm, const std::string &op) const;
+
+private:
+    const Mat<double> &retrieve_op(const std::string &op) const;
 };
 
 
 }//end namespace libwfa
 
-#endif /* CONTRACT_H_ */
+#endif // LIBWFA_CONTRACT_H

@@ -3,7 +3,6 @@
 
 #include <libwfa/core/ab_matrix.h>
 #include <libwfa/core/contract_i.h>
-#include <libwfa/core/contract.h>
 
 
 namespace libwfa {
@@ -27,120 +26,129 @@ using namespace arma;
     \ingroup libwfa
  **/
 class ex_analyse {
-    private:
-    double rh[3][2], re[3][2], rh2[3][2], re2[3][2], rhre[3][2];
-    double sep[2];
-    double dex_c[3][2];
-    double dex_tot[2];
-    double sig_h[2];
-    double sig_e[2];
-    double cov[2];
-    double corr[2];
-        /** \brief Forms all needed expected values over all spacial coordinates
+private:
+	double rh[3][2], re[3][2], rh2[3][2], re2[3][2], rhre[3][2];
+	double sep[2];
+	double dex_c[3][2];
+	double dex_tot[2];
+	double sig_h[2];
+	double sig_e[2];
+	double cov[2];
+	double corr[2];
+	bool m_aeqb;
+
+public:
+	/** \brief Forms all needed expected values over all spacial coordinates
          and spins.
     \param tdm Transition Density Matrix
     \param om Omega Omega Matrix
     \param name Reference to the Contract class interface
-         **/
-    void ex_form(const ab_matrix &tdm, const ab_matrix &om,
-            const contract_i &name);
-        /** \brief Calculates the expected distance over one
+	 **/
+	void ex_form(const ab_matrix &tdm, const ab_matrix &om,
+			const contract_i &name);
+	/** \brief Calculates the expected distance over one
          spacial coordinate and for a specific spin.
          \param[in] koord Char to choose the sp. coord.--> x,y,z
          \param[in] spin Char to choose the spin --> a,b
-         **/
-    double ex_d_ex_c(char koord, char spin);
-        /** \brief Calculates the expected distance over all
+	 **/
+	double ex_d_ex_c(char koord, char spin);
+	/** \brief Calculates the expected distance over all
          spacial coordinate and for a specific spin.
          \param[in] koord Char to choose the sp. coord.--> x,y,z
          \param[in] spin Char to choose the spin --> a,b
-         **/
-    double ex_d_ex_tot(char spin);
-    /** \brief Calculates the <rh>-<re> vector and returns its quantity.
+	 **/
+	double ex_d_ex_tot(char spin);
+	/** \brief Calculates the <rh>-<re> vector and returns its quantity.
          \param[in] spin Char to choose the spin --> a,b
-         **/
-    double ex_mean_sep(char spin);
-        /** \brief Calculates the sigma for the hole.
+	 **/
+	double ex_mean_sep(char spin);
+	/** \brief Calculates the sigma for the hole.
          \param[in] spin Char to choose the spin --> a,b
-         **/
-    double ex_sig_h(char spin);
-        /** \brief Calculates the sigma for the electron.
+	 **/
+	double ex_sig_h(char spin);
+	/** \brief Calculates the sigma for the electron.
          \param[in] spin Char to choose the spin --> a,b
-         **/
-    double ex_sig_e(char spin);
-        /** \brief Calculates the covalenz of rh, re.
+	 **/
+	double ex_sig_e(char spin);
+	/** \brief Calculates the covalenz of rh, re.
          \param[in] spin Char to choose the spin --> a,b
-         **/
-    double ex_cov(char spin);
-        /** \brief Calculates the correlation of rh, re.
+	 **/
+	double ex_cov(char spin);
+	/** \brief Calculates the correlation of rh, re.
          \param[in] spin Char to choose the spin --> a,b
-         **/
-    double ex_corr(char spin);
+	 **/
+	double ex_corr(char spin);
 
-    public:
-    /** \brief Returns the exp. value of <rh> for a sp. coordinate and spin.
+public:
+	/** \brief Returns the exp. value of <rh> for a sp. coordinate and spin.
         \param[in] koord Char to choose the sp. coord.--> x,y,z
         \param[in] spin Char to choose the spin --> a,b
-    **/
-        double get_rh(char koord, char spin);
-    /** \brief Returns the exp. value of <re> for a sp. coordinate and spin.
+	 **/
+	double get_rh(char koord, char spin);
+	/** \brief Returns the exp. value of <re> for a sp. coordinate and spin.
         \param[in] koord Char to choose the sp. coord.--> x,y,z
         \param[in] spin Char to choose the spin --> a,b
-    **/
-        double get_re(char koord, char spin);
-    /** \brief Returns the exp. value of <rh2> for a sp. coordinate and spin.
+	 **/
+	double get_re(char koord, char spin);
+	/** \brief Returns the exp. value of <rh2> for a sp. coordinate and spin.
         \param[in] koord Char to choose the sp. coord.--> x,y,z
         \param[in] spin Char to choose the spin --> a,b
-    **/
-        double get_rh2(char koord, char spin);
-    /** \brief Returns the exp. value of <re2> for a sp. coordinate and spin.
+	 **/
+	double get_rh2(char koord, char spin);
+	/** \brief Returns the exp. value of <re2> for a sp. coordinate and spin.
         \param[in] koord Char to choose the sp. coord.--> x,y,z
         \param[in] spin Char to choose the spin --> a,b
-    **/
-        double get_re2(char koord, char spin);
-    /** \brief Returns the exp. value of <rhre> for a sp. coordinate and spin.
+	 **/
+	double get_re2(char koord, char spin);
+	/** \brief Returns the exp. value of <rhre> for a sp. coordinate and spin.
         \param[in] koord Char to choose the sp. coord.--> x,y,z
         \param[in] spin Char to choose the spin --> a,b
-    **/
-        double get_rhre(char koord, char spin);
+	 **/
+	double get_rhre(char koord, char spin);
 
-    /** \brief Performs every analysis in this class and saves it in arrays.
+	/** \brief Performs every analysis in this class and saves it in arrays.
         \param tdm Transition Density Matrix
         \param om Omega Omega Matrix
         \param name Reference to the Contract class interface
-    **/
+	 **/
 
-        void perform(const ab_matrix &tdm, const ab_matrix &om,
-                const contract_i &name);
-    /** \brief Returns the separation for a sp. spin.
+	void perform(const ab_matrix &tdm, const ab_matrix &om,
+			const contract_i &name);
+	/** \brief Returns the separation for a sp. spin.
         \param[in] spin Char to choose the spin --> a,b
-    **/
-        double get_sep(char spin);
-    /** \brief Returns the distance for a sp. coordinate and spin.
+	 **/
+	double get_sep(char spin);
+	/** \brief Returns the distance for a sp. coordinate and spin.
         \param[in] koord Char to choose the sp. coord.--> x,y,z
         \param[in] spin Char to choose the spin --> a,b
-    **/
-        double get_dex_c (char coord, char spin);
-    /** \brief Returns the distance for a sp. spin.
+	 **/
+	double get_dex_c (char coord, char spin);
+	/** \brief Returns the distance for a sp. spin.
         \param[in] spin Char to choose the spin --> a,b
-    **/
-        double get_dex_tot (char spin);
-        /** \brief Returns the sigma for the hole for a sp. spin.
+	 **/
+	double get_dex_tot (char spin);
+	/** \brief Returns the sigma for the hole for a sp. spin.
             \param[in] spin Char to choose the spin --> a,b
-              **/
-        double get_sig_h (char spin);
-        /** \brief Returns the sigma for the electron for a sp. spin.
+	 **/
+	double get_sig_h (char spin);
+	/** \brief Returns the sigma for the electron for a sp. spin.
             \param[in] spin Char to choose the spin --> a,b
-             **/
-        double get_sig_e (char spin);
-        /** \brief Returns the covariance for a sp. spin.
+	 **/
+	double get_sig_e (char spin);
+	/** \brief Returns the covariance for a sp. spin.
             \param[in] spin Char to choose the spin --> a,b
-             **/
-        double get_cov (char spin);
-        /** \brief Returns the correlation for a sp. spin.
+	 **/
+	double get_cov (char spin);
+	/** \brief Returns the correlation for a sp. spin.
             \param[in] spin Char to choose the spin --> a,b
-             **/
-        double get_corr (char spin);
+	 **/
+	double get_corr (char spin);
+
+	bool aeqb() { return m_aeqb; }
+
+private:
+	static size_t determine_coord(char coord);
+	static size_t determine_spin(char spin);
 }; // end Class
 
 } // end namespace libwfa

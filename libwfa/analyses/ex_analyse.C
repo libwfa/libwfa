@@ -7,52 +7,56 @@ using namespace arma;
 
 
 void ex_analyse::ex_form (const ab_matrix &tdm, const ab_matrix &om,
-        const contract_i &name){
+        const contract_i &op){
 
-    rh[0][0]=name.perform(tdm, om, "s", "x", 'a');
-    rh[1][0]=name.perform(tdm, om, "s", "y", 'a');
-    rh[2][0]=name.perform(tdm, om, "s", "z", 'a');
+	m_aeqb = tdm.is_alpha_eq_beta();
+	double om_tot = accu(om.alpha());
 
-    re[0][0]=name.perform(tdm, om, "x", "s", 'a');
-    re[1][0]=name.perform(tdm, om, "y", "s", 'a');
-    re[2][0]=name.perform(tdm, om, "z", "s", 'a');
+    rh[0][0] = op.perform(tdm.alpha(), "s", "x") / om_tot;
+    rh[1][0] = op.perform(tdm.alpha(), "s", "y") / om_tot;
+    rh[2][0] = op.perform(tdm.alpha(), "s", "z") / om_tot;
 
-    rh2[0][0]=name.perform(tdm, om, "s", "xx", 'a');
-    rh2[1][0]=name.perform(tdm, om, "s", "yy", 'a');
-    rh2[2][0]=name.perform(tdm, om, "s", "zz", 'a');
+    re[0][0] = op.perform(tdm.alpha(), "x", "s") / om_tot;
+    re[1][0] = op.perform(tdm.alpha(), "y", "s") / om_tot;
+    re[2][0] = op.perform(tdm.alpha(), "z", "s") / om_tot;
 
-    re2[0][0]=name.perform(tdm, om, "xx", "s", 'a');
-    re2[1][0]=name.perform(tdm, om, "yy", "s", 'a');
-    re2[2][0]=name.perform(tdm, om, "zz", "s", 'a');
+    rh2[0][0] = op.perform(tdm.alpha(), "s", "xx") / om_tot;
+    rh2[1][0] = op.perform(tdm.alpha(), "s", "yy") / om_tot;
+    rh2[2][0] = op.perform(tdm.alpha(), "s", "zz") / om_tot;
 
-    rhre[0][0]=name.perform(tdm, om, "x", "x", 'a');
-    rhre[1][0]=name.perform(tdm, om, "y", "y", 'a');
-    rhre[2][0]=name.perform(tdm, om, "z", "z", 'a');
+    re2[0][0] = op.perform(tdm.alpha(), "xx", "s") / om_tot;
+    re2[1][0] = op.perform(tdm.alpha(), "yy", "s") / om_tot;
+    re2[2][0] = op.perform(tdm.alpha(), "zz", "s") / om_tot;
+
+    rhre[0][0] = op.perform(tdm.alpha(), "x", "x") / om_tot;
+    rhre[1][0] = op.perform(tdm.alpha(), "y", "y") / om_tot;
+    rhre[2][0] = op.perform(tdm.alpha(), "z", "z") / om_tot;
 
     if (!tdm.is_alpha_eq_beta()){
 
-        rh[0][1]=name.perform(tdm, om, "s", "x", 'b');
-        rh[1][1]=name.perform(tdm, om, "s", "y", 'b');
-        rh[2][1]=name.perform(tdm, om, "s", "z", 'b');
+    	om_tot = accu(om.beta());
 
-        re[0][1]=name.perform(tdm, om, "x", "s", 'b');
-        re[1][1]=name.perform(tdm, om, "y", "s", 'b');
-        re[2][1]=name.perform(tdm, om, "z", "s", 'b');
+        rh[0][1] = op.perform(tdm.beta(), "s", "x") / om_tot;
+        rh[1][1] = op.perform(tdm.beta(), "s", "y") / om_tot;
+        rh[2][1] = op.perform(tdm.beta(), "s", "z") / om_tot;
 
-        rh2[0][1]=name.perform(tdm, om, "s", "xx", 'b');
-        rh2[1][1]=name.perform(tdm, om, "s", "yy", 'b');
-        rh2[2][1]=name.perform(tdm, om, "s", "zz", 'b');
+        re[0][1] = op.perform(tdm.beta(), "x", "s") / om_tot;
+        re[1][1] = op.perform(tdm.beta(), "y", "s") / om_tot;
+        re[2][1] = op.perform(tdm.beta(), "z", "s") / om_tot;
 
-        re2[0][1]=name.perform(tdm, om, "xx", "s", 'b');
-        re2[1][1]=name.perform(tdm, om, "yy", "s", 'b');
-        re2[2][1]=name.perform(tdm, om, "zz", "s", 'b');
+        rh2[0][1] = op.perform(tdm.beta(), "s", "xx") / om_tot;
+        rh2[1][1] = op.perform(tdm.beta(), "s", "yy") / om_tot;
+        rh2[2][1] = op.perform(tdm.beta(), "s", "zz") / om_tot;
 
-        rhre[0][1]=name.perform(tdm, om, "x", "x", 'b');
-        rhre[1][1]=name.perform(tdm, om, "y", "y", 'b');
-        rhre[2][1]=name.perform(tdm, om, "z", "z", 'b');
+        re2[0][1] = op.perform(tdm.beta(), "xx", "s") / om_tot;
+        re2[1][1] = op.perform(tdm.beta(), "yy", "s") / om_tot;
+        re2[2][1] = op.perform(tdm.beta(), "zz", "s") / om_tot;
 
-    }else{
-
+        rhre[0][1] = op.perform(tdm.beta(), "x", "x") / om_tot;
+        rhre[1][1] = op.perform(tdm.beta(), "y", "y") / om_tot;
+        rhre[2][1] = op.perform(tdm.beta(), "z", "z") / om_tot;
+    }
+    else{
         rh[0][1]=rh[0][0];
         rh[1][1]=rh[1][0];
         rh[2][1]=rh[2][0];
@@ -73,741 +77,124 @@ void ex_analyse::ex_form (const ab_matrix &tdm, const ab_matrix &om,
 } // end fct
 
 double ex_analyse::ex_d_ex_c (char koord, char spin){
-    double erg=0;
 
-    switch (koord){
+    size_t c = determine_coord(koord);
+    size_t s = determine_spin(spin);
 
-    case 'x':{
-        switch (spin){
-
-        case 'a':{
-            erg=sqrt(rh2[0][0]-2*rhre[0][0]+re2[0][0]);
-                break;
-                }//end case a
-
-        case 'b':{
-            erg=sqrt(rh2[0][1]-2*rhre[0][1]+re2[0][1]);
-                break;
-                }//end case b
-
-        default:break;
-        }//end switch
-
-        break;
-        }//end case x
-
-    case 'y':{
-        switch (spin){
-
-        case 'a':{
-            erg=sqrt(rh2[1][0]-2*rhre[1][0]+re2[1][0]);
-                break;
-                }//end case a
-
-        case 'b':{
-            erg=sqrt(rh2[1][1]-2*rhre[1][1]+re2[1][1]);
-                break;
-                }//end case b
-
-        default:break;
-        }//end switch
-
-        break;
-        }//end case y
-
-    case 'z':{
-        switch (spin){
-
-        case 'a':{
-            erg=sqrt(rh2[2][0]-2*rhre[2][0]+re2[2][0]);
-                break;
-                }//end case a
-
-        case 'b':{
-            erg=sqrt(rh2[2][1]-2*rhre[2][1]+re2[2][1]);
-                break;
-                }//end case b
-
-        default:break;
-        }//end switch
-
-        break;
-        }//end case z
-
-    default: break;
-    }//end switch
-
-    return erg;
-
+    return sqrt(rh2[c][s] - 2 * rhre[c][s] + re2[c][s]);
 }//end fct
 
 double ex_analyse::ex_d_ex_tot (char spin){
 
-    double erg=0;
+	return sqrt(ex_d_ex_c('x', spin) * ex_d_ex_c('x', spin)
+			+ ex_d_ex_c('y', spin) * ex_d_ex_c('y', spin)
+			+ ex_d_ex_c('z', spin) * ex_d_ex_c('z', spin));
 
-    switch (spin){
-
-        case 'a':{
-            erg=sqrt((ex_d_ex_c('x','a'))*(ex_d_ex_c('x','a'))
-                    +(ex_d_ex_c('y','a'))*(ex_d_ex_c('y','a'))
-                    +(ex_d_ex_c('z','a'))*(ex_d_ex_c('z','a')));
-            break;
-        }//end case
-
-        case 'b':{
-            erg=sqrt(ex_d_ex_c('x','b')*ex_d_ex_c('x','b')
-                    +ex_d_ex_c('y','b')*ex_d_ex_c('y','b')
-                    +ex_d_ex_c('z','b')*ex_d_ex_c('z','b'));
-            break;
-        }//end case
-
-        default:break;
-    }//end switch
-
-    return erg;
 }//end fct
 
 double ex_analyse::get_rh (char koord, char spin){
 
-    switch (koord){
-
-        case 'x':{
-            switch (spin){
-
-            case 'a':{
-                return rh[0][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return rh[0][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case x
-
-        case 'y':{
-            switch (spin){
-
-            case 'a':{
-                return rh[1][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return rh[1][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-            break;
-            }//end case y
-
-        case 'z':{
-            switch (spin){
-
-            case 'a':{
-                return rh[2][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return rh[2][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case z
-
-        default: return 0;
-        }//end switch
-
+	return rh[determine_coord(koord)][determine_spin(spin)];
 }
 
 double ex_analyse::get_re (char koord, char spin){
 
-    switch (koord){
-
-        case 'x':{
-
-            switch (spin){
-
-            case 'a':{
-                return re[0][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return re[0][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-
-            }//end switch
-
-            break;
-            }//end case x
-
-        case 'y':{
-
-            switch (spin){
-
-            case 'a':{
-                return re[1][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return re[1][1];
-             break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case y
-
-        case 'z':{
-            switch (spin){
-            case 'a':{
-                return re[2][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return re[2][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case z
-
-        default: return 0;
-        }//end switch
-
+	return re[determine_coord(koord)][determine_spin(spin)];
 }
 
 double ex_analyse::get_rh2 (char koord, char spin){
 
-    switch (koord){
-
-        case 'x':{
-
-            switch (spin){
-
-            case 'a':{
-                return rh2[0][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return rh2[0][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case x
-
-        case 'y':{
-
-            switch (spin){
-
-            case 'a':{
-                return rh2[1][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return rh2[1][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case y
-
-        case 'z':{
-
-            switch (spin){
-
-            case 'a':{
-                return rh2[2][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return rh[2][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case z
-
-        default: return 0;
-        }//end switch
+	return rh2[determine_coord(koord)][determine_spin(spin)];
 }
 
 double ex_analyse::get_re2 (char koord, char spin){
-    switch (koord){
-        case 'x':{
-            switch (spin){
-            case 'a':{
-                return re2[0][0];
-                    break;
-                    }//end case a
-            case 'b':{
-                return re2[0][1];
-                    break;
-                    }//end case b
-            default:return 0;
-            }//end switch
-            break;
-            }//end case x
-        case 'y':{
-            switch (spin){
-            case 'a':{
-                return re2[1][0];
-                    break;
-                    }//end case a
-            case 'b':{
-                return re2[1][1];
-                    break;
-                    }//end case b
-            default:return 0;
-            }//end switch
-            break;
-            }//end case y
-        case 'z':{
-            switch (spin){
-            case 'a':{
-                return re2[2][0];
-                    break;
-                    }//end case a
-            case 'b':{
-                return re2[2][1];
-                    break;
-                    }//end case b
-            default:return 0;
-            }//end switch
-            break;
-            }//end case z
-        default: return 0;
-        }//end switch
+
+	return re2[determine_coord(koord)][determine_spin(spin)];
 }
 
 double ex_analyse::get_rhre (char koord, char spin){
 
-    switch (koord){
-
-        case 'x':{
-            switch (spin){
-
-            case 'a':{
-                return rhre[0][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return rhre[0][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case x
-
-        case 'y':{
-            switch (spin){
-
-            case 'a':{
-                return rhre[1][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return rhre[1][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case y
-
-        case 'z':{
-            switch (spin){
-
-            case 'a':{
-                return rhre[2][0];
-                    break;
-                    }//end case a
-
-            case 'b':{
-                return rhre[2][1];
-                    break;
-                    }//end case b
-
-            default:return 0;
-            }//end switch
-
-            break;
-            }//end case z
-
-        default: return 0;
-        }//end switch
+	return rhre[determine_coord(koord)][determine_spin(spin)];
 }
 
 double ex_analyse::ex_mean_sep (char spin){
 
-    double vek[3];
-    double erg=0;
-
-        switch (spin){
-
-            case 'a':{
-                vek[0]=rh[0][0]-re[0][0];
-                vek[1]=rh[1][0]-re[1][0];
-                vek[2]=rh[2][0]-re[2][0];
-                erg=sqrt(vek[0]*vek[0]+vek[1]*vek[1]+vek[2]*vek[2]);
-                break;
-            }//end case
-
-            case 'b':{
-                vek[0]=rh[0][1]-re[0][1];
-                vek[1]=rh[1][1]-re[1][1];
-                vek[2]=rh[2][1]-re[2][1];
-                erg=sqrt(vek[0]*vek[0]+vek[1]*vek[1]+vek[2]*vek[2]);
-                break;
-            }//end case
-
-            default:break;
-        }//end switch
-
-        return erg;
+	size_t s = determine_spin(spin);
+	double sum = 0;
+	for (size_t i = 0; i < 3; i++) {
+		double tmp = rh[i][s] - re[i][s];
+		sum += tmp * tmp;
+	}
+	return sqrt(sum);
 } //end fct
 
 double ex_analyse::ex_sig_h (char spin){
 
-    double erg=0;
-    double rh2tot=0;
-    double rhtot=0;
-
-        switch (spin){
-
-            case 'a':{
-                rh2tot=rh2[0][0]+rh2[1][0]+rh2[2][0];
-                rhtot=(rh[0][0])*(rh[0][0])+(rh[1][0])*(rh[1][0])
-                        +(rh[2][0])*(rh[2][0]);
-                erg=sqrt(rh2tot-rhtot);
-                break;
-            }//end case
-
-            case 'b':{
-                rh2tot=rh2[0][1]+rh2[1][1]+rh2[2][1];
-                rhtot=(rh[0][1])*(rh[0][1])+(rh[1][1])*(rh[1][1])
-                        +(rh[2][1])*(rh[2][1]);
-                erg=sqrt(rh2tot-rhtot);
-                break;
-            }//end case
-
-            default:break;
-            }//end switch
-
-    return erg;
+	size_t s = determine_spin(spin);
+	double sum = 0;
+	for (size_t i = 0; i < 3; i++) sum += (rh2[i][s] - rh[i][s] * rh[i][s]);
+	return sqrt(sum);
 }//end fct
 
 double ex_analyse::ex_sig_e (char spin){
-    double erg=0;
-    double re2tot=0;
-    double retot=0;
 
-        switch (spin){
-
-            case 'a':{
-                re2tot=re2[0][0]+re2[1][0]+re2[2][0];
-                retot=(re[0][0])*(re[0][0])+(re[1][0])*(re[1][0])
-                        +(re[2][0])*(re[2][0]);
-                erg=sqrt(re2tot-retot);
-                break;
-            }//end case
-
-            case 'b':{
-                re2tot=re2[0][1]+re2[1][1]+re2[2][1];
-                retot=(re[0][1])*(re[0][1])+(re[1][1])*(re[1][1])
-                        +(re[2][1])*(re[2][1]);
-                erg=sqrt(re2tot-retot);
-                break;
-            }//end case
-
-            default:break;
-
-            }//end switch
-
-    return erg;
-
+	size_t s = determine_spin(spin);
+	double sum = 0;
+	for (size_t i = 0; i < 3; i++) sum += (re2[i][s] - re[i][s] * re[i][s]);
+	return sqrt(sum);
 }//end fct
 
 double ex_analyse::ex_cov (char spin){
-   double erg=0;
 
-    switch (spin){
-
-            case 'a':{
-                erg=rhre[0][0]+rhre[1][0]+rhre[2][0]
-                    -(rh[0][0])*(re[0][0])-(rh[1][0])*(re[1][0])
-                    -(rh[2][0])*(re[2][0]);
-                break;
-            }//end case
-
-            case 'b':{
-                erg=rhre[0][1]+rhre[1][1]+rhre[2][1]
-                    -(rh[0][1])*(re[0][1])-(rh[1][1])*(re[1][1])
-                    -(rh[2][1])*(re[2][1]);
-                break;
-            }//end case
-
-            default:break;
-    }//end switch
-
-    return erg;
+	size_t s = determine_spin(spin);
+	double erg = 0;
+	for (size_t i = 0; i < 3; i++) erg += (rhre[i][s] - rh[i][s] * re[i][s]);
+	return erg;
 
 }//end fct
 
 double ex_analyse::ex_corr(char spin){
 
-    double erg=0;
-
-        switch (spin){
-
-            case 'a':{
-                erg=ex_cov('a')/(ex_sig_e('a')*ex_sig_h('a'));
-                    break;
-                     }//end case
-
-             case 'b':{
-                 erg=ex_cov('b')/(ex_sig_e('b')*ex_sig_h('b'));
-                    break;
-                      }//end case
-
-             default:break;
-                   }//end switchfish
-
-        return erg;
+    return ex_cov(spin) / (ex_sig_e(spin) * ex_sig_h(spin));
 }
 
 
 double ex_analyse::get_sep(char spin) {
-    switch (spin) {
 
-    case 'a': {
-        return sep[0];
-        break;
-    } //end case
-
-    case 'b': {
-        return sep[1];
-        break;
-    } //end case
-
-    default:{
-        return 0;
-        break;
-    }//end default
-    } //end switchfish
+	return sep[determine_spin(spin)];
 } //end fct
 
 double ex_analyse::get_dex_c(char coord, char spin) {
-    switch (coord) {
 
-    case 'x': {
-        switch (spin) {
-
-        case 'a': {
-            return dex_c[0][0];
-            break;
-        } //end case a
-
-        case 'b': {
-            return dex_c[0][1];
-            break;
-        } //end case b
-
-        default:
-            return 0;
-        } //end switch
-
-        break;
-    } //end case x
-
-    case 'y': {
-        switch (spin) {
-
-        case 'a': {
-            return dex_c[1][0];
-            break;
-        } //end case a
-
-        case 'b': {
-            return dex_c[1][1];
-            break;
-        } //end case b
-
-        default:
-            return 0;
-        } //end switch
-
-        break;
-    } //end case y
-
-    case 'z': {
-        switch (spin) {
-
-        case 'a': {
-            return dex_c[2][0];
-            break;
-        } //end case a
-
-        case 'b': {
-            return dex_c[2][1];
-            break;
-        } //end case b
-
-        default:
-            return 0;
-        } //end switch
-
-        break;
-    } //end case z
-
-    default:
-        return 0;
-    } //end switch
+	return dex_c[determine_coord(coord)][determine_spin(spin)];
 } //end fct
 
 double ex_analyse::get_dex_tot(char spin) {
-switch (spin){
-case 'a':
-    {
-        return dex_tot[0];
-        break;
-    } //end case
 
-    case 'b':
-    {
-        return dex_tot[1];
-        break;
-    } //end case
-
-    default:
-    {
-        return 0;
-        break;
-    } //end default
-} //end switch
+	return dex_tot[determine_spin(spin)];
 } //end fct
 
 double ex_analyse::get_sig_h(char spin) {
-    switch(spin){
-    case 'a':
-    {
-        return sig_h[0];
-        break;
-    } //end case
 
-    case 'b':
-    {
-        return sig_h[1];
-        break;
-    } //end case
-
-    default:
-    {
-        return 0;
-        break;
-    } //end default
-} //end switch
+	return sig_h[determine_spin(spin)];
 } //end fct
 
 double ex_analyse::get_sig_e(char spin) {
-    switch (spin) {
-    case 'a': {
-        return sig_e[0];
-        break;
-    } //end case
 
-    case 'b': {
-        return sig_e[1];
-        break;
-    } //end case
+	return sig_e[determine_spin(spin)];
 
-    default: {
-        return 0;
-        break;
-    } //end default
-    } //end switch
 }//end fct
 
 double ex_analyse::get_cov(char spin) {
-    switch (spin) {
-    case 'a': {
-        return cov[0];
-        break;
-    } //end case
 
-    case 'b': {
-        return cov[1];
-        break;
-    } //end case
-
-    default: {
-        return 0;
-        break;
-    } //end default
-    } //end switch
+	return cov[determine_spin(spin)];
 } //end fct
 
 double ex_analyse::get_corr(char spin) {
-    switch (spin) {
-    case 'a': {
-        return corr[0];
-        break;
-    } //end case
 
-    case 'b': {
-        return corr[1];
-        break;
-    } //end case
-
-    default: {
-        return 0;
-        break;
-    } //end default
-    } //end switch
+	return corr[determine_spin(spin)];
 } //end fct
+
 
 void ex_analyse::perform(const ab_matrix &tdm, const ab_matrix &om,
         const contract_i &name){
@@ -853,6 +240,23 @@ void ex_analyse::perform(const ab_matrix &tdm, const ab_matrix &om,
 }//end fct
 
 
+size_t ex_analyse::determine_coord(char coord) {
+
+	if (coord == 'x') return 0;
+	else if (coord == 'y') return 1;
+	else if (coord == 'z') return 2;
+	else
+		throw 1;
+}
+
+
+size_t ex_analyse::determine_spin(char spin) {
+
+	if (spin == 'a') return 0;
+	else if (spin == 'b') return 1;
+	else
+		throw 1;
+}
 
 }// end namespace libwfa
 

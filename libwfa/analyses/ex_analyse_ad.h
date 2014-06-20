@@ -2,8 +2,7 @@
 #define EX_ANALYSE_AD_H_
 
 #include <libwfa/core/ab_matrix.h>
-#include <libwfa/core/contract_ad_i.h>
-#include <libwfa/core/contract_ad.h>
+#include <libwfa/core/contract_i.h>
 
 namespace libwfa {
 
@@ -36,11 +35,11 @@ private:
      \param[in] att Attachment matrix
      \param[in] det Detachment matrix
      \param[in] s Overlap matrix
-     \param[in] name Contract interface reference
+     \param[in] op Contract interface reference
 
      **/
-    void ex_form_ad(const ab_matrix &att, const ab_matrix &det,
-            const Mat<double> &s, const contract_ad_i &name);
+    void ex_form_ad(const ab_matrix &att,
+    		const ab_matrix &det, const contract_i &op);
     /** \brief Calculates the <rh>-<re> vector and returns its quantity.
      \param[in] spin Char to choose the spin --> a,b
      **/
@@ -91,11 +90,14 @@ public:
      \param[in] att Attachment matrix
      \param[in] det Detachment matrix
      \param[in] s Overlap matrix
-     \param[in] name Contract Interface reference
+     \param[in] op Contract interface reference
      **/
     void perform (const ab_matrix &att, const ab_matrix &det,
-            const Mat<double> &s, const contract_ad_i &name);
+    		const contract_i &op);
 
+private:
+	static size_t determine_coord(char coord);
+	static size_t determine_spin(char spin);
 };
 
 }//end namespace libwfa

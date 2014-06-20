@@ -1,5 +1,5 @@
-#ifndef EX_ANA_TEST_H_
-#define EX_ANA_TEST_H_
+#ifndef LIBWFA_EX_ANALYSE_TEST_H
+#define LIBWFA_EX_ANALYSE_TEST_H
 
 #include <libtest/unit_test.h>
 
@@ -7,10 +7,10 @@ namespace libwfa {
 
 /**	\brief Tests for libwfa::ex_analyse class
 
-	\ingroup libmo_tests
+	\ingroup libwfa_tests
  **/
 
-class ex_ana_test : public libtest::unit_test {
+class ex_analyse_test : public libtest::unit_test {
 public:
 	virtual void perform() throw(libtest::test_exception);
 private:
@@ -23,4 +23,4 @@ private:
 }// end namespace libwfa
 
 
-#endif  //EX_ANA_TEST_H_
+#endif  // LIBWFA_EX_ANALYSE_TEST_H

@@ -52,7 +52,7 @@ void analyse_optdm::perform(ab_matrix &edm_av, ab_matrix &hdm_av,
     form_om(m_s, m_tdm, om);
 
     ex_ana.perform(m_tdm, om, con);
-    ex_ana_p.perform(m_tdm.is_alpha_eq_beta(), ex_ana, out);
+    ex_ana_p.perform(ex_ana, out);
 
 }//endfct
 
@@ -87,7 +87,7 @@ void analyse_optdm::perform(export_data_i &pr, const contract_i &con,
     form_om(m_s, m_tdm, om);
 
     ex_ana.perform(m_tdm, om, con);
-    ex_ana_p.perform(m_tdm.is_alpha_eq_beta(), ex_ana, out);
+    ex_ana_p.perform(ex_ana, out);
 
 }//endfct
 

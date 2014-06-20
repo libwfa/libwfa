@@ -39,7 +39,6 @@ set(CORE_HEADERS
     core/selector.h
     core/transformations_dm.h
     core/contract.h
-    core/contract_ad.h
 )
 
 set(CORE_SRC
@@ -49,7 +48,6 @@ set(CORE_SRC
     core/selector.C
     core/transformations_dm.C
     core/contract.C
-    core/contract_ad.C
 )
 
 

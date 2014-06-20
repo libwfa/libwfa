@@ -35,7 +35,7 @@ void analyse_opdm::do_register(const std::string &name,
 }
 
 
-void analyse_opdm::perform(export_data_i &pr, const contract_ad_i &name,
+void analyse_opdm::perform(export_data_i &pr, const contract_i &name,
         std::ostream &out) const {
 
     pr.perform(density_type::state, m_sdm);
@@ -52,7 +52,7 @@ void analyse_opdm::perform(export_data_i &pr, const contract_ad_i &name,
         ex_analyse_ad analyse_ad;
         ex_ana_printer_ad ana_p_ad;
 
-        analyse_ad.perform(at,de,m_s,name);
+        analyse_ad.perform(at,de,name);
         ana_p_ad.perform(m_dm1.is_alpha_eq_beta(), analyse_ad, out);
     }
 

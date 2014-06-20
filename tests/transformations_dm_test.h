@@ -8,7 +8,7 @@ namespace libwfa {
 
 /**	\brief Tests the libwfa::transformations_dm class
 
-	\ingroup libmo_tests
+	\ingroup libwfa_tests
  **/
 class transformations_dm_test : public libtest::unit_test {
 public:

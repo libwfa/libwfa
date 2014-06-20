@@ -1,16 +1,12 @@
-#include <libwfa/core/transformations_dm.h>
 #include <libwfa/analyses/ex_analyse.h>
-#include <libwfa/export/ex_ana_printer.h>
-#include <libwfa/analyses/ex_analyse_ad.h>
-#include <libwfa/export/ex_ana_printer_ad.h>
-#include "ex_ana_test.h"
 #include <libwfa/core/contract.h>
-#include <libwfa/core/contract_ad.h>
+#include <libwfa/core/transformations_dm.h>
+#include "ex_analyse_test.h"
 
 
 namespace libwfa{
 
-void ex_ana_test::perform() throw(libtest::test_exception){
+void ex_analyse_test::perform() throw(libtest::test_exception){
 
     test_ex_total();
 
@@ -133,94 +129,53 @@ const double system_data::d_s[16]={
 
 }//end unnamed namespaceunit_test
 
-void ex_ana_test::test_ex_total(){
-    static const char *testname = "ex_ana_test::test_ex_total()";
-    //Forming ab_matrix for test purposes, where alpha==beta
-        ab_matrix tdm(4, 4);
-        tdm.alpha()=system_data::tdm();
-        tdm.set_alpha_eq_beta();
+void ex_analyse_test::test_ex_total(){
 
-        ab_matrix mxx(4, 4);
-        mxx.alpha()=system_data::mxx();
-        mxx.set_alpha_eq_beta();
+	static const char *testname = "ex_analyse_test::test_ex_total()";
 
-        ab_matrix mx(4, 4);
-        mx.alpha()=system_data::mx();
-        mx.set_alpha_eq_beta();
+	//Forming ab_matrix for test purposes, where alpha==beta
+	arma::Mat<double> s = system_data::overlap();
 
-        ab_matrix myy(4, 4);
-        myy.alpha()=system_data::myy();
-        myy.set_alpha_eq_beta();
+	ab_matrix tdm(true);
+	arma::Mat<double> mx = system_data::mx();
+	arma::Mat<double> my = system_data::my();
+	arma::Mat<double> mz = system_data::mz();
+	arma::Mat<double> mxx = system_data::mxx();
+	arma::Mat<double> myy = system_data::myy();
+	arma::Mat<double> mzz = system_data::mzz();
 
-        ab_matrix my(4, 4);
-        my.alpha()=system_data::my();
-        my.set_alpha_eq_beta();
+	ab_matrix om(true);
+	form_om(s, tdm, om);
 
-        ab_matrix mzz(4, 4);
-        mzz.alpha()=system_data::mzz();
-        mzz.set_alpha_eq_beta();
+	contract con(mx, mxx, my, myy, mz, mzz, s);
 
-        ab_matrix mz(4, 4);
-        mz.alpha()=system_data::mz();
-        mz.set_alpha_eq_beta();
+	ex_analyse analyse;
 
-        ab_matrix s(4, 4);
-        s.alpha()=system_data::overlap();
-        s.set_alpha_eq_beta();
+	analyse.perform(tdm, om, con);
 
-        ab_matrix om(4, 4);
-        form_om (system_data::overlap(), tdm, om);
-        om.set_alpha_eq_beta();
+	// TODO: compare results in ex_analyse to reference data
 
-        contract con(mx.alpha(), mxx.alpha(), my.alpha(), myy.alpha(),
-                mz.alpha(), mzz.alpha(), s.alpha());
+	// The idea of a unit test is to provide an easy control on the correctness
+	// of a class / function. Whenever someone changes the code inside of
+	// a function / class, running the unit test should report, if the new
+	// code is working OK. Thus, writing a unit test which does not do an
+	// error check in the end is almost completely useless. There are only
+	// a few exceptions to this:
+	// 1) The test should check on the error handling of a function / class.
+	//    In this case one would probably only catch the exception thrown by
+	//    the function / class and either forward it or accept the test as
+	//    working (depending on what's being tested).
+	// 2) The function / class is exclusively for printing. Even then, if
+	//    the world was perfect and the output stream were available as string,
+	//    the result should be analysed. However, analysing a string is far more
+	//    effort than just looking at it.
 
-        ex_analyse analyse;
-        ex_ana_printer ana_p;
+	// In this case however (with the printer being separated from the analysis)
+	// you can easily compare the results of the analysis numerically to
+	// reference data. As example how you could do this look at
+	// void transformations_dm_test::test_form_eh_1b().
 
-        analyse.perform(tdm, om, con);
-        ana_p.perform(tdm.is_alpha_eq_beta(), analyse, cout);
-
-        contract_ad conad(mx.alpha(), mxx.alpha(), my.alpha(), myy.alpha(),
-                mz.alpha(), mzz.alpha(), s.alpha());
-
-        ex_analyse_ad analysead;
-        ex_ana_printer_ad anapad;
-
-        ab_matrix det(4,4);
-        det.alpha()=tdm.alpha()*s.alpha()*tdm.alpha().t();
-        det.set_alpha_eq_beta();
-
-        ab_matrix att(4,4);
-        att.alpha()=tdm.alpha().t()*s.alpha()*tdm.alpha();
-        att.set_alpha_eq_beta();
-
-        analysead.perform(att, det, s.alpha(), conad);
-        anapad.perform(tdm.is_alpha_eq_beta(), analysead, cout);
-
-        //Creating the test and printer object, performing all tests and
-        //printing the results
-        /**ex_analyse analyse;
-        ex_ana_printer ana_p;
-        analyse.perform(tdm,s,mxx,mx,myy,my,mzz,mz,om);
-        ana_p.perform(tdm.is_alpha_eq_beta(), analyse, cout);
-
-        ex_analyse_ad analyse_ad;
-        ex_ana_printer_ad ana_p_ad;
-
-        //Creating Detachment, Attachment Matrices
-        ab_matrix det(4,4);
-        det.alpha()=tdm.alpha()*s.alpha()*tdm.alpha().t();
-        det.set_alpha_eq_beta();
-
-        ab_matrix att(4,4);
-        att.alpha()=tdm.alpha().t()*s.alpha()*tdm.alpha();
-        att.set_alpha_eq_beta();
-
-        analyse_ad.perform(att,det,s,mx,mxx,my,myy,mz,mzz);
-        ana_p_ad.perform(tdm.is_alpha_eq_beta(), analyse_ad, cout);
-         **/
-
+	fail_test(testname, __FILE__, __LINE__, "No check");
 
 }// end fct
 

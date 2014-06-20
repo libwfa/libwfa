@@ -8,7 +8,7 @@ namespace libwfa {
 
 /**	\brief Tests the libwfa::version class
 
-	\ingroup libmo_tests
+	\ingroup libwfa_tests
  **/
 class version_test : public libtest::unit_test {
 public:

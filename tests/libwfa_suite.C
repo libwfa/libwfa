@@ -12,6 +12,8 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("ctnum_export", m_utf_ctnum_export);
     add_test("ctnumbers", m_utf_ctnumbers);
     add_test("cube_writer", m_utf_cube_writer);
+    add_test("ex_analyse_ad", m_utf_ex_analyse_ad_test);
+    add_test("ex_analyse", m_utf_ex_analyse_test);
     add_test("export_cube_base", m_utf_export_cube_base);
     add_test("grid3d", m_utf_grid3d);
     add_test("ndo_analysis", m_utf_ndo_analysis);
@@ -25,7 +27,6 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("selector", m_utf_selector);
     add_test("transformations_dm", m_utf_transformations_dm);
     add_test("version", m_utf_version);
-    add_test("ex_ana_test", m_utf_ex_ana_test);
 }
 
 

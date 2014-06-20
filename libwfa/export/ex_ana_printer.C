@@ -6,72 +6,59 @@ namespace libwfa{
 
 using namespace arma;
 
-void ex_ana_printer::perform(bool aeqb, ex_analyse &analyse, std::ostream &out){
+const double ex_ana_printer::k_au2ang = 0.52917724900;
 
-    do_print (aeqb, analyse, out);
+void ex_ana_printer::perform(ex_analyse &analyse, std::ostream &out) {
 
-}//end fct
+    out << std::setw(10) << std::setprecision(6) << std::fixed;
+    out << std::endl << std::endl;
+    out << std::string(70, '-') << std::endl;
+    out << "Performing exciton analysis (TDM)... (in \u212B) " << std::endl;
+    out << std::endl;
+	out << "For the alpha part:" << std::endl;
+	do_print('a', analyse, out);
+	if (! analyse.aeqb()) {
+	    out << std::endl;
+		out << "For the beta part:" << std::endl;
+		do_print('b', analyse, out);
+	} else {
+		out << "Alpha is equal to beta." << std::endl;
+	}
+	out << std::endl;
+	out << std::string(70, '-') << std::endl;
+	out << std::endl;
 
-void ex_ana_printer::do_print(bool aeqb, ex_analyse &analyse, std::ostream &out){
-    double c=0.52917724900;
-    out<< std::setw(10) << std::setprecision(6) << std::fixed;
-    out<<"\n \n";
-    out<<"---------------------------------------------------------------------"
-            << endl;
-    out << "Performing exciton analysis (TDM)... (in \u212B) " << endl;
+}
 
-    out << "\n";
-    out << "For the alpha part:" << endl;
-    out << "<rhx>,<rhy>,<rhz>: " << analyse.get_rh('x', 'a') * c << ", "
-            << analyse.get_rh('y', 'a') * c << ", "
-            << analyse.get_rh('z', 'a') * c << endl;
-    out << "<rex>,<rey>,<rez>: " << analyse.get_re('x', 'a') * c << ", "
-            << analyse.get_re('y', 'a') * c << ", "
-            << analyse.get_re('z', 'a') * c << endl;
-    out << "Electron hole separation |<rh-re>|: " << analyse.get_sep('a') * c
-            << endl;
-    out << "Distance for each coord: x= " << analyse.get_dex_c('x', 'a') * c
-            << " y= " << analyse.get_dex_c('y', 'a') * c << " z="
-            << analyse.get_dex_c('z', 'a') * c << endl;
+void ex_ana_printer::do_print(char spin,
+		ex_analyse &analyse, std::ostream &out) {
+
+    out << "<rhx>,<rhy>,<rhz>: "
+    		<< analyse.get_rh('x', spin) * k_au2ang << ", "
+            << analyse.get_rh('y', spin) * k_au2ang << ", "
+            << analyse.get_rh('z', spin) * k_au2ang << std::endl;
+    out << "<rex>,<rey>,<rez>: "
+    		<< analyse.get_re('x', spin) * k_au2ang << ", "
+            << analyse.get_re('y', spin) * k_au2ang << ", "
+            << analyse.get_re('z', spin) * k_au2ang << std::endl;
+    out << "Electron hole separation |<rh-re>|: "
+    		<< analyse.get_sep(spin) * k_au2ang << std::endl;
+    out << "Distance for each coord:"
+    		<< " x= " << analyse.get_dex_c('x', spin) * k_au2ang
+            << " y= " << analyse.get_dex_c('y', spin) * k_au2ang
+            << " z= " << analyse.get_dex_c('z', spin) * k_au2ang
+            << std::endl;
     out << "Averaged distance over all coordinates: "
-            << analyse.get_dex_tot('a') * c << endl;
-    out << "Sigma (hole): " << analyse.get_sig_h('a') * c << endl;
-    out << "Sigma (electron): " << analyse.get_sig_e('a') * c << endl;
-    out << "Covariance (rh,re): " << analyse.get_cov('a') * c * c << endl;
-    out << "Correlation factor (rh,re): " << analyse.get_corr('a') << endl;
-
-    if (!aeqb) {
-
-        out << "\n";
-        out << "For the beta part:" << endl;
-        out << "<rhx>,<rhy>,<rhz>: " << analyse.get_rh('x', 'b') * c << ", "
-                << analyse.get_rh('y', 'b') * c << ", "
-                << analyse.get_rh('z', 'b') * c << endl;
-        out << "<rex>,<rey>,<rez>: " << analyse.get_re('x', 'b') * c << ", "
-                << analyse.get_re('y', 'b') * c << ", "
-                << analyse.get_re('z', 'b') * c << endl;
-        out << "Electron hole separation |<rh-re>|: "
-                << analyse.get_sep('b') * c << endl;
-        out << "Distance for each coord: x= " << analyse.get_dex_c('x', 'b') * c
-                << " y= " << analyse.get_dex_c('y', 'b') * c << " z="
-                << analyse.get_dex_c('z', 'b') * c << endl;
-        out << "Averaged distance over all coordinates: "
-                << analyse.get_dex_tot('b') * c << endl;
-        out << "Sigma (hole): " << analyse.get_sig_h('b') * c << endl;
-        out << "Sigma (electron): " << analyse.get_sig_e('b') * c << endl;
-        out << "Covariance (rh,re): " << analyse.get_cov('b') * c * c << endl;
-        out << "Correlation factor (rh,re): " << analyse.get_corr('b') << endl;
-
-    } else {
-
-        out << "Alpha is equal to beta." << endl;
-
-    }
-    out << "\n";
-    out <<"--------------------------------------------------------------------"
-            << endl;
-    out << endl;
-
+            << analyse.get_dex_tot(spin) * k_au2ang << std::endl;
+    out << "Sigma (hole): "
+    		<< analyse.get_sig_h(spin) * k_au2ang << std::endl;
+    out << "Sigma (electron): "
+    		<< analyse.get_sig_e(spin) * k_au2ang << std::endl;
+    out << "Covariance (rh,re): "
+    		<< analyse.get_cov(spin) * k_au2ang * k_au2ang << std::endl;
+    out << "Correlation factor (rh,re): "
+    		<< analyse.get_corr(spin) << std::endl;
 }//end fct
+
 
 }//end namespace libwfa

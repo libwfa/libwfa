@@ -9,6 +9,8 @@
 #include "ctnum_export_test.h"
 #include "ctnumbers_test.h"
 #include "cube_writer_test.h"
+#include "ex_analyse_ad_test.h"
+#include "ex_analyse_test.h"
 #include "export_cube_base_test.h"
 #include "grid3d_test.h"
 #include "ndo_analysis_test.h"
@@ -22,7 +24,6 @@
 #include "selector_test.h"
 #include "transformations_dm_test.h"
 #include "version_test.h"
-#include "ex_ana_test.h"
 
 using libtest::unit_test_factory;
 
@@ -43,6 +44,8 @@ namespace libwfa {
     - \c ctnum_export_test
     - \c ctnumbers_test
     - \c cube_writer_test
+    - \c ex_analyse_ad_test
+    - \c ex_analyse_test
     - \c export_cube_base_test
     - \c grid3d_test
     - \c ndo_analysis_test
@@ -68,6 +71,8 @@ private:
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
     unit_test_factory<ctnumbers_test> m_utf_ctnumbers;
     unit_test_factory<cube_writer_test> m_utf_cube_writer;
+    unit_test_factory<ex_analyse_ad_test> m_utf_ex_analyse_ad_test;
+    unit_test_factory<ex_analyse_test> m_utf_ex_analyse_test;
     unit_test_factory<export_cube_base_test> m_utf_export_cube_base;
     unit_test_factory<grid3d_test> m_utf_grid3d;
     unit_test_factory<ndo_analysis_test> m_utf_ndo_analysis;
@@ -81,7 +86,6 @@ private:
     unit_test_factory<selector_test> m_utf_selector;
     unit_test_factory<transformations_dm_test> m_utf_transformations_dm;
     unit_test_factory<version_test> m_utf_version;
-    unit_test_factory<ex_ana_test> m_utf_ex_ana_test;
 
 public:
     //! Creates the suite

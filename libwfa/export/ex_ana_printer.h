@@ -12,21 +12,22 @@ using namespace arma;
 
 class ex_ana_printer{
 private:
-    /**\brief Prints the results of the exciton analysis.
-         \param[in] aeqb Alph==beta?
-             \param[in] analyse Name of the class ex_analyse
-             \param[in] out Ostream name
-     **/
+	static const double k_au2ang;
 
-    void do_print (bool aeqb, ex_analyse &analyse, std::ostream &out);
 public:
     /** \brief Calls the print function.
-             \param[in] aeqb Alph==beta?
-             \param[in] analyse Name of the class ex_analyse
-             \param[in] out Ostream name
+        \param[in] analyse Analysis class
+        \param[in] out Ostream name
      **/
-    void perform (bool aeqb, ex_analyse &analyse, std::ostream &out);
+    void perform(ex_analyse &analyse, std::ostream &out);
 
+private:
+    /** \brief Calls the print function.
+    	\param[in] spin Print specific spin
+        \param[in] analyse Analysis class
+        \param[in] out Ostream name
+     **/
+    void do_print(char spin, ex_analyse &analyse, std::ostream &out);
 };//end class
 
 
