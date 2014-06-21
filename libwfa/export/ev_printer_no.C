@@ -39,12 +39,11 @@ size_t ev_printer_no::perform(density_type type,
 size_t ev_printer_no::print(const Col<double> &ni, std::ostream &out) const {
 
     double nelec = accu(ni);
-    size_t ihomo = ni.n_elem - (nelec + 0.5);
+    size_t ihomo = ni.n_elem - (size_t)(nelec + 0.5);
 
     out << "Occupation of frontier NOs: ";
     out << std::fixed << std::setw(7) << std::setprecision(4);
-    for (size_t i = 0, j = ihomo - m_nno; i < 2 * m_nno; i++, j++)
-        out << ni[j];
+    for (size_t i = 0, j = ihomo - m_nno; i < 2 * m_nno; i++, j++) out << ni(j);
     out << std::endl;
     out << std::setw(9) << std::setprecision(6);
     out << "Number of electrons: " << nelec << std::endl;
@@ -68,8 +67,7 @@ size_t ev_printer_no::print_total(
 
     out << std::setw(7) << std::setprecision(4) << std::fixed;
     out << "Occupation of frontier NOs: ";
-    for (size_t i = 0, j = ihomo - m_nno; i < 2 * m_nno; i++, j++)
-        out << ni[j];
+    for (size_t i = 0, j = ihomo - m_nno; i < 2 * m_nno; i++, j++) out << ni(j);
     out << std::endl;
 
     out << std::setw(9) << std::setprecision(6);
