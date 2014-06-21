@@ -29,7 +29,7 @@ void selector::select(size_t i0, size_t i1, size_t inc, bool reverse) {
 #endif
 
     if (reverse)
-        for (size_t i = i1; i >= i0; i -= inc) select(i);
+        for (size_t i = i0, j = i1; i <= i1; i += inc, j -= inc) select(j);
     else
         for (size_t i = i0; i <= i1; i += inc) select(i);
 }

@@ -69,8 +69,8 @@ arma::Col<arma::uword> orbital_selector::get_selected_arma() const {
 
     size_t no = m_occ.n_selected(), nv = m_vir.n_selected();
     arma::Col<arma::uword> el(no + nv);
-    el.cols(0, no - 1) = m_occ.get_selected_arma();
-    el.cols(no, no + nv - 1) = m_vir.get_selected_arma();
+    el.rows(0, no - 1) = m_occ.get_selected_arma();
+    el.rows(no, no + nv - 1) = m_vir.get_selected_arma();
     return el;
 }
 
