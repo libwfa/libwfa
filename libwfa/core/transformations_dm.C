@@ -48,15 +48,16 @@ void form_om(const Mat<double> &s,
 }
 
 
-void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
-    ab_vector &ev, ab_matrix &u) {
+void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
+    const ab_matrix &dm, ab_vector &ev, ab_matrix &u) {
 
     const Mat<double> &c_a = c.alpha(), &dm_a = dm.alpha();
     Col<double> &ev_a = ev.alpha();
     Mat<double> &u_a = u.alpha();
-    Mat<double> evec(c_a.n_cols, c_a.n_cols);
+    Mat<double> evec;
 
-    eig_sym(ev_a, evec, c_a.t() * dm_a * c_a);
+    u_a = s * c_a;
+    eig_sym(ev_a, evec, u_a.t() * dm_a * u_a);
     u_a = c_a * evec;
 
     if (! dm.is_alpha_eq_beta()) {
@@ -67,7 +68,8 @@ void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
         Col<double> &ev_b = ev.beta();
         Mat<double> &u_b = u.beta();
 
-        eig_sym(ev_b, evec, c_b.t() * dm_b * c_b);
+        u_b = s * c_b;
+        eig_sym(ev_b, evec, u_b.t() * dm_b * u_b);
         u_b = c_b * evec;
     }
     else {
@@ -87,10 +89,10 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
 
     {
         Mat<double> ux;
-        ux = u_a.rows(ix(0), ev_a.n_rows - 1);
-        da_a = ux.t() * diagmat(ev_a.rows(ix(0), ev_a.n_rows - 1)) * ux;
-        ux = u_a.rows(0, ix(0) - 1);
-        dd_a = ux.t() * diagmat(ev_a.rows(0, ix(0) - 1) * -1.) * ux;
+        ux = u_a.cols(ix(0), ev_a.n_rows - 1);
+        da_a = ux * diagmat(ev_a.rows(ix(0), ev_a.n_rows - 1)) * ux.t();
+        ux = u_a.cols(0, ix(0) - 1);
+        dd_a = ux * diagmat(ev_a.rows(0, ix(0) - 1) * -1.) * ux.t();
     }
 
     if (! u.is_alpha_eq_beta()) {
@@ -104,10 +106,10 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
 
         {
             Mat<double> ux;
-            ux = u_b.rows(ix(0), ev_b.n_rows - 1);
-            da_b = ux.t() * diagmat(ev_b.rows(ix(0), ev_b.n_rows - 1)) * ux;
-            ux = u_b.rows(0, ix(0) - 1);
-            dd_b = ux.t() * diagmat(ev_b.rows(0, ix(0) - 1) * -1.) * ux;
+            ux = u_b.cols(ix(0), ev_b.n_rows - 1);
+            da_b = ux * diagmat(ev_b.rows(ix(0), ev_b.n_rows - 1)) * ux.t();
+            ux = u_b.cols(0, ix(0) - 1);
+            dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1) * -1.) * ux.t();
         }
     }
     else {
@@ -123,12 +125,7 @@ void form_ad(const Mat<double> &s, const ab_matrix &c,
     ab_matrix u;
     ab_vector ev;
 
-    diagonalize_dm(c, dm, ev, u);
-    // Compute u^-1 = u' * s
-    u.alpha() = u.alpha().t() * s;
-    if (! u.is_alpha_eq_beta())
-        u.beta() = u.beta().t() * s;
-
+    diagonalize_dm(s, c, dm, ev, u);
     form_ad(ev, u, da, dd);
 }
 

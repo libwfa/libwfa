@@ -11,7 +11,7 @@ void no_analysis::perform(export_data_i &opr, std::ostream &out) const {
 
     ab_matrix c_no;
     ab_vector n_no;
-    diagonalize_dm(m_c, m_sdm, n_no, c_no);
+    diagonalize_dm(m_s, m_c, m_sdm, n_no, c_no);
 
     bool aeqb = c_no.is_alpha_eq_beta();
 
@@ -22,7 +22,7 @@ void no_analysis::perform(export_data_i &opr, std::ostream &out) const {
 
         ab_matrix c2_no;
         ab_vector n2_no;
-        diagonalize_dm(m_c, sdm2, n2_no, c2_no);
+        diagonalize_dm(m_s, m_c, sdm2, n2_no, c2_no);
 
         n2_no.alpha() *= 0.5;
 

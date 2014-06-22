@@ -12,13 +12,13 @@ void nto_analysis_basic::perform(export_data_i &opr, std::ostream &out) const {
     // Diagonalize particle density matrix
     ab_vector ee;
     ab_matrix ue;
-    diagonalize_dm(m_c, m_edm, ee, ue);
+    diagonalize_dm(m_s, m_c, m_edm, ee, ue);
     size_t ne = m_pr.perform(density_type::particle, ee, out);
 
     // Diagonalize hole density matrix
     ab_vector eh;
     ab_matrix uh;
-    diagonalize_dm(m_c, m_hdm, eh, uh);
+    diagonalize_dm(m_s, m_c, m_hdm, eh, uh);
     size_t nh = m_pr.perform(density_type::hole, eh, out);
 
     // Form full matrix u and vector e (properly sorted)

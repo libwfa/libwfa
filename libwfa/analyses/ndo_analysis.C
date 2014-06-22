@@ -11,7 +11,7 @@ void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
 
     ab_matrix u;
     ab_vector ev;
-    diagonalize_dm(m_c, m_ddm, ev, u);
+    diagonalize_dm(m_s, m_c, m_ddm, ev, u);
 
     size_t nndo = m_pr.perform(density_type::difference, ev, out);
 
@@ -34,8 +34,9 @@ void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
     opr.perform(orbital_type::ndo, u, ev, s);
 
     // Compute u^-1 = u' * s
-    u.alpha() = u.alpha().t() * m_s;
-    if (! aeqb) u.beta() = u.beta().t() * m_s;
+    u.alpha() = u.alpha().t() * m_c.alpha() * m_c.alpha().t();
+    if (! aeqb)
+        u.beta() = u.beta().t() *  m_c.beta() * m_c.beta().t();
 
     form_ad(ev, u, at, de);
 }
