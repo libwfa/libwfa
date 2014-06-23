@@ -1,5 +1,5 @@
 #include <libwfa/analyses/ex_analyse_ad.h>
-#include <libwfa/core/contract.h>
+#include <libwfa/core/multipol_con.h>
 #include <libwfa/core/transformations_dm.h>
 #include "ex_analyse_ad_test.h"
 
@@ -136,6 +136,7 @@ void ex_analyse_ad_test::test_ex_total(){
     arma::Mat<double> s = system_data::overlap();
 
 	ab_matrix tdm(true);
+	tdm.alpha()=system_data::tdm();
 	arma::Mat<double> mx = system_data::mx();
 	arma::Mat<double> my = system_data::my();
 	arma::Mat<double> mz = system_data::mz();
@@ -144,9 +145,13 @@ void ex_analyse_ad_test::test_ex_total(){
 	arma::Mat<double> mzz = system_data::mzz();
 
 	ab_matrix om(true);
-	form_om(s, tdm, om);
+    try{
+    form_om(s, tdm, om);
+    }catch(std::exception &e) {
+        fail_test(testname, __FILE__, __LINE__, e.what());
+    }
 
-	contract con(mx, mxx, my, myy, mz, mzz, s);
+	multipol_con con(mx, mxx, my, myy, mz, mzz, s);
 
 	ex_analyse_ad analysead;
 
@@ -155,11 +160,49 @@ void ex_analyse_ad_test::test_ex_total(){
 
 	ab_matrix att(true);
 	att.alpha() = tdm.alpha().t() * s * tdm.alpha();
-
+	try{
 	analysead.perform(att, det, con);
+	}catch(std::exception &e) {
+        fail_test(testname, __FILE__, __LINE__, e.what());
+    }
 
-	// For comments see ex_analyse_test
-	fail_test(testname, __FILE__, __LINE__, "No check");
+	if ((abs(analysead.get_rh('x','a')-0)>1e-6)||
+	        (abs(analysead.get_rh('y','a')-0)>1e-6)||
+	        (abs(analysead.get_rh('z','a')-18.8972)>1e-6)){
+	    fail_test(testname, __FILE__, __LINE__,
+	            "Exp. Value for h coord. differs to much.");
+	}
+
+	if ((abs(analysead.get_rh2('x','a')-0.377513)>1e-6)||
+	        (abs(analysead.get_rh2('y','a')-0)>1e-6)||
+	        (abs(analysead.get_rh2('z','a')-357.482)>1e-6)){
+	    fail_test(testname, __FILE__, __LINE__,
+	            "Exp. Value for h coord. differs to much.");
+	}
+
+	if ((abs(analysead.get_re2('x','a')-0.903178)>1e-6)||
+	        (abs(analysead.get_re2('y','a')-0)>1e-6)||
+	        (abs(analysead.get_re2('z','a')-0.904768)>1e-6)){
+	    fail_test(testname, __FILE__, __LINE__,
+	            "Exp. Value for h coord. differs to much.");
+	}
+
+	if ((abs(analysead.get_re('x','a')-0)>1e-6)||
+	        (abs(analysead.get_re('y','a')-0)>1e-6)||
+	        (abs(analysead.get_re('z','a')-8.41644e-5)>1e-6)){
+	    fail_test(testname, __FILE__, __LINE__,
+	            "Exp. Value for e coord. differs to much.");
+	}
+	if (abs(analysead.get_sep('a')-18.8971)>1e-6){
+	    fail_test(testname, __FILE__, __LINE__,
+	            "Exp. Value for sep. differs to much.");
+	}
+
+	if ((abs(analysead.get_sig_h('a')-0.86985)>1e-6)||
+	        (abs(analysead.get_sig_e('a')-1.3446)>1e-6)){
+	    fail_test(testname, __FILE__, __LINE__,
+	            "Exp. Value for sigma differs to much.");
+	}
 
 }// end fct
 

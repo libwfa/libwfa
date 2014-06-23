@@ -35,7 +35,7 @@ void analyse_opdm::do_register(const std::string &name,
 }
 
 
-void analyse_opdm::perform(export_data_i &pr, const contract_i &name,
+void analyse_opdm::perform(export_data_i &pr, const multipol_con_i &name,
         std::ostream &out) const {
 
     pr.perform(density_type::state, m_sdm);

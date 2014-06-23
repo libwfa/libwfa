@@ -7,7 +7,7 @@ using namespace arma;
 
 
 void ex_analyse::ex_form (const ab_matrix &tdm, const ab_matrix &om,
-        const contract_i &op){
+        const multipol_con_i &op){
 
 	m_aeqb = tdm.is_alpha_eq_beta();
 	double om_tot = accu(om.alpha());
@@ -85,11 +85,7 @@ double ex_analyse::ex_d_ex_c (char koord, char spin){
 }//end fct
 
 double ex_analyse::ex_d_ex_tot (char spin){
-//TODO:discuss which would be better, private=will only be called by the class, additional calc not needed
-	return sqrt(ex_d_ex_c('x', spin) * ex_d_ex_c('x', spin)
-			+ ex_d_ex_c('y', spin) * ex_d_ex_c('y', spin)
-			+ ex_d_ex_c('z', spin) * ex_d_ex_c('z', spin));
-	/**
+
 	 size_t s=determine_spin(spin);
 	 return sqrt(dex_c[determine_coord('x')][s]
 	             * dex_c[determine_coord('x')][s]
@@ -97,7 +93,6 @@ double ex_analyse::ex_d_ex_tot (char spin){
 	             * dex_c[determine_coord('y')][s]
 	             + dex_c[determine_coord('z')][s]
 	             * dex_c[determine_coord('z')][s]);
-	 **/
 
 }//end fct
 
@@ -163,14 +158,8 @@ double ex_analyse::ex_cov (char spin){
 }//end fct
 
 double ex_analyse::ex_corr(char spin){
-
-//TODO:discuss which better, private=will only be called by the class, additional calc not needed
-
-    return ex_cov(spin) / (ex_sig_e(spin) * ex_sig_h(spin));
-    /**
      size_t s=determine_spin(spin);
      return cov[s] / (sig_e[s]*sig_h[s]);
-     */
 }
 
 
@@ -212,7 +201,7 @@ double ex_analyse::get_corr(char spin) {
 
 
 void ex_analyse::perform(const ab_matrix &tdm, const ab_matrix &om,
-        const contract_i &name){
+        const multipol_con_i &name){
 //Forming all needed values for the calculations;
     ex_form(tdm, om, name);
 //Performing all calculations, saving them in the resp. arrays.

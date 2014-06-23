@@ -1,5 +1,5 @@
-#ifndef LIBWFA_CONTRACT_I_H
-#define LIBWFA_CONTRACT_I_H
+#ifndef LIBWFA_MULTIPOL_CON_I_H
+#define LIBWFA_MULTIPOL_CON_I_H
 
 #include <armadillo>
 #include <string>
@@ -10,9 +10,9 @@ namespace libwfa {
 
   	\ingroup libwfa
  **/
-class contract_i {
+class multipol_con_i {
 public:
-    virtual ~contract_i() {}
+    virtual ~multipol_con_i() {}
 
     /** \brief Performs the computation
     		\f$ \mathrm{Tr}\!\left[\gamma O_1 \gamma O_2 \right] \f$
@@ -39,4 +39,4 @@ public:
 }//end namespace libwfa
 
 
-#endif // LIBWFA_CONTRACT_I_H
+#endif // LIBWFA_MULTIPOL_CON_I_H

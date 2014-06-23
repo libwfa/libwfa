@@ -1,11 +1,11 @@
-#include "contract.h"
+#include "multipol_con.h"
 
 namespace libwfa{
 
 using namespace arma;
 
 
-double contract::perform(const Mat<double> &dm,
+double multipol_con::perform(const Mat<double> &dm,
 		const std::string &op1, const std::string &op2) const{
 
 	const Mat<double> &m1 = retrieve_op(op1);
@@ -16,7 +16,7 @@ double contract::perform(const Mat<double> &dm,
 }//end fct
 
 
-double contract::perform (const Mat<double> &dm, const std::string &op) const{
+double multipol_con::perform (const Mat<double> &dm, const std::string &op) const{
 
 	const Mat<double> &m = retrieve_op(op);
 
@@ -24,7 +24,7 @@ double contract::perform (const Mat<double> &dm, const std::string &op) const{
 } //end fct
 
 
-const Mat<double> &contract::retrieve_op(const std::string &op) const{
+const Mat<double> &multipol_con::retrieve_op(const std::string &op) const{
 
 	if (op == "x") return m_x;
 	else if (op == "y") return m_y;

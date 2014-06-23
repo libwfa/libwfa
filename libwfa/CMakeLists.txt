@@ -38,7 +38,7 @@ set(CORE_HEADERS
     core/orbital_type.h
     core/selector.h
     core/transformations_dm.h
-    core/contract.h
+    core/multipol_con.h
 )
 
 set(CORE_SRC
@@ -47,7 +47,7 @@ set(CORE_SRC
     core/orbital_type.C
     core/selector.C
     core/transformations_dm.C
-    core/contract.C
+    core/multipol_con.C
 )
 
 

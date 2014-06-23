@@ -72,7 +72,7 @@ public:
         - Exciton analysis
      **/
     void perform(ab_matrix &edm_av, ab_matrix &hdm_av,
-        export_data_i &pr, const contract_i &con, std::ostream &out);
+        export_data_i &pr, const multipol_con_i &con, std::ostream &out);
 
     /** \brief Performs transition density matrix analyses
         \param pr Export / printer for densities and orbitals
@@ -85,7 +85,7 @@ public:
         - Export of TDM, EDM, and HDM
         - Exciton analysis
      **/
-    void perform(export_data_i &pr, const contract_i &con,
+    void perform(export_data_i &pr, const multipol_con_i &con,
             std::ostream &out);
 };
 

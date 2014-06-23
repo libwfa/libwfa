@@ -1,8 +1,10 @@
 #include <libwfa/analyses/ex_analyse.h>
-#include <libwfa/core/contract.h>
+#include <libwfa/core/multipol_con.h>
 #include <libwfa/core/transformations_dm.h>
 #include "ex_analyse_test.h"
-
+/**TODO: Write Tests for printer. Finish documentation. Look through if layout is okay.
+ *
+ */
 
 namespace libwfa{
 
@@ -133,10 +135,10 @@ void ex_analyse_test::test_ex_total(){
 
 	static const char *testname = "ex_analyse_test::test_ex_total()";
 
-	//Forming ab_matrix for test purposes, where alpha==beta
 	arma::Mat<double> s = system_data::overlap();
 
 	ab_matrix tdm(true);
+	tdm.alpha()=system_data::tdm();
 	arma::Mat<double> mx = system_data::mx();
 	arma::Mat<double> my = system_data::my();
 	arma::Mat<double> mz = system_data::mz();
@@ -145,37 +147,85 @@ void ex_analyse_test::test_ex_total(){
 	arma::Mat<double> mzz = system_data::mzz();
 
 	ab_matrix om(true);
+	try{
 	form_om(s, tdm, om);
+	}catch(std::exception &e) {
+        fail_test(testname, __FILE__, __LINE__, e.what());
+    }
 
-	contract con(mx, mxx, my, myy, mz, mzz, s);
+
+	multipol_con con(mx, mxx, my, myy, mz, mzz, s);
 
 	ex_analyse analyse;
-
+	try{
 	analyse.perform(tdm, om, con);
+	}catch(std::exception &e) {
+        fail_test(testname, __FILE__, __LINE__, e.what());
+    }
 
-	// TODO: compare results in ex_analyse to reference data
+	if ((abs(analyse.get_rh('x','a')-0)>1e-6)||
+	        (abs(analyse.get_rh('y','a')-0)>1e-6)||
+	        (abs(analyse.get_rh('z','a')-18.8972)>1e-6)){
+	fail_test(testname, __FILE__, __LINE__,
+	        "Exp. Value for h coord. differs to much.");
+	}
 
-	// The idea of a unit test is to provide an easy control on the correctness
-	// of a class / function. Whenever someone changes the code inside of
-	// a function / class, running the unit test should report, if the new
-	// code is working OK. Thus, writing a unit test which does not do an
-	// error check in the end is almost completely useless. There are only
-	// a few exceptions to this:
-	// 1) The test should check on the error handling of a function / class.
-	//    In this case one would probably only catch the exception thrown by
-	//    the function / class and either forward it or accept the test as
-	//    working (depending on what's being tested).
-	// 2) The function / class is exclusively for printing. Even then, if
-	//    the world was perfect and the output stream were available as string,
-	//    the result should be analysed. However, analysing a string is far more
-	//    effort than just looking at it.
+    if ((abs(analyse.get_rh2('x','a')-0.377513)>1e-6)||
+            (abs(analyse.get_rh2('y','a')-0)>1e-6)||
+            (abs(analyse.get_rh2('z','a')-357.482)>1e-6)){
+    fail_test(testname, __FILE__, __LINE__,
+            "Exp. Value for h coord. differs to much.");
+    }
 
-	// In this case however (with the printer being separated from the analysis)
-	// you can easily compare the results of the analysis numerically to
-	// reference data. As example how you could do this look at
-	// void transformations_dm_test::test_form_eh_1b().
+    if ((abs(analyse.get_re2('x','a')-0.903178)>1e-6)||
+            (abs(analyse.get_re2('y','a')-0)>1e-6)||
+            (abs(analyse.get_re2('z','a')-0.904768)>1e-6)){
+    fail_test(testname, __FILE__, __LINE__,
+            "Exp. Value for h coord. differs to much.");
+    }
 
-	fail_test(testname, __FILE__, __LINE__, "No check");
+    if ((abs(analyse.get_rhre('x','a')-0)>1e-6)||
+            (abs(analyse.get_rhre('y','a')-0)>1e-6)||
+            (abs(analyse.get_rhre('z','a')-0)>1e-6)){
+    fail_test(testname, __FILE__, __LINE__,
+            "Exp. Value for h coord. differs to much.");
+    }
+
+	if ((abs(analyse.get_re('x','a')-0)>1e-6)||
+	        (abs(analyse.get_re('y','a')-0)>1e-6)||
+	        (abs(analyse.get_re('z','a')-8.41644e-5)>1e-6)){
+	fail_test(testname, __FILE__, __LINE__,
+	        "Exp. Value for e coord. differs to much.");
+	}
+	if (abs(analyse.get_sep('a')-18.8971)>1e-6){
+	fail_test(testname, __FILE__, __LINE__,
+	        "Exp. Value for sep. differs to much.");
+	}
+
+    if ((abs(analyse.get_dex_c('x','a')-1.13168)>1e-6)||
+            (abs(analyse.get_dex_c('y','a')-0)>1e-6)||
+            (abs(analyse.get_dex_c('z','a')-18.9311)>1e-6)){
+    fail_test(testname, __FILE__, __LINE__,
+            "Exp. Value for distance coord. differs to much.");
+    }
+
+    if ((abs(analyse.get_sig_h('a')-0.86985)>1e-6)||
+            (abs(analyse.get_sig_e('a')-1.3446)>1e-6)){
+    fail_test(testname, __FILE__, __LINE__,
+            "Exp. Value for sigma differs to much.");
+    }
+
+    if (abs(analyse.get_cov('a')-(-0.00159047))>1e-6){
+    fail_test(testname, __FILE__, __LINE__,
+            "Exp. Value for cov. differs to much.");
+    }
+
+    if (abs(analyse.get_corr('a')-(-0.00135984))>1e-6){
+    fail_test(testname, __FILE__, __LINE__,
+            "Exp. Value for differs to much. wrong.");
+    }
+
+
 
 }// end fct
 

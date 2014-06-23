@@ -6,7 +6,7 @@ using namespace arma;
 
 
 void ex_analyse_ad::ex_form_ad(const ab_matrix &att, const ab_matrix &det,
-		const contract_i &op){
+        const multipol_con_i &op){
 
     m_aeqb = att.is_alpha_eq_beta();
     prom[0] = op.perform(att.alpha(), "s");
@@ -88,7 +88,7 @@ double ex_analyse_ad::ex_sig_e_ad (char spin){
 }//end fct
 
 void ex_analyse_ad::perform(const ab_matrix &att, const ab_matrix &det,
-	const contract_i &op){
+	const multipol_con_i &op){
 //Forming all needed values for the calculations;
     ex_form_ad(att, det, op);
 //Performing all calculations, saving them in the resp. arrays.

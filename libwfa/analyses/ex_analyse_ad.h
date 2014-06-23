@@ -2,7 +2,7 @@
 #define EX_ANALYSE_AD_H_
 
 #include <libwfa/core/ab_matrix.h>
-#include <libwfa/core/contract_i.h>
+#include <libwfa/core/multipol_con_i.h>
 
 namespace libwfa {
 
@@ -40,7 +40,7 @@ private:
 
      **/
     void ex_form_ad(const ab_matrix &att,
-    		const ab_matrix &det, const contract_i &op);
+    		const ab_matrix &det, const multipol_con_i &op);
     /** \brief Calculates the <rh>-<re> vector and returns its quantity.
      \param spin Char to choose the spin --> a,b
      \return result
@@ -97,7 +97,7 @@ public:
      \param op Contract interface reference
      **/
     void perform (const ab_matrix &att, const ab_matrix &det,
-    		const contract_i &op);
+    		const multipol_con_i &op);
     /** \brief Returns bool if \f$\alpha == \beta\f$
      **/
     bool aeqb() { return m_aeqb; }

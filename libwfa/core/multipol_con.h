@@ -1,20 +1,18 @@
-#ifndef LIBWFA_CONTRACT_H
-#define LIBWFA_CONTRACT_H
+#ifndef LIBWFA_MULTIPOL_CON_H
+#define LIBWFA_MULTIPOL_CON_H
 
-#include "contract_i.h"
+#include "multipol_con_i.h"
 
 namespace libwfa{
 
 using namespace arma;
 
 
-/** \brief Implementation of contract_i
-
-  	TODO: Rename (more concrete naming to avoid confusion with general contractions)
+/** \brief Implementation of multipol_con_i
 
 	\ingroup libwfa
  **/
-class contract : public contract_i {
+class multipol_con : public multipol_con_i {
 private:
     const arma::Mat<double> &m_x; //!< Matrix for multipol moment \f$r_x\f$
     const arma::Mat<double> &m_xx;//!< Matrix for multipol moment \f$r²_x\f$
@@ -26,7 +24,7 @@ private:
 
 
 public:
-    /**\brief Constructor, setting needed matricis
+    /**\brief Constructor, setting needed matrices
        \param mx Matrix for multipol moment \f$r_x\f$
        \param mxx Matrix for multipol moment \f$r²_x\f$
        \param my Matrix for multipol moment \f$r_y\f$
@@ -36,7 +34,7 @@ public:
        \param ms Overlap matrix
 
      **/
-    contract(
+    multipol_con(
 		const arma::Mat<double> &mx, const arma::Mat<double> &mxx,
 		const arma::Mat<double> &my, const arma::Mat<double> &myy,
 		const arma::Mat<double> &mz, const arma::Mat<double> &mzz,
@@ -72,4 +70,4 @@ private:
 
 }//end namespace libwfa
 
-#endif // LIBWFA_CONTRACT_H
+#endif // LIBWFA_MULTIPOL_CON_H

@@ -93,7 +93,7 @@ public:
         - NDO analysis
         - Population analysis
      **/
-    void perform(export_data_i &pr, const contract_i &name,
+    void perform(export_data_i &pr, const multipol_con_i &name,
             std::ostream &out) const;
 
 private:

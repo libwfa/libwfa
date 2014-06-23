@@ -14,7 +14,7 @@ class ex_analyse_test : public libtest::unit_test {
 public:
 	virtual void perform() throw(libtest::test_exception);
 private:
-	/**\brief Tests all exciton tests and prints the results.
+	/**\brief Tests all exciton tests.
 	 **/
 	void test_ex_total();
 }; //end class

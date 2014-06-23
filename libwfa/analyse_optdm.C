@@ -20,7 +20,7 @@ void analyse_optdm::do_register(const std::string &name,
 
 
 void analyse_optdm::perform(ab_matrix &edm_av, ab_matrix &hdm_av,
-    export_data_i &pr, const contract_i &con, std::ostream &out) {
+    export_data_i &pr, const multipol_con_i &con, std::ostream &out) {
 
     pr.perform(density_type::transition, m_tdm);
     if (m_nto != 0) {
@@ -57,7 +57,7 @@ void analyse_optdm::perform(ab_matrix &edm_av, ab_matrix &hdm_av,
 }//endfct
 
 
-void analyse_optdm::perform(export_data_i &pr, const contract_i &con,
+void analyse_optdm::perform(export_data_i &pr, const multipol_con_i &con,
         std::ostream &out) {
 
     pr.perform(density_type::transition, m_tdm);

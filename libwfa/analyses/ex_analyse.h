@@ -2,7 +2,7 @@
 #define EX_ANALYSE_H_
 
 #include <libwfa/core/ab_matrix.h>
-#include <libwfa/core/contract_i.h>
+#include <libwfa/core/multipol_con_i.h>
 
 
 namespace libwfa {
@@ -45,7 +45,7 @@ public:
     \param name Reference to the Contract class interface
 	 **/
 	void ex_form(const ab_matrix &tdm, const ab_matrix &om,
-			const contract_i &name);
+			const multipol_con_i &name);
 	/** \brief Calculates the expected distance over one
          spacial coordinate and for a specific spin.
          \param koord Char to choose the sp. coord.--> x,y,z
@@ -120,7 +120,7 @@ public:
 	 **/
 
 	void perform(const ab_matrix &tdm, const ab_matrix &om,
-			const contract_i &name);
+			const multipol_con_i &name);
 	/** \brief Returns the separation for a sp. spin.
         \param spin Char to choose the spin --> a,b
 	 **/
