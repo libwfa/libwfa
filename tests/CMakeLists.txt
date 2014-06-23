@@ -22,6 +22,8 @@ set(SRC_HEADER
     version_test.h
     ex_analyse_ad_test.h
     ex_analyse_test.h
+    ex_ana_pri_test.h
+    ex_ana_pri_ad_test.h
 )
 
 set(SRC
@@ -49,6 +51,8 @@ set(SRC
     version_test.C
     ex_analyse_ad_test.C
     ex_analyse_test.C
+    ex_ana_pri_test.C
+    ex_ana_pri_ad_test.C
 )
 
 set(TARGETS libwfa_tests)

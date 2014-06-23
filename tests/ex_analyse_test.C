@@ -2,9 +2,7 @@
 #include <libwfa/core/multipol_con.h>
 #include <libwfa/core/transformations_dm.h>
 #include "ex_analyse_test.h"
-/**TODO: Write Tests for printer. Finish documentation. Look through if layout is okay.
- *
- */
+
 
 namespace libwfa{
 

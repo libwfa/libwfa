@@ -63,6 +63,7 @@ public:
 private:
     /**\brief Gives back the desired operator as a matrix
             \param op Operator
+            \return Matrix
      **/
     const Mat<double> &retrieve_op(const std::string &op) const;
 };

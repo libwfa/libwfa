@@ -251,7 +251,7 @@ size_t ex_analyse::determine_coord(char coord) {
 	else if (coord == 'z') return 2;
 	else
 		throw 1;
-}
+}//endfct
 
 
 size_t ex_analyse::determine_spin(char spin) {
@@ -260,7 +260,7 @@ size_t ex_analyse::determine_spin(char spin) {
 	else if (spin == 'b') return 1;
 	else
 		throw 1;
-}
+}//endfct
 
 }// end namespace libwfa
 

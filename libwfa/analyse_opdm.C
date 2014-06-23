@@ -54,7 +54,7 @@ void analyse_opdm::perform(export_data_i &pr, const multipol_con_i &name,
 
         analyse_ad.perform(at,de,name);
         ana_p_ad.perform(analyse_ad, out);
-    }
+    }//endif
 
     for (pa_map_t::const_iterator i = m_pa.begin(); i != m_pa.end(); i++) {
 
@@ -66,7 +66,7 @@ void analyse_opdm::perform(export_data_i &pr, const multipol_con_i &name,
         if (m_pr[1] != 0 && (pop.flag & pa_ad) == pa_ad)
             pop_analysis_ad(pop.analysis, at, de).perform(res);
         pop.printer.perform(res, out);
-    }
+    }//endfor
 }
 
 

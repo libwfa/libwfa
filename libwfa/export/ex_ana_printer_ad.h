@@ -15,16 +15,16 @@ private:
     static const double k_au2ang;
 
     /**\brief Prints the results of the exciton analysis.
-        \param[in] spin Print specific spin
-        \param[in] analyse_ad Name of the class ex_analyse_ad
-        \param[in] out Ostream name
+        \param spin Print specific spin
+        \param analyse_ad Name of the class ex_analyse_ad
+        \param[out] out Ostream name
      **/
     void do_print (char spin, ex_analyse_ad &analyse_ad, std::ostream &out);
 
 public:
     /** \brief Calls the print function.
-        \param[in] analyse_ad Name of the class ex_analyse_ad
-        \param[in] out Ostream name
+        \param analyse_ad Name of the class ex_analyse_ad
+        \param[out] out Ostream name
      **/
     void perform (ex_analyse_ad &analyse_ad, std::ostream &out);
 
