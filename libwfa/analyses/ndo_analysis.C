@@ -21,14 +21,15 @@ void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
     ab_orbital_selector s(aeqb);
 
     size_t ntot = ev.alpha().n_elem;
+    nndo = std::min(2 * nndo, ntot) / 2;
     s.alpha() = orbital_selector(ntot);
     s.alpha().select(true, 0, nndo);
-    s.alpha().select(false, ntot - nndo, ntot - 1);
+    s.alpha().select(false, ntot - nndo, ntot);
     if (! aeqb) {
         ntot = ev.beta().n_elem;
         s.beta() = orbital_selector(ntot);
         s.beta().select(true, 0, nndo);
-        s.beta().select(false, ntot - nndo, ntot - 1);
+        s.beta().select(false, ntot - nndo, ntot);
     }
 
     opr.perform(orbital_type::ndo, u, ev, s);

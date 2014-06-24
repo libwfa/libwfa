@@ -28,8 +28,8 @@ public:
 
     /** \brief Add range of indexes to selection
         \param as_occ Are the indexes occupied indexes
-        \param begin Start \f$ i_0 \f$ of first range of selected elements
-        \param end End \f$ i_1 \f$ of first range of selected elements
+        \param begin Start \f$ i_0 \f$ of range of selected elements
+        \param end End \f$ i_1 \f$ of range of selected elements
         \param inc Increment \f$ \Delta \f$ in range
         \param reverse If true, go from end to begin and select elements
      **/

@@ -36,21 +36,10 @@ size_t ev_printer_ndo::perform(density_type type,
 
 size_t ev_printer_ndo::print(const Col<double> &ni, std::ostream &out) const {
 
-    out << std::setw(7) << std::setprecision(4) << std::fixed;
-    out << "Leading detachment eigenvalues: ";
-    for (size_t i = 0; i < m_nndo; i++)
-        out << ni[i];
-    out << std::endl;
-
-    out << "Leading attachment eigenvalues: ";
-    for (size_t i = 0, j = ni.n_elem - 1; i < m_nndo; i++, j--)
-        out << ni[j];
-    out << std::endl;
-
+    // Compute # attached and detached electrons first 
     double na = 0.0, na2 = 0.0, nd = 0.0, nd2 = 0.0;
-
-    size_t i = 0;
-    for (; i < ni.n_elem && ni(i) < 0; i++) {
+    size_t i = 0, nndo = 0;
+    for (; i < ni.n_elem && ni(i) < 0; i++, nndo++) {
         double cur = ni(i);
         nd += cur; nd2 += cur * cur;
     }
@@ -59,6 +48,17 @@ size_t ev_printer_ndo::print(const Col<double> &ni, std::ostream &out) const {
         double cur = ni(i);
         na += cur; na2 += cur * cur;
     }
+    nndo = std::min(nndo, ni.n_elem - nndo);
+    nndo = std::min(nndo, m_nndo);
+ 
+    out << std::setw(7) << std::setprecision(4) << std::fixed;
+    out << "Leading detachment eigenvalues: ";
+    for (size_t i = 0; i < nndo; i++) out << ni(i);
+    out << std::endl;
+
+    out << "Leading attachment eigenvalues: ";
+    for (size_t i = ni.n_elem - 1; i >= ni.n_elem - nndo; i--) out << ni(i);
+    out << std::endl;
 
     out << "Number of detached / attached electrons: p_D = " << nd;
     out << ", p_A = " << na << std::endl;
@@ -66,7 +66,7 @@ size_t ev_printer_ndo::print(const Col<double> &ni, std::ostream &out) const {
     out << "Number of involved orbitals: PR_D = " << nd * nd / nd2;
     out << ", PR_A = " << na * na / na2 << std::endl;
 
-    return ni.n_elem;
+    return nndo;
 }
 
 

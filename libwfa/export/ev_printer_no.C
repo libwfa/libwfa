@@ -67,7 +67,9 @@ size_t ev_printer_no::print_total(
 
     out << std::setw(7) << std::setprecision(4) << std::fixed;
     out << "Occupation of frontier NOs: ";
-    for (size_t i = 0, j = ihomo - m_nno; i < 2 * m_nno; i++, j++) out << ni(j);
+    size_t imin = (ihomo > m_nno) ? ihomo - m_nno : 0;
+    size_t imax = (ihomo + m_nno <= ni.n_elem) ? ihomo + m_nno : ni.n_elem;
+    for (size_t i = imin; i < imax; i++) out << ni(i);
     out << std::endl;
 
     out << std::setw(9) << std::setprecision(6);

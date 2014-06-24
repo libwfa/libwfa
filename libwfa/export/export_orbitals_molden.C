@@ -48,15 +48,18 @@ void export_orbitals_molden::perform(orbital_type type, const ab_matrix &coeff,
     ab_vector e(aeqb);
 
     Col<uword> ia = sa.get_selected_arma();
-
-    c.alpha() = coeff.alpha().cols(ia);
-    e.alpha() = ene.alpha().rows(ia);
+    if (ia.n_rows != 0) {
+        c.alpha() = coeff.alpha().cols(ia);
+        e.alpha() = ene.alpha().rows(ia);
+    }
 
     if (! aeqb) {
         Col<uword> ib = sb.get_selected_arma();
 
-        c.beta() = coeff.beta().cols(ib);
-        e.beta() = ene.beta().rows(ib);
+        if (ib.n_rows != 0) {
+           c.beta() = coeff.beta().cols(ib);
+           e.beta() = ene.beta().rows(ib);
+        }
     }
 
     m_core.perform(name, c, e, no_a, no_b);

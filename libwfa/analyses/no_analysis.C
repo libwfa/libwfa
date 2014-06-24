@@ -37,13 +37,13 @@ void no_analysis::perform(export_data_i &opr, std::ostream &out) const {
 
     size_t ntot = n_no.alpha().size();
     s_no.alpha() = orbital_selector(ntot);
-    s_no.alpha().select(true, ntot - nelec, ntot - 1, 1, true);
-    s_no.alpha().select(false, ntot - 2 * nelec , ntot - nelec - 1, 1, true);
+    s_no.alpha().select(true, ntot - nelec, ntot, 1, true);
+    s_no.alpha().select(false, ntot - 2 * nelec , ntot - nelec, 1, true);
     if (! aeqb) {
         ntot = n_no.beta().size();
         s_no.beta() = orbital_selector(ntot);
-        s_no.beta().select(true, ntot - nelec, ntot - 1, 1, true);
-        s_no.beta().select(false, ntot - 2 * nelec , ntot - nelec - 1, 1, true);
+        s_no.beta().select(true, ntot - nelec, ntot, 1, true);
+        s_no.beta().select(false, ntot - 2 * nelec , ntot - nelec, 1, true);
     }
 
     opr.perform(orbital_type::no, c_no, n_no, s_no);

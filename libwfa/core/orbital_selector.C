@@ -31,17 +31,10 @@ void orbital_selector::select(bool as_occ, size_t i) {
 void orbital_selector::select(bool as_occ,
     size_t i0, size_t i1, size_t inc, bool reverse) {
 
-#ifdef LIBWFA_DEBUG
-    if (i0 > i1) {
-        throw libwfa_exception("selector", "select(size_t, size_t, size_t)",
-                __FILE__, __LINE__, "i0 > i1");
-    }
-#endif
-
     if (reverse)
-        for (size_t i = i1; i >= i0; i -= inc) select(as_occ, i);
+        for (size_t i = i0, j = i1 - 1; i < i1; i += inc, j -= inc) select(as_occ, j);
     else
-        for (size_t i = i0; i <= i1; i += inc) select(as_occ, i);
+        for (size_t i = i0; i < i1; i += inc) select(as_occ, i);
 }
 
 
@@ -67,10 +60,8 @@ std::vector<size_t> orbital_selector::get_selected() const {
 
 arma::Col<arma::uword> orbital_selector::get_selected_arma() const {
 
-    size_t no = m_occ.n_selected(), nv = m_vir.n_selected();
-    arma::Col<arma::uword> el(no + nv);
-    el.rows(0, no - 1) = m_occ.get_selected_arma();
-    el.rows(no, no + nv - 1) = m_vir.get_selected_arma();
+    arma::Col<arma::uword> el = 
+        join_cols(m_occ.get_selected_arma(), m_vir.get_selected_arma());
     return el;
 }
 
