@@ -50,7 +50,7 @@ public:
         const std::string &id, const std::string &desc,
         const dt_flag &dt = dt_flag(density_type::DT_ALL),
         const ot_flag &ot = ot_flag(orbital_type::OT_ALL)) :
-        m_core(core), m_id(id), m_desc(desc) { }
+        m_core(core), m_id(id), m_desc(desc), m_dt(dt), m_ot(ot) { }
 
     /** \brief Destructor
      **/
