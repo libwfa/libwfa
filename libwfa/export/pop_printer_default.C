@@ -35,7 +35,7 @@ void pop_printer_default::perform(const pop_data &p, std::ostream &out) const {
     size_t nw = nw1 + nw2 + 1;
     nw = std::max(nw, (size_t) 4);
 
-    std::string offset(nw - (nw1 + nw2 + 1), ' ');
+    std::string os1(m_offset, ' '), os2(nw - (nw1 + nw2 + 1) + m_offset, ' ');
 
     // Reduce column width, if total width is wider than 80 characters
     size_t maxwidth = 80, colwidth = m_colwidth;
@@ -47,20 +47,19 @@ void pop_printer_default::perform(const pop_data &p, std::ostream &out) const {
     }
 
     // Print header
-    out << std::setw(nw) << std::right << "Atom";
-    out << std::setw(colwidth) << std::right;
-    for (pop_data::iterator i = p.begin(); i != p.end(); i++) out << p.name(i);
+    out << std::right << std::fixed << std::setprecision(m_prec);
+    out << os1 << std::setw(nw) << "Atom";
+    for (pop_data::iterator i = p.begin(); i != p.end(); i++) 
+        out << std::setw(colwidth) << p.name(i);
 
     out << std::endl;
-    out << std::string(width, '-') << std::endl;
+    out << os1 << std::string(width, '-') << std::endl;
         
     arma::Col<double> total(p.size(), arma::fill::zeros);
     for (size_t i = 0, j = 1; i != m_labels.size(); i++, j++) {
 
-        out << offset << std::setw(nw1) << j;
+        out << os2 << std::setw(nw1) << j;
         out << " " << std::setw(nw2) << m_labels[i];
-        out << std::setw(colwidth) << std::right;
-        out << std::fixed << std::setprecision(m_prec);
 
         size_t k = 0;
         for (pop_data::iterator kk = p.begin();
@@ -69,18 +68,19 @@ void pop_printer_default::perform(const pop_data &p, std::ostream &out) const {
             const arma::Col<double> &set = p.data(kk);
             total(k) += set(i);
 
-            out << set(i);
+            out << std::setw(colwidth) << set(i);
         }
         out << std::endl;
     }
 
     // sum
-    out << std::string(width, '-') << std::endl;
+    out << os1 << std::string(width, '-') << std::endl;
 
-    out << std::setw(nw) << std::right << "Sum:";
-    out << std::setw(colwidth) << std::right;
-    for (size_t i = 0; i < total.size(); i++) out << total(i);
-    out << std::endl;
+    out << std::right;
+    out << os1 << std::setw(nw) << "Sum:";
+    for (size_t i = 0; i < total.size(); i++) 
+        out << std::setw(colwidth) << total(i);
+    out << std::endl << std::endl;
 }
 
 

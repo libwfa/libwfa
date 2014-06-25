@@ -19,6 +19,7 @@ private:
     const std::vector<std::string> &m_labels; //!< Labels for each line
     size_t m_colwidth; //!< Column width
     size_t m_prec; //!< Precision of printed numbers
+    size_t m_offset; //!< Offset of table
     
 public:
     /** \brief Constructor
@@ -28,8 +29,8 @@ public:
         \param prec Precision the data columns
      **/
     pop_printer_default(const std::vector<std::string> &l,
-        size_t colwidth = 20, size_t prec = 6) :
-        m_labels(l), m_colwidth(colwidth), m_prec(prec) { }
+        size_t colwidth = 16, size_t prec = 6, size_t offset = 2) :
+        m_labels(l), m_colwidth(colwidth), m_prec(prec), m_offset(offset) { }
 
     /** \brief Print the population data
 
