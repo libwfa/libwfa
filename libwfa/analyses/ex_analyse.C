@@ -31,7 +31,7 @@ void ex_analyse::ex_form (const ab_matrix &tdm, const ab_matrix &om,
     rhre[0][0] = op.perform(tdm.alpha(), "x", "x") / om_tot;
     rhre[1][0] = op.perform(tdm.alpha(), "y", "y") / om_tot;
     rhre[2][0] = op.perform(tdm.alpha(), "z", "z") / om_tot;
-
+    
     if (!tdm.is_alpha_eq_beta()){
 
     	om_tot = accu(om.beta());
@@ -74,6 +74,16 @@ void ex_analyse::ex_form (const ab_matrix &tdm, const ab_matrix &om,
         rhre[2][1]=rhre[2][0];
     }//end else
 
+    double thresh = 1e-15;
+    for (size_t i = 0; i < 3; i++) {
+        for (size_t j = 0; j < 2; j++) {
+            if (fabs(rh[i][j]) < thresh) rh[i][j] = 0.0;
+            if (fabs(re[i][j]) < thresh) re[i][j] = 0.0;
+            if (fabs(rh2[i][j]) < thresh) rh2[i][j] = 0.0;
+            if (fabs(re2[i][j]) < thresh) re2[i][j] = 0.0;
+            if (fabs(rhre[i][j]) < thresh) rhre[i][j] = 0.0;
+        }
+    }
 } // end fct
 
 double ex_analyse::ex_d_ex_c (char koord, char spin){

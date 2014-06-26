@@ -31,7 +31,7 @@ private:
     double rh[3][2]; //!< \f$<r_h>\f$ for x,y,z and alpha/beta
     double rh2[3][2];//!< \f$<(r_h)²>\f$ for x,y,z and alpha/beta
     double re[3][2];//!< \f$<r_e>\f$ for x,y,z and alpha/beta
-    double re2[3][3];//!< \f$<(r_e)²>\f$ for x,y,z and alpha/beta
+    double re2[3][2];//!< \f$<(r_e)²>\f$ for x,y,z and alpha/beta
     double rhre[3][2];//!< \f$<r_e*r_h>\f$ for x,y,z and alpha/beta
 	double sep[2];//!< \f$|<r_h - r_e>|\f$ for alpha/beta
 	double dex_c[3][2];//!< \f$<(r_h)²>-2<r_h*r_e>+<(r_e)²>\f$ for x,y,z and a,b
