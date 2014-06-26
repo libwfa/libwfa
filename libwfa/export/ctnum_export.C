@@ -43,8 +43,7 @@ void ctnum_export::do_export(const std::string &fname,
     // First header line
     out << m_desc << std::endl;
 
-    out << "2 " << std::setw(m_colwidth) << ct.n_cols;
-    out << " " << std::setw(m_colwidth) << ct.n_rows << std::endl;
+    out << "2 " << ct.n_cols << " " << ct.n_rows << std::endl;
     // TODO: check which is the correct order for export as a linear array
     for (size_t i1 = 0, j = 0; i1 < ct.n_cols; i1++) {
         for (size_t i2 = 0; i2 < ct.n_rows; i2++, j++) {

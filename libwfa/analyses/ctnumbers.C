@@ -16,9 +16,11 @@ void ctnumbers::perform(ab_matrix &om, double (&om_tot)[2]) const {
     m_analysis.perform(om_ao.alpha(), om.alpha());
 
     if (m_tdm.is_alpha_eq_beta()) {
+        om.set_alpha_eq_beta();
         om_tot[1] = om_tot[0];
     }
     else {
+        om.set_alpha_neq_beta();
         om_tot[1] = accu(om_ao.beta());
         m_analysis.perform(om_ao.beta(), om.beta());
     }
