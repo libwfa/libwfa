@@ -13,7 +13,7 @@ void ex_ana_printer::perform(ex_analyse &analyse, std::ostream &out) {
     out << std::setw(10) << std::setprecision(6) << std::fixed;
     out << std::endl << std::endl;
     out << std::string(70, '-') << std::endl;
-    out << "Performing exciton analysis (TDM)... (in \u212B) " << std::endl;
+    out << "Performing exciton analysis (TDM)... (in Ang) " << std::endl;
     out << std::endl;
 	out << "For the alpha part:" << std::endl;
 	do_print('a', analyse, out);
