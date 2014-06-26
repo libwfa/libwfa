@@ -46,10 +46,14 @@
 /** \defgroup libwfa Library of wave-function analysis tools
  **/
 
+#include "core/multipol_con.h"
+
 //! \name Various density matrix analyses
 //@{
 #include "analyses/ctnum_analysis.h"
 #include "analyses/ctnumbers.h"
+#include "analyses/ex_analyse.h"
+#include "analyses/ex_analyse_ad.h"
 #include "analyses/ndo_analysis.h"
 #include "analyses/no_analysis.h"
 #include "analyses/nto_analysis.h"
@@ -65,6 +69,8 @@
 #include "export/ev_printer_none.h"
 #include "export/ev_printer_ndo.h"
 #include "export/ev_printer_nto.h"
+#include "export/ex_ana_printer.h"
+#include "export/ex_ana_printer_ad.h"
 #include "export/export_data_cm.h"
 #include "export/export_data_cube.h"
 #include "export/export_data_none.h"
