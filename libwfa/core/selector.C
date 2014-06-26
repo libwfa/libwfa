@@ -1,4 +1,3 @@
-#include <libwfa/libwfa_exception.h>
 #include "selector.h"
 
 
@@ -7,7 +6,7 @@ namespace libwfa {
 
 void selector::select(size_t i) {
 
-    check(i);
+    if (i >= m_ntotal) return;
 #ifdef LIBWFA_DEBUG
     if (m_indexes.count(i) != 0) {
         throw libwfa_exception("selector", "select(size_t)",
@@ -20,18 +19,10 @@ void selector::select(size_t i) {
 
 void selector::select(size_t i0, size_t i1, size_t inc, bool reverse) {
 
-    check(i0); check(i1);
-#ifdef LIBWFA_DEBUG
-    if (i0 > i1) {
-        throw libwfa_exception("selector", "select(size_t, size_t, size_t, bool)",
-                __FILE__, __LINE__, "i0 > i1");
-    }
-#endif
-
     if (reverse)
-        for (size_t i = i1; i >= i0; i -= inc) select(i);
+        for (size_t i = i0, j = i1 - 1; i < i1; i += inc, j -= inc) select(j);
     else
-        for (size_t i = i0; i <= i1; i += inc) select(i);
+        for (size_t i = i0; i < i1; i += inc) select(i);
 }
 
 
@@ -53,7 +44,8 @@ void selector::select_all() {
 
 void selector::deselect(size_t i) {
 
-    check(i);
+    if (i >= m_ntotal) return;
+
     std::map<size_t, size_t>::iterator it = m_indexes.find(i);
     if (it == m_indexes.end()) return;
 
@@ -92,17 +84,6 @@ arma::Col<arma::uword> selector::get_selected_arma() const {
         el(i->second) = i->first;
     }
     return el;
-}
-
-
-void selector::check(size_t i) const {
-
-#ifdef LIBWFA_DEBUG
-    if (i >= m_ntotal) {
-        throw libwfa_exception("selector", "check(size_t &) const",
-                __FILE__, __LINE__, "i");
-    }
-#endif
 }
 
 

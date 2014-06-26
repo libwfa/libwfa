@@ -36,7 +36,7 @@ public:
         \param no_a Number of occupied alpha orbitals
         \param no_b Number of occupied beta orbitals
      **/
-    export_data_cm(export_cube_base &ccore, export_molden_i &mcore,
+    export_data_cm(export_cube_i &ccore, export_molden_i &mcore,
         const std::string &id, const std::string &desc,
         const dt_flag &dt = dt_flag(density_type::DT_ALL),
         const ot_flag &ot = ot_flag(orbital_type::OT_ALL)) :

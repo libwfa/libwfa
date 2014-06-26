@@ -22,12 +22,12 @@ void export_data_cube::perform(density_type type, const ab_matrix &dm) {
 
     if (dm.is_alpha_eq_beta()) {
         const Mat<double> &dmx = dm.alpha();
-        m_core.add(name, desc, dmx);
+        m_core.perform(name, desc, dmx);
     }
     else {
         const Mat<double> &dm_a = dm.alpha(),  &dm_b = dm.beta();
-        m_core.add(name + "_a", desc + " (alpha part)", dm_a);
-        m_core.add(name + "_b", desc + " (beta part)", dm_b);
+        m_core.perform(name + "_a", desc + " (alpha part)", dm_a);
+        m_core.perform(name + "_b", desc + " (beta part)", dm_b);
     }
 }
 
@@ -67,7 +67,7 @@ void export_data_cube::perform(const std::string &name,
 
     Mat<double> cc = c.cols(s.get_selected_arma());
 
-    m_core.add(name, desc, s.get_selected(), cc);
+    m_core.perform(name, desc, s.get_selected(), cc);
 
 }
 

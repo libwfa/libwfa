@@ -14,7 +14,6 @@ void pop_analysis_ad::perform(pop_data &pop) const {
         Col<double> &e = pop.add("e-");
         m_analysis.perform(m_at.alpha(), e);
         Col<double> &dq = pop.add("Del q");
-        dq.resize(m_analysis.size(), 0.0);
         dq = h + e;
     }
     else {

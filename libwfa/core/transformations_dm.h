@@ -50,47 +50,58 @@ void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
 void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
         ab_matrix &om);
 
-/** \brief Diagonalizes the given density matrix in AO basis
+/** \brief Diagonalizes a density matrix in AO basis
+    \param[in] s Overlap matrix
     \param[in] c AO2MO coefficient matrix
     \param[in] dm Density matrix
     \param[out] ev Vector of eigenvalues
-    \param[out] u New coefficient matrix from AO to eigenbasis
+    \param[out] u Matrix of eigenvectors in the AO basis
 
-    The function transforms the density matrix into an orthogonal basis using
-    coefficient matrix C
+    The function transforms the density matrix into an orthogonal basis
+    using overlap matrix S and coefficient matrix C
     \f[
-    D^{\text{MO}} = C' D C
+    D^{\text{MO}} = (S C)' D (S C)
     \f]
     [this assumes that the column dimension of the coefficient matrix is
     the AO basis]. The resulting density matrix is then diagonalized. The
     eigenvalues are returned unaltered while the eigenvector matrix is
     transformed using the original coefficent matrix to obtain the
-    transformation matrix from AO basis
+    transformation matrix
     \f[
     U = C \tilde{U}
     \quad\text{ with }\quad
     D^{\text{MO}} \tilde{U} = \tilde{U} \Lambda
     \f]
+    This transformation matrix can be used to form the density matrix from the
+    eigenvalues via
+    \f[
+    D = U \Lambda U'
+    \f]
+    and at the same time forms the coefficient matrix for the new orbitals
 
     \ingroup libwfa
  **/
-void diagonalize_dm(const ab_matrix &c, const ab_matrix &dm,
-        ab_vector &ev, ab_matrix &u);
+void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
+        const ab_matrix &dm, ab_vector &ev, ab_matrix &u);
 
 
 /** \brief Constructs attachement and detachment densities
     \param[in] ev Eigenvalues of the difference density matrix
-    \param[in] u Transformation matrix from eigenbasis to AO basis
+    \param[in] u Eigenvector matrix in the AO basis
     \param[out] da Attachment density matrix
     \param[out] dd Detachment density matrix
 
     The function sorts the eigenvectors based on the eigenvalues into vectors
     belonging to the attachment and detachment densities, respectively.
-    These are then used to back-transform into density matrices.
+    These are then used to back-transform into density matrices. The transform
+    is performed as
+    \f[
+    D = U \Lambda U'
+    \f]
 
     ATTENTION:
-    The transformation matrix u has to be the inverse of the transformation
-    matrix returned by the function diagonalize_dm
+    The transformation matrix u is expected to be an eigenvector matrix as
+    returned by the function diagonalize_dm.
 
     \ingroup libwfa
  **/

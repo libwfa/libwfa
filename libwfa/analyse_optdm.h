@@ -2,13 +2,13 @@
 #define LIBWFA_ANALYSE_OPTDM_H
 
 #include <map>
+#include <memory>
 #include <libwfa/analyses/ctnum_analysis_i.h>
+#include <libwfa/analyses/ex_analyse.h>
 #include <libwfa/export/ctnum_printer_i.h>
 #include <libwfa/export/ev_printer_i.h>
-#include <libwfa/export/export_data_i.h>
-//ex_analyse part
-#include <libwfa/analyses/ex_analyse.h>
 #include <libwfa/export/ex_ana_printer.h>
+#include <libwfa/export/export_data_i.h>
 
 namespace libwfa {
 

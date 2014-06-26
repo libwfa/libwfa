@@ -11,7 +11,7 @@ void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
 
     ab_matrix u;
     ab_vector ev;
-    diagonalize_dm(m_c, m_ddm, ev, u);
+    diagonalize_dm(m_s, m_c, m_ddm, ev, u);
 
     size_t nndo = m_pr.perform(density_type::difference, ev, out);
 
@@ -20,22 +20,24 @@ void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
     bool aeqb = u.is_alpha_eq_beta();
     ab_orbital_selector s(aeqb);
 
-    size_t na = ev.alpha().n_elem;
-    s.alpha() = orbital_selector(na);
-    s.alpha().select(0, nndo);
-    s.alpha().select(na - nndo, na - 1);
+    size_t ntot = ev.alpha().n_elem;
+    nndo = std::min(2 * nndo, ntot) / 2;
+    s.alpha() = orbital_selector(ntot);
+    s.alpha().select(true, 0, nndo);
+    s.alpha().select(false, ntot - nndo, ntot);
     if (! aeqb) {
-        size_t nb = ev.beta().n_elem;
-        s.beta() = orbital_selector(nb);
-        s.beta().select(0, nndo);
-        s.beta().select(nb - nndo, nb - 1);
+        ntot = ev.beta().n_elem;
+        s.beta() = orbital_selector(ntot);
+        s.beta().select(true, 0, nndo);
+        s.beta().select(false, ntot - nndo, ntot);
     }
 
     opr.perform(orbital_type::ndo, u, ev, s);
 
     // Compute u^-1 = u' * s
-    u.alpha() = u.alpha().t() * m_s;
-    if (! aeqb) u.beta() = u.beta().t() * m_s;
+    u.alpha() = u.alpha().t() * m_c.alpha() * m_c.alpha().t();
+    if (! aeqb)
+        u.beta() = u.beta().t() *  m_c.beta() * m_c.beta().t();
 
     form_ad(ev, u, at, de);
 }

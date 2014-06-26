@@ -1,9 +1,8 @@
 #ifndef LIBWFA_EXPORT_CUBE_BASE_H
 #define LIBWFA_EXPORT_CUBE_BASE_H
 
-#include <armadillo>
 #include <map>
-#include <string>
+#include "export_cube_i.h"
 #include "grid3d.h"
 
 namespace libwfa {
@@ -12,10 +11,14 @@ namespace libwfa {
 /** \brief Base class to export data as Gaussian cube files.
 
     Base class to export density matrices and orbitals expressed in terms of
-    basis functions as grid data into cube files. Any derived classes have to
+    basis functions as grid data into cube files. Any derived class has to
     implement the method \c evaluate_on_grid(...) (see below).
 
-    The grid data of the density matrices and orbitals is exported into
+    The class implements the export by first collecting the data sets and
+    exporting them only when the number of data sets exceeds \c m_nmax or the
+    function \c do_export() is called.
+
+    The grid data of the density matrices and orbitals are exported into
     separate files, one per density matrix or orbital. The naming scheme of
     the files is as follows: for density matrices the file name is constructed
     as
@@ -25,7 +28,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class export_cube_base {
+class export_cube_base : public export_cube_i {
 public:
     static const char k_clazz[]; //!< Class name
 
@@ -34,6 +37,7 @@ protected:
     //@{
     std::string m_comment; //!< Comment
     size_t m_batchsz; //!< Batch size
+    size_t m_nmax; //!< Max number of data sets to be stored
     //@}
 
 private:
@@ -79,27 +83,19 @@ public:
         clear_data();
     }
 
-    /** \brief Add a density matrix in terms of basis functions for evaluation
-            on a grid
-        \param name Name associated with the matrix (used as filename)
-        \param desc Description of the matrix (to put as comment, one line)
-        \param mat Density matrix in terms of basis functions
+    /** \copydoc export_cube_i::perform
      **/
-    void add(const std::string &name, const std::string &desc,
+    virtual void perform(const std::string &name, const std::string &desc,
         const arma::Mat<double> &mat);
 
-    /** \brief Add a set of vectors in terms of basis functions for evaluation
-            on a grid
-        \param name Name associated with the vectors (used as filename)
-        \param desc Description of the vectors (to put as comment, one line)
-        \param vecs Set of vectors in basis functions (column vectors)
+    /** \copydoc export_cube_i::perform
      **/
-    void add(const std::string &name, const std::string &desc,
+    virtual void perform(const std::string &name, const std::string &desc,
         const std::vector<size_t> &idx, const arma::Mat<double> &vecs);
 
     /** \brief Export the stored data as cube files
      **/
-    void perform();
+    void do_export();
 
 protected:
     /** \brief Evaluate basis functions on a number of grid points

@@ -19,17 +19,18 @@ size_t ev_printer_no::perform(density_type type,
     if (type != density_type::state)
         throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "type.");
 
-    std::string title("NOs");
     if (ni.is_alpha_eq_beta()) {
-        out << " " << title << " (spin-traced)" << std::endl;
-        return print_total(ni.alpha() * 2.0, out);
+        out << "NOs (spin-traced)" << std::endl;
+        size_t n = print_total(ni.alpha() * 2.0, out);
+        out << std::endl;
+        return n;
     }
     else {
-        out << " " << title << " (alpha)" << std::endl;
+        out << "NOs (alpha)" << std::endl;
         size_t na = print(ni.alpha(), out);
-
-        out << " " << title << " (beta)" << std::endl;
+        out << "NOs (beta)" << std::endl;
         size_t nb = print(ni.beta(), out);
+        out << std::endl;
 
         return std::max(na, nb);
     }
@@ -39,15 +40,16 @@ size_t ev_printer_no::perform(density_type type,
 size_t ev_printer_no::print(const Col<double> &ni, std::ostream &out) const {
 
     double nelec = accu(ni);
-    size_t ihomo = ni.n_elem - (nelec + 0.5);
+    size_t ihomo = ni.n_elem - (size_t)(nelec + 0.5);
 
-    out << "Occupation of frontier NOs: ";
-    out << std::fixed << std::setw(7) << std::setprecision(4);
-    for (size_t i = 0, j = ihomo - m_nno; i < 2 * m_nno; i++, j++)
-        out << ni[j];
+    std::string offset(2, ' ');
+    out << offset << "Occupation of frontier NOs: ";
+    out << std::fixed << std::setprecision(4);
+    for (size_t i = 0, j = ihomo - m_nno; i < 2 * m_nno; i++, j++) 
+        out << std::setw(9) << ni(j);
     out << std::endl;
-    out << std::setw(9) << std::setprecision(6);
-    out << "Number of electrons: " << nelec << std::endl;
+    out << offset << "Number of electrons: "; 
+    out << std::setprecision(6) << std::setw(9) << nelec << std::endl;
 
     return nelec + 0.5;
 }
@@ -65,22 +67,27 @@ size_t ev_printer_no::print_total(
         nunl += n * n * nn * nn;
     }
     size_t ihomo = ni.n_elem - (nelec + 0.5);
+    size_t imin = (ihomo > m_nno) ? ihomo - m_nno : 0;
+    size_t imax = (ihomo + m_nno <= ni.n_elem) ? ihomo + m_nno : ni.n_elem;
 
-    out << std::setw(7) << std::setprecision(4) << std::fixed;
-    out << "Occupation of frontier NOs: ";
-    for (size_t i = 0, j = ihomo - m_nno; i < 2 * m_nno; i++, j++)
-        out << ni[j];
+    std::string offset(2, ' ');
+    out << std::setprecision(4) << std::fixed;
+    out << offset << "Occupation of frontier NOs: ";
+    for (size_t i = imin; i < imax; i++) 
+        out << std::setw(9) << ni(i);
     out << std::endl;
 
-    out << std::setw(9) << std::setprecision(6);
-    out << "Number of electrons: " << nelec;
+    out << offset << "Number of electrons: ";
+    out << std::setprecision(6) << std::setw(9) << nelec << std::endl;
 
-    out << std::setw(8) << std::setprecision(5);
-    out << "Number of unpaired electrons: n_u = " << nu;
-    out << ", n_u,nl = " << nunl << std::endl;
+    out << std::setprecision(5);
+    out << offset << "Number of unpaired electrons: n_u = ";
+    out << std::setw(8) << nu;
+    out << ", n_u,nl = ";
+    out << std::setw(8) << nunl << std::endl;
 
-    out << std::setw(9) << std::setprecision(6);
-    out << "NO participation ratio (PR_NO): " << nu * ni / nu2 << std::endl;
+    out << offset << "NO participation ratio (PR_NO): ";
+    out << std::setw(9) << std::setprecision(6) << nu * nu / nu2 << std::endl;
 
     return nelec / 2. + 0.5;
 }

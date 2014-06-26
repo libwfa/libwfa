@@ -41,7 +41,7 @@ void analyse_opdm::perform(export_data_i &pr, const multipol_con_i &name,
     pr.perform(density_type::state, m_sdm);
     if (m_dm2.get() != 0) pr.perform(density_type::difference, m_ddm);
 
-    if (m_pr[0] != 0) no_analysis(m_c, m_sdm, *m_pr[0]).perform(pr, out);
+    if (m_pr[0] != 0) no_analysis(m_s, m_c, m_sdm, *m_pr[0]).perform(pr, out);
 
     ab_matrix at, de;
     if (m_pr[1] != 0) {

@@ -2,13 +2,13 @@
 #define LIBWFA_ANALYSE_OPDM_H
 
 #include <map>
+#include <memory>
+#include <libwfa/analyses/ex_analyse_ad.h>
 #include <libwfa/analyses/pop_analysis_i.h>
 #include <libwfa/export/ev_printer_i.h>
+#include <libwfa/export/ex_ana_printer_ad.h>
 #include <libwfa/export/export_data_i.h>
 #include <libwfa/export/pop_printer_i.h>
-//ex_analyse part
-#include <libwfa/analyses/ex_analyse_ad.h>
-#include <libwfa/export/ex_ana_printer_ad.h>
 
 namespace libwfa {
 

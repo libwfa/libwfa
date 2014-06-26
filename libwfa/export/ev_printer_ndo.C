@@ -19,16 +19,18 @@ size_t ev_printer_ndo::perform(density_type type,
     if (type != density_type::difference)
         throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "type.");
 
-    std::string title("NDOs");
     if (ni.is_alpha_eq_beta()) {
-        out << " " << title << std::endl;
-        return print(ni.alpha(), out);
+        out << "NDOs:" << std::endl;
+        size_t n = print(ni.alpha(), out);
+        out << std::endl;
+        return n;
     }
     else {
-        out << " " << title << "(alpha)" << std::endl;
+        out << "NDOs (alpha):" << std::endl;
         size_t na = print(ni.alpha(), out);
-        out << " " << title << "(beta)" << std::endl;
+        out << "NDOs (beta):" << std::endl;
         size_t nb = print(ni.beta(), out);
+        out << std::endl;
         return std::max(na, nb);
     }
 }
@@ -36,21 +38,10 @@ size_t ev_printer_ndo::perform(density_type type,
 
 size_t ev_printer_ndo::print(const Col<double> &ni, std::ostream &out) const {
 
-    out << std::setw(7) << std::setprecision(4) << std::fixed;
-    out << "Leading detachment eigenvalues: ";
-    for (size_t i = 0; i < m_nndo; i++)
-        out << ni[i];
-    out << std::endl;
-
-    out << "Leading attachment eigenvalues: ";
-    for (size_t i = 0, j = ni.n_elem - 1; i < m_nndo; i++, j--)
-        out << ni[j];
-    out << std::endl;
-
+    // Compute # attached and detached electrons first 
     double na = 0.0, na2 = 0.0, nd = 0.0, nd2 = 0.0;
-
-    size_t i = 0;
-    for (; i < ni.n_elem && ni(i) < 0; i++) {
+    size_t i = 0, nndo = 0;
+    for (; i < ni.n_elem && ni(i) < 0; i++, nndo++) {
         double cur = ni(i);
         nd += cur; nd2 += cur * cur;
     }
@@ -59,14 +50,31 @@ size_t ev_printer_ndo::print(const Col<double> &ni, std::ostream &out) const {
         double cur = ni(i);
         na += cur; na2 += cur * cur;
     }
+    nndo = std::min(nndo, ni.n_elem - nndo);
+    nndo = std::min(nndo, m_nndo);
+ 
+    std::string offset(2, ' ');
+    out << std::setprecision(4) << std::fixed;
+    out << offset << "Leading detachment eigenvalues: ";
+    for (size_t i = 0; i < nndo; i++) 
+        out << std::setw(9) << ni(i);
+    out << std::endl;
 
-    out << "Number of detached / attached electrons: p_D = " << nd;
-    out << ", p_A = " << na << std::endl;
-    out << std::setw(9) << std::setprecision(6);
-    out << "Number of involved orbitals: PR_D = " << nd * nd / nd2;
-    out << ", PR_A = " << na * na / na2 << std::endl;
+    out << offset << "Leading attachment eigenvalues: ";
+    for (size_t i = 0, j = ni.n_elem - 1; i < nndo; i++, j--) 
+        out << std::setw(9) << ni(j);
+    out << std::endl;
 
-    return ni.n_elem;
+    out << offset << "Number of detached / attached electrons: p_D = ";
+    out << std::setw(7) << nd;
+    out << ", p_A = " << std::setw(7) << na << std::endl;
+    out << std::setprecision(6);
+    out << offset << "Number of involved orbitals: PR_D = ";
+    out << std::setw(9) << nd * nd / nd2;
+    out << ", PR_A = ";
+    out << std::setw(9) << na * na / na2 << std::endl;
+
+    return nndo;
 }
 
 

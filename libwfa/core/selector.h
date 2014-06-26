@@ -4,6 +4,7 @@
 #include <armadillo>
 #include <cstdlib>
 #include <map>
+#include <libwfa/libwfa_exception.h>
 
 namespace libwfa {
 
@@ -30,8 +31,8 @@ public:
     void select(size_t i);
 
     /** \brief Add range of indexes to selection
-        \param begin Start \f$ i_0 \f$ of first range of selected elements
-        \param end End \f$ i_1 \f$ of first range of selected elements
+        \param begin Start \f$ i_0 \f$ of range of selected elements
+        \param end End \f$ i_1 \f$ of range of selected elements
         \param inc Increment \f$ \Delta \f$ in range
         \param reverse If true, go from end to begin and select elements
      **/
@@ -67,10 +68,7 @@ public:
 
     /** \brief Is i selected
      **/
-    bool is_selected(size_t i) const {
-        check(i);
-        return m_indexes.count(i) != 0;
-    }
+    bool is_selected(size_t i) const;
 
     /** \brief Construct a vector of selected elements
      **/
@@ -79,10 +77,19 @@ public:
     /** \brief Construct a vector of selected elements (return Armadillo vector)
      **/
     arma::Col<arma::uword> get_selected_arma() const;
-
-private:
-    void check(size_t i) const;
 };
+
+
+inline bool selector::is_selected(size_t i) const {
+#ifdef LIBWFA_DEBUG
+    if (i >= m_ntotal) {
+        throw libwfa_exception("selector", "check(size_t &) const",
+                __FILE__, __LINE__, "i");
+    }
+#endif
+    return m_indexes.count(i) != 0;
+}
+
 
 } // namespace libwfa
 

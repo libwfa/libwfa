@@ -11,7 +11,7 @@ void no_analysis::perform(export_data_i &opr, std::ostream &out) const {
 
     ab_matrix c_no;
     ab_vector n_no;
-    diagonalize_dm(m_c, m_sdm, n_no, c_no);
+    diagonalize_dm(m_s, m_c, m_sdm, n_no, c_no);
 
     bool aeqb = c_no.is_alpha_eq_beta();
 
@@ -22,7 +22,7 @@ void no_analysis::perform(export_data_i &opr, std::ostream &out) const {
 
         ab_matrix c2_no;
         ab_vector n2_no;
-        diagonalize_dm(m_c, sdm2, n2_no, c2_no);
+        diagonalize_dm(m_s, m_c, sdm2, n2_no, c2_no);
 
         n2_no.alpha() *= 0.5;
 
@@ -35,15 +35,15 @@ void no_analysis::perform(export_data_i &opr, std::ostream &out) const {
 
     ab_orbital_selector s_no(aeqb);
 
-    size_t ntot_a = n_no.alpha().size();
-    s_no.alpha() = orbital_selector(ntot_a);
-    s_no.alpha().select(true, ntot_a - nelec, ntot_a - 1, 1, true);
-    s_no.alpha().select(false, ntot_a - 2 * nelec , ntot_a - nelec - 1, 1, true);
+    size_t ntot = n_no.alpha().size();
+    s_no.alpha() = orbital_selector(ntot);
+    s_no.alpha().select(true, ntot - nelec, ntot, 1, true);
+    s_no.alpha().select(false, ntot - 2 * nelec , ntot - nelec, 1, true);
     if (! aeqb) {
-        size_t ntot_b = n_no.beta().size();
-        s_no.beta() = orbital_selector(ntot_b);
-        s_no.beta().select(true, ntot_b - nelec, ntot_b - 1, 1, true);
-        s_no.beta().select(false, ntot_b - 2 * nelec , ntot_b - nelec - 1, 1, true);
+        ntot = n_no.beta().size();
+        s_no.beta() = orbital_selector(ntot);
+        s_no.beta().select(true, ntot - nelec, ntot, 1, true);
+        s_no.beta().select(false, ntot - 2 * nelec , ntot - nelec, 1, true);
     }
 
     opr.perform(orbital_type::no, c_no, n_no, s_no);
