@@ -117,7 +117,12 @@ void export_cube_base::do_export() {
         for (dm_list::iterator i = m_dms.begin();
                 i != m_dms.end(); i++, id++) {
 
-            Col<double> data = diagvec(b2g * i->second->data * b2g.t());
+            Col<double> data(m_batchsz);
+            for (size_t k = 0; k < m_batchsz; k++) {
+                Mat<double> tmp = 
+                    b2g.row(k) * i->second->data * b2g.row(k).t();
+                data(k) = tmp(0, 0);
+            }
             (*id)->write(data);
         }
 
