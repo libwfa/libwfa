@@ -11,13 +11,15 @@ namespace libwfa {
 using namespace arma;
 
 analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
-        const ab_matrix &dm) : m_s(s), m_c(c), m_dm1(dm), m_dm2 (0),
-            m_sdm (dm), m_ddm(dm){}
+    const multipol_con_i &con, const ab_matrix &dm) : 
+    m_s(s), m_c(c), m_con(con), m_dm1(dm), m_dm2 (0), m_sdm (dm), m_ddm(dm) { }
+
 
 analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
-    const ab_matrix &dm0, const ab_matrix &dm, bool is_diff) :
-    m_s(s), m_c(c), m_dm1(dm), m_dm2(build_dm(dm, dm0, is_diff)),
-    m_sdm(is_diff ? *m_dm2 : m_dm1), m_ddm(is_diff ? m_dm1 : *m_dm2) {}
+    const multipol_con_i &con, const ab_matrix &dm0, 
+    const ab_matrix &dm, bool is_diff) :
+    m_s(s), m_c(c), m_con(con), m_dm1(dm), m_dm2(build_dm(dm, dm0, is_diff)),
+    m_sdm(is_diff ? *m_dm2 : m_dm1), m_ddm(is_diff ? m_dm1 : *m_dm2) { }
 
 
 void analyse_opdm::do_register(const ev_printer_i &pr, bool is_no) {
@@ -35,8 +37,7 @@ void analyse_opdm::do_register(const std::string &name,
 }
 
 
-void analyse_opdm::perform(export_data_i &pr, const multipol_con_i &name,
-        std::ostream &out) const {
+void analyse_opdm::perform(export_data_i &pr, std::ostream &out) const {
 
     pr.perform(density_type::state, m_sdm);
     if (m_dm2.get() != 0) pr.perform(density_type::difference, m_ddm);
@@ -52,7 +53,7 @@ void analyse_opdm::perform(export_data_i &pr, const multipol_con_i &name,
         ex_analyse_ad analyse_ad;
         ex_ana_printer_ad ana_p_ad;
 
-        analyse_ad.perform(at,de,name);
+        analyse_ad.perform(at, de, m_con);
         ana_p_ad.perform(analyse_ad, out);
     }//endif
 

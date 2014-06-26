@@ -44,6 +44,7 @@ private:
 
     const arma::Mat<double> &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficient matrix
+    const multipol_con_i &m_con; //!< Multipole contraction engine
 
     const ab_matrix &m_dm1; //!< State or difference density matrix
     std::auto_ptr<ab_matrix> m_dm2; //!< State or differnce density matrix
@@ -58,8 +59,9 @@ public:
         \param dm State density matrix
 
      */
-    analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
-            const ab_matrix &dm);
+    analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c, 
+        const multipol_con_i &con, const ab_matrix &dm);
+
     /** \brief Constructor for additional exciton analysis
            \param s Overlap Matrix
            \param c Coefficient matrix
@@ -68,7 +70,9 @@ public:
            \param is_diff Is difference density?
         */
     analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
-        const ab_matrix &dm0, const ab_matrix &dm, bool is_diff);
+        const multipol_con_i &con, const ab_matrix &dm0, 
+        const ab_matrix &dm, bool is_diff);
+
     /** \brief Register orbital analysis and printer
         \param pr Printer for orbital analysis
         \param is_no True: register NO analysis; false: register NDO analysis
@@ -93,8 +97,7 @@ public:
         - NDO analysis
         - Population analysis
      **/
-    void perform(export_data_i &pr, const multipol_con_i &name,
-            std::ostream &out) const;
+    void perform(export_data_i &pr, std::ostream &out) const;
 
 private:
     static std::auto_ptr<ab_matrix> build_dm(const ab_matrix &dm,

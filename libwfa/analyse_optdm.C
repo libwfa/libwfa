@@ -8,8 +8,8 @@ namespace libwfa {
 using namespace arma;
 
 analyse_optdm::analyse_optdm(const Mat<double> &s, const ab_matrix &c,
-            const ab_matrix &tdm) :
-            m_s(s), m_c(c), m_tdm(tdm), m_nto(0) {}
+    const multipol_con_i &con, const ab_matrix &tdm) :
+    m_s(s), m_c(c), m_con(con), m_tdm(tdm), m_nto(0) {}
 
 
 void analyse_optdm::do_register(const std::string &name,
@@ -20,7 +20,7 @@ void analyse_optdm::do_register(const std::string &name,
 
 
 void analyse_optdm::perform(ab_matrix &edm_av, ab_matrix &hdm_av,
-    export_data_i &pr, const multipol_con_i &con, std::ostream &out) {
+    export_data_i &pr, std::ostream &out) {
 
     pr.perform(density_type::transition, m_tdm);
     if (m_nto != 0) {
@@ -51,14 +51,13 @@ void analyse_optdm::perform(ab_matrix &edm_av, ab_matrix &hdm_av,
     ab_matrix om;
     form_om(m_s, m_tdm, om);
 
-    ex_ana.perform(m_tdm, om, con);
+    ex_ana.perform(m_tdm, om, m_con);
     ex_ana_p.perform(ex_ana, out);
 
 }//endfct
 
 
-void analyse_optdm::perform(export_data_i &pr, const multipol_con_i &con,
-        std::ostream &out) {
+void analyse_optdm::perform(export_data_i &pr, std::ostream &out) {
 
     pr.perform(density_type::transition, m_tdm);
     if (m_nto != 0) {
@@ -86,7 +85,7 @@ void analyse_optdm::perform(export_data_i &pr, const multipol_con_i &con,
     ab_matrix om;
     form_om(m_s, m_tdm, om);
 
-    ex_ana.perform(m_tdm, om, con);
+    ex_ana.perform(m_tdm, om, m_con);
     ex_ana_p.perform(ex_ana, out);
 
 }//endfct

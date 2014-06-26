@@ -61,9 +61,9 @@ public:
     virtual double perform (const Mat<double> &dm, const std::string &op) const;
 
 private:
-    /**\brief Gives back the desired operator as a matrix
-            \param op Operator
-            \return Matrix
+    /** \brief Gives back the desired operator as a matrix
+        \param op Operator
+        \return Matrix
      **/
     const Mat<double> &retrieve_op(const std::string &op) const;
 };

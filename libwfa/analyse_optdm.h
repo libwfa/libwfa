@@ -34,7 +34,7 @@ private:
     const ab_matrix &m_c; //!< MO coefficient matrix
     const ab_matrix &m_tdm; //!< Transition density matrix
     const ev_printer_i *m_nto; //!< Formating object of NTO summary
-
+    const multipol_con_i &m_con; //!< Multipole contraction engine
 
 public:
     /** \brief Constructor for additional exciton analysis
@@ -42,8 +42,8 @@ public:
         \param c Coefficient matrix
         \param tdm Transistion density matrix
      */
-    analyse_optdm(const arma::Mat<double> &s, const ab_matrix &c,
-            const ab_matrix &tdm);
+    analyse_optdm(const arma::Mat<double> &s, const ab_matrix &c, 
+        const multipol_con_i &con, const ab_matrix &tdm);
 
     /** \brief Register NTO analysis
         \param pr NTO summary printer
@@ -72,7 +72,7 @@ public:
         - Exciton analysis
      **/
     void perform(ab_matrix &edm_av, ab_matrix &hdm_av,
-        export_data_i &pr, const multipol_con_i &con, std::ostream &out);
+        export_data_i &pr, std::ostream &out);
 
     /** \brief Performs transition density matrix analyses
         \param pr Export / printer for densities and orbitals
@@ -85,8 +85,7 @@ public:
         - Export of TDM, EDM, and HDM
         - Exciton analysis
      **/
-    void perform(export_data_i &pr, const multipol_con_i &con,
-            std::ostream &out);
+    void perform(export_data_i &pr, std::ostream &out);
 };
 
 } // namespace libwfa
