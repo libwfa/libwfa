@@ -24,6 +24,7 @@ private:
     void test_form_ad_1a();
     void test_form_ad_1b();
     void test_form_ad_2();
+    void test_form_ad_3();
 };
 
 

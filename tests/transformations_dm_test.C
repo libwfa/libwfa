@@ -1,5 +1,7 @@
 #include <iomanip>
 #include <libwfa/core/transformations_dm.h>
+#include "compare_ref.h"
+#include "test01_data.h"
 #include "transformations_dm_test.h"
 
 namespace libwfa {
@@ -16,6 +18,7 @@ void transformations_dm_test::perform() throw(libtest::test_exception) {
     test_form_ad_1a();
     test_form_ad_1b();
     test_form_ad_2();
+    test_form_ad_3();
 }
 
 
@@ -676,6 +679,48 @@ void transformations_dm_test::test_form_ad_2() {
     if (accu(abs(da_b - dd_b - dm.beta()) > 1e-11) != 0) {
         fail_test(testname, __FILE__, __LINE__, "da - dd != dm (beta).");
     }
+}
+
+
+void transformations_dm_test::test_form_ad_3() {
+
+    static const char *testname = "transformations_dm_test::test_form_ad_3()";
+
+    test01_data data;
+    Mat<double> s(test01_data::k_nao, test01_data::k_nao);
+    ab_matrix c(false), ddm(false);
+    ab_matrix at, de, at_ref(false), de_ref(false);
+    c.alpha() = Mat<double>(test01_data::k_nao, test01_data::k_nmo);
+    c.beta() = Mat<double>(test01_data::k_nao, test01_data::k_nmo);
+    ddm.alpha() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
+    ddm.beta() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
+    at_ref.alpha() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
+    at_ref.beta() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
+    de_ref.alpha() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
+    de_ref.beta() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
+
+    data.read_matrix(testname, "s", s);
+    data.read_matrix(testname, "c_a", c.alpha());
+    data.read_matrix(testname, "c_a", c.alpha());
+
+    data.read_matrix(testname, "ddm1_a", ddm.alpha());
+    data.read_matrix(testname, "ddm1_b", ddm.beta());
+    data.read_matrix(testname, "atdm1_a", at_ref.alpha());
+    data.read_matrix(testname, "atdm1_b", at_ref.alpha());
+    data.read_matrix(testname, "dedm1_a", de_ref.alpha());
+    data.read_matrix(testname, "dedm1_b", de_ref.alpha());
+
+    // Perform operation
+    try {
+
+        form_ad(s, c, ddm, at, de);
+
+    } catch(std::exception &e) {
+        fail_test(testname, __FILE__, __LINE__, e.what());
+    }
+
+    compare_ref::compare(testname, at, at_ref, 1e-14);
+    compare_ref::compare(testname, de, de_ref, 1e-14);
 }
 
 
