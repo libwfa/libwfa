@@ -14,15 +14,17 @@ namespace libwfa {
 class pop_analysis_dm {
 private:
     const pop_analysis_i &m_analysis; //!< Analysis
+    const arma::Col<double> &m_ch0; //!< Base charges
     const ab_matrix &m_sdm; //!< State density matrix
 
 public:
     /** \brief Constructor
         \param a Analysis object
         \param sdm State density matrix
+        \param ch0 Charges to be added
      **/
-    pop_analysis_dm(const pop_analysis_i &a, const ab_matrix &sdm) :
-        m_analysis(a), m_sdm(sdm) { }
+    pop_analysis_dm(const pop_analysis_i &a, const arma::Col<double> &ch0,
+		const ab_matrix &sdm) : m_analysis(a), m_ch0(ch0), m_sdm(sdm) { }
 
     /** \brief Perform population analysis
         \param pop Resulting population data
