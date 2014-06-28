@@ -52,8 +52,8 @@ void orbital_selector_test::test_2() {
     size_t n = 10;
 
     orbital_selector s(n);
-    s.select(true, n-3, n-1, 1, true);
-    s.select(false, 0, 3);
+    s.select(true, n-3, n, 1, true);
+    s.select(false, 0, 4);
 
     if (s.n_indexes() != n) {
         fail_test(testname, __FILE__, __LINE__, "# indexes");
@@ -94,8 +94,8 @@ void orbital_selector_test::test_3() {
     size_t n = 10;
 
     orbital_selector s(n);
-    s.select(true, 2, 5);
-    s.select(false, 6, 8);
+    s.select(true, 2, 6);
+    s.select(false, 6, 9);
     s.deselect(7);
 
     if (s.n_indexes() != n) {
