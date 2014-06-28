@@ -686,29 +686,19 @@ void transformations_dm_test::test_form_ad_3() {
 
     static const char *testname = "transformations_dm_test::test_form_ad_3()";
 
+    size_t nao = test01_data::k_nao, nmo = test01_data::k_nmo;
     test01_data data;
-    Mat<double> s(test01_data::k_nao, test01_data::k_nao);
-    ab_matrix c(false), ddm(false);
-    ab_matrix at, de, at_ref(false), de_ref(false);
-    c.alpha() = Mat<double>(test01_data::k_nao, test01_data::k_nmo);
-    c.beta() = Mat<double>(test01_data::k_nao, test01_data::k_nmo);
-    ddm.alpha() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
-    ddm.beta() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
-    at_ref.alpha() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
-    at_ref.beta() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
-    de_ref.alpha() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
-    de_ref.beta() = Mat<double>(test01_data::k_nao, test01_data::k_nao);
+
+    Mat<double> s(nao, nao);
+    ab_matrix c(nao, nmo, nao, nmo), ddm(nao, nao, nao, nao);
+    ab_matrix at_ref(nao, nao, nao, nao), de_ref(nao, nao, nao, nao);
+    ab_matrix at, de;
 
     data.read_matrix(testname, "s", s);
-    data.read_matrix(testname, "c_a", c.alpha());
-    data.read_matrix(testname, "c_a", c.alpha());
-
-    data.read_matrix(testname, "ddm1_a", ddm.alpha());
-    data.read_matrix(testname, "ddm1_b", ddm.beta());
-    data.read_matrix(testname, "atdm1_a", at_ref.alpha());
-    data.read_matrix(testname, "atdm1_b", at_ref.alpha());
-    data.read_matrix(testname, "dedm1_a", de_ref.alpha());
-    data.read_matrix(testname, "dedm1_b", de_ref.alpha());
+    data.read_ab_matrix(testname, "c", c);
+    data.read_ab_matrix(testname, "ddm1", ddm);
+    data.read_ab_matrix(testname, "atdm1", at_ref);
+    data.read_ab_matrix(testname, "dedm1", de_ref);
 
     // Perform operation
     try {

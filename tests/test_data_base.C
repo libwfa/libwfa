@@ -5,27 +5,6 @@ namespace libwfa {
 
 using namespace arma;
 
-bool test_data_base::read_matrix(const char *testname,
-    const char *fname, Mat<double> &m) {
-
-    std::ifstream in(make_filename(fname).c_str());
-    if (in.fail()) return false;
-
-    int nr = 0, nc = 0;
-    in >> nr  >> nc;
-
-    if (nr != m.n_rows) return false;
-    if (nc != m.n_cols) return false;
-
-    double *ptr = m.memptr();
-
-    for (size_t i = 0; i < m.n_elem && in.good(); i++, ptr++) in >> *ptr;
-
-    if (in.fail()) return false;
-
-    return true;
-}
-
 
 bool test_data_base::read_double(const char *testname,
     const char *fname, double &d) {
@@ -37,6 +16,21 @@ bool test_data_base::read_double(const char *testname,
     if (in.fail()) return false;
 
     return true;
+}
+
+
+bool test_data_base::read_ab_matrix(const char *testname,
+	const char *name, ab_matrix &m) {
+
+	std::string fn(name);
+	fn += "_a";
+	bool ok = read_matrix(testname, fn.c_str(), m.alpha());
+
+	if (! m.is_alpha_eq_beta()) {
+		fn = std::string(name) + std::string("_b");
+		ok = ok && read_matrix(testname, fn.c_str(), m.beta());
+	}
+	return ok;
 }
 
 

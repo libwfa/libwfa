@@ -17,6 +17,7 @@ class test01_data : public test_data_base {
 public:
     static const size_t k_nao; //!< Number of AOs
     static const size_t k_nmo; //!< Number of MOs
+    static const size_t k_natoms; //!< Number of atoms
 
 public:
     test01_data() : test_data_base("test01") { }
@@ -25,4 +26,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_TRANSFORMATIONS_DM_TEST_H
+#endif // LIBWFA_TEST01_DATA_H

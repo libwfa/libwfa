@@ -2,6 +2,7 @@
 #define LIBWFA_TEST_DATA_BASE_H
 
 #include <armadillo>
+#include <libwfa/core/ab_matrix.h>
 #include <string>
 
 namespace libwfa {
@@ -31,8 +32,8 @@ public:
         \param[out] m Matrix to put data read
         \return True if successful
      **/
-    bool read_matrix(const char *testname,
-        const char *fname, arma::Mat<double> &m);
+    template<typename T>
+    bool read_matrix(const char *testname, const char *fname, arma::Mat<T> &m);
 
     /** \brief Read double from file
         \param[in] testname Name of the test
@@ -42,9 +43,40 @@ public:
      **/
     bool read_double(const char *testname, const char *fname, double &d);
 
+    /** \brief Read spin matrix or vector from file
+        \param[in] testname Name of the test
+        \param[in] name Base name of matrices (w/o prefix)
+        \param[out] m Matrix to put data read
+        \return True if successful
+     **/
+    bool read_ab_matrix(const char *testname, const char *name, ab_matrix &m);
+
 private:
     std::string make_filename(const char *fname) const;
 };
+
+
+template<typename T>
+bool test_data_base::read_matrix(const char *testname,
+    const char *fname, arma::Mat<T> &m) {
+
+    std::ifstream in(make_filename(fname).c_str());
+    if (in.fail()) return false;
+
+    int nr = 0, nc = 0;
+    in >> nr  >> nc;
+
+    if (nr != m.n_rows) return false;
+    if (nc != m.n_cols) return false;
+
+    T *ptr = m.memptr();
+
+    for (size_t i = 0; i < m.n_elem && in.good(); i++, ptr++) in >> *ptr;
+
+    if (in.fail()) return false;
+
+    return true;
+}
 
 
 } // namespace libwfa
