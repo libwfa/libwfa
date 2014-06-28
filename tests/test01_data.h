@@ -6,7 +6,10 @@
 namespace libwfa {
 
 
-/** \brief
+/** \brief Data for test system 1
+
+	The test system is He-Li at a distance of 4 Angstrom computed using an
+	STO-3G basis set and ADC(2)-s as excited state method.
 
     \ingroup libwfa_tests
  **/
