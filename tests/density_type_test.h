@@ -6,9 +6,9 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::density_type class
+/** \brief Tests the libwfa::density_type class
 
-	\ingroup libwfa_tests
+    \ingroup libwfa_tests
  **/
 class density_type_test : public libtest::unit_test {
 public:

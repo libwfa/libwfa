@@ -16,7 +16,6 @@ private:
     size_t m_nparts; //!< Number of atoms
     const arma::Mat<double> &m_s; //!< Overlap matrix
     const arma::Col<size_t> &m_b2p; //!< Map of basis functions to parts
-    const arma::Col<double> &m_p0; //!<  Population data to add
 
 public:
     /** \brief Constructor
@@ -24,8 +23,7 @@ public:
         \param b2p Map of atomic basis functions to molecular parts
         \param p0 Population data to add
      **/
-    pop_mulliken(const arma::Mat<double> &s, const arma::Col<size_t> &b2p,
-        const arma::Col<double> &p0);
+    pop_mulliken(const arma::Mat<double> &s, const arma::Col<size_t> &b2p);
 
     /** \brief Destructor
      **/

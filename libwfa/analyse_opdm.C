@@ -30,10 +30,12 @@ void analyse_opdm::do_register(const ev_printer_i &pr, bool is_no) {
 
 
 void analyse_opdm::do_register(const std::string &name,
-    const pop_analysis_i &ana, const pop_printer_i &pr, pa_flag fl) {
+    const pop_analysis_i &ana, const Col<double> &ch0,
+    const pop_printer_i &pr, pa_flag fl) {
 
     if (m_dm2.get() == 0) fl = (fl & pa_dm) == pa_dm ? pa_dm : pa_none;
-    if (fl != pa_none) m_pa.insert(pa_map_t::value_type(name, pa(ana, pr, fl)));
+    if (fl != pa_none)
+        m_pa.insert(pa_map_t::value_type(name, pa(ana, ch0, pr, fl)));
 }
 
 
@@ -63,7 +65,7 @@ void analyse_opdm::perform(export_data_i &pr, std::ostream &out) const {
         const pa &pop = i->second;
         pop_data res;
         if ((pop.flag & pa_dm) == pa_dm)
-            pop_analysis_dm(pop.analysis, m_sdm).perform(res);
+            pop_analysis_dm(pop.analysis, pop.ch0, m_sdm).perform(res);
         if (m_pr[1] != 0 && (pop.flag & pa_ad) == pa_ad)
             pop_analysis_ad(pop.analysis, at, de).perform(res);
         pop.printer.perform(res, out);

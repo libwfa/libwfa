@@ -126,7 +126,7 @@ void selector_test::test_4a() {
     size_t n = 10;
 
     selector s(n);
-    s.select(2, 4, 1, true);
+    s.select(2, 5, 1, true);
 
     if (s.n_indexes() != n) {
         fail_test(testname, __FILE__, __LINE__, "# indexes");
@@ -164,7 +164,7 @@ void selector_test::test_4b() {
     size_t n = 10;
 
     selector s(n);
-    s.select(2, 8, 2);
+    s.select(2, 9, 2);
 
     if (s.n_indexes() != n) {
         fail_test(testname, __FILE__, __LINE__, "# indexes");
@@ -205,7 +205,7 @@ void selector_test::test_5() {
     size_t n = 10;
 
     selector s(n);
-    s.select(2, 5);
+    s.select(2, 6);
     s.deselect(5);
 
     if (s.n_indexes() != n) {
@@ -244,7 +244,7 @@ void selector_test::test_6() {
     size_t n = 10;
 
     selector s(n);
-    s.select(2, 5);
+    s.select(2, 6);
     s.deselect(5);
 
     if (s.n_indexes() != n) {
@@ -283,7 +283,7 @@ void selector_test::test_7() {
     size_t n = 10;
 
     selector s(n);
-    s.select(2, 5);
+    s.select(2, 6);
     s.deselect_all();
 
     if (s.n_indexes() != n) {

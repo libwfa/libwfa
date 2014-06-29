@@ -2,6 +2,7 @@ set(SRC_HEADER
     ab_matrix_test.h
     ab_orbital_selector_test.h
     ab_vector_test.h
+    compare_ref.h
     ctnum_analysis_test.h
     ctnum_export_test.h
     ctnumbers_test.h
@@ -20,6 +21,9 @@ set(SRC_HEADER
     pop_mulliken_test.h
     pop_printer_default_test.h
     selector_test.h
+    test_data_base.h
+    test01_data.h
+    test02_data.h
     transformations_dm_test.h
     version_test.h
     ex_analyse_ad_test.h
@@ -32,6 +36,7 @@ set(SRC
     ab_matrix_test.C
     ab_orbital_selector_test.C
     ab_vector_test.C
+    compare_ref.C
     ctnum_analysis_test.C
     ctnum_export_test.C
     ctnumbers_test.C
@@ -51,6 +56,9 @@ set(SRC
     pop_mulliken_test.C
     pop_printer_default_test.C
     selector_test.C
+    test_data_base.C
+    test01_data.C
+    test02_data.C
     transformations_dm_test.C
     version_test.C
     ex_analyse_ad_test.C

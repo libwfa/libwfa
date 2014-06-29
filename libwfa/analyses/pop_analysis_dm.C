@@ -9,6 +9,7 @@ void pop_analysis_dm::perform(pop_data &pop) const {
 
     Col<double> &ch = pop.add("Charge (e)");
     m_analysis.perform(m_sdm.alpha() + m_sdm.beta(), ch);
+    ch += m_p0;
 
     if (! m_sdm.is_alpha_eq_beta()) {
 

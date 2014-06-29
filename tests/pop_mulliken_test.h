@@ -6,16 +6,19 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::pop_mulliken class
+/** \brief Tests the libwfa::pop_mulliken class
 
-	\ingroup libwfa_tests
+    \ingroup libwfa_tests
  **/
 class pop_mulliken_test : public libtest::unit_test {
 public:
-	virtual void perform() throw(libtest::test_exception);
+    virtual void perform() throw(libtest::test_exception);
 
 private:
-	void test_1();
+    void test_1() throw(libtest::test_exception);
+
+    template<typename TestData>
+    void test_2() throw(libtest::test_exception);
 
 };
 

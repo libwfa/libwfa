@@ -6,9 +6,9 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::no_analysis class
+/** \brief Tests the libwfa::no_analysis class
 
-	\ingroup libwfa_tests
+    \ingroup libwfa_tests
  **/
 class no_analysis_test : public libtest::unit_test {
 public:

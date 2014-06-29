@@ -40,7 +40,7 @@ void pop_printer_default::perform(const pop_data &p, std::ostream &out) const {
     // Reduce column width, if total width is wider than 80 characters
     size_t maxwidth = 80, colwidth = m_colwidth;
     size_t mincolwidth = m_prec + 4;
-    size_t width = nw + colwidth * p.size();
+    size_t width = m_offset + nw + colwidth * p.size();
     while (width > maxwidth && colwidth > mincolwidth) {
         width -= p.size();
         colwidth--;

@@ -6,9 +6,9 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::orbital_type class
+/** \brief Tests the libwfa::orbital_type class
 
-	\ingroup libwfa_tests
+    \ingroup libwfa_tests
  **/
 class orbital_type_test : public libtest::unit_test {
 public:

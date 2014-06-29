@@ -6,9 +6,9 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::pop_analysis_ad class
+/** \brief Tests the libwfa::pop_analysis_ad class
 
-	\ingroup libwfa_tests
+    \ingroup libwfa_tests
  **/
 class pop_analysis_ad_test : public libtest::unit_test {
 public:

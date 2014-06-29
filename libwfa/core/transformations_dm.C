@@ -87,12 +87,22 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
     Mat<double> &da_a = da.alpha(), &dd_a = dd.alpha();
     Col<uword> ix = find(ev_a > 0.0, 1);
 
-    {
-        Mat<double> ux;
-        ux = u_a.cols(ix(0), ev_a.n_rows - 1);
-        da_a = ux * diagmat(ev_a.rows(ix(0), ev_a.n_rows - 1)) * ux.t();
-        ux = u_a.cols(0, ix(0) - 1);
-        dd_a = ux * diagmat(ev_a.rows(0, ix(0) - 1) * -1.) * ux.t();
+    if (ix.n_rows != 0) {
+        if (ix(0) != 0) {
+            Mat<double> ux;
+            ux = u_a.cols(ix(0), ev_a.n_rows - 1);
+            da_a = ux * diagmat(ev_a.rows(ix(0), ev_a.n_rows - 1)) * ux.t();
+            ux = u_a.cols(0, ix(0) - 1);
+            dd_a = ux * diagmat(ev_a.rows(0, ix(0) - 1) * -1.) * ux.t();
+        }
+        else {
+            da_a = u_a * diagmat(ev_a) * u_a.t();
+            dd_a = Mat<double>(u_a.n_cols, u_a.n_cols, fill::zeros);
+        }
+    }
+    else {
+        da_a = Mat<double>(u_a.n_cols, u_a.n_cols, fill::zeros);
+        dd_a = u_a * diagmat(ev_a * -1.) * u_a.t();
     }
 
     if (! u.is_alpha_eq_beta()) {
@@ -104,12 +114,22 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
         Mat<double> &da_b = da.beta(), &dd_b = dd.beta();
         Col<uword> ix = find(ev_b > 0.0, 1);
 
-        {
-            Mat<double> ux;
-            ux = u_b.cols(ix(0), ev_b.n_rows - 1);
-            da_b = ux * diagmat(ev_b.rows(ix(0), ev_b.n_rows - 1)) * ux.t();
-            ux = u_b.cols(0, ix(0) - 1);
-            dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1) * -1.) * ux.t();
+        if (ix.n_rows != 0) {
+            if (ix(0) != 0) {
+                Mat<double> ux;
+                ux = u_b.cols(ix(0), ev_b.n_rows - 1);
+                da_b = ux * diagmat(ev_b.rows(ix(0), ev_b.n_rows - 1)) * ux.t();
+                ux = u_b.cols(0, ix(0) - 1);
+                dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1) * -1.) * ux.t();
+            }
+            else {
+                da_b = u_b * diagmat(ev_b) * u_b.t();
+                dd_b = Mat<double>(u_a.n_cols, u_a.n_cols, fill::zeros);
+            }
+        }
+        else {
+            da_b = Mat<double>(u_a.n_cols, u_a.n_cols, fill::zeros);
+            dd_b = u_b * diagmat(ev_b * -1.) * u_b.t();
         }
     }
     else {

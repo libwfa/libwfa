@@ -30,11 +30,13 @@ public:
 private:
     struct pa {
         const pop_analysis_i &analysis;
+        const arma::Col<double> &ch0;
         const pop_printer_i &printer;
         pa_flag flag;
 
-        pa(const pop_analysis_i &a, const pop_printer_i &p, pa_flag fl) :
-            analysis(a), printer(p), flag(fl) { }
+        pa(const pop_analysis_i &a, const arma::Col<double> &ch0_,
+            const pop_printer_i &p, pa_flag fl) :
+            analysis(a), ch0(ch0_), printer(p), flag(fl) { }
     };
     typedef std::map<std::string, pa> pa_map_t;
 
@@ -82,11 +84,12 @@ public:
     /** \brief Register population analyses that should be performed
         \param name Name for population analysis
         \param pa Population analysis
+        \param ch0 Base charges (only used if pa_dm is requested)
         \param pr Population printer / formatter
         \param fl Flag for which density the population analysis is used
      **/
     void do_register(const std::string &name, const pop_analysis_i &pa,
-        const pop_printer_i &pr, pa_flag fl);
+        const arma::Col<double> &ch0, const pop_printer_i &pr, pa_flag fl);
 
     /** \brief Performs density matrix analyses
         \param pr Density and orbital export / printer

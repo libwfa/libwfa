@@ -31,25 +31,25 @@ private:
     static const char *k_authors[]; //!< List of authors
 
 public:
-    /**	\brief Returns the major %version number
+    /** \brief Returns the major %version number
      **/
     static unsigned get_major() {
         return k_major;
     }
 
-    /**	\brief Returns the minor %version number
+    /** \brief Returns the minor %version number
      **/
     static unsigned get_minor() {
         return k_minor;
     }
 
-    /**	\brief Returns the %version status
+    /** \brief Returns the %version status
      **/
     static std::string get_status() {
         return std::string(k_status);
     }
 
-    /**	\brief Returns the string that corresponds to the %version
+    /** \brief Returns the string that corresponds to the %version
      **/
     static std::string get_string();
 
