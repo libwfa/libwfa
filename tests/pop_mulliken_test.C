@@ -2,6 +2,7 @@
 #include <libwfa/analyses/pop_mulliken.h>
 #include "pop_mulliken_test.h"
 #include "test01_data.h"
+#include "test02_data.h"
 
 namespace libwfa {
 
@@ -10,11 +11,12 @@ using namespace arma;
 void pop_mulliken_test::perform() throw(libtest::test_exception) {
 
     test_1();
-    test_2();
+    test_2<test01_data>();
+    test_2<test02_data>();
 }
 
 
-void pop_mulliken_test::test_1() {
+void pop_mulliken_test::test_1() throw(libtest::test_exception) {
 
     static const char *testname = "pop_mulliken_test::test_1()";
 
@@ -69,32 +71,39 @@ void pop_mulliken_test::test_1() {
 }
 
 
-void pop_mulliken_test::test_2() {
+template<typename TestData>
+void pop_mulliken_test::test_2() throw(libtest::test_exception) {
 
     static const char *testname = "pop_mulliken_test::test_2()";
 
     try {
 
-	size_t nao = test01_data::k_nao;
-	size_t nmo = test01_data::k_nmo;
-	test01_data data;
-	Mat<double> s(nao, nao);
-	ab_matrix dm(nao, nao, nao, nao);
-	Col<size_t> b2p(nao);
-	Col<double> pa_ref(test01_data::k_natoms), pa;
+    size_t nao = TestData::k_nao;
+    size_t nmo = TestData::k_nmo;
+    TestData data;
+    Col<size_t> b2p = data.bf2nuclei();
 
-	data.read_matrix(testname, "s", s);
-	data.read_ab_matrix(testname, "dm1", dm);
-	data.read_matrix(testname, "b2at", b2p);
-//	data.read_matrix(testname, "p1mulliken", pa_ref);
+    Mat<double> s(nao, nao);
+    data.read_matrix(testname, "s", s);
 
-	pop_mulliken(s, b2p).perform(dm.alpha(), pa);
+    for (size_t i = 0; i <= data.nstates(); i++) {
 
-	if (pa.n_elem != pa_ref.n_elem) {
-        fail_test(testname, __FILE__, __LINE__, "Length of population vector");
-	}
+        ab_matrix dm(data.aeqb());
+        dm.alpha() = Mat<double>(nao, nao);
+        if (! data.aeqb()) dm.beta() = Mat<double>(nao, nao);
 
-//	uvec x = find(abs(p - p_ref) > 1e-14, 1);
+        std::ostringstream ssdm; ssdm << "dm" << i;
+        data.read_ab_matrix(testname, ssdm.str().c_str(), dm);
+
+        Col<double> pa, pa_ref(TestData::k_natoms);
+        pop_mulliken(s, b2p).perform(dm.alpha(), pa);
+
+        if (pa.n_elem != pa_ref.n_elem) {
+            fail_test(testname, __FILE__, __LINE__,
+                    "Length of population vector");
+        }
+
+//    uvec x = find(abs(p - p_ref) > 1e-14, 1);
 //    if (x.size() != 0) {
 //
 //        std::ostringstream oss;
@@ -103,6 +112,7 @@ void pop_mulliken_test::test_2() {
 //                p(x(0)) - p_ref(x(0)) << ")";
 //        fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
 //    }
+    }
 
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());

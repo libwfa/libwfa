@@ -7,9 +7,9 @@
 namespace libwfa {
 
 
-/**	\brief Base exception class
+/** \brief Base exception class
 
-	\ingroup libutil_exceptions
+    \ingroup libutil_exceptions
  **/
 class libwfa_exception : public std::exception {
 private:
@@ -21,8 +21,8 @@ private:
     char m_what[1024]; //!< Composed message available via what()
 
 public:
-	//!	\name Construction and destruction
-	//@{
+    //!    \name Construction and destruction
+    //@{
 
     /** \brief Creates an %exception using full details
         \param clazz Class name.
@@ -44,25 +44,25 @@ public:
         init(e.m_clazz, e.m_method, e.m_file, e.m_line, e.m_message);
     }
 
-    /**	\brief Virtual destructor
-	 **/
-	virtual ~libwfa_exception() throw() { };
+    /** \brief Virtual destructor
+     **/
+    virtual ~libwfa_exception() throw() { };
 
-	//@}
+    //@}
 
 
-	//!	\name Implementation of std::exception
-	//@{
+    //!    \name Implementation of std::exception
+    //@{
 
-	/**	\brief Returns the cause of the exception (message)
-	 **/
-	virtual const char *what() const throw();
+    /** \brief Returns the cause of the exception (message)
+     **/
+    virtual const char *what() const throw();
 
-	//@}
+    //@}
 
 private:
-	void init(const char *clazz, const char *method,
-	        const char *file, unsigned int line, const char *message) throw();
+    void init(const char *clazz, const char *method,
+            const char *file, unsigned int line, const char *message) throw();
 };
 
 

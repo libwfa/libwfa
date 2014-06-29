@@ -6,25 +6,27 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::transformations_dm class
+/** \brief Tests the libwfa::transformations_dm class
 
-	\ingroup libmo_tests
+    \ingroup libmo_tests
  **/
 class transformations_dm_test : public libtest::unit_test {
 public:
-	virtual void perform() throw(libtest::test_exception);
+    virtual void perform() throw(libtest::test_exception);
 
 private:
-	void test_form_eh_1a();
-    void test_form_eh_1b();
-    void test_form_om_1a();
-    void test_form_om_1b();
-    void test_diagonalize_dm_1a();
-    void test_diagonalize_dm_1b();
-    void test_form_ad_1a();
-    void test_form_ad_1b();
-    void test_form_ad_2();
-    void test_form_ad_3();
+    void test_form_eh_1a() throw(libtest::test_exception);
+    void test_form_eh_1b() throw(libtest::test_exception);
+    void test_form_om_1a() throw(libtest::test_exception);
+    void test_form_om_1b() throw(libtest::test_exception);
+    void test_diagonalize_dm_1a() throw(libtest::test_exception);
+    void test_diagonalize_dm_1b() throw(libtest::test_exception);
+    void test_form_ad_1a() throw(libtest::test_exception);
+    void test_form_ad_1b() throw(libtest::test_exception);
+    void test_form_ad_2() throw(libtest::test_exception);
+
+    template<typename TestData>
+    void test_form_ad_3() throw(libtest::test_exception);
 };
 
 

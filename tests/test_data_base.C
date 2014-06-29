@@ -20,17 +20,17 @@ bool test_data_base::read_double(const char *testname,
 
 
 bool test_data_base::read_ab_matrix(const char *testname,
-	const char *name, ab_matrix &m) {
+    const char *name, ab_matrix &m) {
 
-	std::string fn(name);
-	fn += "_a";
-	bool ok = read_matrix(testname, fn.c_str(), m.alpha());
+    std::string fn(name);
+    fn += "_a";
+    bool ok = read_matrix(testname, fn.c_str(), m.alpha());
 
-	if (! m.is_alpha_eq_beta()) {
-		fn = std::string(name) + std::string("_b");
-		ok = ok && read_matrix(testname, fn.c_str(), m.beta());
-	}
-	return ok;
+    if (! m.is_alpha_eq_beta()) {
+        fn = std::string(name) + std::string("_b");
+        ok = ok && read_matrix(testname, fn.c_str(), m.beta());
+    }
+    return ok;
 }
 
 

@@ -6,13 +6,17 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::pop_analysis_dm class
+/** \brief Tests the libwfa::pop_analysis_dm class
 
-	\ingroup libwfa_tests
+    \ingroup libwfa_tests
  **/
 class pop_analysis_dm_test : public libtest::unit_test {
 public:
     virtual void perform() throw(libtest::test_exception);
+
+private:
+    template<typename TestData>
+    void test_1() throw(libtest::test_exception);
 };
 
 

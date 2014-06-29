@@ -6,13 +6,13 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::version class
+/** \brief Tests the libwfa::version class
 
-	\ingroup libmo_tests
+    \ingroup libmo_tests
  **/
 class version_test : public libtest::unit_test {
 public:
-	virtual void perform() throw(libtest::test_exception);
+    virtual void perform() throw(libtest::test_exception);
 
 };
 

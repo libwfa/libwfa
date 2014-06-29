@@ -6,16 +6,16 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::ctnum_analysis class
+/** \brief Tests the libwfa::ctnum_analysis class
 
-	\ingroup libwfa_tests
+    \ingroup libwfa_tests
  **/
 class ctnum_analysis_test : public libtest::unit_test {
 public:
-	virtual void perform() throw(libtest::test_exception);
+    virtual void perform() throw(libtest::test_exception);
 
 private:
-	void test_1();
+    void test_1();
 
 };
 

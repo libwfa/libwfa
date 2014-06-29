@@ -23,6 +23,7 @@ set(SRC_HEADER
     selector_test.h
     test_data_base.h
     test01_data.h
+    test02_data.h
     transformations_dm_test.h
     version_test.h
 )
@@ -53,6 +54,7 @@ set(SRC
     selector_test.C
     test_data_base.C
     test01_data.C
+    test02_data.C
     transformations_dm_test.C
     version_test.C
 )

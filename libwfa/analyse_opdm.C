@@ -38,7 +38,7 @@ void analyse_opdm::do_register(const std::string &name,
 
     if (m_dm2.get() == 0) fl = (fl & pa_dm) == pa_dm ? pa_dm : pa_none;
     if (fl != pa_none)
-    	m_pa.insert(pa_map_t::value_type(name, pa(ana, ch0, pr, fl)));
+        m_pa.insert(pa_map_t::value_type(name, pa(ana, ch0, pr, fl)));
 }
 
 

@@ -2,6 +2,7 @@
 #include <libwfa/core/transformations_dm.h>
 #include "compare_ref.h"
 #include "test01_data.h"
+#include "test02_data.h"
 #include "transformations_dm_test.h"
 
 namespace libwfa {
@@ -18,7 +19,8 @@ void transformations_dm_test::perform() throw(libtest::test_exception) {
     test_form_ad_1a();
     test_form_ad_1b();
     test_form_ad_2();
-    test_form_ad_3();
+    test_form_ad_3<test01_data>();
+    test_form_ad_3<test02_data>();
 }
 
 
@@ -113,7 +115,7 @@ const double system_data::k_cb[56] = {
 } // unnamed namespace
 
 
-void transformations_dm_test::test_form_eh_1a() {
+void transformations_dm_test::test_form_eh_1a() throw(libtest::test_exception) {
 
     static const char *testname = "transformations_dm_test::test_form_eh_1a()";
 
@@ -179,7 +181,7 @@ void transformations_dm_test::test_form_eh_1a() {
 }
 
 
-void transformations_dm_test::test_form_eh_1b() {
+void transformations_dm_test::test_form_eh_1b() throw(libtest::test_exception) {
 
     static const char *testname = "transformations_dm_test::test_form_eh_1b()";
 
@@ -267,7 +269,7 @@ void transformations_dm_test::test_form_eh_1b() {
 }
 
 
-void transformations_dm_test::test_form_om_1a() {
+void transformations_dm_test::test_form_om_1a() throw(libtest::test_exception) {
 
     static const char *testname = "transformations_dm_test::test_form_om_1a()";
 
@@ -318,7 +320,7 @@ void transformations_dm_test::test_form_om_1a() {
 }
 
 
-void transformations_dm_test::test_form_om_1b() {
+void transformations_dm_test::test_form_om_1b() throw(libtest::test_exception) {
 
     static const char *testname = "transformations_dm_test::test_form_om_1b()";
 
@@ -378,7 +380,8 @@ void transformations_dm_test::test_form_om_1b() {
 }
 
 
-void transformations_dm_test::test_diagonalize_dm_1a() {
+void transformations_dm_test::test_diagonalize_dm_1a()
+throw(libtest::test_exception) {
 
     static const char *testname =
             "transformations_dm_test::test_diagonalize_dm_1a()";
@@ -426,7 +429,8 @@ void transformations_dm_test::test_diagonalize_dm_1a() {
 }
 
 
-void transformations_dm_test::test_diagonalize_dm_1b() {
+void transformations_dm_test::test_diagonalize_dm_1b()
+throw(libtest::test_exception) {
 
     static const char *testname =
             "transformations_dm_test::test_diagonalize_dm_1b()";
@@ -482,7 +486,7 @@ void transformations_dm_test::test_diagonalize_dm_1b() {
 }
 
 
-void transformations_dm_test::test_form_ad_1a() {
+void transformations_dm_test::test_form_ad_1a() throw(libtest::test_exception) {
 
     static const char *testname = "transformations_dm_test::test_form_ad_1a()";
 
@@ -549,7 +553,7 @@ void transformations_dm_test::test_form_ad_1a() {
 }
 
 
-void transformations_dm_test::test_form_ad_1b() {
+void transformations_dm_test::test_form_ad_1b() throw(libtest::test_exception) {
 
     static const char *testname = "transformations_dm_test::test_form_ad_1b()";
 
@@ -634,7 +638,7 @@ void transformations_dm_test::test_form_ad_1b() {
 }
 
 
-void transformations_dm_test::test_form_ad_2() {
+void transformations_dm_test::test_form_ad_2() throw(libtest::test_exception) {
 
     static const char *testname = "transformations_dm_test::test_form_ad_2()";
 
@@ -682,35 +686,54 @@ void transformations_dm_test::test_form_ad_2() {
 }
 
 
-void transformations_dm_test::test_form_ad_3() {
+template<typename TestData>
+void transformations_dm_test::test_form_ad_3() throw(libtest::test_exception) {
 
     static const char *testname = "transformations_dm_test::test_form_ad_3()";
 
-    size_t nao = test01_data::k_nao, nmo = test01_data::k_nmo;
-    test01_data data;
-
-    Mat<double> s(nao, nao);
-    ab_matrix c(nao, nmo, nao, nmo), ddm(nao, nao, nao, nao);
-    ab_matrix at_ref(nao, nao, nao, nao), de_ref(nao, nao, nao, nao);
-    ab_matrix at, de;
-
-    data.read_matrix(testname, "s", s);
-    data.read_ab_matrix(testname, "c", c);
-    data.read_ab_matrix(testname, "ddm1", ddm);
-    data.read_ab_matrix(testname, "atdm1", at_ref);
-    data.read_ab_matrix(testname, "dedm1", de_ref);
-
-    // Perform operation
     try {
 
+    size_t nao = TestData::k_nao;
+    size_t nmo = TestData::k_nmo;
+    TestData data;
+
+    Mat<double> s(nao, nao);
+    data.read_matrix(testname, "s", s);
+
+    ab_matrix c(data.aeqb());
+    c.alpha() = Mat<double>(nao, nmo);
+    if (! data.aeqb()) c.beta() = Mat<double>(nao, nmo);
+    data.read_ab_matrix(testname, "c", c);
+
+    for (size_t i = 1; i <= data.nstates(); i++) {
+
+        ab_matrix ddm(data.aeqb());
+        ab_matrix at_ref(data.aeqb()), de_ref(data.aeqb());
+        ddm.alpha() = Mat<double>(nao, nao);
+        at_ref.alpha() = Mat<double>(nao, nao);
+        de_ref.alpha() = Mat<double>(nao, nao);
+        if (! data.aeqb()) {
+            ddm.beta() = Mat<double>(nao, nao);
+            at_ref.beta() = Mat<double>(nao, nao);
+            de_ref.beta() = Mat<double>(nao, nao);
+        }
+        data.read_ab_matrix(testname, "ddm1", ddm);
+        data.read_ab_matrix(testname, "atdm1", at_ref);
+        data.read_ab_matrix(testname, "dedm1", de_ref);
+
+        ab_matrix at, de;
+
+        // Perform operation
         form_ad(s, c, ddm, at, de);
+
+        compare_ref::compare(testname, at, at_ref, 1e-14);
+        compare_ref::compare(testname, de, de_ref, 1e-14);
+    }
 
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }
 
-    compare_ref::compare(testname, at, at_ref, 1e-14);
-    compare_ref::compare(testname, de, de_ref, 1e-14);
 }
 
 

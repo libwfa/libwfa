@@ -33,7 +33,7 @@ private:
         pa_flag flag;
 
         pa(const pop_analysis_i &a, const arma::Col<double> &ch0_,
-			const pop_printer_i &p, pa_flag fl) :
+            const pop_printer_i &p, pa_flag fl) :
             analysis(a), ch0(ch0_), printer(p), flag(fl) { }
     };
     typedef std::map<std::string, pa> pa_map_t;

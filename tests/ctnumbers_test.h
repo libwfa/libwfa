@@ -6,9 +6,9 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::ctnumbers class
+/** \brief Tests the libwfa::ctnumbers class
 
-	\ingroup libwfa_tests
+    \ingroup libwfa_tests
  **/
 class ctnumbers_test : public libtest::unit_test {
 public:

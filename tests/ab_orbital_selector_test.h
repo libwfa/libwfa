@@ -6,16 +6,16 @@
 namespace libwfa {
 
 
-/**	\brief Tests the libwfa::ab_orbital_selector class
+/** \brief Tests the libwfa::ab_orbital_selector class
 
-	\ingroup libmo_tests
+    \ingroup libmo_tests
  **/
 class ab_orbital_selector_test : public libtest::unit_test {
 public:
-	virtual void perform() throw(libtest::test_exception);
+    virtual void perform() throw(libtest::test_exception);
 
 private:
-	void test_1a();
+    void test_1a();
     void test_1b();
     void test_2();
     void test_3();

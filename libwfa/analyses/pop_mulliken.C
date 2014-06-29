@@ -15,7 +15,7 @@ pop_mulliken::pop_mulliken(const Mat<double> &s, const Col<size_t> &b2p) :
 
 void pop_mulliken::perform(const Mat<double> &d_bb, Col<double> &p) const {
 
-	p = Col<double>(m_nparts, fill::zeros);
+    p = Col<double>(m_nparts, fill::zeros);
     for (size_t i = 0; i != m_b2p.size(); i++) {
         p(m_b2p(i)) -= dot(d_bb.row(i), m_s.row(i));
     }
