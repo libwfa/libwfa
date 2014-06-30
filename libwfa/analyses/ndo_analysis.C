@@ -34,11 +34,6 @@ void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
 
     opr.perform(orbital_type::ndo, u, ev, s);
 
-    // Compute u^-1 = u' * s
-    u.alpha() = u.alpha().t() * m_c.alpha() * m_c.alpha().t();
-    if (! aeqb)
-        u.beta() = u.beta().t() *  m_c.beta() * m_c.beta().t();
-
     form_ad(ev, u, at, de);
 }
 
