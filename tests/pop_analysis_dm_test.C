@@ -32,40 +32,45 @@ void pop_analysis_dm_test::test_1() throw(libtest::test_exception) {
     Col<size_t> b2p = data.bf2nuclei();
     Col<double> p0 = data.nuclear_charges();
     Mat<double> s(nao, nao);
-    ab_matrix dm(data.aeqb());
-    dm.alpha() = Mat<double>(nao, nao);
-    if (! data.aeqb()) dm.beta() = Mat<double>(nao, nao);
-
     data.read_matrix(testname, "s", s);
-    data.read_ab_matrix(testname, "dm1", dm);
 
-    pop_mulliken pop(s, b2p);
-    pop_data pd;
-    pop_analysis_dm(pop, p0, dm).perform(pd);
+    for (size_t i = 0; i <= data.nstates(); i++) {
 
-    size_t n = (data.aeqb() ? 1 : 2);
-    if (pd.size() != n) {
-        fail_test(testname, __FILE__, __LINE__, "# data sets");
-    }
-    pop_data::iterator it = pd.begin();
-    if (pd.name(it) != "Charge (e)") {
-        fail_test(testname, __FILE__, __LINE__, "Name of 1st data set");
-    }
-    double tot = accu(pd.data(it));
-    if (fabs(tot) > 1e-12) {
-        std::ostringstream oss;
-        oss << "Non-zero total charge (" << tot << ")";
-        fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
-    }
-    if (n == 2) {
-        it++;
-        if (pd.name(it) != "Spin (e)") {
-            fail_test(testname, __FILE__, __LINE__, "Name of 2nd data set");
+        ab_matrix dm(data.aeqb());
+        dm.alpha() = Mat<double>(nao, nao);
+        if (! data.aeqb()) dm.beta() = Mat<double>(nao, nao);
+
+        std::ostringstream ssdm; ssdm << "dm" << i;
+        data.read_ab_matrix(testname, ssdm.str().c_str(), dm);
+
+        pop_mulliken pop(s, b2p);
+        pop_data pd;
+        pop_analysis_dm(pop, p0, dm).perform(pd);
+
+        size_t n = (data.aeqb() ? 1 : 2);
+        if (pd.size() != n) {
+            fail_test(testname, __FILE__, __LINE__, "# data sets");
         }
-    }
-    it++;
-    if (it != pd.end()) {
-        fail_test(testname, __FILE__, __LINE__, "it");
+        pop_data::iterator it = pd.begin();
+        if (pd.name(it) != "Charge (e)") {
+            fail_test(testname, __FILE__, __LINE__, "Name of 1st data set");
+        }
+        double tot = accu(pd.data(it));
+        if (fabs(tot) > 1e-12) {
+            std::ostringstream oss;
+            oss << "Non-zero total charge (" << tot << ")";
+            fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
+        }
+        if (n == 2) {
+            it++;
+            if (pd.name(it) != "Spin (e)") {
+                fail_test(testname, __FILE__, __LINE__, "Name of 2nd data set");
+            }
+        }
+        it++;
+        if (it != pd.end()) {
+            fail_test(testname, __FILE__, __LINE__, "it");
+        }
     }
 
     } catch(std::exception &e) {

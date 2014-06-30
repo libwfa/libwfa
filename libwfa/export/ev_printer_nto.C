@@ -27,7 +27,7 @@ size_t ev_printer_nto::perform(density_type type,
 
     if (ni.is_alpha_eq_beta()) {
         out << "NTOs (" << pt << "):" << std::endl;
-        size_t n = print(ni.alpha(), out);
+        size_t n = print(ni.alpha() * 2.0, out);
         out << std::endl;
         return n;
     }

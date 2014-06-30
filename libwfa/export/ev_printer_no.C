@@ -55,8 +55,8 @@ size_t ev_printer_no::print(const Col<double> &ni, std::ostream &out) const {
     return nelec + 0.5;
 }
 
-size_t ev_printer_no::print_total(
-    const Col<double> &ni, std::ostream &out) const {
+size_t ev_printer_no::print_total(const Col<double> &ni, 
+    std::ostream &out) const {
 
     double nelec = 0.0, nu = 0.0, nu2 = 0.0, nunl = 0.0;
     for (size_t i = 0; i < ni.n_elem; i++) {
@@ -67,15 +67,17 @@ size_t ev_printer_no::print_total(
         nu2 += tmp * tmp;
         nunl += n * n * nn * nn;
     }
-    size_t ihomo = ni.n_elem - (nelec + 0.5);
+    size_t ihomo = ni.n_elem - (size_t)(nelec + 0.5) / 2;
     size_t imin = (ihomo > m_nno) ? ihomo - m_nno : 0;
     size_t imax = (ihomo + m_nno <= ni.n_elem) ? ihomo + m_nno : ni.n_elem;
-
     std::string offset(2, ' ');
     out << std::setprecision(4) << std::fixed;
     out << offset << "Occupation of frontier NOs: ";
-    for (size_t i = imin; i < imax; i++) 
-        out << std::setw(9) << ni(i);
+    for (size_t i = ihomo, j = imax - 1; i < imax; i++, j--) 
+        out << std::setw(9) << ni(j);
+    out << " | ";
+    for (size_t i = imin, j = ihomo - 1; i < ihomo; i++, j--) 
+        out << std::setw(9) << ni(j);
     out << std::endl;
 
     out << offset << "Number of electrons: ";
@@ -88,7 +90,7 @@ size_t ev_printer_no::print_total(
     out << std::setw(8) << nunl << std::endl;
 
     out << offset << "NO participation ratio (PR_NO): ";
-    out << std::setw(9) << std::setprecision(6) << nu * nu / nu2 << std::endl;
+    out << std::setw(9) << std::setprecision(6) << (nu * nu) / nu2 << std::endl;
 
     return nelec / 2. + 0.5;
 }

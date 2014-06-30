@@ -21,7 +21,7 @@ size_t ev_printer_ndo::perform(density_type type,
 
     if (ni.is_alpha_eq_beta()) {
         out << "NDOs:" << std::endl;
-        size_t n = print(ni.alpha(), out);
+        size_t n = print(ni.alpha() * 2., out);
         out << std::endl;
         return n;
     }
@@ -70,9 +70,9 @@ size_t ev_printer_ndo::print(const Col<double> &ni, std::ostream &out) const {
     out << ", p_A = " << std::setw(7) << na << std::endl;
     out << std::setprecision(6);
     out << offset << "Number of involved orbitals: PR_D = ";
-    out << std::setw(9) << nd * nd / nd2;
+    out << std::setw(9) << (nd * nd) / nd2;
     out << ", PR_A = ";
-    out << std::setw(9) << na * na / na2 << std::endl;
+    out << std::setw(9) << (na * na) / na2 << std::endl;
 
     return nndo;
 }
