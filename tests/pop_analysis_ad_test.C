@@ -70,7 +70,7 @@ void pop_analysis_ad_test::test_1() throw(libtest::test_exception) {
                 fail_test(testname, __FILE__, __LINE__, "Name of 1st data set");
             }
             double tot = accu(pd.data(it));
-            if (fabs(tot) > 1e-12) {
+            if (fabs(tot) > 1e-5) {
                 std::ostringstream oss;
                 oss << "Non-zero total (" << tot << ")";
                 fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
