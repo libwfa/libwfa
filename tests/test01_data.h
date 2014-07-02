@@ -11,6 +11,38 @@ namespace libwfa {
     The test system is He-Li at a distance of 4 Angstrom computed using an
     STO-3G basis set and ADC(2)-s as excited state method.
 
+    The following input file was used to generate the test data
+    \code
+    $rem
+    jobtype = sp
+    method = adc(2)
+    basis = sto-3g
+    ee_singlets = 4
+    cc_symmetry = false
+    adc_prop_es = true
+    adc_nguess_singles = 4
+    adc_nguess_doubles = 4
+    adc_davidson_conv = 6
+    make_cube_files true
+    $end
+
+    $molecule
+    0 2
+    He
+    Li 1  4.000
+    $end
+
+    $plots
+    Plot all four types of quantities
+    80 -6.0 6.0
+    40 -3.0 3.0
+    40 -3.0 3.0
+    0 0 2 2
+    1 2
+    1 2
+    $end
+    \endcode
+
     \ingroup libwfa_tests
  **/
 class test01_data : public test_data_base {
