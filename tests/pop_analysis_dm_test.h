@@ -1,7 +1,7 @@
 #ifndef LIBWFA_POP_ANALYSIS_DM_TEST_H
 #define LIBWFA_POP_ANALYSIS_DM_TEST_H
 
-#include <libtest/unit_test.h>
+#include "test_base.h"
 
 namespace libwfa {
 
@@ -10,7 +10,7 @@ namespace libwfa {
 
     \ingroup libwfa_tests
  **/
-class pop_analysis_dm_test : public libtest::unit_test {
+class pop_analysis_dm_test : public test_base {
 public:
     virtual void perform() throw(libtest::test_exception);
 

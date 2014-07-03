@@ -698,12 +698,12 @@ void transformations_dm_test::test_form_ad_3() throw(libtest::test_exception) {
     TestData data;
 
     Mat<double> s(nao, nao);
-    data.read_matrix(testname, "s", s);
+    read_matrix(data, testname, "s", s);
 
     ab_matrix c(data.aeqb());
     c.alpha() = Mat<double>(nao, nmo);
     if (! data.aeqb()) c.beta() = Mat<double>(nao, nmo);
-    data.read_ab_matrix(testname, "c", c);
+    read_ab_matrix(data, testname, "c", c);
 
     for (size_t i = 1; i <= data.nstates(); i++) {
 
@@ -717,9 +717,9 @@ void transformations_dm_test::test_form_ad_3() throw(libtest::test_exception) {
             at_ref.beta() = Mat<double>(nao, nao);
             de_ref.beta() = Mat<double>(nao, nao);
         }
-        data.read_ab_matrix(testname, "ddm1", ddm);
-        data.read_ab_matrix(testname, "atdm1", at_ref);
-        data.read_ab_matrix(testname, "dedm1", de_ref);
+        read_ab_matrix(data, testname, "ddm1", ddm);
+        read_ab_matrix(data, testname, "atdm1", at_ref);
+        read_ab_matrix(data, testname, "dedm1", de_ref);
 
         ab_matrix at, de;
 

@@ -84,7 +84,7 @@ void pop_mulliken_test::test_2() throw(libtest::test_exception) {
     Col<size_t> b2p = data.bf2nuclei();
 
     Mat<double> s(nao, nao);
-    data.read_matrix(testname, "s", s);
+    read_matrix(data, testname, "s", s);
 
     for (size_t i = 0; i <= data.nstates(); i++) {
 
@@ -93,7 +93,7 @@ void pop_mulliken_test::test_2() throw(libtest::test_exception) {
         if (! data.aeqb()) dm.beta() = Mat<double>(nao, nao);
 
         std::ostringstream ssdm; ssdm << "dm" << i;
-        data.read_ab_matrix(testname, ssdm.str().c_str(), dm);
+        read_ab_matrix(data, testname, ssdm.str().c_str(), dm);
 
         Col<double> pa, pa_ref(TestData::k_natoms);
         pop_mulliken(s, b2p).perform(dm.alpha(), pa);

@@ -32,7 +32,7 @@ void pop_analysis_dm_test::test_1() throw(libtest::test_exception) {
     Col<size_t> b2p = data.bf2nuclei();
     Col<double> p0 = data.nuclear_charges();
     Mat<double> s(nao, nao);
-    data.read_matrix(testname, "s", s);
+    read_matrix(data, testname, "s", s);
 
     for (size_t i = 0; i <= data.nstates(); i++) {
 
@@ -41,7 +41,7 @@ void pop_analysis_dm_test::test_1() throw(libtest::test_exception) {
         if (! data.aeqb()) dm.beta() = Mat<double>(nao, nao);
 
         std::ostringstream ssdm; ssdm << "dm" << i;
-        data.read_ab_matrix(testname, ssdm.str().c_str(), dm);
+        read_ab_matrix(data, testname, ssdm.str().c_str(), dm);
 
         pop_mulliken pop(s, b2p);
         pop_data pd;
