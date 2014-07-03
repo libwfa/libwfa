@@ -25,7 +25,7 @@ set(ARMADILLO_ROOT $ENV{ARMADILLO_ROOT} CACHE PATH
     "Path of Armadillo C++ linear algebra library (only set if non-standard)")
 set(SAVED_CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH})
 if(ARMADILLO_ROOT)
-    set(CMAKE_PREFIX_PATH "${ARMADILLO_ROOT}/usr" "${ARMADILLO_ROOT}/usr/local")
+    set(CMAKE_PREFIX_PATH "${ARMADILLO_ROOT}" "${ARMADILLO_ROOT}/usr" "${ARMADILLO_ROOT}/usr/local")
 endif(ARMADILLO_ROOT)
 
 find_package(Armadillo REQUIRED)
@@ -36,8 +36,9 @@ endif(ARMADILLO_FOUND)
 set(CMAKE_PREFIX_PATH ${SAVED_CMAKE_PREFIX_PATH})
 unset(SAVED_CMAKE_PREFIX_PATH)
 
+
 # TODO: check which min version is required
-if("${ARMA_VERSION}" VERSION_GREATER "3.6.2") 
+if("${ARMADILLO_VERSION_STRING}" VERSION_LESS "3.6.2") 
 	message(FATAL_ERROR 
 		"Armadillo library is too old. Please upgrade to >= 3.6.2")
 endif()	 
