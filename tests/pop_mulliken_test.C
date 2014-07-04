@@ -11,7 +11,7 @@ using namespace arma;
 void pop_mulliken_test::perform() throw(libtest::test_exception) {
 
     test_1();
-    test_2<test01_data>();
+    //test_2<test01_data>();
     test_2<test02_data>();
 }
 
@@ -95,23 +95,31 @@ void pop_mulliken_test::test_2() throw(libtest::test_exception) {
         std::ostringstream ssdm; ssdm << "dm" << i;
         read_ab_matrix(data, testname, ssdm.str().c_str(), dm);
 
-        Col<double> pa, pa_ref(TestData::k_natoms);
+        //Col<double> pa, pa_ref(TestData::k_natoms);
+        Col<double> pa(TestData::k_natoms);
+        Col<double> pa_ref = data.popref(i);
+
         pop_mulliken(s, b2p).perform(dm.alpha(), pa);
 
         if (pa.n_elem != pa_ref.n_elem) {
             fail_test(testname, __FILE__, __LINE__,
                     "Length of population vector");
         }
+        
+//         std::cout << "state: " << i << std::endl;
+//         for (size_t iat = 0; iat < TestData::k_natoms; iat++) {
+//             std::cout << iat << " pop: " << pa[iat] << std::endl;
+//         }
 
-//    uvec x = find(abs(p - p_ref) > 1e-14, 1);
-//    if (x.size() != 0) {
-//
-//        std::ostringstream oss;
-//        oss << "Population of atom " << x(0) << "(diff: " <<
-//                std::setprecision(6) << std::scientific <<
-//                p(x(0)) - p_ref(x(0)) << ")";
-//        fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
-//    }
+        uvec x = find(abs(pa - pa_ref) > 1e-14, 1);
+        if (x.size() != 0) {
+
+            std::ostringstream oss;
+            oss << "\n State " << i << " , population of atom " << x(0) << "(diff: " <<
+                    std::setprecision(6) << std::scientific <<
+                    pa(x(0)) - pa_ref(x(0)) << ")";
+            fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
+        }
     }
 
     } catch(std::exception &e) {

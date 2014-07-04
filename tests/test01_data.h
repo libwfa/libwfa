@@ -50,24 +50,29 @@ public:
     static const size_t k_nao; //!< Number of AOs
     static const size_t k_nmo; //!< Number of MOs
     static const size_t k_natoms; //!< Number of atoms
+    static const size_t k_nstat; //!< Number of states    
 
 private:
     arma::Col<size_t> m_atnum; //!< Atomic numbers
     arma::Col<double> m_nch; //!< Nuclear charges
     arma::Col<size_t> m_bf2nuc; //!< Map of basis functions to nuclei
 
+    arma::Mat<double> m_popref; //<! Reference for population analysis
+
 public:
     test01_data();
 
     bool aeqb() { return false; }
 
-    size_t nstates() { return 2; }
+    size_t nstates() { return k_nstat; }
 
     arma::Col<size_t> atomic_numbers() { return m_atnum; }
 
     arma::Col<double> nuclear_charges() { return m_nch; }
 
     arma::Col<size_t> bf2nuclei() { return m_bf2nuc; }
+
+    arma::Col<double> popref(size_t istate) { return m_popref.col(istate); }
 };
 
 
