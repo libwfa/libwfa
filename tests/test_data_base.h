@@ -58,19 +58,31 @@ bool test_data_base::read_matrix(const char *testname,
     const char *fname, arma::Mat<T> &m) const {
 
     std::ifstream in(make_filename(fname).c_str());
-    if (in.fail()) return false;
+    if (in.fail()) {
+        std::cout << "in.fail()" << std::endl;
+        return false;
+    }
 
     int nr = 0, nc = 0;
     in >> nr  >> nc;
 
-    if (nr != m.n_rows) return false;
-    if (nc != m.n_cols) return false;
+    if (nr != m.n_rows) {
+        std::cout << "Wrong number of rows" << std::endl;
+        return false;
+    }
+    if (nc != m.n_cols) {
+        std::cout << "Wrong number of cols" << std::endl;
+        return false;
+    }
 
     T *ptr = m.memptr();
 
     for (size_t i = 0; i < m.n_elem && in.good(); i++, ptr++) in >> *ptr;
 
-    if (in.fail()) return false;
+    if (in.fail()) {
+        std::cout << "in.fail() 2" << std::endl;
+        return false;
+    }
 
     return true;
 }

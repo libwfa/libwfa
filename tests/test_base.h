@@ -32,7 +32,7 @@ void test_base::read_matrix(const test_data_base &b,
 
     if (! b.read_matrix(testname, fname, m)) {
         std::ostringstream oss;
-        oss << "Failed to open file: " << b.make_filename(fname) << ".";
+        oss << "read_matrix for file " << b.make_filename(fname) << " failed.";
         fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
     }
 }
