@@ -37,15 +37,23 @@ void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
     \param[out] om Omega matrix
 
     The function implements the transforms of the transition density matrix
-    into the omega matrix (explain!)
+    into the Omega matrix, which is further used to compute the charge transfer
+    numbers.
+    
+    The implementation uses the new formula
     \f[
     \Omega_{\mu\nu} =
-    \left(\sum_{\eta} T_{\mu\eta} S_{\eta\nu}\right) \times
-    \left(\sum_{\eta} S_{\mu\eta} T_{\eta\nu}\right)
+    0.5 \times \left(
+    (\mathbf{D}\mathbf{S})_{\mu\nu} \times (\mathbf{S}\mathbf{D})_{\mu\nu} +
+    D_{\mu\nu} \times (\mathbf{S}\mathbf{D}\mathbf{S})_{\mu\nu}
+    \right)
     \f]
+     from [JCP(2014), DOI: 10.1063/1.4885819] rather than the original
+     formula from [JCTC(2012), 8, 2777].
 
     The output matrices are reshaped and resized as required.
 
+    \ingroup libwfa
  **/
 void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
         ab_matrix &om);

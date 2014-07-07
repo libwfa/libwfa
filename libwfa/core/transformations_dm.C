@@ -33,14 +33,19 @@ void form_om(const Mat<double> &s,
 
     Mat<double> &om_a = om.alpha();
     const Mat<double> &td_a = tdm.alpha();
-    om_a = (td_a * s) % (s* td_a);
+    //om_a = (td_a * s) % (s* td_a);
+    // FP: use the new formula from JCP(2014)
+    om_a = 0.5 * ((td_a * s) % (s* td_a) +
+                 td_a % (s * td_a * s));
 
     if (! tdm.is_alpha_eq_beta()) {
         om.set_alpha_neq_beta();
 
         Mat<double> &om_b = om.beta();
         const Mat<double> &td_b = tdm.beta();
-        om_b = (td_b * s) % (s* td_b);
+        //om_b = (td_b * s) % (s* td_b);
+        om_b = 0.5 * ((td_b * s) % (s* td_b) +
+                 td_b % (s * td_b * s));        
     }
     else {
         om.set_alpha_eq_beta();

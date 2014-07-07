@@ -23,7 +23,7 @@ public:
         \param s Overlap matrix
         \param c Orbital coefficient matrix for transform in orthogonal basis
         \param sdm State density matrix
-        \param pr Formating object
+        \param pr Formatting object
      **/
     no_analysis(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &sdm, const ev_printer_i &pr) :

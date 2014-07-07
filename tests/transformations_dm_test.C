@@ -291,12 +291,19 @@ void transformations_dm_test::test_form_om_1a() throw(libtest::test_exception) {
     for (size_t i = 0; i < nb; i++)
     for (size_t j = 0; j < nb; j++) {
 
-        double tmp1 = 0.0, tmp2 = 0.0;
+        double ds_ij = 0.0, sd_ij = 0.0;        
+        double sds_ij = 0.0;
         for (size_t k = 0; k < nb; k++) {
-            tmp1 += tdm_a(i, k) * s(k, j);
-            tmp2 += s(i, k) * tdm_a(k, j);
+            ds_ij += tdm_a(i, k) * s(k, j);
+            sd_ij += s(i, k) * tdm_a(k, j);
+
+            double ds_kj = 0.0;
+            for (size_t l = 0; l < nb; l++) {
+                ds_kj += tdm_a(k, l) * s(l, j);
+            }
+            sds_ij += s(i, k) * ds_kj;
         }
-        om_a(i, j) = tmp1 * tmp2;
+        om_a(i, j) = 0.5 * (ds_ij * sd_ij + tdm_a(i, j) * sds_ij);
     }
 
     } // End computing reference data
@@ -344,14 +351,25 @@ void transformations_dm_test::test_form_om_1b() throw(libtest::test_exception) {
     for (size_t j = 0; j < nb; j++) {
 
         double tmp1a = 0.0, tmp1b = 0.0, tmp2a = 0.0, tmp2b = 0.0;
+        double sds_ija = 0.0, sds_ijb = 0.0;
         for (size_t k = 0; k < nb; k++) {
             tmp1a += tdm_a(i, k) * s(k, j);
             tmp1b += tdm_b(i, k) * s(k, j);
             tmp2a += s(i, k) * tdm_a(k, j);
             tmp2b += s(i, k) * tdm_b(k, j);
+
+            
+            double ds_kja = 0.0, ds_kjb = 0.0;
+            for (size_t l = 0; l < nb; l++) {
+                ds_kja += tdm_a(k, l) * s(l, j);
+                ds_kjb += tdm_b(k, l) * s(l, j);
+            }
+            sds_ija += s(i, k) * ds_kja;
+            sds_ijb += s(i, k) * ds_kjb;
+
         }
-        om_a(i, j) = tmp1a * tmp2a;
-        om_b(i, j) = tmp1b * tmp2b;
+        om_a(i, j) = 0.5 * (tmp1a * tmp2a + tdm_a(i, j) * sds_ija);
+        om_b(i, j) = 0.5 * (tmp1b * tmp2b + tdm_b(i, j) * sds_ijb);
     }
 
     } // End computing reference data
@@ -370,6 +388,10 @@ void transformations_dm_test::test_form_om_1b() throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "om: alpha == beta");
     }
     if (accu(abs(om.alpha() - om_ref.alpha()) > 1e-14) != 0) {
+        std::cout << "\nom.alpha:" << std::endl;
+        om.alpha().print();
+        std::cout << "om_ref.alpha:" << std::endl;
+        om_ref.alpha().print();
         fail_test(testname, __FILE__, __LINE__,
                 "om(alpha) does not match reference.");
     }
