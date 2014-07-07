@@ -120,6 +120,7 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
                 ux = u_b.cols(ix(0), ev_b.n_rows - 1);
                 da_b = ux * diagmat(ev_b.rows(ix(0), ev_b.n_rows - 1)) * ux.t();
                 ux = u_b.cols(0, ix(0) - 1);
+//                dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1) * -1.) * ux.t();
                 dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1) * -1.) * ux.t();
             }
             else {
@@ -129,7 +130,8 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
         }
         else {
             da_b = Mat<double>(u_a.n_cols, u_a.n_cols, fill::zeros);
-            dd_b = u_b * diagmat(ev_b * -1.) * u_b.t();
+//            dd_b = u_b * diagmat(ev_b * -1.) * u_b.t();
+            dd_b = u_b * diagmat(ev_b) * u_b.t();
         }
     }
     else {
