@@ -11,7 +11,7 @@ using namespace arma;
 void pop_mulliken_test::perform() throw(libtest::test_exception) {
 
     test_1();
-    //test_2<test01_data>();
+    test_2<test01_data>();
     test_2<test02_data>();
 }
 
@@ -97,7 +97,7 @@ void pop_mulliken_test::test_2() throw(libtest::test_exception) {
 
         //Col<double> pa, pa_ref(TestData::k_natoms);
         Col<double> pa(TestData::k_natoms);
-        Col<double> pa_ref = data.popref(i);
+        Col<double> pa_ref = data.popref(i, true);
 
         pop_mulliken(s, b2p).perform(dm.alpha(), pa);
 
@@ -105,11 +105,6 @@ void pop_mulliken_test::test_2() throw(libtest::test_exception) {
             fail_test(testname, __FILE__, __LINE__,
                     "Length of population vector");
         }
-        
-//         std::cout << "state: " << i << std::endl;
-//         for (size_t iat = 0; iat < TestData::k_natoms; iat++) {
-//             std::cout << iat << " pop: " << pa[iat] << std::endl;
-//         }
 
         uvec x = find(abs(pa - pa_ref) > 1e-14, 1);
         if (x.size() != 0) {
@@ -119,6 +114,27 @@ void pop_mulliken_test::test_2() throw(libtest::test_exception) {
                     std::setprecision(6) << std::scientific <<
                     pa(x(0)) - pa_ref(x(0)) << ")";
             fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
+        }
+        
+        if (! data.aeqb()) {
+            Col<double> pb(TestData::k_natoms);
+            Col<double> pb_ref = data.popref(i, false);
+            pop_mulliken(s, b2p).perform(dm.beta(), pb);
+
+            if (pb.n_elem != pb_ref.n_elem) {
+                fail_test(testname, __FILE__, __LINE__,
+                        "Length of population vector");
+            }
+
+            uvec xb = find(abs(pb - pb_ref) > 1e-14, 1);
+            if (xb.size() != 0) {
+
+                std::ostringstream oss;
+                oss << "\n State " << i << " , population of atom " << xb(0) << "(diff: " <<
+                        std::setprecision(6) << std::scientific <<
+                        pb(xb(0)) - pb_ref(xb(0)) << ")";
+                fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
+            }            
         }
     }
 

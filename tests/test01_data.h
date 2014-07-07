@@ -57,7 +57,8 @@ private:
     arma::Col<double> m_nch; //!< Nuclear charges
     arma::Col<size_t> m_bf2nuc; //!< Map of basis functions to nuclei
 
-    arma::Mat<double> m_popref; //<! Reference for population analysis
+    arma::Mat<double> m_popref_a; //<! Reference for population analysis
+    arma::Mat<double> m_popref_b; //<! Reference for population analysis
 
 public:
     test01_data();
@@ -72,7 +73,10 @@ public:
 
     arma::Col<size_t> bf2nuclei() { return m_bf2nuc; }
 
-    arma::Col<double> popref(size_t istate) { return m_popref.col(istate); }
+    arma::Col<double> popref(size_t istate, bool alpha) {
+        if (alpha) return m_popref_a.col(istate);
+        else return m_popref_b.col(istate);        
+    }
 };
 
 
