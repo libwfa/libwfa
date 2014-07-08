@@ -565,12 +565,12 @@ void transformations_dm_test::test_form_ad_1a() throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "Attachment density.");
     }
     evp = u_a.t() * s * dd_a * s * u_a;
-    if (accu((evp % (abs(evp) > 1e-11)) < 0.0) != 0) {
+    if (accu((evp % (abs(evp) > 1e-11)) > 0.0) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Detachment density.");
     }
-    evp = u_a.t() * s * da_a * s * u_a - evp;
+    evp = u_a.t() * s * da_a * s * u_a + evp;
     if (accu(abs(evp.diag() - ev.alpha()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "ev(da) - ev(dd) != ev.");
+        fail_test(testname, __FILE__, __LINE__, "ev(da) + ev(dd) != ev.");
     }
 }
 
@@ -641,21 +641,21 @@ void transformations_dm_test::test_form_ad_1b() throw(libtest::test_exception) {
     const Mat<double> &dd_a = dd.alpha(), &dd_b = dd.beta();
 
     evp = u_a.t() * s * dd_a * s * u_a;
-    if (accu(evp % (abs(evp) > 1e-11) < 0.0) != 0) {
+    if (accu(evp % (abs(evp) > 1e-11) > 0.0) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Detachment density (alpha).");
     }
     evp = u_b.t() * s * dd_b * s * u_b;
-    if (accu(evp % (abs(evp) > 1e-11) < 0.0) != 0) {
+    if (accu(evp % (abs(evp) > 1e-11) > 0.0) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Detachment density (beta).");
     }
 
-    evp = u_a.t() * s * da_a * s * u_a - u_a.t() * s * dd_a * s * u_a;
+    evp = u_a.t() * s * da_a * s * u_a + u_a.t() * s * dd_a * s * u_a;
     if (accu(abs(evp.diag() - ev.alpha()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "ev(da) - ev(dd) != ev (alpha).");
+        fail_test(testname, __FILE__, __LINE__, "ev(da) + ev(dd) != ev (alpha).");
     }
-    evp = u_b.t() * s * da_b * s * u_b - u_b.t() * s * dd_b * s * u_b;
+    evp = u_b.t() * s * da_b * s * u_b + u_b.t() * s * dd_b * s * u_b;
     if (accu(abs(evp.diag() - ev.beta()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "ev(da) - ev(dd) != ev (beta).");
+        fail_test(testname, __FILE__, __LINE__, "ev(da) + ev(dd) != ev (beta).");
     }
 }
 
@@ -699,11 +699,11 @@ void transformations_dm_test::test_form_ad_2() throw(libtest::test_exception) {
     const Mat<double> &da_a = da.alpha(), &da_b = da.beta();
     const Mat<double> &dd_a = dd.alpha(), &dd_b = dd.beta();
 
-    if (accu(abs(da_a - dd_a - dm.alpha()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "da - dd != dm (alpha).");
+    if (accu(abs(da_a + dd_a - dm.alpha()) > 1e-11) != 0) {
+        fail_test(testname, __FILE__, __LINE__, "da + dd != dm (alpha).");
     }
-    if (accu(abs(da_b - dd_b - dm.beta()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "da - dd != dm (beta).");
+    if (accu(abs(da_b + dd_b - dm.beta()) > 1e-11) != 0) {
+        fail_test(testname, __FILE__, __LINE__, "da + dd != dm (beta).");
     }
 }
 
