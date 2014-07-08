@@ -33,14 +33,19 @@ void form_om(const Mat<double> &s,
 
     Mat<double> &om_a = om.alpha();
     const Mat<double> &td_a = tdm.alpha();
-    om_a = (td_a * s) % (s* td_a);
+    //om_a = (td_a * s) % (s* td_a);
+    // FP: use the new formula from JCP(2014)
+    om_a = 0.5 * ((td_a * s) % (s* td_a) +
+                 td_a % (s * td_a * s));
 
     if (! tdm.is_alpha_eq_beta()) {
         om.set_alpha_neq_beta();
 
         Mat<double> &om_b = om.beta();
         const Mat<double> &td_b = tdm.beta();
-        om_b = (td_b * s) % (s* td_b);
+        //om_b = (td_b * s) % (s* td_b);
+        om_b = 0.5 * ((td_b * s) % (s* td_b) +
+                 td_b % (s * td_b * s));        
     }
     else {
         om.set_alpha_eq_beta();
@@ -93,7 +98,7 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
             ux = u_a.cols(ix(0), ev_a.n_rows - 1);
             da_a = ux * diagmat(ev_a.rows(ix(0), ev_a.n_rows - 1)) * ux.t();
             ux = u_a.cols(0, ix(0) - 1);
-            dd_a = ux * diagmat(ev_a.rows(0, ix(0) - 1) * -1.) * ux.t();
+            dd_a = ux * diagmat(ev_a.rows(0, ix(0) - 1)) * ux.t();
         }
         else {
             da_a = u_a * diagmat(ev_a) * u_a.t();
@@ -102,7 +107,7 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
     }
     else {
         da_a = Mat<double>(u_a.n_cols, u_a.n_cols, fill::zeros);
-        dd_a = u_a * diagmat(ev_a * -1.) * u_a.t();
+        dd_a = u_a * diagmat(ev_a) * u_a.t();
     }
 
     if (! u.is_alpha_eq_beta()) {
@@ -120,7 +125,8 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
                 ux = u_b.cols(ix(0), ev_b.n_rows - 1);
                 da_b = ux * diagmat(ev_b.rows(ix(0), ev_b.n_rows - 1)) * ux.t();
                 ux = u_b.cols(0, ix(0) - 1);
-                dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1) * -1.) * ux.t();
+//                dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1) * -1.) * ux.t();
+                dd_b = ux * diagmat(ev_b.rows(0, ix(0) - 1)) * ux.t();
             }
             else {
                 da_b = u_b * diagmat(ev_b) * u_b.t();
@@ -129,7 +135,8 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
         }
         else {
             da_b = Mat<double>(u_a.n_cols, u_a.n_cols, fill::zeros);
-            dd_b = u_b * diagmat(ev_b * -1.) * u_b.t();
+//            dd_b = u_b * diagmat(ev_b * -1.) * u_b.t();
+            dd_b = u_b * diagmat(ev_b) * u_b.t();
         }
     }
     else {

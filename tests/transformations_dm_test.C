@@ -291,12 +291,19 @@ void transformations_dm_test::test_form_om_1a() throw(libtest::test_exception) {
     for (size_t i = 0; i < nb; i++)
     for (size_t j = 0; j < nb; j++) {
 
-        double tmp1 = 0.0, tmp2 = 0.0;
+        double ds_ij = 0.0, sd_ij = 0.0;        
+        double sds_ij = 0.0;
         for (size_t k = 0; k < nb; k++) {
-            tmp1 += tdm_a(i, k) * s(k, j);
-            tmp2 += s(i, k) * tdm_a(k, j);
+            ds_ij += tdm_a(i, k) * s(k, j);
+            sd_ij += s(i, k) * tdm_a(k, j);
+
+            double ds_kj = 0.0;
+            for (size_t l = 0; l < nb; l++) {
+                ds_kj += tdm_a(k, l) * s(l, j);
+            }
+            sds_ij += s(i, k) * ds_kj;
         }
-        om_a(i, j) = tmp1 * tmp2;
+        om_a(i, j) = 0.5 * (ds_ij * sd_ij + tdm_a(i, j) * sds_ij);
     }
 
     } // End computing reference data
@@ -344,14 +351,25 @@ void transformations_dm_test::test_form_om_1b() throw(libtest::test_exception) {
     for (size_t j = 0; j < nb; j++) {
 
         double tmp1a = 0.0, tmp1b = 0.0, tmp2a = 0.0, tmp2b = 0.0;
+        double sds_ija = 0.0, sds_ijb = 0.0;
         for (size_t k = 0; k < nb; k++) {
             tmp1a += tdm_a(i, k) * s(k, j);
             tmp1b += tdm_b(i, k) * s(k, j);
             tmp2a += s(i, k) * tdm_a(k, j);
             tmp2b += s(i, k) * tdm_b(k, j);
+
+            
+            double ds_kja = 0.0, ds_kjb = 0.0;
+            for (size_t l = 0; l < nb; l++) {
+                ds_kja += tdm_a(k, l) * s(l, j);
+                ds_kjb += tdm_b(k, l) * s(l, j);
+            }
+            sds_ija += s(i, k) * ds_kja;
+            sds_ijb += s(i, k) * ds_kjb;
+
         }
-        om_a(i, j) = tmp1a * tmp2a;
-        om_b(i, j) = tmp1b * tmp2b;
+        om_a(i, j) = 0.5 * (tmp1a * tmp2a + tdm_a(i, j) * sds_ija);
+        om_b(i, j) = 0.5 * (tmp1b * tmp2b + tdm_b(i, j) * sds_ijb);
     }
 
     } // End computing reference data
@@ -370,6 +388,10 @@ void transformations_dm_test::test_form_om_1b() throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "om: alpha == beta");
     }
     if (accu(abs(om.alpha() - om_ref.alpha()) > 1e-14) != 0) {
+        std::cout << "\nom.alpha:" << std::endl;
+        om.alpha().print();
+        std::cout << "om_ref.alpha:" << std::endl;
+        om_ref.alpha().print();
         fail_test(testname, __FILE__, __LINE__,
                 "om(alpha) does not match reference.");
     }
@@ -543,12 +565,12 @@ void transformations_dm_test::test_form_ad_1a() throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "Attachment density.");
     }
     evp = u_a.t() * s * dd_a * s * u_a;
-    if (accu((evp % (abs(evp) > 1e-11)) < 0.0) != 0) {
+    if (accu((evp % (abs(evp) > 1e-11)) > 0.0) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Detachment density.");
     }
-    evp = u_a.t() * s * da_a * s * u_a - evp;
+    evp = u_a.t() * s * da_a * s * u_a + evp;
     if (accu(abs(evp.diag() - ev.alpha()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "ev(da) - ev(dd) != ev.");
+        fail_test(testname, __FILE__, __LINE__, "ev(da) + ev(dd) != ev.");
     }
 }
 
@@ -619,21 +641,21 @@ void transformations_dm_test::test_form_ad_1b() throw(libtest::test_exception) {
     const Mat<double> &dd_a = dd.alpha(), &dd_b = dd.beta();
 
     evp = u_a.t() * s * dd_a * s * u_a;
-    if (accu(evp % (abs(evp) > 1e-11) < 0.0) != 0) {
+    if (accu(evp % (abs(evp) > 1e-11) > 0.0) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Detachment density (alpha).");
     }
     evp = u_b.t() * s * dd_b * s * u_b;
-    if (accu(evp % (abs(evp) > 1e-11) < 0.0) != 0) {
+    if (accu(evp % (abs(evp) > 1e-11) > 0.0) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Detachment density (beta).");
     }
 
-    evp = u_a.t() * s * da_a * s * u_a - u_a.t() * s * dd_a * s * u_a;
+    evp = u_a.t() * s * da_a * s * u_a + u_a.t() * s * dd_a * s * u_a;
     if (accu(abs(evp.diag() - ev.alpha()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "ev(da) - ev(dd) != ev (alpha).");
+        fail_test(testname, __FILE__, __LINE__, "ev(da) + ev(dd) != ev (alpha).");
     }
-    evp = u_b.t() * s * da_b * s * u_b - u_b.t() * s * dd_b * s * u_b;
+    evp = u_b.t() * s * da_b * s * u_b + u_b.t() * s * dd_b * s * u_b;
     if (accu(abs(evp.diag() - ev.beta()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "ev(da) - ev(dd) != ev (beta).");
+        fail_test(testname, __FILE__, __LINE__, "ev(da) + ev(dd) != ev (beta).");
     }
 }
 
@@ -677,11 +699,11 @@ void transformations_dm_test::test_form_ad_2() throw(libtest::test_exception) {
     const Mat<double> &da_a = da.alpha(), &da_b = da.beta();
     const Mat<double> &dd_a = dd.alpha(), &dd_b = dd.beta();
 
-    if (accu(abs(da_a - dd_a - dm.alpha()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "da - dd != dm (alpha).");
+    if (accu(abs(da_a + dd_a - dm.alpha()) > 1e-11) != 0) {
+        fail_test(testname, __FILE__, __LINE__, "da + dd != dm (alpha).");
     }
-    if (accu(abs(da_b - dd_b - dm.beta()) > 1e-11) != 0) {
-        fail_test(testname, __FILE__, __LINE__, "da - dd != dm (beta).");
+    if (accu(abs(da_b + dd_b - dm.beta()) > 1e-11) != 0) {
+        fail_test(testname, __FILE__, __LINE__, "da + dd != dm (beta).");
     }
 }
 
@@ -698,12 +720,12 @@ void transformations_dm_test::test_form_ad_3() throw(libtest::test_exception) {
     TestData data;
 
     Mat<double> s(nao, nao);
-    data.read_matrix(testname, "s", s);
+    read_matrix(data, testname, "s", s);
 
     ab_matrix c(data.aeqb());
     c.alpha() = Mat<double>(nao, nmo);
     if (! data.aeqb()) c.beta() = Mat<double>(nao, nmo);
-    data.read_ab_matrix(testname, "c", c);
+    read_ab_matrix(data, testname, "c", c);
 
     for (size_t i = 1; i <= data.nstates(); i++) {
 
@@ -717,9 +739,9 @@ void transformations_dm_test::test_form_ad_3() throw(libtest::test_exception) {
             at_ref.beta() = Mat<double>(nao, nao);
             de_ref.beta() = Mat<double>(nao, nao);
         }
-        data.read_ab_matrix(testname, "ddm1", ddm);
-        data.read_ab_matrix(testname, "atdm1", at_ref);
-        data.read_ab_matrix(testname, "dedm1", de_ref);
+        read_ab_matrix(data, testname, "ddm1", ddm);
+        read_ab_matrix(data, testname, "atdm1", at_ref);
+        read_ab_matrix(data, testname, "dedm1", de_ref);
 
         ab_matrix at, de;
 

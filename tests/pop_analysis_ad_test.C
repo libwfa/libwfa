@@ -32,7 +32,7 @@ void pop_analysis_ad_test::test_1() throw(libtest::test_exception) {
     TestData data;
     Col<size_t> b2p = data.bf2nuclei();
     Mat<double> s(nao, nao);
-    data.read_matrix(testname, "s", s);
+    read_matrix(data, testname, "s", s);
 
     for (size_t i = 0; i < data.nstates(); i++) {
 
@@ -46,8 +46,8 @@ void pop_analysis_ad_test::test_1() throw(libtest::test_exception) {
 
         std::ostringstream ssat; ssat << "atdm" << i + 1;
         std::ostringstream ssde; ssde << "dedm" << i + 1;
-        data.read_ab_matrix(testname, ssat.str().c_str(), at);
-        data.read_ab_matrix(testname, ssde.str().c_str(), de);
+        read_ab_matrix(data, testname, ssat.str().c_str(), at);
+        read_ab_matrix(data, testname, ssde.str().c_str(), de);
 
         pop_mulliken pop(s, b2p);
         pop_data pd;

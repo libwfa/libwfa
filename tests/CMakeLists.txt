@@ -21,6 +21,7 @@ set(SRC_HEADER
     pop_mulliken_test.h
     pop_printer_default_test.h
     selector_test.h
+    test_base.h
     test_data_base.h
     test01_data.h
     test02_data.h
@@ -56,6 +57,7 @@ set(SRC
     pop_mulliken_test.C
     pop_printer_default_test.C
     selector_test.C
+    test_base.C
     test_data_base.C
     test01_data.C
     test02_data.C
