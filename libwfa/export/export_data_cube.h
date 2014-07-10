@@ -56,11 +56,11 @@ public:
      **/
     virtual ~export_data_cube() { }
 
-    /** \copydoc export_data_i::perform
+    /** \copydoc export_data_i::perform(density_type, const ab_matrix&)
      **/
     virtual void perform(density_type type, const ab_matrix &dm);
 
-    /** \copydoc export_data_i::perform
+    /** \copydoc export_data_i::perform(orbital_type, const ab_matrix&, const ab_vector&, const ab_orbital_selector&)
      **/
     virtual void perform(orbital_type type, const ab_matrix &coeff,
         const ab_vector &ev, const ab_orbital_selector &s);

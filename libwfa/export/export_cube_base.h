@@ -88,7 +88,7 @@ public:
     virtual void perform(const std::string &name, const std::string &desc,
         const arma::Mat<double> &mat);
 
-    /** \copydoc export_cube_i::perform
+    /** \copydoc export_cube_i::perform(const std::string&, const std::string&, const std::vector<size_t>&, const arma::Mat<double>&)
      **/
     virtual void perform(const std::string &name, const std::string &desc,
         const std::vector<size_t> &idx, const arma::Mat<double> &vecs);
