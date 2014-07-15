@@ -4,6 +4,10 @@
 #include "ab_matrix.h"
 #include "ab_vector.h"
 
+/** \defgroup libwfa_trans Transformations
+    \ingroup libwfa
+ **/
+
 namespace libwfa {
 
 
@@ -26,7 +30,7 @@ namespace libwfa {
 
     The output matrices are reshaped and resized as required.
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
  **/
 void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
         ab_matrix &de, ab_matrix &dh);
@@ -53,7 +57,7 @@ void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
 
     The output matrices are reshaped and resized as required.
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
  **/
 void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
         ab_matrix &om);
@@ -87,7 +91,7 @@ void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
     \f]
     and at the same time forms the coefficient matrix for the new orbitals
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
  **/
 void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &dm, ab_vector &ev, ab_matrix &u);
@@ -111,7 +115,7 @@ void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
     The transformation matrix u is expected to be an eigenvector matrix as
     returned by the function diagonalize_dm.
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
  **/
 void form_ad(const ab_vector &ev, const ab_matrix &u,
         ab_matrix &da, ab_matrix &dd);
@@ -130,7 +134,7 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
     attachment and detachment densities, respectively. These are then used to
     back-transform into density matrices.
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
 **/
 void form_ad(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &dm, ab_matrix &da, ab_matrix &dd);
