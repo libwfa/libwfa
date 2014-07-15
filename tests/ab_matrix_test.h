@@ -8,7 +8,7 @@ namespace libwfa {
 
 /** \brief Tests the libwfa::ab_matrix class
 
-    \ingroup libmo_tests
+    \ingroup libwfa_tests
  **/
 class ab_matrix_test : public libtest::unit_test {
 public:

@@ -8,7 +8,7 @@ namespace libwfa {
 
 /** \brief Tests the libwfa::ab_vector class
 
-    \ingroup libmo_tests
+    \ingroup libwfa_tests
  **/
 class ab_vector_test : public libtest::unit_test {
 public:

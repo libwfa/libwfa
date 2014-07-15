@@ -8,7 +8,7 @@ namespace libwfa {
 
 /** \brief Tests the libwfa::grid3d class
 
-    \ingroup libmo_tests
+    \ingroup libwfa_tests
  **/
 class grid3d_test : public libtest::unit_test {
 public:
