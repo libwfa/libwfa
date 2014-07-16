@@ -63,7 +63,7 @@ void ctnumbers_test::test_1() throw(libtest::test_exception) {
             for (size_t i = 0; i < na * na; i++) {
                 if (fabs(om_at.alpha()[i] - om_at_ref.alpha()[i]) > 1e-14) {
                     std::ostringstream oss;
-                    oss << "CT number of atom " << i / na << " and atom " << i % na <<
+                    oss << "\nCT number (alpha) of atom " << i / na << " and atom " << i % na <<
                         "(diff: " << std::setprecision(6) << std::scientific <<
                         om_at.alpha()[i] - om_at_ref.alpha()[i] << ")";
                 fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
@@ -78,7 +78,7 @@ void ctnumbers_test::test_1() throw(libtest::test_exception) {
                 for (size_t i = 0; i < na * na; i++) {
                     if (fabs(om_at.beta()[i] - om_at_ref.beta()[i]) > 1e-14) {
                         std::ostringstream oss;
-                        oss << "CT number of atom " << i / na << " and atom " << i % na <<
+                        oss << "\nCT number (beta) of atom " << i / na << " and atom " << i % na <<
                             "(diff: " << std::setprecision(6) << std::scientific <<
                             om_at.beta()[i] - om_at_ref.beta()[i] << ")";
                     fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
