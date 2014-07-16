@@ -7,80 +7,38 @@ using namespace arma;
 void form_eh(const Mat<double> &s, const ab_matrix &tdm,
     ab_matrix &de, ab_matrix &dh) {
 
-    Mat<double> &de_a = de.alpha(), &dh_a = dh.alpha();
-    const Mat<double> &td_a = tdm.alpha();
-    de_a = td_a * s * td_a.t();
-    dh_a = td_a.t() * s * td_a;
-
-    if (! tdm.is_alpha_eq_beta()) {
-        de.set_alpha_neq_beta();
-        dh.set_alpha_neq_beta();
-
-        Mat<double> &de_b = de.beta(), &dh_b = dh.beta();
-        const Mat<double> &td_b = tdm.beta();
-        de_b = td_b * s * td_b.t();
-        dh_b = td_b.t() * s * td_b;
-    }
-    else {
-        de.set_alpha_eq_beta();
-        dh.set_alpha_eq_beta();
-    }
+    ab_matrix abs(true); abs.alpha() = s;
+    
+    de = tdm * abs * tdm.t();
+    dh = tdm.t() * abs * tdm;
 }
 
 
 void form_om(const Mat<double> &s,
     const ab_matrix &tdm, ab_matrix &om) {
-
-    Mat<double> &om_a = om.alpha();
-    const Mat<double> &td_a = tdm.alpha();
-    //om_a = (td_a * s) % (s* td_a);
+    
+    ab_matrix abs(true); abs.alpha() = s;
+    
     // FP: use the new formula from JCP(2014)
-    om_a = 0.5 * ((td_a * s) % (s* td_a) +
-                 td_a % (s * td_a * s));
-
-    if (! tdm.is_alpha_eq_beta()) {
-        om.set_alpha_neq_beta();
-
-        Mat<double> &om_b = om.beta();
-        const Mat<double> &td_b = tdm.beta();
-        //om_b = (td_b * s) % (s* td_b);
-        om_b = 0.5 * ((td_b * s) % (s* td_b) +
-                 td_b % (s * td_b * s));        
-    }
-    else {
-        om.set_alpha_eq_beta();
-    }
+    om = ((tdm * abs) % (abs * tdm)) + (tdm % (abs * tdm * abs));
+    om *= 0.5;
 }
 
 
 void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
     const ab_matrix &dm, ab_vector &ev, ab_matrix &u) {
 
-    const Mat<double> &c_a = c.alpha(), &dm_a = dm.alpha();
-    Col<double> &ev_a = ev.alpha();
-    Mat<double> &u_a = u.alpha();
-    Mat<double> evec;
-
-    u_a = s * c_a;
-    eig_sym(ev_a, evec, u_a.t() * dm_a * u_a);
-    u_a = c_a * evec;
-
-    if (! dm.is_alpha_eq_beta()) {
-        ev.set_alpha_neq_beta();
-        u.set_alpha_neq_beta();
-
-        const Mat<double> &c_b = c.beta(), &dm_b = dm.beta();
-        Col<double> &ev_b = ev.beta();
-        Mat<double> &u_b = u.beta();
-
-        u_b = s * c_b;
-        eig_sym(ev_b, evec, u_b.t() * dm_b * u_b);
-        u_b = c_b * evec;
-    }
-    else {
+    ab_matrix abs(true); abs.alpha() = s;
+    ab_matrix evec(dm.is_alpha_eq_beta());
+    
+    u = abs * c;
+    u = u.t() * dm * u;
+    eig_sym(ev.alpha(), evec.alpha(), u.alpha());
+    if (dm.is_alpha_eq_beta())
         ev.set_alpha_eq_beta();
-        u.set_alpha_eq_beta();
-    }
+    else
+        eig_sym(ev.beta(), evec.beta(), u.beta());
+    u = c * evec;        
 }
 
 
@@ -155,6 +113,13 @@ void form_ad(const Mat<double> &s, const ab_matrix &c,
     diagonalize_dm(s, c, dm, ev, u);
     form_ad(ev, u, da, dd);
 }
+
+void gen_transform(const ab_matrix &u, const ab_matrix &v,
+        const ab_matrix &dm, ab_matrix &x) {
+
+    x = u * dm * v.t();
+}
+
 
 } // namespace libwfa
 

@@ -43,6 +43,14 @@ public:
         m_data_a = new T(other.alpha());
         m_data_b = (m_aeqb ? m_data_a : new T(other.beta()));
     }
+    
+    /** \brief Constructor from object data, assuming alpha==beta
+     * \param object object data
+     */
+/*    ab_object(const T &object) : m_aeqb(true) {
+        m_data_a = new T(object);
+        m_data_b = m_data_a;
+    }*/
      
     /** \brief Destructor
      **/
@@ -57,7 +65,15 @@ public:
         \param other Object to get data from
      **/
     ab_object &operator=(const ab_object &other) {
-            
+        set(other);
+        
+        return *this;
+    }
+    
+    /** \brief Assignment of ab_object
+        \param other Object to get data from
+     **/
+    void set(const ab_object &other) {
         if (m_aeqb && ! other.is_alpha_eq_beta()) {
             m_data_b = new T(other.beta());
         }
@@ -70,8 +86,6 @@ public:
         }
         m_aeqb = other.is_alpha_eq_beta();
         *m_data_a = other.alpha();
-
-        return this;
     }
     
     /** \brief Set alpha == beta

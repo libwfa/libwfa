@@ -21,7 +21,7 @@ public:
         \param aeqb If true, alpha == beta matrix
      **/
     ab_matrix(bool aeqb = false) : ab_object< arma::Mat<double> >(aeqb) { }
-
+    
     /** \brief Constructor for matrix with alpha == beta
         \param nrows Number of rows
         \param ncols Number of columns
@@ -82,6 +82,66 @@ public:
         if (! is_alpha_eq_beta()) beta() -= other.beta();
         return *this;
     }
+    
+    /** \brief Scalar multiplication of the current matrix
+     **/
+    ab_matrix &operator*=(const double &scalar) {
+        alpha() *= scalar;
+        if (! is_alpha_eq_beta()) beta() *= scalar;
+        return *this;
+    }
+    
+    /** \brief Transpose the ab_matrix
+     */
+    ab_matrix t() const {
+        ab_matrix outmat(this->is_alpha_eq_beta());
+        
+        outmat.alpha() = this->alpha().t();
+        if (not this->is_alpha_eq_beta()) 
+            outmat.beta() = this->beta().t();
+        
+        return outmat;
+    }
+    
+    /** \brief Addition of two ab_matrix instances
+     */
+    ab_matrix operator+(const ab_matrix &other) const {
+        bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());        
+        ab_matrix outmat(aeqb);
+        
+        outmat.alpha() = this->alpha() + other.alpha();        
+        if (not aeqb)
+            outmat.beta() = this->beta() + other.beta();
+        
+        return outmat;
+    }    
+    
+    /** \brief Matrix multiplication of two ab_matrix instances
+     */
+    ab_matrix operator*(const ab_matrix &other) const {
+        bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());        
+        ab_matrix outmat(aeqb);
+        
+        outmat.alpha() = this->alpha() * other.alpha();        
+        if (not aeqb)
+            outmat.beta() = this->beta() * other.beta();
+        
+        return outmat;
+    }
+
+    /** \brief Element-wise multiplication of two ab_matrix instances
+     */
+    ab_matrix operator%(const ab_matrix &other) const {
+        bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());        
+        ab_matrix outmat(aeqb);
+        
+        outmat.alpha() = this->alpha() % other.alpha();        
+        if (not aeqb)
+            outmat.beta() = this->beta() % other.beta();
+        
+        return outmat;
+    }    
+    
 };
 
 } // namespace libwfa
