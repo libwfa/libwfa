@@ -15,6 +15,7 @@
 #include "ndo_analysis_test.h"
 #include "no_analysis_test.h"
 #include "nto_analysis_test.h"
+#include "santo_analysis_test.h"
 #include "orbital_selector_test.h"
 #include "orbital_type_test.h"
 #include "pop_analysis_ad_test.h"
@@ -50,6 +51,7 @@ namespace libwfa {
     - \c ndo_analysis_test
     - \c no_analysis_test
     - \c nto_analysis_test
+    - \c santo_analysis_test
     - \c orbital_selector_test
     - \c orbital_type_test
     - \c pop_analysis_ad_test
@@ -77,6 +79,7 @@ private:
     unit_test_factory<ndo_analysis_test> m_utf_ndo_analysis;
     unit_test_factory<no_analysis_test> m_utf_no_analysis;
     unit_test_factory<nto_analysis_test> m_utf_nto_analysis;
+    unit_test_factory<santo_analysis_test> m_utf_santo_analysis;
     unit_test_factory<orbital_selector_test> m_utf_orbital_selector;
     unit_test_factory<orbital_type_test> m_utf_orbital_type;
     unit_test_factory<pop_analysis_ad_test> m_utf_pop_analysis_ad;

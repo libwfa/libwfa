@@ -1,6 +1,8 @@
 #ifndef LIBWFA_NTO_ANALYSIS_TEST_H
 #define LIBWFA_NTO_ANALYSIS_TEST_H
 
+#include "test_base.h"
+#include <libwfa/analyses/nto_analysis.h>
 #include <libtest/unit_test.h>
 
 namespace libwfa {
@@ -10,9 +12,13 @@ namespace libwfa {
 
     \ingroup libwfa_tests
  **/
-class nto_analysis_test : public libtest::unit_test {
+class nto_analysis_test : public test_base {
 public:
     virtual void perform() throw(libtest::test_exception);
+
+private:
+    template<typename TestData>
+    void test_1() throw(libtest::test_exception);
 };
 
 

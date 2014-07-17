@@ -4,8 +4,6 @@
 #include "ctnumbers_test.h"
 #include "test01_data.h"
 #include "test02_data.h"
-//fptmp
-#include <libwfa/export/ctnum_export.h>
 
 namespace libwfa {
 
