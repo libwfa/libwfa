@@ -76,6 +76,7 @@ void nto_analysis_test::test_1() throw(libtest::test_exception) {
                 const Mat<double> &v_x = nab.get_eigvect(true).alpha();
                 const Col<double> &ev_x = lamh.alpha();
                 Mat<double> ev_chk_x = u_x.t() * s * tdm_x * s * v_x;
+                
                 if (accu(abs(u_x.t() * s * u_x - eye(nmo, nmo)) > 1e-12) != 0)
                     fail_test(testname, __FILE__, __LINE__, "U not unitary.");
                 if (accu(abs(v_x.t() * s * v_x - eye(nmo, nmo)) > 1e-12) != 0)
@@ -90,6 +91,7 @@ void nto_analysis_test::test_1() throw(libtest::test_exception) {
                 const Mat<double> &v_x = nab.get_eigvect(true).beta();
                 const Col<double> &ev_x = lamh.beta();
                 Mat<double> ev_chk_x = u_x.t() * s * tdm_x * s * v_x;
+                
                 if (accu(abs(u_x.t() * s * u_x - eye(nmo, nmo)) > 1e-12) != 0)
                     fail_test(testname, __FILE__, __LINE__, "U not unitary.");
                 if (accu(abs(v_x.t() * s * v_x - eye(nmo, nmo)) > 1e-12) != 0)
