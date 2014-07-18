@@ -3,7 +3,6 @@
 
 #include "test_base.h"
 #include <libwfa/analyses/nto_analysis.h>
-#include <libtest/unit_test.h>
 
 namespace libwfa {
 

@@ -97,49 +97,7 @@ void nto_analysis_test::test_1() throw(libtest::test_exception) {
                 if (accu(abs(ev_chk_x % ev_chk_x - diagmat(ev_x)) > 1e-12) != 0)
                     fail_test(testname, __FILE__, __LINE__, "Bad transform.");
             }
-
             
-            /*ab_matrix &u = nab.get_eigvect(false);
-            ab_matrix &v = nab.get_eigvect(true);
-            ab_matrix ab_s(true); ab_s.alpha() = s;
-
-            ab_matrix ev_check = u.t() * ab_s * tdm * ab_s * v;
-            if (accu(abs(ev_check.alpha() - lamh.alpha()) > 1e-12) != 0) {
-                std::cout << "\nstate: " << istate << " lamh" << std::endl;
-                lamh.alpha().print();
-                std::cout << "check" << std::endl;
-                ev_check.alpha().print();
-                fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-            }*/
-            
-            // Reconstruct the tdm. This does not seem to be working correctly!
-            /*
-            ab_matrix tdm_check = (u * lamh * v.t()).t();
-            if (accu(abs(tdm_check.alpha() - tdm.alpha()) > 1e-4) != 0) {
-                std::cout << "\nstate: " << istate << " tdm" << std::endl;
-                tdm.alpha().print();
-                std::cout << "tdm_check:" << std::endl;
-                tdm_check.alpha().print();
-                std::cout << "u:" << std::endl;
-                u.alpha().print();
-                std::cout << "lamh" << std::endl;
-                lamh.alpha().print();
-                std::cout << "v:" << std::endl;
-                v.alpha().print();
-                
-                fail_test(testname, __FILE__, __LINE__,
-                          "Back-transformation (alpha).");
-            }
-            if (accu(abs(tdm_check.beta() - tdm.beta()) > 1e-2) != 0) {
-                std::cout << "\nstate: " << istate << " tdm" << std::endl;
-                tdm.beta().print();
-                std::cout << "tdm_check:" << std::endl;
-                tdm_check.beta().print();
-                fail_test(testname, __FILE__, __LINE__,
-                          "Back-transformation (beta).");
-            }
-            */
-
         }
 
     } catch(std::exception &e) {
