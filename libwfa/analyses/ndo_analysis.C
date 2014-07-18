@@ -7,10 +7,9 @@ using namespace arma;
 
 
 void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
+    ab_matrix &u, ab_vector &ev,
     export_data_i &opr, std::ostream &out) const {
 
-    ab_matrix u;
-    ab_vector ev;
     diagonalize_dm(m_s, m_c, m_ddm, ev, u);
 
     size_t nndo = m_pr.perform(density_type::difference, ev, out);
@@ -37,14 +36,23 @@ void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
     form_ad(ev, u, at, de);
 }
 
+void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
+    export_data_i &opr, std::ostream &out) const {
+        
+    ab_matrix u;
+    ab_vector ev;
+    perform(at, de, u, ev, opr, out);        
+}
 
-void ndo_analysis::perform(export_data_i &pr, std::ostream &out) const {
+void ndo_analysis::perform(export_data_i &opr, std::ostream &out) const {
 
     ab_matrix at, de;
-    perform(at, de, pr, out);
+    ab_matrix u;
+    ab_vector ev;
+    perform(at, de, u, ev, opr, out);
 
-    pr.perform(density_type::attach, at);
-    pr.perform(density_type::detach, de);
+    opr.perform(density_type::attach, at);
+    opr.perform(density_type::detach, de);
 }
 
 
