@@ -116,6 +116,19 @@ public:
         return outmat;
     }    
     
+    /** \brief Subtraction of two ab_matrix instances
+     */
+    ab_matrix operator-(const ab_matrix &other) const {
+        bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());
+        ab_matrix outmat(aeqb);
+
+        outmat.alpha() = this->alpha() - other.alpha();
+        if (not aeqb)
+            outmat.beta() = this->beta() - other.beta();
+
+        return outmat;
+    }
+
     /** \brief Matrix multiplication of two ab_matrix instances
      */
     ab_matrix operator*(const ab_matrix &other) const {
