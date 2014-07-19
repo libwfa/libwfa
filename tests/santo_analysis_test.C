@@ -18,7 +18,7 @@ using namespace arma;
 void santo_analysis_test::perform() throw(libtest::test_exception) {
 
     test_1<test01_data>();
-    //test_1<test02_data>();
+    test_1<test02_data>();
     //fail_test("santo_analysis_test::perform()", __FILE__, __LINE__, "NIY");
 }
 
@@ -102,6 +102,20 @@ void santo_analysis_test::test_1() throw(libtest::test_exception) {
                 
                 check(tdm, sana_i.get_trans(false), sana_i.get_trans(true),
                       x, s, testname);
+                
+                for (int irow = 0; irow < x.nrows_a(); irow++) {
+                    for (int jcol = 0; jcol < x.ncols_a(); jcol++) {
+                        if (jcol != irow) {
+                            double x_a_ij = x.alpha()(irow, jcol);
+                            double x_b_ij = x.beta()(irow, jcol);
+                            if (x_a_ij * x_a_ij + x_b_ij * x_b_ij > 1e-20) {
+                                std::cout << "not diagonal: " << irow << " " <<
+                                    jcol << std::endl;
+                                fail_test(testname, __FILE__, __LINE__, "Not diagonal.");
+                            }
+                        }
+                    }
+                }
             }
             
             { // SA-NTO decomposition for the state-averaged matrices
@@ -125,13 +139,6 @@ void santo_analysis_test::test_1() throw(libtest::test_exception) {
                 check(tdm, ui, vit, x, s, testname);
                 
                 if ( (! ui.is_alpha_eq_beta()) || (! vit.is_alpha_eq_beta()) ) {
-                    /*ui.alpha().print();
-                    std::cout << std::endl;
-                    ui.beta().print();
-                    std::cout << std::endl;
-                    vit.alpha().print();
-                    std::cout << std::endl;
-                    vit.beta().print();*/
                     fail_test(testname, __FILE__, __LINE__, "alpha != beta");
                 }
             }
