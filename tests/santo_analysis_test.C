@@ -66,16 +66,17 @@ void santo_analysis_test::test_1() throw(libtest::test_exception) {
             edms += edm;
         }
 
+        std::ostringstream outdel2;
         ev_printer_nto evpr;
         export_data_none exdat;
-        santo_analysis sana(s, c, edms, hdms, evpr, exdat, std::cout);      
+        santo_analysis sana(s, c, edms, hdms, evpr, exdat, outdel2);      
         
         // spin averaged analysis
         ab_matrix edmss(true), hdmss(true);
         edmss.alpha() = 0.5 * (edms.alpha() + edms.beta());
         hdmss.alpha() = 0.5 * (hdms.alpha() + hdms.beta());
-        santo_analysis ssana(s, c, edmss, hdmss, evpr, exdat, std::cout);
-        
+        santo_analysis ssana(s, c, edmss, hdmss, evpr, exdat, outdel2);
+       
         // main loop
         for (size_t istate = 1; istate <= data.nstates(); istate++) {
 //        for (size_t istate = 1; istate <= 1; istate++) {
@@ -89,38 +90,50 @@ void santo_analysis_test::test_1() throw(libtest::test_exception) {
             std::ostringstream outdel;
             
             { // SA-NTO decomposition for one state separately
-                std::cout << "\nsummary for state " << istate << std::endl;
+                //std::cout << "\nsummary for state " << istate << std::endl;
                 ab_matrix hdm, edm;
                 form_eh(s, tdm, edm, hdm);
-                santo_analysis sana_i(s, c, edm, hdm, evpr, exdat, std::cout);        
+                santo_analysis sana_i(s, c, edm, hdm, evpr, exdat, outdel);        
                 
-                std::cout << "\nindividual for state " << istate << std::endl;
+                //std::cout << "\nindividual for state " << istate << std::endl;
                 ab_matrix x;
                 sana_i.decompose(tdm, x);
-                sana_i.print(x, std::cout);
+                sana_i.print(x, outdel);
                 
                 check(tdm, sana_i.get_trans(false), sana_i.get_trans(true),
                       x, s, testname);
             }
             
             { // SA-NTO decomposition for the state-averaged matrices
-                std::cout << "\nstate-ave. for state " << istate << std::endl;
+                //std::cout << "\nstate-ave. for state " << istate << std::endl;
                 ab_matrix x;
                 sana.decompose(tdm, x);
-                sana.print(x, std::cout);
+                sana.print(x, outdel);
                 
                 check(tdm, sana.get_trans(false), sana.get_trans(true),
                       x, s, testname);
             }
             
             { // SA-NTO decomposition for spin- and state-averaged matrices
-                std::cout << "\nspin- and state-ave. for state " << istate << std::endl;
+                //std::cout << "\nspin- and state-ave. for state " << istate << std::endl;
                 ab_matrix x;
-                sana.decompose(tdm, x);
-                sana.print(x, std::cout);
+                ssana.decompose(tdm, x);
+                ssana.print(x, outdel);
                 
-                check(tdm, ssana.get_trans(false), ssana.get_trans(true),
-                      x, s, testname);
+                ab_matrix &ui = ssana.get_trans(false);
+                ab_matrix &vit = ssana.get_trans(true);
+                check(tdm, ui, vit, x, s, testname);
+                
+                if ( (! ui.is_alpha_eq_beta()) || (! vit.is_alpha_eq_beta()) ) {
+                    /*ui.alpha().print();
+                    std::cout << std::endl;
+                    ui.beta().print();
+                    std::cout << std::endl;
+                    vit.alpha().print();
+                    std::cout << std::endl;
+                    vit.beta().print();*/
+                    fail_test(testname, __FILE__, __LINE__, "alpha != beta");
+                }
             }
         }
 

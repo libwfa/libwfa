@@ -29,8 +29,8 @@ public:
      **/
     nto_analysis_basic(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &edm, const ab_matrix &hdm) :
-        m_ee(c.is_alpha_eq_beta()), m_eh(c.is_alpha_eq_beta()),
-        m_ue(c.is_alpha_eq_beta()), m_uh(c.is_alpha_eq_beta()) {
+        m_ee(edm.is_alpha_eq_beta()), m_eh(hdm.is_alpha_eq_beta()),
+        m_ue(edm.is_alpha_eq_beta()), m_uh(hdm.is_alpha_eq_beta()) {
 
         diagonalize_dm(s, c, edm, m_ee, m_ue);
         diagonalize_dm(s, c, hdm, m_eh, m_uh);

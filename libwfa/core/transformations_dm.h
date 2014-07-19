@@ -90,6 +90,9 @@ void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
     D = U \Lambda U'
     \f]
     and at the same time forms the coefficient matrix for the new orbitals
+    
+    This routine assures that if for dm alpha is equal to beta, then the same
+    will be true for ev and u, irrespective of the structure of c.
 
     \ingroup libwfa_trans
  **/

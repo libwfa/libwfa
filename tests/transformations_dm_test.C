@@ -679,7 +679,8 @@ void transformations_dm_test::test_form_ad_2() throw(libtest::test_exception) {
     dm.alpha() = randu< Mat<double> >(nmo, nmo);
     dm.beta() = randu< Mat<double> >(nmo, nmo);
     dm.alpha() = c.alpha() * 0.5 * (dm.alpha() + dm.alpha().t()) * c.alpha().t();
-    dm.beta() = c.beta() * 0.5 * (dm.beta() + dm.beta().t()) *c.beta().t();
+    //dm.beta() = c.beta() * 0.5 * (dm.beta() + dm.beta().t()) *c.beta().t();
+    dm.beta() = c.alpha() * 0.5 * (dm.beta() + dm.beta().t()) *c.alpha().t();
 
     ab_matrix da, dd;
 

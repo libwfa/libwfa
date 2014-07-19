@@ -28,17 +28,30 @@ void form_om(const Mat<double> &s,
 void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
     const ab_matrix &dm, ab_vector &ev, ab_matrix &u) {
 
-    ab_matrix abs(true); abs.alpha() = s;
-    ab_matrix evec(dm.is_alpha_eq_beta());
+    /*  c_a is used here only for orthogonalization.
+     *   Therefore it is used for both the alpha and beta density matrices.
+     */
     
-    u = abs * c;
-    u = u.t() * dm * u;
-    eig_sym(ev.alpha(), evec.alpha(), u.alpha());
-    if (dm.is_alpha_eq_beta())
+    mat c_a = c.alpha();
+    mat cinv_a = s * c.alpha();
+   
+    {
+        mat evec;   
+        u.alpha() = cinv_a.t() * dm.alpha() * cinv_a;
+        eig_sym(ev.alpha(), evec, u.alpha());
+        u.alpha() = c_a * evec;
+    }
+    
+    if (dm.is_alpha_eq_beta()) {
         ev.set_alpha_eq_beta();
-    else
-        eig_sym(ev.beta(), evec.beta(), u.beta());
-    u = c * evec;        
+        u.set_alpha_eq_beta();
+    }
+    else {
+        mat evec;
+        u.beta() = cinv_a.t() * dm.beta() * cinv_a;
+        eig_sym(ev.beta(), evec, u.beta());
+        u.beta() = c_a * evec;
+    }
 }
 
 

@@ -87,6 +87,11 @@ void no_analysis_test::test_1() throw(libtest::test_exception) {
                     fail_test(testname, __FILE__, __LINE__, "Bad transform.");
                 if (accu(abs(dm_x - u_x * diagmat(ev_x) * u_x.t()) > 1e-12) != 0)
                     fail_test(testname, __FILE__, __LINE__, "Bad transform.");
+                
+                if (! noa.get_eigval(true).is_alpha_eq_beta())
+                    fail_test(testname, __FILE__, __LINE__, "alpha != beta");                    
+                if (! noa.get_eigvect(true).is_alpha_eq_beta())
+                    fail_test(testname, __FILE__, __LINE__, "alpha != beta");                    
             }
 
 

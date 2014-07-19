@@ -30,14 +30,14 @@ private:
     void check(const mat &tdm_x, const mat &ui_x, const mat &vit_x,
                const mat &x_x, const mat &s, const char* testname) {
         
-        //Mat<double> tdm_chk = u_x.t() * tdm_x * v_x;
+        Mat<double> x_chk_x = ui_x * tdm_x.t() * vit_x;
         
         if (accu(abs(ui_x.t() * ui_x - s) > 1e-12) != 0)
             fail_test(testname, __FILE__, __LINE__, "U not unitary.");
         if (accu(abs(vit_x * vit_x.t() - s) > 1e-12) != 0)
             fail_test(testname, __FILE__, __LINE__, "V not unitary.");
-        //if (accu(abs(ev_chk_x % ev_chk_x - x_x) > 1e-12) != 0)
-          //  fail_test(testname, __FILE__, __LINE__, "Bad transform.");
+        if (accu(abs(x_chk_x - x_x) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "Bad transform.");
         
     }
 };
