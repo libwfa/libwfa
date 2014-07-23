@@ -7,6 +7,7 @@ set(ANALYSES_HEADERS
     analyses/exciton_moments.h
     analyses/ndo_analysis.h
     analyses/nto_analysis.h
+    analyses/santo_analysis.h
     analyses/no_analysis.h
     analyses/pop_analysis_ad.h
     analyses/pop_analysis_dm.h
@@ -22,6 +23,7 @@ set(ANALYSES_SRC
     analyses/exciton_analysis.C
     analyses/ndo_analysis.C
     analyses/nto_analysis.C
+    analyses/santo_analysis.C
     analyses/no_analysis.C
     analyses/pop_analysis_ad.C
     analyses/pop_analysis_dm.C

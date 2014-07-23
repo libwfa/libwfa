@@ -396,6 +396,10 @@ void transformations_dm_test::test_form_om_1b() throw(libtest::test_exception) {
                 "om(alpha) does not match reference.");
     }
     if (accu(abs(om.beta() - om_ref.beta()) > 1e-14) != 0) {
+        std::cout << "\nom.beta:" << std::endl;
+        om.beta().print();
+        std::cout << "om_ref.beta:" << std::endl;
+        om_ref.beta().print();
         fail_test(testname, __FILE__, __LINE__,
                 "om(beta) does not match reference.");
     }
@@ -675,7 +679,8 @@ void transformations_dm_test::test_form_ad_2() throw(libtest::test_exception) {
     dm.alpha() = randu< Mat<double> >(nmo, nmo);
     dm.beta() = randu< Mat<double> >(nmo, nmo);
     dm.alpha() = c.alpha() * 0.5 * (dm.alpha() + dm.alpha().t()) * c.alpha().t();
-    dm.beta() = c.beta() * 0.5 * (dm.beta() + dm.beta().t()) *c.beta().t();
+    //dm.beta() = c.beta() * 0.5 * (dm.beta() + dm.beta().t()) *c.beta().t();
+    dm.beta() = c.alpha() * 0.5 * (dm.beta() + dm.beta().t()) *c.alpha().t();
 
     ab_matrix da, dd;
 

@@ -46,7 +46,7 @@ void analyse_opdm::perform(export_data_i &pr, std::ostream &out) const {
     pr.perform(density_type::state, m_sdm);
     if (m_dm2.get() != 0) pr.perform(density_type::difference, m_ddm);
 
-    if (m_pr[0] != 0) no_analysis(m_s, m_c, m_sdm, *m_pr[0]).perform(pr, out);
+    if (m_pr[0] != 0) no_analysis(m_s, m_c, m_sdm).perform(*m_pr[0], pr, out);
 
     ab_matrix at, de;
     if (m_pr[1] != 0) {

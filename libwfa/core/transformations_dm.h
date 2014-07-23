@@ -4,6 +4,10 @@
 #include "ab_matrix.h"
 #include "ab_vector.h"
 
+/** \defgroup libwfa_trans Transformations
+    \ingroup libwfa
+ **/
+
 namespace libwfa {
 
 
@@ -26,7 +30,7 @@ namespace libwfa {
 
     The output matrices are reshaped and resized as required.
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
  **/
 void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
         ab_matrix &de, ab_matrix &dh);
@@ -53,7 +57,7 @@ void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
 
     The output matrices are reshaped and resized as required.
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
  **/
 void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
         ab_matrix &om);
@@ -86,8 +90,11 @@ void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
     D = U \Lambda U'
     \f]
     and at the same time forms the coefficient matrix for the new orbitals
+    
+    This routine assures that if for dm alpha is equal to beta, then the same
+    will be true for ev and u, irrespective of the structure of c.
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
  **/
 void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &dm, ab_vector &ev, ab_matrix &u);
@@ -111,7 +118,7 @@ void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
     The transformation matrix u is expected to be an eigenvector matrix as
     returned by the function diagonalize_dm.
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
  **/
 void form_ad(const ab_vector &ev, const ab_matrix &u,
         ab_matrix &da, ab_matrix &dd);
@@ -130,11 +137,29 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
     attachment and detachment densities, respectively. These are then used to
     back-transform into density matrices.
 
-    \ingroup libwfa
+    \ingroup libwfa_trans
 **/
 void form_ad(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &dm, ab_matrix &da, ab_matrix &dd);
 
+/** \brief Generalized transformation
+ *
+ * \param[in] u left transformation matrix
+ * \param[in] v right transformation matrix
+ * \param[in] dm (transition) density matrix
+ * \param[out] x transformed (transition) density matrix
+ *
+ * Is this needed??
+ * 
+ * Transformation according to:
+ * \f[
+ * X = U D V'
+ * \f]
+ *
+ * \ingroup libwfa_trans
+ */
+void gen_transform(const ab_matrix &u, const ab_matrix &v,
+        const ab_matrix &dm, ab_matrix &x);
 
 } // namespace libwfa
 

@@ -22,6 +22,7 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("ndo_analysis", m_utf_ndo_analysis);
     add_test("no_analysis", m_utf_no_analysis);
     add_test("nto_analysis", m_utf_nto_analysis);
+    add_test("santo_analysis", m_utf_santo_analysis);
     add_test("orbital_selector", m_utf_orbital_selector);
     add_test("orbital_type", m_utf_orbital_type);
     add_test("pop_analysis_ad", m_utf_pop_analysis_ad);

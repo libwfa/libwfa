@@ -29,19 +29,32 @@ public:
         m_s(s), m_c(c), m_ddm(ddm), m_pr(pr) { }
 
     /** \brief Perform NDO analysis
-        \param at Attachment density matrix
-        \param de Detachment density matrix
+        \param[out] at Attachment density matrix
+        \param[out] de Detachment density matrix
+        \param[out] u  NDO coefficients
+        \param[out] ev NDO eigenvalues
         \param pr Printer of NTOs
         \param out Output stream
      **/
     void perform(ab_matrix &at, ab_matrix &de,
-        export_data_i &pr, std::ostream &out) const;
+        ab_matrix &u, ab_vector &ev,
+        export_data_i &opr, std::ostream &out) const;
 
+    /** \brief Perform NDO analysis
+        \param[out] at Attachment density matrix
+        \param[out] de Detachment density matrix
+        \param pr Printer of NTOs
+        \param out Output stream
+     **/
+    void perform(ab_matrix &at, ab_matrix &de,
+        export_data_i &opr, std::ostream &out) const;
+        
+        
     /** \brief Perform NDO analysis
         \param pr Printer of density matrices and NTOs
         \param out Output stream
      **/
-    void perform(export_data_i &pr, std::ostream &out) const;
+    void perform(export_data_i &opr, std::ostream &out) const;
 };
 
 } // namespace libwfa
