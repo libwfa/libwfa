@@ -41,7 +41,6 @@ void exciton_analysis_test::test_1() {
     }
 
     Col<double> rh = mom.alpha().get(0, 1);
-    rh.print();
     if (norm(rh - exciton_test_data_hhe::rh()) > 1e-4) {
         fail_test(testname, __FILE__, __LINE__, "rh");
     }

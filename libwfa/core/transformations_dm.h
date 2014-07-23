@@ -35,6 +35,9 @@ namespace libwfa {
 void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
         ab_matrix &de, ab_matrix &dh);
 
+void form_eh(const arma::Mat<double> &s, const arma::Mat<double> &tdm,
+        arma::Mat<double> &de, arma::Mat<double> &dh);
+
 /** \brief Forms omega matrix from a transition density matrix
     \param[in] s Overlap matrix
     \param[in] tdm Transition density matrix
@@ -61,6 +64,9 @@ void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
  **/
 void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
         ab_matrix &om);
+
+void form_om(const arma::Mat<double> &s, const arma::Mat<double> &tdm,
+        arma::Mat<double> &om);
 
 /** \brief Diagonalizes a density matrix in AO basis
     \param[in] s Overlap matrix
@@ -141,25 +147,6 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
 **/
 void form_ad(const arma::Mat<double> &s, const ab_matrix &c,
         const ab_matrix &dm, ab_matrix &da, ab_matrix &dd);
-
-/** \brief Generalized transformation
- *
- * \param[in] u left transformation matrix
- * \param[in] v right transformation matrix
- * \param[in] dm (transition) density matrix
- * \param[out] x transformed (transition) density matrix
- *
- * Is this needed??
- * 
- * Transformation according to:
- * \f[
- * X = U D V'
- * \f]
- *
- * \ingroup libwfa_trans
- */
-void gen_transform(const ab_matrix &u, const ab_matrix &v,
-        const ab_matrix &dm, ab_matrix &x);
 
 } // namespace libwfa
 
