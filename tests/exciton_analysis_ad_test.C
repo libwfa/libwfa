@@ -43,7 +43,7 @@ void exciton_analysis_ad_test::test_1(){
     }
 
     Col<double> rh = mom.alpha().get(0, 1);
-    if (norm(rh - exciton_test_data_hhe::rh()) > 1e-6) {
+    if (norm(rh - exciton_test_data_hhe::rh()) > 1e-4) {
         fail_test(testname, __FILE__, __LINE__, "rh");
     }
     Col<double> re = mom.alpha().get(1, 0);
@@ -51,7 +51,7 @@ void exciton_analysis_ad_test::test_1(){
         fail_test(testname, __FILE__, __LINE__, "re");
     }
     Col<double> rh2 = mom.alpha().get(0, 2);
-    if (norm(rh2 - exciton_test_data_hhe::rh2()) > 1e-6) {
+    if (norm(rh2 - exciton_test_data_hhe::rh2()) > 1e-3) {
         fail_test(testname, __FILE__, __LINE__, "rh2");
     }
     Col<double> re2 = mom.alpha().get(2, 0);
