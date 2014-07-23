@@ -13,6 +13,15 @@ namespace libwfa {
     calculations). The case of alpha == beta will be enforced by the container
     by using the same matrix for alpha-spin and beta-spin.
 
+    Mathematically, an ab_matrix behaves like a block diagonal matrix of the
+      form:
+    \f[
+    \mathbf{A} = \left(\begin{array}{cc}
+                  \mathbf{A}_{\alpha\alpha} & 0 \\
+                          0 & \mathbf{A}_{\beta\beta}
+                 \end{array}\right)
+    \f]
+
     \ingroup libwfa
  **/
 class ab_matrix : public ab_object< arma::Mat<double> > {
