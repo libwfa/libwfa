@@ -46,7 +46,7 @@ size_t ev_printer_no::print(const Col<double> &ni, std::ostream &out) const {
     out << offset << "Occupation of frontier NOs: ";
     out << std::fixed << std::setprecision(4);
     size_t min = (ihomo > m_nno ? ihomo - m_nno : 0);
-    size_t max = (ihomo + m_nno <= ni.n_elem ? ihomo + m_nno :  ni.n_elem);
+    size_t max = (ihomo + m_nno < ni.n_elem ? ihomo + m_nno : ni.n_elem);
     for (size_t i = min; i < max; i++) out << std::setw(9) << ni(i);
     out << std::endl;
     out << offset << "Number of electrons: "; 

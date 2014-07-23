@@ -7,6 +7,7 @@ const char *version::k_status = "trunk";
 const char *version::k_authors[] = {
         "Felix Plasser",
         "Stefanie Baeppler",
+        "Benjamin Thomitzni",
         "Michael Wormit"
 };
 

@@ -1,28 +1,27 @@
+#include <libwfa/analyses/exciton_analysis_ad.h>
 #include <libwfa/analyses/no_analysis.h>
 #include <libwfa/analyses/ndo_analysis.h>
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
 #include <libwfa/core/transformations_dm.h>
+#include <libwfa/export/exciton_printer_ad.h>
+#include <memory>
 #include "analyse_opdm.h"
 
 namespace libwfa {
 
 using namespace arma;
 
-
-analyse_opdm::analyse_opdm(const arma::Mat<double> &s,
-    const ab_matrix &c, const ab_matrix &dm) :
-    m_s(s), m_c(c), m_dm1(dm), m_dm2(0), m_sdm(dm), m_ddm(dm) {
-
-}
+analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
+    const mom_builder_i &bld, const ab_matrix &dm) :
+    m_s(s), m_c(c), m_bld(bld), m_dm1(dm), m_dm2 (0), m_sdm (dm), m_ddm(dm) { }
 
 
 analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
-    const ab_matrix &dm0, const ab_matrix &dm, bool is_diff) :
-    m_s(s), m_c(c), m_dm1(dm), m_dm2(build_dm(dm, dm0, is_diff)),
-    m_sdm(is_diff ? *m_dm2 : m_dm1), m_ddm(is_diff ? m_dm1 : *m_dm2) {
-
-}
+    const mom_builder_i &bld, const ab_matrix &dm0,
+    const ab_matrix &dm, bool is_diff) :
+    m_s(s), m_c(c), m_bld(bld), m_dm1(dm), m_dm2(build_dm(dm, dm0, is_diff)),
+    m_sdm(is_diff ? *m_dm2 : m_dm1), m_ddm(is_diff ? m_dm1 : *m_dm2) { }
 
 
 void analyse_opdm::do_register(const ev_printer_i &pr, bool is_no) {
@@ -54,7 +53,11 @@ void analyse_opdm::perform(export_data_i &pr, std::ostream &out) const {
         ndo_analysis(m_s, m_c, m_ddm, *m_pr[1]).perform(at, de, pr, out);
         pr.perform(density_type::attach, at);
         pr.perform(density_type::detach, de);
-    }
+
+        ab_exciton_moments mom;
+        exciton_analysis_ad(m_bld, at, de).perform(mom);
+        exciton_printer_ad().perform(mom, out);
+    }//endif
 
     for (pa_map_t::const_iterator i = m_pa.begin(); i != m_pa.end(); i++) {
 
@@ -66,7 +69,7 @@ void analyse_opdm::perform(export_data_i &pr, std::ostream &out) const {
         if (m_pr[1] != 0 && (pop.flag & pa_ad) == pa_ad)
             pop_analysis_ad(pop.analysis, at, de).perform(res);
         pop.printer.perform(res, out);
-    }
+    }//endfor
 }
 
 

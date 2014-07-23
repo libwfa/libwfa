@@ -1,12 +1,13 @@
 #ifndef LIBWFA_ANALYSE_OPDM_H
 #define LIBWFA_ANALYSE_OPDM_H
 
+#include <map>
+#include <memory>
 #include <libwfa/analyses/pop_analysis_i.h>
+#include <libwfa/core/mom_builder_i.h>
 #include <libwfa/export/ev_printer_i.h>
 #include <libwfa/export/export_data_i.h>
 #include <libwfa/export/pop_printer_i.h>
-#include <map>
-#include <memory>
 
 namespace libwfa {
 
@@ -44,30 +45,34 @@ private:
 
     const arma::Mat<double> &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficient matrix
+    const mom_builder_i &m_bld; //!< Multipole contraction engine
 
     const ab_matrix &m_dm1; //!< State or difference density matrix
     std::auto_ptr<ab_matrix> m_dm2; //!< State or differnce density matrix
     const ab_matrix &m_sdm; //!< State density matrix
     const ab_matrix &m_ddm; //!< Difference density matrix
 
-public:
-    /** \brief Constructor
-        \param s Overlap matrix
-        \param c MO coefficients
-        \param dm State density matrix
-     **/
-    analyse_opdm(const arma::Mat<double> &s,
-        const ab_matrix &c, const ab_matrix &dm);
 
-    /** \brief Constructor
-        \param s Overlap matrix
-        \param c MO coefficients
-        \param dm0 Ground state density matrix
-        \param dm State or difference density matrix
-        \param is_diff Is difference density?
-     **/
+public:
+    /** \brief Constructor for additional exciton analysis
+        \param s Overlap Matrix
+        \param c Coefficient matrix
+        \param dm State density matrix
+
+     */
+    analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c, 
+        const mom_builder_i &bld, const ab_matrix &dm);
+
+    /** \brief Constructor for additional exciton analysis
+           \param s Overlap Matrix
+           \param c Coefficient matrix
+           \param dm0 Ground state density matrix
+           \param dm State density matrix
+           \param is_diff Is difference density?
+        */
     analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
-        const ab_matrix &dm0, const ab_matrix &dm, bool is_diff = true);
+        const mom_builder_i &bld, const ab_matrix &dm0,
+        const ab_matrix &dm, bool is_diff);
 
     /** \brief Register orbital analysis and printer
         \param pr Printer for orbital analysis

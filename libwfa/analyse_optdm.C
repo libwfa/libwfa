@@ -1,23 +1,24 @@
+#include <libwfa/core/transformations_dm.h>
 #include <libwfa/analyses/ctnumbers.h>
+#include <libwfa/analyses/exciton_analysis.h>
 #include <libwfa/analyses/nto_analysis.h>
+#include <libwfa/export/exciton_printer.h>
 #include "analyse_optdm.h"
 
 namespace libwfa {
 
 using namespace arma;
 
-
 analyse_optdm::analyse_optdm(const Mat<double> &s, const ab_matrix &c,
-    const ab_matrix &tdm) : m_s(s), m_c(c), m_tdm(tdm), m_nto(0) {
-
-}
+    const mom_builder_i &bld, const ab_matrix &tdm) :
+    m_s(s), m_c(c), m_bld(bld), m_tdm(tdm), m_nto(0) {}
 
 
 void analyse_optdm::do_register(const std::string &name,
     const ctnum_analysis_i &ana, const ctnum_printer_i &pr) {
-
     m_ca.insert(cna_map_t::value_type(name, cna(ana, pr)));
 }
+
 
 
 void analyse_optdm::perform(ab_matrix &edm_av, ab_matrix &hdm_av,
@@ -45,6 +46,10 @@ void analyse_optdm::perform(ab_matrix &edm_av, ab_matrix &hdm_av,
         ctnumbers(ctnum.analysis, m_s, m_tdm).perform(om, om_tot);
         ctnum.printer.perform(om, om_tot, out);
     }
+
+    ab_exciton_moments mom;
+    exciton_analysis(m_bld, m_tdm).perform(mom);
+    exciton_printer().perform(mom, out);
 }
 
 
@@ -69,7 +74,11 @@ void analyse_optdm::perform(export_data_i &pr, std::ostream &out) {
         ctnumbers(ctnum.analysis, m_s, m_tdm).perform(om, om_tot);
         ctnum.printer.perform(om, om_tot, out);
     }
+
+    ab_exciton_moments mom;
+    exciton_analysis(m_bld, m_tdm).perform(mom);
+    exciton_printer().perform(mom, out);
 }
 
 
-} // end namespace
+} // namespace libwfa

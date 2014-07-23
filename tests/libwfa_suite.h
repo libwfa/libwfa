@@ -10,6 +10,10 @@
 #include "ctnumbers_test.h"
 #include "cube_writer_test.h"
 #include "density_type_test.h"
+#include "exciton_analysis_ad_test.h"
+#include "exciton_analysis_test.h"
+#include "exciton_printer_test.h"
+#include "exciton_printer_ad_test.h"
 #include "export_cube_base_test.h"
 #include "grid3d_test.h"
 #include "ndo_analysis_test.h"
@@ -41,11 +45,15 @@ namespace libwfa {
     - \c ab_matrix_test
     - \c ab_orbital_selector_test
     - \c ab_vector_test
-    - \c density_type_test
     - \c ctnum_analysis_test
     - \c ctnum_export_test
     - \c ctnumbers_test
     - \c cube_writer_test
+    - \c density_type_test
+    - \c exciton_analysis_ad_test
+    - \c exciton_analysis_test
+    - \c exciton_printer_ad_test
+    - \c exciton_printer_test
     - \c export_cube_base_test
     - \c grid3d_test
     - \c ndo_analysis_test
@@ -69,11 +77,15 @@ private:
     unit_test_factory<ab_matrix_test> m_utf_ab_matrix;
     unit_test_factory<ab_orbital_selector_test> m_utf_ab_orbital_selector;
     unit_test_factory<ab_vector_test> m_utf_ab_vector;
-    unit_test_factory<density_type_test> m_utf_density_type;
     unit_test_factory<ctnum_analysis_test> m_utf_ctnum_analysis;
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
     unit_test_factory<ctnumbers_test> m_utf_ctnumbers;
     unit_test_factory<cube_writer_test> m_utf_cube_writer;
+    unit_test_factory<density_type_test> m_utf_density_type;
+    unit_test_factory<exciton_analysis_ad_test> m_utf_exciton_analysis_ad_test;
+    unit_test_factory<exciton_analysis_test> m_utf_exciton_analysis_test;
+    unit_test_factory<exciton_printer_test> m_utf_exciton_printer_test;
+    unit_test_factory<exciton_printer_ad_test> m_utf_exciton_printer_ad_test;
     unit_test_factory<export_cube_base_test> m_utf_export_cube_base;
     unit_test_factory<grid3d_test> m_utf_grid3d;
     unit_test_factory<ndo_analysis_test> m_utf_ndo_analysis;

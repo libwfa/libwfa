@@ -25,7 +25,7 @@ void form_eh(const arma::Mat<double> &s, const arma::Mat<double> &tdm,
 
 void form_om(const Mat<double> &s,
     const ab_matrix &tdm, ab_matrix &om) {
-    
+
     // FP: use the new formula from JCP(2014)
     form_om(s, tdm.alpha(), om.alpha());
     if (tdm.is_alpha_eq_beta())

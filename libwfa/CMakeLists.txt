@@ -2,6 +2,9 @@ set(ANALYSES_HEADERS
     analyses/ctnum_analysis_i.h
     analyses/ctnum_analysis.h
     analyses/ctnumbers.h
+    analyses/exciton_analysis_ad.h
+    analyses/exciton_analysis.h
+    analyses/exciton_moments.h
     analyses/ndo_analysis.h
     analyses/nto_analysis.h
     analyses/santo_analysis.h
@@ -16,6 +19,8 @@ set(ANALYSES_HEADERS
 set(ANALYSES_SRC
     analyses/ctnum_analysis.C
     analyses/ctnumbers.C
+    analyses/exciton_analysis_ad.C
+    analyses/exciton_analysis.C
     analyses/ndo_analysis.C
     analyses/nto_analysis.C
     analyses/santo_analysis.C
@@ -31,7 +36,10 @@ set(CORE_HEADERS
     core/ab_object.h
     core/ab_orbital_selector.h
     core/ab_vector.h
+    core/constants.h
     core/density_type.h
+    core/mom_builder_i.h
+    core/mom_builder.h
     core/orbital_selector.h
     core/orbital_type.h
     core/selector.h
@@ -39,7 +47,9 @@ set(CORE_HEADERS
 )
 
 set(CORE_SRC
+    core/constants.C
     core/density_type.C
+    core/mom_builder.C
     core/orbital_selector.C
     core/orbital_type.C
     core/selector.C
@@ -56,6 +66,9 @@ set(EXPORT_HEADERS
     export/ev_printer_no.h
     export/ev_printer_none.h
     export/ev_printer_nto.h
+    export/exciton_printer_ad.h
+    export/exciton_printer_i.h
+    export/exciton_printer.h
     export/export_cube_base.h
     export/export_data_cm.h
     export/export_data_cube.h
@@ -72,6 +85,8 @@ set(EXPORT_HEADERS
 set(EXPORT_SRC
     export/ctnum_export.C
     export/cube_writer.C
+    export/exciton_printer_ad.C
+    export/exciton_printer.C
     export/export_cube_base.C
     export/export_data_cube.C
     export/export_data_print.C

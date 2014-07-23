@@ -1,16 +1,17 @@
 #ifndef LIBWFA_ANALYSE_OPTDM_H
 #define LIBWFA_ANALYSE_OPTDM_H
 
+#include <map>
+#include <memory>
 #include <libwfa/analyses/ctnum_analysis_i.h>
+#include <libwfa/core/mom_builder_i.h>
 #include <libwfa/export/ctnum_printer_i.h>
 #include <libwfa/export/ev_printer_i.h>
 #include <libwfa/export/export_data_i.h>
-#include <map>
-#include <memory>
 
 namespace libwfa {
 
-/** \brief Combines various transition density matrix analyses
+/** \brief Combines various transition density matrix analysis
 
     \ingroup libwfa
  **/
@@ -32,16 +33,16 @@ private:
     const ab_matrix &m_c; //!< MO coefficient matrix
     const ab_matrix &m_tdm; //!< Transition density matrix
     const ev_printer_i *m_nto; //!< Formating object of NTO summary
+    const mom_builder_i &m_bld; //!< Multipole moment builder
 
 public:
-    /** \brief Constructor
-        \param s Overlap matrix
+    /** \brief Constructor for additional exciton analysis
+        \param s Overlap Matrix
         \param c Coefficient matrix
-        \param tdm Transition density matrix
-        \param prnto NTO summary formating object
-     **/
-    analyse_optdm(const arma::Mat<double> &s,
-        const ab_matrix &c, const ab_matrix &tdm);
+        \param tdm Transistion density matrix
+     */
+    analyse_optdm(const arma::Mat<double> &s, const ab_matrix &c, 
+        const mom_builder_i &con, const ab_matrix &tdm);
 
     /** \brief Register NTO analysis
         \param pr NTO summary printer
@@ -55,11 +56,11 @@ public:
      **/
     void do_register(const std::string &name, const ctnum_analysis_i &ana,
         const ctnum_printer_i &pr);
-
     /** \brief Performs transition density matrix analyses
         \param edm_av Average electron density matrix
         \param hdm_av Average hole density matrix
         \param pr Export / printer for densities and orbitals
+        \param con Contract Interface
         \param out Output stream
 
         Perform the following analyses:
@@ -67,18 +68,21 @@ public:
         - CT number analysis (\sa ctnumbers.h)
         - Export of TDM, EDM, and HDM
         - EDM and HDM are added to average density matrices
+        - Exciton analysis
      **/
     void perform(ab_matrix &edm_av, ab_matrix &hdm_av,
         export_data_i &pr, std::ostream &out);
 
     /** \brief Performs transition density matrix analyses
         \param pr Export / printer for densities and orbitals
+        \param con Contract Interface
         \param out Output stream
 
         Perform the following analyses:
         - NTO analysis (\sa nto_analysis.h
         - CT number analysis (\sa ctnumbers.h)
         - Export of TDM, EDM, and HDM
+        - Exciton analysis
      **/
     void perform(export_data_i &pr, std::ostream &out);
 };

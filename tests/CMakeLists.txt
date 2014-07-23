@@ -8,6 +8,11 @@ set(SRC_HEADER
     ctnumbers_test.h
     cube_writer_test.h
     density_type_test.h
+    exciton_analysis_ad_test.h
+    exciton_analysis_test.h
+    exciton_printer_ad_test.h
+    exciton_printer_test.h
+    exciton_test_data_hhe.h
     export_cube_base_test.h
     grid3d_test.h
     libwfa_suite.h
@@ -40,6 +45,13 @@ set(SRC
     ctnumbers_test.C
     cube_writer_test.C
     density_type_test.C
+    exciton_analysis_ad_test.C
+    exciton_analysis_test.C
+    exciton_printer_ad_test.C
+    exciton_printer_test.C
+    exciton_test_data_hhe.C
+    exciton_printer_test.C
+    exciton_printer_ad_test.C
     export_cube_base_test.C
     grid3d_test.C
     libwfa_tests.C

@@ -8,7 +8,7 @@ namespace libwfa {
 
 /** \brief Tests the libwfa::orbital_selector class
 
-    \ingroup libmo_tests
+    \ingroup libwfa_tests
  **/
 class orbital_selector_test : public libtest::unit_test {
 public:
