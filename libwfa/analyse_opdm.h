@@ -3,10 +3,9 @@
 
 #include <map>
 #include <memory>
-#include <libwfa/analyses/ex_analyse_ad.h>
 #include <libwfa/analyses/pop_analysis_i.h>
+#include <libwfa/core/mom_builder_i.h>
 #include <libwfa/export/ev_printer_i.h>
-#include <libwfa/export/ex_ana_printer_ad.h>
 #include <libwfa/export/export_data_i.h>
 #include <libwfa/export/pop_printer_i.h>
 
@@ -46,7 +45,7 @@ private:
 
     const arma::Mat<double> &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficient matrix
-    const multipol_con_i &m_con; //!< Multipole contraction engine
+    const mom_builder_i &m_bld; //!< Multipole contraction engine
 
     const ab_matrix &m_dm1; //!< State or difference density matrix
     std::auto_ptr<ab_matrix> m_dm2; //!< State or differnce density matrix
@@ -62,7 +61,7 @@ public:
 
      */
     analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c, 
-        const multipol_con_i &con, const ab_matrix &dm);
+        const mom_builder_i &bld, const ab_matrix &dm);
 
     /** \brief Constructor for additional exciton analysis
            \param s Overlap Matrix
@@ -72,7 +71,7 @@ public:
            \param is_diff Is difference density?
         */
     analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
-        const multipol_con_i &con, const ab_matrix &dm0, 
+        const mom_builder_i &bld, const ab_matrix &dm0,
         const ab_matrix &dm, bool is_diff);
 
     /** \brief Register orbital analysis and printer

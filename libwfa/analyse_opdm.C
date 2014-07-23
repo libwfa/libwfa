@@ -1,8 +1,10 @@
+#include <libwfa/analyses/exciton_analysis_ad.h>
 #include <libwfa/analyses/no_analysis.h>
 #include <libwfa/analyses/ndo_analysis.h>
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
 #include <libwfa/core/transformations_dm.h>
+#include <libwfa/export/exciton_printer_ad.h>
 #include <memory>
 #include "analyse_opdm.h"
 
@@ -11,14 +13,14 @@ namespace libwfa {
 using namespace arma;
 
 analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
-    const multipol_con_i &con, const ab_matrix &dm) : 
-    m_s(s), m_c(c), m_con(con), m_dm1(dm), m_dm2 (0), m_sdm (dm), m_ddm(dm) { }
+    const mom_builder_i &bld, const ab_matrix &dm) :
+    m_s(s), m_c(c), m_bld(bld), m_dm1(dm), m_dm2 (0), m_sdm (dm), m_ddm(dm) { }
 
 
 analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
-    const multipol_con_i &con, const ab_matrix &dm0, 
+    const mom_builder_i &bld, const ab_matrix &dm0,
     const ab_matrix &dm, bool is_diff) :
-    m_s(s), m_c(c), m_con(con), m_dm1(dm), m_dm2(build_dm(dm, dm0, is_diff)),
+    m_s(s), m_c(c), m_bld(bld), m_dm1(dm), m_dm2(build_dm(dm, dm0, is_diff)),
     m_sdm(is_diff ? *m_dm2 : m_dm1), m_ddm(is_diff ? m_dm1 : *m_dm2) { }
 
 
@@ -52,11 +54,9 @@ void analyse_opdm::perform(export_data_i &pr, std::ostream &out) const {
         pr.perform(density_type::attach, at);
         pr.perform(density_type::detach, de);
 
-        ex_analyse_ad analyse_ad;
-        ex_ana_printer_ad ana_p_ad;
-
-        analyse_ad.perform(at, de, m_con);
-        ana_p_ad.perform(analyse_ad, out);
+        ab_exciton_moments mom;
+        exciton_analysis_ad(m_bld, at, de).perform(mom);
+        exciton_printer_ad().perform(mom, out);
     }//endif
 
     for (pa_map_t::const_iterator i = m_pa.begin(); i != m_pa.end(); i++) {

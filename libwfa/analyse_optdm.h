@@ -4,10 +4,9 @@
 #include <map>
 #include <memory>
 #include <libwfa/analyses/ctnum_analysis_i.h>
-#include <libwfa/analyses/ex_analyse.h>
+#include <libwfa/core/mom_builder_i.h>
 #include <libwfa/export/ctnum_printer_i.h>
 #include <libwfa/export/ev_printer_i.h>
-#include <libwfa/export/ex_ana_printer.h>
 #include <libwfa/export/export_data_i.h>
 
 namespace libwfa {
@@ -34,7 +33,7 @@ private:
     const ab_matrix &m_c; //!< MO coefficient matrix
     const ab_matrix &m_tdm; //!< Transition density matrix
     const ev_printer_i *m_nto; //!< Formating object of NTO summary
-    const multipol_con_i &m_con; //!< Multipole contraction engine
+    const mom_builder_i &m_bld; //!< Multipole moment builder
 
 public:
     /** \brief Constructor for additional exciton analysis
@@ -43,7 +42,7 @@ public:
         \param tdm Transistion density matrix
      */
     analyse_optdm(const arma::Mat<double> &s, const ab_matrix &c, 
-        const multipol_con_i &con, const ab_matrix &tdm);
+        const mom_builder_i &con, const ab_matrix &tdm);
 
     /** \brief Register NTO analysis
         \param pr NTO summary printer
