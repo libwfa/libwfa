@@ -7,23 +7,40 @@ using namespace arma;
 void form_eh(const Mat<double> &s, const ab_matrix &tdm,
     ab_matrix &de, ab_matrix &dh) {
 
-    ab_matrix abs(true); abs.alpha() = s;
-    
-    de = tdm.t() * abs * tdm;
-    dh = tdm * abs * tdm.t();
+    form_eh(s, tdm.alpha(), de.alpha(), dh.alpha());
+    if (tdm.is_alpha_eq_beta()) {
+        de.set_alpha_eq_beta();
+        dh.set_alpha_eq_beta();
+    }
+    else {
+        form_eh(s, tdm.beta(), de.beta(), dh.beta());
+    }
 }
 
+void form_eh(const arma::Mat<double> &s, const arma::Mat<double> &tdm,
+        arma::Mat<double> &de, arma::Mat<double> &dh) {
+    de = tdm.t() * s * tdm;
+    dh = tdm * s * tdm.t();
+}
 
 void form_om(const Mat<double> &s,
     const ab_matrix &tdm, ab_matrix &om) {
     
-    ab_matrix abs(true); abs.alpha() = s;
-    
     // FP: use the new formula from JCP(2014)
-    om = ((tdm * abs) % (abs * tdm)) + (tdm % (abs * tdm * abs));
-    om *= 0.5;
+    form_om(s, tdm.alpha(), om.alpha());
+    if (tdm.is_alpha_eq_beta())
+        om.set_alpha_eq_beta();
+    else
+        form_om(s, tdm.beta(), om.beta());
 }
 
+void form_om(const arma::Mat<double> &s, const arma::Mat<double> &tdm,
+        arma::Mat<double> &om) {
+
+    om = (tdm * s) % (s * tdm);
+    om += tdm % (s * tdm * s);
+    om *= 0.5;
+}
 
 void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
     const ab_matrix &dm, ab_vector &ev, ab_matrix &u) {
@@ -126,13 +143,6 @@ void form_ad(const Mat<double> &s, const ab_matrix &c,
     diagonalize_dm(s, c, dm, ev, u);
     form_ad(ev, u, da, dd);
 }
-
-void gen_transform(const ab_matrix &u, const ab_matrix &v,
-        const ab_matrix &dm, ab_matrix &x) {
-
-    x = u * dm * v.t();
-}
-
 
 } // namespace libwfa
 
