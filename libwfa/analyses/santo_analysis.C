@@ -17,38 +17,29 @@ santo_analysis::santo_analysis(const arma::Mat<double> &s, const ab_matrix &c,
     
     ab_matrix ab_s(true); ab_s.alpha() = s;
     
-    m_uinv = nab.get_eigvect(false).t() * ab_s;
-    m_vinv_t   = ab_s * nab.get_eigvect(true);
+    m_uinv   = nab.get_eigvect(false).t() * ab_s;
+    m_vinv_t = ab_s * nab.get_eigvect(true);
 }
 
-void santo_analysis::stave_nto_header(std::ostream& out, const char* path)
+void santo_analysis::stave_nto_header(std::ostream& out)
 {
-    out << std::endl << std::string(60, '=') << std::endl;
-    out << " State-averaged (SA)-NTOs:\n";
-    out << "  from file " << path << std::endl;
-    out << " Printing out excitation contribtions:\n";
-    out << "  H-0, H-1, ... occupied (hole) NTOs\n";
-    out << "  L+0, L+1, ... virtual (particle) NTOs\n";
-//    out << "  (sorted according to averaged SVs)\n";
-    out << "\nNote: only contributions due to single excitations\n";
-    out << "  are considered.\n";
-    //if (m_unrest)
-      //  out << "  arranged separately for alpha and beta spin\n";
-    out << std::string(60, '=') << std::endl;
+    out << "  Printing decomposition for individual states:\n"
+        << "   H-0, H-1, ... occupied (hole) NTOs\n"
+        << "   L+0, L+1, ... virtual (particle) NTOs\n"
+        << " Note: only contributions due to single excitations are considered."
+        << std::endl;
 }
 
 void santo_analysis::print(const ab_matrix& x, std::ostream& out)
 {
-    out << "SA-NTO decomposition" << std::endl;
-    
     if (x.is_alpha_eq_beta()) {
         print(x.alpha(), out, 2.);
     }
     else {
-        out << "alpha:" << std::endl;        
+        out << " Alpha:" << std::endl;
         print(x.alpha(), out);
     
-        out << "beta:" << std::endl;
+        out << " Beta:" << std::endl;
         print(x.beta(), out);
     }
 }
@@ -56,7 +47,10 @@ void santo_analysis::print(const ab_matrix& x, std::ostream& out)
 void santo_analysis::print(const arma::Mat< double >& xm, std::ostream& out,
     double dfac)
 {
-    double prt_thr = 1e-4;
+    char str_buf[100];
+
+
+    double prt_thr = 1e-2;
     
     vec  xmv = vectorise(xm % xm);
     uvec indices = sort_index(xmv, "descend");
@@ -64,8 +58,7 @@ void santo_analysis::print(const arma::Mat< double >& xm, std::ostream& out,
     vec col0 = xm.col(0);
     size_t nrows = col0.size();
     
-    char str_buf[100];
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 100; i++) {
         size_t imat = indices(i);
         
         int imo = nrows-1 - imat % nrows;
@@ -78,6 +71,10 @@ void santo_analysis::print(const arma::Mat< double >& xm, std::ostream& out,
         sprintf(str_buf, "    H-%2i -> L+%2i: % .4f (%4.1f%%)\n",imo,jmo,coeff,wt*100);
         out << str_buf;
     }
+        sprintf(str_buf, "                   omega = %4.1f%%\n",
+            accu(xm%xm) * 100 * dfac);
+    out << str_buf;
+
 }
 
     

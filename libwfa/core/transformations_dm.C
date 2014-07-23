@@ -9,8 +9,8 @@ void form_eh(const Mat<double> &s, const ab_matrix &tdm,
 
     ab_matrix abs(true); abs.alpha() = s;
     
-    de = tdm * abs * tdm.t();
-    dh = tdm.t() * abs * tdm;
+    de = tdm.t() * abs * tdm;
+    dh = tdm * abs * tdm.t();
 }
 
 
@@ -32,7 +32,7 @@ void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
      *   Therefore it is used for both the alpha and beta density matrices.
      */
     
-    mat c_a = c.alpha();
+    const mat &c_a = c.alpha();
     mat cinv_a = s * c.alpha();
    
     {

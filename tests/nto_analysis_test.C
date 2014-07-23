@@ -70,8 +70,7 @@ void nto_analysis_test::test_1() throw(libtest::test_exception) {
                 fail_test(testname, __FILE__, __LINE__, "hole != electron");
 
             { // test alpha
-                // Note: tdm apparently has to be transposed for this test to work
-                const Mat<double> &tdm_x = tdm.alpha().t();
+                const Mat<double> &tdm_x = tdm.alpha();
                 const Mat<double> &u_x = nab.get_eigvect(false).alpha();
                 const Mat<double> &v_x = nab.get_eigvect(true).alpha();
                 const Col<double> &ev_x = lamh.alpha();
@@ -85,8 +84,7 @@ void nto_analysis_test::test_1() throw(libtest::test_exception) {
                     fail_test(testname, __FILE__, __LINE__, "Bad transform.");
             }
             { // test beta
-                // Note: tdm apparently has to be transposed for this test to work
-                const Mat<double> &tdm_x = tdm.beta().t();
+                const Mat<double> &tdm_x = tdm.beta();
                 const Mat<double> &u_x = nab.get_eigvect(false).beta();
                 const Mat<double> &v_x = nab.get_eigvect(true).beta();
                 const Col<double> &ev_x = lamh.beta();

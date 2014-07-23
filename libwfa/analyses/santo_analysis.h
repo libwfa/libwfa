@@ -42,7 +42,7 @@ public:
          const ev_printer_i &evpr, export_data_i &opr,
          std::ostream &out);
     
-    void stave_nto_header(std::ostream& out, const char* path);
+    void stave_nto_header(std::ostream& out);
     
     /** \brief Analyze a transition density matrix
      * 
@@ -59,12 +59,12 @@ public:
     
     /** \brief Return the SA-NTO decomposition
      *
-     * \param tdm transition density matrix to be decomposed
-     * \param x   decomposed tdm
+     * \param tdm[in] transition density matrix to be decomposed
+     * \param x[out]  decomposed tdm
      *
      */
     void decompose(const ab_matrix &tdm, ab_matrix &x) {
-        x = m_uinv * tdm.t() * m_vinv_t;
+        x = m_uinv * tdm * m_vinv_t;
     }
     
     /** \brief Return a transformation matrix

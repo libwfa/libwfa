@@ -144,8 +144,8 @@ void transformations_dm_test::test_form_eh_1a() throw(libtest::test_exception) {
             tmp1 += tdm_a(i, k) * s(k, l) * tdm_a(j, l);
             tmp2 += tdm_a(k, i) * s(k, l) * tdm_a(l, j);
         }
-        de_a(i, j) = tmp1;
-        dh_a(i, j) = tmp2;
+        dh_a(i, j) = tmp1;
+        de_a(i, j) = tmp2;
     }
 
     } // End computing reference data
@@ -214,10 +214,10 @@ void transformations_dm_test::test_form_eh_1b() throw(libtest::test_exception) {
             tmp2a += tdm_a(k, i) * s(k, l) * tdm_a(l, j);
             tmp2b += tdm_b(k, i) * s(k, l) * tdm_b(l, j);
         }
-        de_a(i, j) = tmp1a;
-        de_b(i, j) = tmp1b;
-        dh_a(i, j) = tmp2a;
-        dh_b(i, j) = tmp2b;
+        dh_a(i, j) = tmp1a;
+        dh_b(i, j) = tmp1b;
+        de_a(i, j) = tmp2a;
+        de_b(i, j) = tmp2b;
     }
 
     } // End computing reference data

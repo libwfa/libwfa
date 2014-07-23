@@ -30,7 +30,7 @@ private:
     void check(const mat &tdm_x, const mat &ui_x, const mat &vit_x,
                const mat &x_x, const mat &s, const char* testname) {
         
-        Mat<double> x_chk_x = ui_x * tdm_x.t() * vit_x;
+        Mat<double> x_chk_x = ui_x * tdm_x * vit_x;
         
         if (accu(abs(ui_x.t() * ui_x - s) > 1e-12) != 0)
             fail_test(testname, __FILE__, __LINE__, "U not unitary.");

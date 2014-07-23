@@ -101,6 +101,10 @@ public:
     }
     
     /** \brief Transpose the ab_matrix
+     *
+     *  Note: this is a convenience function that does not have the full
+     *     efficiency of directly using the armadillo operations!
+     *
      */
     ab_matrix t() const {
         ab_matrix outmat(this->is_alpha_eq_beta());
@@ -113,6 +117,10 @@ public:
     }
     
     /** \brief Addition of two ab_matrix instances
+     *
+     *  Note: this is a convenience function that does not have the full
+     *     efficiency of directly using the armadillo operations!
+     *
      */
     ab_matrix operator+(const ab_matrix &other) const {
         bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());        
@@ -126,6 +134,10 @@ public:
     }    
     
     /** \brief Subtraction of two ab_matrix instances
+     *
+     *  Note: this is a convenience function that does not have the full
+     *     efficiency of directly using the armadillo operations!
+     *
      */
     ab_matrix operator-(const ab_matrix &other) const {
         bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());
@@ -139,6 +151,10 @@ public:
     }
 
     /** \brief Matrix multiplication of two ab_matrix instances
+     *
+     *  Note: this is a convenience function that does not have the full
+     *     efficiency of directly using the armadillo operations!
+     *
      */
     ab_matrix operator*(const ab_matrix &other) const {
         bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());        
@@ -152,6 +168,10 @@ public:
     }
 
     /** \brief Element-wise multiplication of two ab_matrix instances
+     *
+     *  Note: this is a convenience function that does not have the full
+     *     efficiency of directly using the armadillo operations!
+     *
      */
     ab_matrix operator%(const ab_matrix &other) const {
         bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());        
