@@ -40,9 +40,10 @@ public:
 
     /** \copydoc export_data_i::perform
      **/
-    virtual void perform(density_type type, const ab_matrix &dm) { }
+    virtual void perform(density_type type, const ab_matrix &dm, bool ab_sep = true,
+        size_t spin_tr_d = 0) { }
 
-    /** \copydoc export_data_i::perform
+    /** \copydoc export_data_i::perform(libwfa::orbital_type, libwfa::ab_matrix&, libwfa::ab_vector&, libwfa::ab_orbital_selector&)
      **/
     virtual void perform(orbital_type type, const ab_matrix &coeff,
         const ab_vector &ev, const ab_orbital_selector &s);

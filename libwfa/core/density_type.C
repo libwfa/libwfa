@@ -14,13 +14,20 @@ const density_type density_type::hole = density_type(6);
 
 std::string density_type::convert() const {
     switch (m_type) {
-    case 0: return "sdm";
+/*    case 0: return "sdm";
     case 1: return "tdm";
     case 2: return "ddm";
     case 3: return "att";
     case 4: return "det";
     case 5: return "edm";
-    case 6: return "hdm";
+    case 6: return "hdm";*/
+    case 0: return "dens";
+    case 1: return "trans";
+    case 2: return "diff";
+    case 3: return "attach";
+    case 4: return "detach";
+    case 5: return "elec";
+    case 6: return "hole";
     default: return "unknown";
     }
 }

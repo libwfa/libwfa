@@ -24,8 +24,11 @@ public:
     /** \brief Export the density matrix
         \param type Type of density matrix
         \param dm Density matrix
+        \param ab_sep If unrestricted: print separate alpha and beta matrices
+        \param spin_tr_d print spin-traced (>= 1) and spin-diff. (>= 2) density matrices
      **/
-    virtual void perform(density_type type, const ab_matrix &dm) = 0;
+    virtual void perform(density_type type, const ab_matrix &dm, bool ab_sep = true,
+        size_t spin_tr_d = 0) = 0;
 
     /** \brief Write the given orbital coefficients to the file.
         \param type Orbital type

@@ -51,11 +51,12 @@ public:
 
     /** \copydoc export_data_i::perform
      **/
-    virtual void perform(density_type type, const ab_matrix &dm) {
-        m_edc.perform(type, dm);
+    virtual void perform(density_type type, const ab_matrix &dm, bool ab_sep = true,
+        size_t spin_tr_d = 0) {
+        m_edc.perform(type, dm, ab_sep, spin_tr_d);
     }
 
-    /** \copydoc export_data_i::perform
+    /** \copydoc export_data_i::perform(orbital_type, ab_matrix&, ab_vector, ab_orbital_selector)
      **/
     virtual void perform(orbital_type type, const ab_matrix &coeff,
         const ab_vector &ev, const ab_orbital_selector &s) {

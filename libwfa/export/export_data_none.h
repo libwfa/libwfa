@@ -18,7 +18,8 @@ public:
 
     //! \brief Implementation of export_data_i interface
     //@{
-    virtual void perform(density_type type, const ab_matrix &dm) { }
+    virtual void perform(density_type type, const ab_matrix &dm, bool ab_sep = true,
+        size_t spin_tr_d = 0) { }
 
     virtual void perform(orbital_type type, const ab_matrix &coeff,
             const ab_vector &ev, const ab_orbital_selector &s) { }
