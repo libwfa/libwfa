@@ -33,8 +33,12 @@ void exciton_analysis_ad_test::test_1(){
 
         ab_matrix tdm(true), de(true), at(true);
         tdm.alpha() = exciton_test_data_hhe::tdm();
-        de.alpha() = tdm.alpha() * s * tdm.alpha().t();
-        at.alpha() = tdm.alpha().t() * s * tdm.alpha();
+        
+        // Analyze the particle/hole densities as
+        //   attachment/detachment densities
+        // Formal negativ sign for the detachment density matrix
+        de.alpha() = -tdm.alpha() * s * tdm.alpha().t();
+        at.alpha() =  tdm.alpha().t() * s * tdm.alpha();
 
         exciton_analysis_ad(bld, at, de).perform(mom);
 

@@ -32,8 +32,8 @@ void exciton_analysis_ad::calculate(const arma::Mat<double> &adm,
     for (size_t i = 1; i <= m_mmax; i++) {
         Col<double> mh(3, fill::zeros), me(3, fill::zeros);
         for (size_t k = 0; k < 3; k++) {
-            me(k) = m_bld.perform(adm, k, i) / n;
-            mh(k) = m_bld.perform(ddm, k, i) / n;
+            me(k) = m_bld.perform( adm, k, i) / n;
+            mh(k) = m_bld.perform(-ddm, k, i) / n;
         }
         mom.set(i, 0, me);
         mom.set(0, i, mh);

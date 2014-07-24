@@ -32,6 +32,7 @@ void exciton_printer::print(exciton_moments &mom, std::ostream &out) const {
         << " in terms of the hole (r_h) and electron (r_e) coordinates."
         << std::string(11, ' ') << "|" << std::endl;
     out << " +" << std::string(owidth, '-') << "+" << std::endl;
+    
     out << std::setprecision(6) << std::fixed;
     { // Scope of linear quantities
         Col<double> rh = mom.get(0, 1) * constants::au2ang;
