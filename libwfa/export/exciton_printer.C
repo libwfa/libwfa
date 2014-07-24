@@ -21,58 +21,69 @@ void exciton_printer::perform(ab_exciton_moments &mom,
 }
 
 void exciton_printer::print(exciton_moments &mom, std::ostream &out) const {
+    
+    const size_t owidth = 80;
 
+    out << " +" << std::string(owidth, '-') << "+" << std::endl;
+    out << " |" << std::string(10, ' ') 
+        << "Spatial multipole analysis of the transition density matrix"
+        << std::string(11, ' ') << "|" << std::endl
+        << " |" << std::string(10, ' ')
+        << " in terms of the hole (r_h) and electron (r_e) coordinates."
+        << std::string(11, ' ') << "|" << std::endl;
+    out << " +" << std::string(owidth, '-') << "+" << std::endl;
     out << std::setprecision(6) << std::fixed;
-    { // Scope of rh, re, and tot
-        Col<double> rh = mom.get(0, 1);
-        Col<double> re = mom.get(1, 0);
+    { // Scope of linear quantities
+        Col<double> rh = mom.get(0, 1) * constants::au2ang;
+        Col<double> re = mom.get(1, 0) * constants::au2ang;
         double tot = norm(rh - re);
-        out << "Hole center (in Ang):     [";
-        for (size_t i = 0; i < 3; i++) {
-            out << " " << std::setw(10) << rh(i) * constants::au2ang;
-            if (i != 2) out << ",";
-        }
-        out << "]" << std::endl;
+        out << "  <r_h> [Ang]:" << std::string(owidth-48, ' ');
+        print_vec(rh, out);
 
-        out << "Electron center (in Ang): [";
-        for (size_t i = 0; i < 3; i++) {
-            out << " " << std::setw(10) << re(i) * constants::au2ang;
-            if (i != 2) out << ",";
-        }
-        out << "]" << std::endl;
-        out << "Electron-hole distance: ";
-        out << std::setw(10) << tot * constants::au2ang << " Ang" << std::endl;
+        out << "  <r_e> [Ang]:" << std::string(owidth-48, ' ');
+        print_vec(re, out);
+        
+        out << "  |<r_e - r_h>| [Ang]:" << std::string(owidth-30, ' ')
+            << std::setw(10) << tot << std::endl << std::endl;
     } // End of scope of rh, re, and tot
 
-    { // Scope of d
-        Col<double> d =
-                sqrt(abs(mom.get(2,0) + mom.get(0,2) - mom.get(1,1) * 2.));
-        out << "RMS electron-hole separation vector (in Ang): [";
-        for (size_t i = 0; i < 3; i++) {
-            out << " " << std::setw(10) << d(i) * constants::au2ang;
-            if (i != 2) out << ",";
-        }
-        out << "]" << std::endl;
-        out << "RMS electron-hole separation (in Ang):        ";
-        out << norm(d) * constants::au2ang << std::endl;
-    } // End of scope of d
+    { // Scope of quadratic quantities
+        Col<double> sh2 = mom.get(0, 2) - mom.get(0, 1) % mom.get(0, 1);
+        sh2 *= constants::au2ang * constants::au2ang;
+        double sh = sqrt(accu(sh2));
+        
+        out << "  <r_h,i^2> - <r_h,i>^2 [Ang^2]:" << std::string(owidth-66, ' ');
+        print_vec(sh2, out);
+        out << "  Hole size [Ang]:"  << std::string(owidth-26, ' ')
+            << std::setw(10) << sh << std::endl;
+            
+        Col<double> se2 = mom.get(2, 0) - mom.get(1, 0) % mom.get(1, 0);
+        se2 *= constants::au2ang * constants::au2ang;
+        double se = sqrt(accu(se2));
+            
+        out << "  <r_e,i^2> - <r_e,i>^2 [Ang^2]:" << std::string(owidth-66, ' ');
+        print_vec(se2, out);
+        out << "  Electron size [Ang]:"  << std::string(owidth-30, ' ')
+            << std::setw(10) << se << std::endl << std::endl;
 
-    { // Scope of sh, se, cov, cf
-        double sh, se, cov, cf;
-        sh = sqrt(fabs(accu(mom.get(0, 2) - mom.get(0, 1) % mom.get(0, 1))));
-        se = sqrt(fabs(accu(mom.get(2, 0) - mom.get(1, 0) % mom.get(1, 0))));
+        Col<double> d2 = mom.get(2,0) + mom.get(0,2) - mom.get(1,1) * 2.;
+        d2 *= constants::au2ang * constants::au2ang;        
+        
+        out << "  <(r_e,i-r_h,i)^2> [Ang^2]:" << std::string(owidth-62, ' ');
+        print_vec(d2, out);
+        out << "  RMS electron-hole separation [Ang]:"  << std::string(owidth-45, ' ')
+            << std::setw(10) << sqrt(accu(d2)) << std::endl;
+                    
+        double cov, cf;
         cov = accu(mom.get(1, 1) - mom.get(1, 0) % mom.get(0, 1));
+        cov *= constants::au2ang * constants::au2ang;
         cf = cov / (se * sh);
-        out << "Variance of the hole:             ";
-        out << std::setw(10) << sh * constants::au2ang << " Ang" << std::endl;
-        out << "Variance of the electron:         ";
-        out << std::setw(10) << se * constants::au2ang << " Ang" << std::endl;
-        out << "Electron-hole covariance:         ";
-        out << std::setw(10) << cov * constants::au2ang * constants::au2ang;
-        out << " Ang^2" << std::endl;
-        out << "Electron-hole correlation factor: ";
-        out << std::setw(10) << cf << std::endl;
-    } // End scope of cov
+        out << "  Covariance(r_h, r_e) [Ang^2]:" << std::string(owidth-39, ' ')
+            << std::setw(10) << cov << std::endl;
+        out << "  Correlation coefficient:" << std::string(owidth-34, ' ')
+            << std::setw(10) << cf << std::endl;
+    }
+    out << " +" << std::string(owidth, '-') << "+" << std::endl;
 }
 
 

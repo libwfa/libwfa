@@ -21,6 +21,7 @@ private:
         \param out Output stream
      **/
     void print(exciton_moments &mom, std::ostream &out) const;
+    
 };
 
 }//end namespace libwfa

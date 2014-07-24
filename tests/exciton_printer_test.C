@@ -33,7 +33,7 @@ void exciton_printer_test::perform() throw(libtest::test_exception){
     //  cov = |rhre - rh * re|_1 = -0.00159047
     //  corr = cov / (se * sh) = -0.00135984
 
-    //std::cout << std::endl << oss.str();
+    //std::cout << std::endl << std::endl << oss.str() << std::endl;
 }
 
 
