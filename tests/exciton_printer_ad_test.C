@@ -29,7 +29,7 @@ void exciton_printer_ad_test::perform() throw(libtest::test_exception){
     //  sh = sqrt(|rh2 - rh * rh|_1) = 0.86985
     //  se = sqrt(|re2 - re * re|_1) = 1.3446
 
-    //std::cout << std::endl << oss.str();
+    std::cout << std::endl << std::endl << oss.str() << std::endl;
 }
 
 
