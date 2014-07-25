@@ -2,7 +2,7 @@
 #include <libwfa/libwfa_exception.h>
 #include <libwfa/analyses/no_analysis.h>
 #include <libwfa/export/ev_printer_no.h>
-#include <libwfa/export/export_data_none.h>
+#include <libwfa/export/export_data_print.h>
 #include "no_analysis_test.h"
 #include "test01_data.h"
 #include "test02_data.h"
@@ -38,7 +38,8 @@ void no_analysis_test::test_1() throw(libtest::test_exception) {
         read_ab_matrix(data, testname, "c", c);
         
         ev_printer_no evpr;
-        export_data_none exdat;
+        std::ostringstream ssdat;
+        export_data_print exdat(ssdat, "Test printer");
                
         // main loop
         for (size_t istate = 1; istate <= data.nstates(); istate++) {
@@ -54,6 +55,9 @@ void no_analysis_test::test_1() throw(libtest::test_exception) {
             
             no_analysis noa(s, c, dm);
             noa.perform(evpr, exdat, outdel);
+            
+            // Activate if print-out is required:
+            //std::cout << std::endl << ssdat.str() << std::endl;
 
             { // test alpha
                 const Mat<double> &dm_x = dm.alpha();

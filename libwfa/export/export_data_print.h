@@ -45,7 +45,8 @@ public:
         Appends the density type to the header and writes the density
         matrix to the output stream
      **/
-    virtual void perform(density_type type, const ab_matrix &dm);
+    virtual void perform(density_type type, const ab_matrix &dm, bool ab_sep = true,
+        size_t spin_tr_d = 0);
 
     /** \copydoc export_data_i::perform
 

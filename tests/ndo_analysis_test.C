@@ -1,7 +1,7 @@
 #include <sstream>
 #include <libwfa/libwfa_exception.h>
 #include <libwfa/export/ev_printer_ndo.h>
-#include <libwfa/export/export_data_none.h>
+#include <libwfa/export/export_data_print.h>
 #include <libwfa/analyses/ndo_analysis.h>
 #include "ndo_analysis_test.h"
 #include "test01_data.h"
@@ -43,7 +43,8 @@ void ndo_analysis_test::test_1() throw(libtest::test_exception) {
         read_ab_matrix(data, testname, "dm0", dm0);
 
         ev_printer_ndo evpr;
-        export_data_none exdat;
+        std::ostringstream ssdat;
+        export_data_print exdat(ssdat, "Test printer");
         
         for (size_t istate = 1; istate <= data.nstates(); istate++) {
             ab_matrix dm(data.aeqb());
@@ -62,6 +63,9 @@ void ndo_analysis_test::test_1() throw(libtest::test_exception) {
             ndo_analysis ndoa(s, c, ddm, evpr);
             ndoa.perform(att, det, u, ev, exdat, outdel);
             
+            // Activate if print-out is required:
+            //std::cout << std::endl << ssdat.str() << std::endl;
+
             { // test alpha
                 const Mat<double> &dm_x = ddm.alpha();
                 const Mat<double> &u_x = u.alpha();

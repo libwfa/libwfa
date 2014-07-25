@@ -9,7 +9,8 @@ using namespace arma;
 const char export_data_print::k_clazz[] = "export_data_print";
 
 
-void export_data_print::perform(density_type type, const ab_matrix &dm) {
+void export_data_print::perform(density_type type, const ab_matrix &dm, bool ab_sep,
+        size_t spin_tr_d) {
 
     if (! m_dt.test(type)) return;
 

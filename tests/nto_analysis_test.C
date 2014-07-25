@@ -2,7 +2,7 @@
 #include <sstream>
 #include <libwfa/libwfa_exception.h>
 #include <libwfa/export/ev_printer_nto.h>
-#include <libwfa/export/export_data_none.h>
+#include <libwfa/export/export_data_print.h>
 #include "nto_analysis_test.h"
 #include "test01_data.h"
 #include "test02_data.h"
@@ -40,7 +40,8 @@ void nto_analysis_test::test_1() throw(libtest::test_exception) {
         read_ab_matrix(data, testname, "c", c);
 
         ev_printer_nto evpr;
-        export_data_none exdat;
+        std::ostringstream ssdat;
+        export_data_print exdat(ssdat, "Test printer");
 
         // main loop
         for (size_t istate = 1; istate <= data.nstates(); istate++) {
@@ -63,6 +64,9 @@ void nto_analysis_test::test_1() throw(libtest::test_exception) {
 
             ab_vector &lamh = nab.get_eigval(false);
             ab_vector &lame = nab.get_eigval(true);
+
+            // Activate if print-out is required:
+            //std::cout << std::endl << ssdat.str() << std::endl;
 
             if (accu(abs(lamh.alpha() - lame.alpha()) > 1e-14) != 0)
                 fail_test(testname, __FILE__, __LINE__, "hole != electron");
