@@ -30,9 +30,10 @@ public:
     using exciton_analysis_base::analyse;
 
 private:
-    virtual void print_header(std::ostream &out) const;
+    virtual void print_header(std::ostream &out, size_t off) const;
 
-    virtual void analysis(std::ostream &out, const exciton_moments &mom) const;
+    virtual void analysis(std::ostream &out,
+            const exciton_moments &mom, size_t off) const;
 
     static void calculate(const mom_builder_i &bld, const arma::mat &adm,
         const arma::mat &ddm, exciton_moments &mom);

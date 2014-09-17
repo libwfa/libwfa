@@ -46,15 +46,30 @@ public:
 
     /** \brief Perform analysis
         \param out Output stream
+        \param offset Line offset
      **/
-    void analyse(std::ostream &out) const;
+    void analyse(std::ostream &out, size_t offset = 2) const;
 
 protected:
-    virtual void print_header(std::ostream &out) const = 0;
+    /** \brief Write analysis header to output stream
+        @param out Output stream
+        @param offset Line offset
+     **/
+    virtual void print_header(std::ostream &out, size_t offset) const = 0;
 
+    /** \brief Analyse exciton moments and print results
+        @param out Output stream
+        @param mom Exciton moments
+        @param offset Line offset
+     **/
     virtual void analysis(std::ostream &out,
-            const exciton_moments &mom) const = 0;
+            const exciton_moments &mom, size_t offset) const = 0;
 
+    /** \brief Print armadillo vector
+        \param out Output stream
+        \param vec Vector to print
+        \param width Width of each element
+     **/
     static void print(std::ostream &out,
         const arma::vec &vec, size_t width = 10);
 };

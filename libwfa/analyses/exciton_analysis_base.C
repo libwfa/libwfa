@@ -26,18 +26,19 @@ exciton_analysis_base::~exciton_analysis_base() {
 }
 
 
-void exciton_analysis_base::analyse(std::ostream &out) const {
+void exciton_analysis_base::analyse(std::ostream &out, size_t off) const {
 
-    print_header(out);
+    print_header(out, off);
 
+    std::string os(off, ' ');
     if (m_mom[1]) {
-        out << "alpha spin:" << std::endl;
-        analysis(out, *m_mom[0]);
-        out << "beta spin:" << std::endl;
-        analysis(out, *m_mom[1]);
+        out << os << "alpha spin:" << std::endl;
+        analysis(out, *m_mom[0], off + 2);
+        out << os << "beta spin:" << std::endl;
+        analysis(out, *m_mom[1], off + 2);
     }
     else {
-        analysis(out, *m_mom[0]);
+        analysis(out, *m_mom[0], off + 2);
     }
 }
 

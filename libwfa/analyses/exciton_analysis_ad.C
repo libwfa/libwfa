@@ -19,31 +19,33 @@ exciton_analysis_ad::exciton_analysis_ad(const mom_builder_i &bld,
 }
 
 
-void exciton_analysis_ad::print_header(std::ostream &out) const {
+void exciton_analysis_ad::print_header(std::ostream &out, size_t off) const {
 
-    out << "Spatial multipole analysis of the difference density matrix"
+    std::string os(off, ' ');
+    out << os << "Spatial multipole analysis of the difference density matrix"
             << std::endl;
-    out << "in terms of the hole (r_h) and electron (r_e) coordinates."
+    out << os << "in terms of the hole (r_h) and electron (r_e) coordinates."
             << std::endl;
 }
 
 
 void exciton_analysis_ad::analysis(std::ostream &out,
-    const exciton_moments &mom) const {
+    const exciton_moments &mom, size_t off) const {
 
+    std::string os(off, ' ');
     out << std::setprecision(6) << std::fixed;
     { // Scope of rh, re, and tot
         vec rh = mom.get(0, 1) * constants::au2ang;
         vec re = mom.get(1, 0) * constants::au2ang;
         double tot = norm(rh - re);
 
-        out << "  <r_h> [Ang]:" << std::string(18, ' ');
+        out << os << "<r_h> [Ang]:" << std::string(18, ' ');
         print(out, rh);
         out << std::endl;
-        out << "  <r_e> [Ang]:" << std::string(18, ' ');
+        out << os << "<r_e> [Ang]:" << std::string(18, ' ');
         print(out, re);
         out << std::endl;
-        out << "  |<r_e - r_h>| [Ang]:" << std::string(10, ' ')
+        out << os << "|<r_e - r_h>| [Ang]:" << std::string(10, ' ')
                 << std::setw(10) << tot << std::endl << std::endl;
     } // End of scope of rh, re, and tot
 
@@ -56,16 +58,16 @@ void exciton_analysis_ad::analysis(std::ostream &out,
 
         //out << "  <r_h,i^2> - <r_h,i>^2 [Ang^2]:" << std::string(owidth-66, ' ');
         //print_vec(sh2, out);
-        out << "  Hole size [Ang]:" << std::string(10, ' ')
+        out << os << "Hole size [Ang]:" << std::string(10, ' ')
             << std::setw(10) << sh << std::endl;
-        out << "    Cartesian components [Ang]: ";
+        out << os << "  Cartesian components [Ang]: ";
         print(out, sqrt(sh2));
         out << std::endl;
         //out << "  <r_e,i^2> - <r_e,i>^2 [Ang^2]:" << std::string(owidth-66, ' ');
         //print_vec(se2, out);
-        out << "  Electron size [Ang]:" << std::string(10, '-')
+        out << os << "Electron size [Ang]:" << std::string(10, '-')
             << std::setw(10) << se << std::endl;
-        out << "    Cartesian components [Ang]: ";
+        out << os << "  Cartesian components [Ang]: ";
         print(out, sqrt(se2));
         out << std::endl;
     }
