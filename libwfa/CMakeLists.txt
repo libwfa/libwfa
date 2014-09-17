@@ -97,20 +97,19 @@ set(HEADERS
     ${CORE_HEADERS}
     ${EXPORT_HEADERS}
     ${ANALYSES_HEADERS}
-#    analyse_opdm.h
-#    analyse_optdm.h
     libwfa_exception.h
     version.h
+    wf_analysis_data_i.h
+    wf_analysis.h
 )
 
 set(SRC
     ${CORE_SRC}
     ${EXPORT_SRC}
     ${ANALYSES_SRC}
-#    analyse_opdm.C
-#    analyse_optdm.C
     libwfa_exception.C
     version.C
+    wf_analysis.C
 )
 
 set(TARGETS wfa)

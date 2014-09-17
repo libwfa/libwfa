@@ -9,9 +9,10 @@ namespace libwfa{
 void exciton_analysis_test::perform() throw(libtest::test_exception){
 
     test_1();
-
 }
 
+
+using namespace arma;
 
 void exciton_analysis_test::test_1() {
 
@@ -19,13 +20,13 @@ void exciton_analysis_test::test_1() {
 
     try {
 
-    arma::mat s = exciton_test_data_hhe::overlap();
-    arma::mat x = exciton_test_data_hhe::x();
-    arma::mat y = exciton_test_data_hhe::y();
-    arma::mat z = exciton_test_data_hhe::z();
-    arma::mat xx = exciton_test_data_hhe::xx();
-    arma::mat yy = exciton_test_data_hhe::yy();
-    arma::mat zz = exciton_test_data_hhe::zz();
+    mat s = exciton_test_data_hhe::overlap();
+    mat x = exciton_test_data_hhe::x();
+    mat y = exciton_test_data_hhe::y();
+    mat z = exciton_test_data_hhe::z();
+    mat xx = exciton_test_data_hhe::xx();
+    mat yy = exciton_test_data_hhe::yy();
+    mat zz = exciton_test_data_hhe::zz();
 
     mom_builder bld(s, x, y, z, xx, yy, zz);
 

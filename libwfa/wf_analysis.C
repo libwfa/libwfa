@@ -1,0 +1,218 @@
+#include <libwfa/analyses/ctnumbers.h>
+#include <libwfa/analyses/exciton_analysis_ad.h>
+#include <libwfa/analyses/exciton_analysis.h>
+#include <libwfa/analyses/no_analysis.h>
+#include <libwfa/analyses/ndo_analysis.h>
+#include <libwfa/analyses/nto_analysis.h>
+#include <libwfa/analyses/pop_analysis_ad.h>
+#include <libwfa/analyses/pop_analysis_dm.h>
+#include "wf_analysis.h"
+
+namespace libwfa {
+
+using namespace arma;
+
+void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
+    const std::string &desc, const ab_matrix &ddm, const ab_matrix &dm0) {
+
+    ab_matrix sdm(ddm);
+    sdm += dm0;
+
+    // Create printer for orbitals and densities
+    std::auto_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
+    std::auto_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
+
+    // Export density matrices first
+    pr1->perform(density_type::state, sdm);
+    pr1->perform(density_type::difference, ddm);
+
+    // Get prerequisites of further analyses
+    const arma::mat &s = m_h->overlap();
+    const ab_matrix &c = m_h->coefficients();
+
+    opdm_params p1 = m_h->opdm_params();
+    opddm_params p2 = m_h->opddm_params();
+
+    if (p1.no_analysis) {
+        no_analysis no(s, c, sdm);
+        no.analyse(out, p1.nno);
+        no.export_orbitals(*pr2);
+    }
+
+    ab_matrix at, de;
+    if (p2.ndo_analysis) {
+        ndo_analysis ndo(s, c, ddm);
+        ndo.analyse(out, p2.nndo);
+        ndo.export_orbitals(*pr2, p2.nndo);
+        if (p2.ndo_analysis > opddm_params::NDO) {
+            ndo.form_ad(at, de);
+            pr1->perform(density_type::attach, at);
+            pr1->perform(density_type::detach, de);
+        }
+    }
+
+    // Perform population analyses
+    for (size_t i = 0; i < m_h->n_pop_analyses(); i++) {
+
+        pop_data pdata;
+        const pop_analysis_i &pa = m_h->pop_analysis(i);
+        const vec &p0 = m_h->ref_population(i);
+        const std::string &pname = m_h->pop_name(i);
+        const std::vector<std::string> &l = m_h->pop_labels(i);
+
+        pop_analysis_dm(pa, p0, sdm).perform(pdata);
+        if (p2.ndo_analysis > opddm_params::NDO)
+            pop_analysis_ad(pa, at, de).perform(pdata);
+
+        out << pname << std::endl;
+        pdata.print(out, l);
+    }
+
+    if (p2.ndo_analysis == opddm_params::EXCITON)
+        exciton_analysis_ad(m_h->mom_builder(), at, de).analyse(out);
+}
+
+
+void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
+    const std::string &desc, const ab_matrix &sdm) {
+
+    wf_analysis_data_i &h = *wf_analysis::m_h;
+
+    // Create printer for orbitals and densities
+    std::auto_ptr<density_printer_i> pr1(h.density_printer(name, desc));
+    std::auto_ptr<orbital_printer_i> pr2(h.orbital_printer(name, desc));
+
+    // Export density matrices first
+    pr1->perform(density_type::state, sdm);
+
+    // Get prerequisites of further analyses
+    const arma::mat &s = h.overlap();
+    const ab_matrix &c = h.coefficients();
+
+    opdm_params p1 = m_h->opdm_params();
+    if (p1.no_analysis) {
+        no_analysis no(s, c, sdm);
+        no.analyse(out, p1.nno);
+        no.export_orbitals(*pr2);
+    }
+
+    // Perform population analyses
+    for (size_t i = 0; i < h.n_pop_analyses(); i++) {
+
+        pop_data pdata;
+        const pop_analysis_i &pa = h.pop_analysis(i);
+        const vec &p0 = h.ref_population(i);
+        const std::string &pname = h.pop_name(i);
+        const std::vector<std::string> &l = h.pop_labels(i);
+
+        pop_analysis_dm(pa, p0, sdm).perform(pdata);
+        out << pname << std::endl;
+        pdata.print(out, l);
+    }
+
+}
+
+
+void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
+    const std::string &desc, const ab_matrix &tdm) {
+
+    // Create printer for orbitals and densities
+    std::auto_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
+    std::auto_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
+
+    // Export density matrices first
+    pr1->perform(density_type::transition, tdm);
+
+    // Get prerequisites of further analyses
+    const arma::mat &s = m_h->overlap();
+    const ab_matrix &c = m_h->coefficients();
+
+    // If NTO formatter exists, do NTO analysis
+    optdm_params p1 = m_h->optdm_params();
+    if (p1.nto_analysis) {
+        nto_analysis nto(s, c, tdm);
+        nto.analyse(out, p1.nnto);
+        nto.export_orbitals(*pr2, p1.thresh);
+    }
+    if (p1.eh) {
+        ab_matrix edm, hdm;
+        nto_analysis::form_eh(s, tdm, edm, hdm);
+        pr1->perform(density_type::particle, edm);
+        pr1->perform(density_type::hole, hdm);
+        if (p1.eh == optdm_params::AVERAGE)
+            add_to_average(edm, hdm);
+    }
+
+    if (m_h->n_ctnum_analyses() != 0) {
+
+        ab_matrix om;
+        ctnumbers::form_om(s, tdm, om);
+
+        for (size_t i = 0; i < m_h->n_ctnum_analyses(); i++) {
+
+            const ctnum_analysis_i &ca = m_h->ctnum_analysis(i);
+            const std::string &cname = m_h->ctnum_name(i);
+            std::auto_ptr<ctnum_printer_i> cpr(m_h->ctnum_printer(i, name, desc));
+
+            ab_matrix omx;
+            double om_tot[2];
+            ctnumbers ct(ca, om);
+
+            out << cname << std::endl;
+            ct.analyse(out);
+            ct.do_export(*cpr);
+        }
+    }
+
+    if (p1.exciton_analysis)
+        exciton_analysis(m_h->mom_builder(), tdm).analyse(out);
+}
+
+
+bool wf_analysis::setup_sa_ntos(std::ostream &out) {
+
+    if (! m_init_av) return false;
+
+    ab_matrix edm(true), hdm(true);
+    edm.alpha() = 0.5 * (m_edm_av.alpha() + m_edm_av.beta());
+    hdm.alpha() = 0.5 * (m_hdm_av.alpha() + m_hdm_av.beta());
+
+    const arma::mat &s = m_h->overlap();
+    const ab_matrix &c = m_h->coefficients();
+
+    optdm_params p1 = m_h->optdm_params();
+
+    nto_analysis sa_ntos(s, c, edm, hdm);
+    if (p1.nto_analysis) {
+        std::auto_ptr<orbital_printer_i> pr(m_h->orbital_printer("sa_nto",
+                "State-averaged NTOs"));
+        sa_ntos.analyse(out, p1.nnto);
+        sa_ntos.export_orbitals(*pr, p1.thresh);
+    }
+    m_sa = std::auto_ptr<sa_nto_analysis>(new sa_nto_analysis(s, sa_ntos));
+    return true;
+}
+
+bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm) {
+
+    if (m_sa.get() == 0) return false;
+
+    m_sa->analyse(out, tdm);
+    return true;
+}
+
+
+void wf_analysis::add_to_average(const ab_matrix &edm, const ab_matrix &hdm) {
+
+    if (m_init_av) {
+        m_edm_av += edm;
+        m_hdm_av += hdm;
+    }
+    else {
+        m_edm_av = edm;
+        m_hdm_av = hdm;
+        m_init_av = true;
+    }
+}
+
+} // namespace adcman

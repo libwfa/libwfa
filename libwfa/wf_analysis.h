@@ -1,0 +1,93 @@
+#ifndef LIBWFA_WF_ANALYSIS_H
+#define LIBWFA_WF_ANALYSIS_H
+
+#include <libwfa/analyses/sa_nto_analysis.h>
+#include "wf_analysis_data_i.h"
+
+namespace libwfa {
+
+
+/** \brief Wave function analysis class
+
+    Wrapper class to perform all available analyses.
+
+    If new analyses are added to the library, please amend the respective
+    functions below.
+
+    \ingroup libwfa
+ **/
+class wf_analysis {
+private:
+    std::auto_ptr<wf_analysis_data_i> m_h; //!< Handler of analysis data
+    std::auto_ptr<sa_nto_analysis> m_sa; //!< State-averaged NTO analysis
+
+    ab_matrix m_edm_av; //!< Averaged electron density
+    ab_matrix m_hdm_av; //!< Averaged hole density
+    bool m_init_av; //!< Where the above initialized?
+
+public:
+    /** \brief Initializes the wave function analysis
+        \param h Data handler
+
+        The class takes ownership of h and destroys the pointer when no
+        longer required.
+     **/
+    wf_analysis(wf_analysis_data_i *h) :
+        m_h(h), m_sa(0), m_init_av(false) { }
+
+
+    /** \brief Perform analysis of state and difference density matrix
+        \param out Output stream
+        \param name Name of state (useable as filename)
+        \param desc Description of state (one-line comment)
+        \param ddm Difference density matrix in AO
+        \param dm0 Ground state density matrix in AO
+     **/
+    void analyse_opdm(std::ostream &out,
+            const std::string &name, const std::string &desc,
+            const ab_matrix &ddm, const ab_matrix &dm0);
+
+    /** \brief Perform analysis of state density matrix
+            \param out Output stream
+            \param name Name of state (useable as filename)
+            \param desc Description of state (one-line comment)
+            \param sdm State density matrix in AO
+     **/
+    void analyse_opdm(std::ostream &out,
+            const std::string &name, const std::string &desc,
+            const ab_matrix &sdm);
+
+    /** \brief Perform analysis of transition density matrix
+        \param out Output stream
+        \param name Name of state (useable as filename)
+        \param desc Description of state (one-line comment)
+        \param tdm Transition density matrix in AO
+     **/
+    void analyse_optdm(std::ostream &out,
+            const std::string &name, const std::string &desc,
+            const ab_matrix &tdm);
+
+    /** \brief Constructs state-averaged NTOs and sets up the analysis
+        \param out Output stream
+        \return True, if successful
+     **/
+    bool setup_sa_ntos(std::ostream &out);
+
+    /** \brief Perform SA-NTO analysis of transition density matrix
+        \param out Output stream
+        \param tdm Transition density matrix in AO
+        \return True, if successful
+     **/
+    bool post_process_optdm(std::ostream &out, const ab_matrix &tdm);
+
+private:
+    void add_to_average(const ab_matrix &edm, const ab_matrix &hdm);
+};
+
+
+
+
+
+} // namespace adcman
+
+#endif // LIBWFA_WF_ANALYSIS_H
