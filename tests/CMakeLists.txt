@@ -24,9 +24,9 @@ set(SRC_HEADER
     orbital_type_test.h
     pop_analysis_ad_test.h
     pop_analysis_dm_test.h
+    pop_data_test.h
     pop_loewdin_test.h
     pop_mulliken_test.h
-    pop_printer_default_test.h
     selector_test.h
     test_base.h
     test_data_base.h
@@ -63,9 +63,9 @@ set(SRC
     orbital_type_test.C
     pop_analysis_ad_test.C
     pop_analysis_dm_test.C
+    pop_data_test.C
     pop_loewdin_test.C
     pop_mulliken_test.C
-    pop_printer_default_test.C
     selector_test.C
     test_base.C
     test_data_base.C

@@ -1,16 +1,16 @@
-#ifndef LIBWFA_POP_PRINTER_DEFAULT_TEST_H
-#define LIBWFA_POP_PRINTER_DEFAULT_TEST_H
+#ifndef LIBWFA_POP_DATA_TEST_H
+#define LIBWFA_POP_DATA_TEST_H
 
 #include <libtest/unit_test.h>
 
 namespace libwfa {
 
 
-/** \brief Tests the libwfa::pop_printer_default class
+/** \brief Tests the libwfa::pop_data class
 
     \ingroup libwfa_tests
  **/
-class pop_printer_default_test : public libtest::unit_test {
+class pop_data_test : public libtest::unit_test {
 public:
     virtual void perform() throw(libtest::test_exception);
 
@@ -23,4 +23,4 @@ private:
 
 } // namespace libwfa
 
-#endif // LIBWFA_POP_PRINTER_DEFAULT_TEST_H
+#endif // LIBWFA_POP_DATA_TEST_H

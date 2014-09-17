@@ -21,9 +21,9 @@
 #include "orbital_type_test.h"
 #include "pop_analysis_ad_test.h"
 #include "pop_analysis_dm_test.h"
+#include "pop_data_test.h"
 #include "pop_loewdin_test.h"
 #include "pop_mulliken_test.h"
-#include "pop_printer_default_test.h"
 #include "sa_nto_analysis_test.h"
 #include "selector_test.h"
 #include "version_test.h"
@@ -60,9 +60,9 @@ namespace libwfa {
     - \c orbital_type_test
     - \c pop_analysis_ad_test
     - \c pop_analysis_dm_test
+    - \c pop_data_test
     - \c pop_loewdin_test
     - \c pop_mulliken_test
-    - \c pop_printer_default_test
     - \c selector_test
     - \c version_test
 
@@ -90,9 +90,9 @@ private:
     unit_test_factory<orbital_type_test> m_utf_orbital_type;
     unit_test_factory<pop_analysis_ad_test> m_utf_pop_analysis_ad;
     unit_test_factory<pop_analysis_dm_test> m_utf_pop_analysis_dm;
+    unit_test_factory<pop_data_test> m_utf_pop_data;
     unit_test_factory<pop_loewdin_test> m_utf_pop_loewdin;
     unit_test_factory<pop_mulliken_test> m_utf_pop_mulliken;
-    unit_test_factory<pop_printer_default_test> m_utf_pop_printer_default;
     unit_test_factory<selector_test> m_utf_selector;
     unit_test_factory<version_test> m_utf_version;
 

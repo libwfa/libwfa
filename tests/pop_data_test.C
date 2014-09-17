@@ -1,13 +1,13 @@
 #include <cstdlib>
 #include <sstream>
 #include <libwfa/libwfa_exception.h>
-#include <libwfa/export/pop_printer_default.h>
-#include "pop_printer_default_test.h"
+#include <libwfa/analyses/pop_data.h>
+#include "pop_data_test.h"
 
 namespace libwfa {
 
 
-void pop_printer_default_test::perform() throw(libtest::test_exception) {
+void pop_data_test::perform() throw(libtest::test_exception) {
 
     test_1();
     test_2();
@@ -15,11 +15,11 @@ void pop_printer_default_test::perform() throw(libtest::test_exception) {
 }
 
 
-void pop_printer_default_test::test_1() {
+void pop_data_test::test_1() {
 
     // Basic functionality test
 
-    static const char *testname = "pop_printer_default_test::test_1()";
+    static const char *testname = "pop_data_test::test_1()";
 
     size_t na = 4;
     std::vector<std::string> labels(na, "");
@@ -34,8 +34,7 @@ void pop_printer_default_test::test_1() {
     p.add("Set 3").randu(na);
 
     std::stringstream ss;
-    pop_printer_default pr(labels);
-    pr.perform(p, ss);
+    p.print(ss, labels);
 
     // Check for proper line length
     std::string line;
@@ -44,20 +43,14 @@ void pop_printer_default_test::test_1() {
             fail_test(testname, __FILE__, __LINE__, "Line to long.");
         }
     }
-
-    // Uncomment to inspect the output
-//    std::string sep(80, '-');
-//    std::cout << std::endl << sep << std::endl;
-//    std::cout << oss.str();
-//    std::cout << std::endl << sep << std::endl;
 }
 
 
-void pop_printer_default_test::test_2() {
+void pop_data_test::test_2() {
 
     // Test adjustment of columns
 
-    static const char *testname = "pop_printer_default_test::test_2()";
+    static const char *testname = "pop_data_test::test_2()";
 
     size_t na = 4;
     std::vector<std::string> labels(na, "");
@@ -74,8 +67,7 @@ void pop_printer_default_test::test_2() {
     p.add("Set 5").randu(na);
 
     std::stringstream ss;
-    pop_printer_default pr(labels);
-    pr.perform(p, ss);
+    p.print(ss, labels);
 
     // Check for proper line length
     std::string line;
@@ -93,11 +85,11 @@ void pop_printer_default_test::test_2() {
 }
 
 
-void pop_printer_default_test::test_exc() {
+void pop_data_test::test_exc() {
 
     // Test exception
 
-    static const char *testname = "pop_printer_default_test::test_exc()";
+    static const char *testname = "pop_data_test::test_exc()";
 
     size_t na = 4;
     std::vector<std::string> labels(na, "");
@@ -114,11 +106,10 @@ void pop_printer_default_test::test_exc() {
     p3.add("Set 5").randu(na - 1);
 
     std::ostringstream oss;
-    pop_printer_default pr(labels);
 
     bool ok = false;
     try {
-        pr.perform(p1, oss);
+        p1.print(oss, labels);
     } catch(libwfa_exception &e){
         ok = true;
     }
@@ -127,7 +118,7 @@ void pop_printer_default_test::test_exc() {
     }
     ok = false;
     try {
-        pr.perform(p2, oss);
+        p2.print(oss, labels);
     } catch(libwfa_exception &e){
         ok = true;
     }
@@ -136,7 +127,7 @@ void pop_printer_default_test::test_exc() {
     }
     ok = false;
     try {
-        pr.perform(p3, oss);
+        p3.print(oss, labels);
     } catch(libwfa_exception &e){
         ok = true;
     }

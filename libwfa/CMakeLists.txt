@@ -78,8 +78,6 @@ set(EXPORT_HEADERS
     export/orbital_printer_i.h
     export/orbital_printer_molden.h
     export/orbital_printer_nil.h
-    export/pop_printer_default.h
-    export/pop_printer_i.h
 )
 
 set(EXPORT_SRC
@@ -92,7 +90,6 @@ set(EXPORT_SRC
     export/orbital_printer_basic.C
     export/orbital_printer_cube.C
     export/orbital_printer_molden.C
-    export/pop_printer_default.C
 )
 
 

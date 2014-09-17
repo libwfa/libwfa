@@ -76,6 +76,16 @@ public:
     const arma::vec &data(iterator i) const {
         return i->data;
     }
+
+    /** \brief Print population data as table
+        \param out Output stream
+        \param l Row labels
+        \param colwidth Column width (default: 16)
+        \param prec Precision (default: 6)
+        \param offset Line offset (default: 2)
+     **/
+    void print(std::ostream &out, const std::vector<std::string> &l,
+        size_t colwidth = 16, size_t prec = 6, size_t offset = 2) const;
 };
 
 } // namespace libwfa
