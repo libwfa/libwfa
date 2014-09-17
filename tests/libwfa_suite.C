@@ -14,8 +14,6 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("density_type", m_utf_density_type);
     add_test("exciton_analysis_ad", m_utf_exciton_analysis_ad_test);
     add_test("exciton_analysis", m_utf_exciton_analysis_test);
-    add_test("exciton_printer", m_utf_exciton_printer_test);
-    add_test("exciton_printer_ad", m_utf_exciton_printer_ad_test);
     add_test("export_cube_base", m_utf_export_cube_base);
     add_test("grid3d", m_utf_grid3d);
     add_test("ndo_analysis", m_utf_ndo_analysis);

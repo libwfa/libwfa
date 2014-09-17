@@ -8,8 +8,6 @@
 
 namespace libwfa {
 
-using namespace arma;
-
 /** \brief Computes the exciton moments based on a TDM
 
     Computes the exciton moments using the transition density matrix.
@@ -18,23 +16,42 @@ using namespace arma;
  **/
 class exciton_analysis {
 private:
-    const mom_builder_i &m_bld; //!< Builder for multipole moments
-    const ab_matrix &m_tdm; //!< Transition density matrix
-    size_t m_mmax; //!< Max multipole moment to compute
-
+    exciton_moments *m_mom[2]; //!< Computed exciton moments
 
 public:
-    exciton_analysis(const mom_builder_i &bld, const ab_matrix &tdm);
+    /** \brief Constructor
+        \param bld Moment builder
+        \param tdm Transition density matrix
+        \param maxmm Maximum moment (default: 2)
+     **/
+    exciton_analysis(const mom_builder_i &bld,
+        const ab_matrix &tdm, size_t maxmm = 2);
+
+    /** \brief Destructor
+     **/
+    ~exciton_analysis();
+
+    /** \brief Computed exciton moment
+        \param spin If true: beta spin; else alpha spin
+     **/
+    const exciton_moments &moment(bool spin) {
+        return *m_mom[(spin && m_mom[1] ? 1 : 0)];
+    }
 
     /** \brief Perform analysis
-        \param mom Resulting exciton moments
+        \param out Output stream
      **/
-    void perform(ab_exciton_moments &mom) const;
+    void analyse(std::ostream &out) const;
 
 private:
-    void calculate(const arma::mat &tdm, exciton_moments &mom) const;
+    static void calculate(const mom_builder_i &bld, const arma::mat &tdm,
+        exciton_moments &mom);
 
-}; // class exciton_analysis
+    static void analysis(std::ostream &out, const exciton_moments &mom);
+
+    static void print(std::ostream &out,
+        const arma::vec &vec, size_t width = 10);
+};
 
 } // namespace libwfa
 

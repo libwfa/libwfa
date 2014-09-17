@@ -20,24 +20,36 @@ using namespace arma;
  **/
 class exciton_analysis_ad {
 private:
-    const mom_builder_i &m_bld; //!< Builder for multipole moments
-    const ab_matrix &m_adm; //!< Attachment density matrix
-    const ab_matrix &m_ddm; //!< Detachment density matrix
-    size_t m_mmax; //!< Max multipole moment to compute
-
+    exciton_moments *m_mom[2]; //!< Computed exciton moments
 
 public:
     exciton_analysis_ad(const mom_builder_i &bld,
-        const ab_matrix &adm, const ab_matrix &ddm);
+        const ab_matrix &adm, const ab_matrix &ddm, size_t maxmm = 2);
+
+    /** \brief Destructor
+     **/
+    ~exciton_analysis_ad();
+
+    /** \brief Computed exciton moment
+        \param spin If true: beta spin; else alpha spin
+     **/
+    const exciton_moments &moment(bool spin) {
+        return *m_mom[(spin && m_mom[1] ? 1 : 0)];
+    }
 
     /** \brief Perform analysis
-        \param mom Resulting exciton moments
+        \param out Output stream
      **/
-    void perform(ab_exciton_moments &mom) const;
+    void analyse(std::ostream &out) const;
 
 private:
-    void calculate(const arma::mat &adm,
-        const arma::mat &ddm, exciton_moments &mom) const;
+    static void calculate(const mom_builder_i &bld, const arma::mat &adm,
+        const arma::mat &ddm, exciton_moments &mom);
+
+    static void analysis(std::ostream &out, const exciton_moments &mom);
+
+    static void print(std::ostream &out,
+        const arma::vec &vec, size_t width = 10);
 };
 
 } // namespace libwfa

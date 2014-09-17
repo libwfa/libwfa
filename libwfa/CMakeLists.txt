@@ -66,9 +66,9 @@ set(EXPORT_HEADERS
     export/density_printer_i.h
     export/density_printer_none.h
     export/density_printer_print.h
-    export/exciton_printer_ad.h
-    export/exciton_printer_i.h
-    export/exciton_printer.h
+#    export/exciton_printer_ad.h
+#    export/exciton_printer_i.h
+#    export/exciton_printer.h
     export/export_cube_base.h
     export/export_cube_i.h
     export/export_molden_i.h
@@ -87,8 +87,8 @@ set(EXPORT_SRC
     export/cube_writer.C
     export/density_printer_cube.C
     export/density_printer_print.C
-    export/exciton_printer_ad.C
-    export/exciton_printer.C
+#    export/exciton_printer_ad.C
+#    export/exciton_printer.C
     export/export_cube_base.C
     export/grid3d.C
     export/orbital_printer_basic.C

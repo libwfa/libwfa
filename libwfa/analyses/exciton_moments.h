@@ -27,6 +27,10 @@ public:
      **/
     exciton_moments(size_t nmax = 1);
 
+    /** \brief Highest moment
+     **/
+    size_t n_max() const { return m_nmax; }
+
     /** \brief Set data for specific moment
      **/
     void set(size_t ne, size_t nh, const arma::vec &m) {
@@ -41,21 +45,6 @@ private:
     size_t determine_loc(size_t ne, size_t nh) const;
 
 }; // class exciton_moments
-
-
-/** \brief Exciton moments with spin
-
-    \ingroup libwfa
- **/
-class ab_exciton_moments : public ab_object<exciton_moments> {
-public:
-    /** \brief Default constructor
-        \param nmax Maximum moment (default: 2)
-        \param aeqb \f$ \alpha = \beta \f$
-     **/
-    ab_exciton_moments(size_t nmax = 2, bool aeqb = false);
-
-};
 
 
 inline exciton_moments::exciton_moments(size_t nmax) : m_nmax(nmax),
@@ -76,17 +65,6 @@ inline size_t exciton_moments::determine_loc(size_t ne, size_t nh) const {
 
     return (n * (n + 1)) / 2 + ne - 1;
 }
-
-
-inline ab_exciton_moments::ab_exciton_moments(size_t nmax, bool aeqb) :
-    ab_object<exciton_moments>(aeqb) {
-
-    alpha() = exciton_moments(nmax);
-    if (! aeqb) {
-        beta() = exciton_moments(nmax);
-    }
-}
-
 
 
 } // namespace libwfa
