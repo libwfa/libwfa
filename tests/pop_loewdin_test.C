@@ -1,6 +1,6 @@
 #include <iomanip>
-#include <libwfa/analyses/pop_mulliken.h>
-#include "pop_mulliken_test.h"
+#include <libwfa/analyses/pop_loewdin.h>
+#include "pop_loewdin_test.h"
 #include "test01_data.h"
 #include "test02_data.h"
 
@@ -8,7 +8,7 @@ namespace libwfa {
 
 using namespace arma;
 
-void pop_mulliken_test::perform() throw(libtest::test_exception) {
+void pop_loewdin_test::perform() throw(libtest::test_exception) {
 
     test_1();
     test_2<test01_data>();
@@ -16,9 +16,9 @@ void pop_mulliken_test::perform() throw(libtest::test_exception) {
 }
 
 
-void pop_mulliken_test::test_1() throw(libtest::test_exception) {
+void pop_loewdin_test::test_1() throw(libtest::test_exception) {
 
-    static const char *testname = "pop_mulliken_test::test_1()";
+    static const char *testname = "pop_loewdin_test::test_1()";
 
     try {
 
@@ -29,33 +29,42 @@ void pop_mulliken_test::test_1() throw(libtest::test_exception) {
 
     // Use the upper and lower triagonal of a random matrix to
     // form symmetric overlap and density matrices
-    Mat<double> base = randu< Mat<double> >(nb, nb);
-    Mat<double> ov = symmatu(base);
+    Mat<double> base(nb, nb, fill::randu);
     Mat<double> dm = symmatl(base);
+    Mat<double> ov, ov2;
+    {
+    Mat<double> u;
+    Col<double> e;
+    eig_sym(e, u, symmatu(base));
+    ov = u * diagmat(abs(e)) * u.t();
+    ov2 = u * diagmat(sqrt(abs(e))) * u.t();
+    }
 
     Col<double> p, p_ref(na, fill::zeros);
     for (size_t i = 0; i < nb1; i++) {
         double tmp = 0.0;
-        for (size_t j = 0; j < nb; j++) {
-            tmp += dm(i, j) * ov(i, j);
+        for (size_t j = 0; j < nb; j++)
+        for (size_t k = 0; k < nb; k++) {
+            tmp += ov2(i, j) * dm(j, k) * ov2(i, k);
         }
         p_ref(0) -= tmp;
     }
     for (size_t i = nb1; i < nb; i++) {
         double tmp = 0.0;
-        for (size_t j = 0; j < nb; j++) {
-            tmp += dm(i, j) * ov(i, j);
+        for (size_t j = 0; j < nb; j++)
+        for (size_t k = 0; k < nb; k++) {
+            tmp += ov2(i, j) * dm(j, k) * ov2(i, k);
         }
         p_ref(1) -= tmp;
     }
 
-    pop_mulliken(ov, b2c).perform(dm, p);
+    pop_loewdin(ov, b2c).perform(dm, p);
 
     if (p.size() != na) {
         fail_test(testname, __FILE__, __LINE__, "Length of population vector");
     }
 
-    uvec x = find(abs(p - p_ref) > 1e-14, 1);
+    uvec x = find(abs(p - p_ref) > 1e-13, 1);
     if (x.size() != 0) {
 
         std::ostringstream oss;
@@ -72,9 +81,9 @@ void pop_mulliken_test::test_1() throw(libtest::test_exception) {
 
 
 template<typename TestData>
-void pop_mulliken_test::test_2() throw(libtest::test_exception) {
+void pop_loewdin_test::test_2() throw(libtest::test_exception) {
 
-    static const char *testname = "pop_mulliken_test::test_2()";
+    static const char *testname = "pop_loewdin_test::test_2()";
 
     try {
 
@@ -97,16 +106,16 @@ void pop_mulliken_test::test_2() throw(libtest::test_exception) {
 
         //Col<double> pa, pa_ref(TestData::k_natoms);
         Col<double> pa(TestData::k_natoms);
-        Col<double> pa_ref = data.pop_mulliken(i, true);
+        Col<double> pa_ref = data.pop_loewdin(i, true);
 
-        pop_mulliken(s, b2p).perform(dm.alpha(), pa);
+        pop_loewdin(s, b2p).perform(dm.alpha(), pa);
 
         if (pa.n_elem != pa_ref.n_elem) {
             fail_test(testname, __FILE__, __LINE__,
                     "Length of population vector");
         }
 
-        uvec x = find(abs(pa - pa_ref) > 1e-14, 1);
+        uvec x = find(abs(pa - pa_ref) > 1e-13, 1);
         if (x.size() != 0) {
 
             std::ostringstream oss;
@@ -118,15 +127,15 @@ void pop_mulliken_test::test_2() throw(libtest::test_exception) {
         
         if (! data.aeqb()) {
             Col<double> pb(TestData::k_natoms);
-            Col<double> pb_ref = data.pop_mulliken(i, false);
-            pop_mulliken(s, b2p).perform(dm.beta(), pb);
+            Col<double> pb_ref = data.pop_loewdin(i, false);
+            pop_loewdin(s, b2p).perform(dm.beta(), pb);
 
             if (pb.n_elem != pb_ref.n_elem) {
                 fail_test(testname, __FILE__, __LINE__,
                         "Length of population vector");
             }
 
-            uvec xb = find(abs(pb - pb_ref) > 1e-14, 1);
+            uvec xb = find(abs(pb - pb_ref) > 1e-13, 1);
             if (xb.size() != 0) {
 
                 std::ostringstream oss;
