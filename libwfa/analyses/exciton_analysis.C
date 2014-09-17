@@ -8,39 +8,23 @@ using namespace arma;
 
 
 exciton_analysis::exciton_analysis(const mom_builder_i &bld,
-    const ab_matrix &tdm, size_t maxmm) {
+    const ab_matrix &tdm, size_t maxmm) :
+    exciton_analysis_base(tdm.is_alpha_eq_beta(),
+            std::min(bld.max_moment(), maxmm)) {
 
-    maxmm = std::min(bld.max_moment(), maxmm);
-
-    m_mom[0] = new exciton_moments(maxmm);
-    calculate(bld, tdm.alpha(), *m_mom[0]);
-
-    if (tdm.is_alpha_eq_beta()) { m_mom[1] = 0; }
-    else {
-        m_mom[1] = new exciton_moments(maxmm);
-        calculate(bld, tdm.beta(),  *m_mom[1]);
+    calculate(bld, tdm.alpha(), moment(false));
+    if (!tdm.is_alpha_eq_beta()) {
+        calculate(bld, tdm.beta(), moment(true));
     }
 }
 
 
-exciton_analysis::~exciton_analysis() {
+void exciton_analysis::print_header(std::ostream &out) const {
 
-    delete m_mom[0];
-    if (m_mom[1]) delete m_mom[1];
-}
-
-
-void exciton_analysis::analyse(std::ostream &out) const {
-
-    if (m_mom[1]) {
-        out << "alpha spin:" << std::endl;
-        analysis(out, *m_mom[0]);
-        out << "beta spin:" << std::endl;
-        analysis(out, *m_mom[1]);
-    }
-    else {
-        analysis(out, *m_mom[0]);
-    }
+    out << "Spatial multipole analysis of the transition density matrix"
+            << std::endl;
+    out << "in terms of the hole (r_h) and electron (r_e) coordinates."
+            << std::endl;
 }
 
 
@@ -59,20 +43,21 @@ void exciton_analysis::calculate(const mom_builder_i &bld,
 }
 
 
-void exciton_analysis::analysis(std::ostream &out, const exciton_moments &mom) {
+void exciton_analysis::analysis(std::ostream &out,
+        const exciton_moments &mom) const {
 
     out << std::setprecision(6) << std::fixed;
     { // Scope of linear quantities
         vec rh = mom.get(0, 1) * constants::au2ang;
         vec re = mom.get(1, 0) * constants::au2ang;
         double tot = norm(rh - re);
-        out << "<r_h> [Ang]:" << std::string(24, ' ');
+        out << "  <r_h> [Ang]:" << std::string(24, ' ');
         print(out, rh);
         out << std::endl;
-        out << "<r_e> [Ang]:" << std::string(24, ' ');
+        out << "  <r_e> [Ang]:" << std::string(24, ' ');
         print(out, re);
         out << std::endl;
-        out << "|<r_e - r_h>| [Ang]:" << std::string(16, ' ')
+        out << "  |<r_e - r_h>| [Ang]:" << std::string(16, ' ')
                 << std::setw(10) << tot << std::endl << std::endl;
     } // End of scope of rh, re, and tot
 
@@ -89,41 +74,30 @@ void exciton_analysis::analysis(std::ostream &out, const exciton_moments &mom) {
 
         //out << "<r_h,i^2> - <r_h,i>^2 [Ang^2]: ";
         //print(out, sh2);
-        out << "Hole size [Ang]:" << std::string(20, ' ')
+        out << "  Hole size [Ang]:" << std::string(20, ' ')
                 << std::setw(10) << sh << std::endl;
-        out << "  Cartesian components [Ang]:" << std::string(7, ' ');
+        out << "    Cartesian components [Ang]:" << std::string(7, ' ');
         print(out, sqrt(sh2));
         out << std::endl;
         //out << "<r_e,i^2> - <r_e,i>^2 [Ang^2]: ";
         //print(out, se2);
-        out << "Electron size [Ang]:" << std::string(16, ' ')
+        out << "  Electron size [Ang]:" << std::string(16, ' ')
                 << std::setw(10) << se << std::endl;
-        out << "  Cartesian components [Ang]:" << std::string(7, ' ');
+        out << "    Cartesian components [Ang]:" << std::string(7, ' ');
         print(out, sqrt(se2));
         out << std::endl;
         //out << "  <(r_e,i-r_h,i)^2> [Ang^2]:" << std::string(owidth-62, ' ');
         //print_vec(d2, out);
-        out << "RMS electron-hole separation [Ang]: "
+        out << "  RMS electron-hole separation [Ang]: "
                 << std::setw(10) << sqrt(accu(d2)) << std::endl;
-        out << "  Cartesian components [Ang]:" << std::string(7, ' ');
+        out << "    Cartesian components [Ang]:" << std::string(7, ' ');
         print(out, sqrt(d2));
         out << std::endl;
-        out << "Covariance(r_h, r_e) [Ang^2]:" << std::string(7, ' ')
+        out << "  Covariance(r_h, r_e) [Ang^2]:" << std::string(7, ' ')
                 << std::setw(10) << cov << std::endl;
-        out << "Correlation coefficient:" << std::string(12, ' ')
+        out << "  Correlation coefficient:" << std::string(12, ' ')
                 << std::setw(10) << cov / (se * sh) << std::endl;
     }
-}
-
-
-void exciton_analysis::print(std::ostream &out, const vec &vec, size_t width) {
-
-    out << "[";
-    if (vec.n_rows > 0) out << std::setw(width) << vec(0);
-    for (size_t i = 1; i < vec.n_rows; i++) {
-        out << ", " << std::setw(width) << vec(i);
-    }
-    out << "]";
 }
 
 

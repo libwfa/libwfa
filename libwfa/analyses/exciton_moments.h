@@ -3,7 +3,6 @@
 
 #include <cstddef>
 #include <armadillo>
-#include <libwfa/core/ab_object.h>
 #include <libwfa/libwfa_exception.h>
 
 

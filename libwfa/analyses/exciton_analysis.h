@@ -3,7 +3,7 @@
 
 #include <libwfa/core/ab_matrix.h>
 #include <libwfa/core/mom_builder_i.h>
-#include "exciton_moments.h"
+#include "exciton_analysis_base.h"
 
 
 namespace libwfa {
@@ -14,10 +14,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class exciton_analysis {
-private:
-    exciton_moments *m_mom[2]; //!< Computed exciton moments
-
+class exciton_analysis : public exciton_analysis_base {
 public:
     /** \brief Constructor
         \param bld Moment builder
@@ -29,28 +26,17 @@ public:
 
     /** \brief Destructor
      **/
-    ~exciton_analysis();
+    virtual ~exciton_analysis() { }
 
-    /** \brief Computed exciton moment
-        \param spin If true: beta spin; else alpha spin
-     **/
-    const exciton_moments &moment(bool spin) {
-        return *m_mom[(spin && m_mom[1] ? 1 : 0)];
-    }
-
-    /** \brief Perform analysis
-        \param out Output stream
-     **/
-    void analyse(std::ostream &out) const;
+    using exciton_analysis_base::analyse;
 
 private:
-    static void calculate(const mom_builder_i &bld, const arma::mat &tdm,
-        exciton_moments &mom);
+    virtual void print_header(std::ostream &out) const;
 
-    static void analysis(std::ostream &out, const exciton_moments &mom);
+    virtual void analysis(std::ostream &out, const exciton_moments &mom) const;
 
-    static void print(std::ostream &out,
-        const arma::vec &vec, size_t width = 10);
+    static void calculate(const mom_builder_i &bld,
+        const arma::mat &tdm, exciton_moments &mom);
 };
 
 } // namespace libwfa

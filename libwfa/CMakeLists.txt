@@ -3,6 +3,7 @@ set(ANALYSES_HEADERS
     analyses/ctnum_analysis.h
     analyses/ctnumbers.h
     analyses/exciton_analysis_ad.h
+    analyses/exciton_analysis_base.h
     analyses/exciton_analysis.h
     analyses/exciton_moments.h
     analyses/ndo_analysis.h
@@ -21,12 +22,14 @@ set(ANALYSES_SRC
     analyses/ctnum_analysis.C
     analyses/ctnumbers.C
     analyses/exciton_analysis_ad.C
+    analyses/exciton_analysis_base.C
     analyses/exciton_analysis.C
     analyses/ndo_analysis.C
     analyses/nto_analysis.C
     analyses/no_analysis.C
     analyses/pop_analysis_ad.C
     analyses/pop_analysis_dm.C
+    analyses/pop_data.C
     analyses/pop_loewdin.C
     analyses/pop_mulliken.C
     analyses/sa_nto_analysis.C
@@ -66,9 +69,6 @@ set(EXPORT_HEADERS
     export/density_printer_i.h
     export/density_printer_none.h
     export/density_printer_print.h
-#    export/exciton_printer_ad.h
-#    export/exciton_printer_i.h
-#    export/exciton_printer.h
     export/export_cube_base.h
     export/export_cube_i.h
     export/export_molden_i.h
@@ -87,8 +87,6 @@ set(EXPORT_SRC
     export/cube_writer.C
     export/density_printer_cube.C
     export/density_printer_print.C
-#    export/exciton_printer_ad.C
-#    export/exciton_printer.C
     export/export_cube_base.C
     export/grid3d.C
     export/orbital_printer_basic.C
