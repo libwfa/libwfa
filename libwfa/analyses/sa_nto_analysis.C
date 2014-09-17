@@ -64,28 +64,34 @@ void sa_nto_analysis::analyse(std::ostream& out, const ab_matrix& tdm,
 void sa_nto_analysis::analysis(std::ostream& out, const mat& x, double c,
     double thresh) {
 
-    uvec indices = sort_index(vectorise(x % x), "descend");
-    
-    std::string offset(2, ' ');
-    for (uword i = 0; i < indices.size(); i++) {
+    double w = accu(x%x) * c;
 
-        uword imat = indices(i);
-        uword imo = x.n_rows - 1 - imat % x.n_rows;
-        uword jmo = x.n_rows - 1 - imat / x.n_rows;
+    out << std::fixed;
+    if (w > thresh) {
+        uvec indices = sort_index(vectorise(x % x), "descend");
 
-        double coeff = x(imat);
-        double wt = coeff * coeff * c;
-        
-        if (wt < thresh) break;
-        
-        out << offset << "H-" << std::setw(2) << imo << " -> L+"
-                << std::setw(2) << jmo << ": ";
-        out << std::setw(6) << std::setprecision(4) << coeff << "("
-                << std::setw(4) << std::setprecision(1) << wt * 100. << "%)"
-                << std::endl;
+        std::string offset(2, ' ');
+        for (uword i = 0; i < indices.size(); i++) {
+
+            uword imat = indices(i);
+            uword imo = x.n_rows - 1 - imat % x.n_rows;
+            uword jmo = x.n_rows - 1 - imat / x.n_rows;
+
+            double coeff = x(imat);
+            double wt = coeff * coeff * c;
+
+            if (wt < thresh) break;
+
+            out << offset;
+            out << "H-" << std::setw(2) << imo
+                    << " -> L+" << std::setw(2) << jmo << ": ";
+            out << std::setw(7) << std::setprecision(4) << coeff << " ("
+                    << std::setw(5) << std::setprecision(1) << wt * 100. << "%)"
+                    << std::endl;
+        }
     }
     out << std::string(17, ' ') << "omega = "
-            << std::setw(4) << std::setprecision(1) << accu(x%x) * 100. * c
+            << std::setw(5) << std::setprecision(1) << w * 100.
             << "%" << std::endl;
 }
 

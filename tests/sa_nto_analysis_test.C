@@ -14,7 +14,6 @@ void sa_nto_analysis_test::perform() throw(libtest::test_exception) {
 
     test_1<test01_data>();
     test_1<test02_data>();
-    //fail_test("sa_nto_analysis_test::perform()", __FILE__, __LINE__, "NIY");
 }
 
 template<typename TestData>
@@ -23,6 +22,8 @@ void sa_nto_analysis_test::test_1() throw(libtest::test_exception) {
     static const char *testname = "sa_nto_analysis_test::test_1()";
 
     try {
+
+    std::ofstream of("sa_nto_analysis_test", std::ofstream::app);
 
     // Prepare input data:
 
@@ -110,9 +111,12 @@ void sa_nto_analysis_test::test_1() throw(libtest::test_exception) {
         sa_nto_analysis sa_nto0(s, nto_analysis(s, c, tdm));
 
         ab_matrix x0, x1, x2;
-        sa_nto0.decompose(tdm, x0);
-        sa_nto1.decompose(tdm, x1);
-        sa_nto2.decompose(tdm, x2);
+        sa_nto0.analyse(of, tdm, x0);
+        of << std::endl;
+        sa_nto1.analyse(of, tdm, x1);
+        of << std::endl;
+        sa_nto2.analyse(of, tdm, x2);
+        of << std::endl << std::endl;
 
         const ab_matrix &ui = sa_nto0.get_transf_l();
         const ab_matrix &vi = sa_nto0.get_transf_r();
@@ -142,6 +146,8 @@ void sa_nto_analysis_test::test_1() throw(libtest::test_exception) {
         if (accu(abs(u2.beta() * tdm.beta() * v2.beta() - x2.beta()) > 1e-12) != 0)
             fail_test(testname, __FILE__, __LINE__, "Bad transform (2, beta).");
     }
+
+    of << std::endl;
 
     } catch(libtest::test_exception &e) {
         throw;
