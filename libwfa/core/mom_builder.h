@@ -5,9 +5,6 @@
 
 namespace libwfa{
 
-using namespace arma;
-
-
 /** \brief Simple implementation of mom_builder_i
 
     \ingroup libwfa
@@ -60,7 +57,7 @@ private:
         \param n Exponent
         \return Operator matrix
      **/
-    const mat &retrieve_op(size_t c, size_t n) const;
+    const arma::mat &retrieve_op(size_t c, size_t n) const;
 };
 
 

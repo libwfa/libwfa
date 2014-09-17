@@ -8,8 +8,6 @@
 
 namespace libwfa {
 
-using namespace arma;
-
 /** \brief Container of exciton moments
 
     Stores the moments of an electron-hole pair
