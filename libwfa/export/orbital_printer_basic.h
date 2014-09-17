@@ -58,4 +58,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_ORBITAL_PRINTER_PRINT_H
+#endif // LIBWFA_ORBITAL_PRINTER_BASIC_H

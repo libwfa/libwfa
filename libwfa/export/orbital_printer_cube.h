@@ -72,4 +72,4 @@ private:
 
 } // namespace libwfa
 
-#endif // LIBWFA_EXPORT_DATA_CUBE_H
+#endif // LIBWFA_ORBITAL_PRINTER_CUBE_H

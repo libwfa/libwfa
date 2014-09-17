@@ -1,5 +1,5 @@
-#ifndef LIBWFA_DENSITY_PRINTER_PRINT_H
-#define LIBWFA_DENSITY_PRINTER_PRINT_H
+#ifndef LIBWFA_DENSITY_PRINTER_BASIC_H
+#define LIBWFA_DENSITY_PRINTER_BASIC_H
 
 #include "density_printer_i.h"
 
@@ -47,4 +47,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_DENSITY_PRINTER_PRINT_H
+#endif // LIBWFA_DENSITY_PRINTER_BASIC_H
