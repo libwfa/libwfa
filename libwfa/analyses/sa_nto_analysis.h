@@ -19,22 +19,51 @@ private:
 public:
     /** \brief Constructor
         \param s Overlap
-        \param nto NTO data
+        \param nto State-averaged NTO data
 
         Construct the NTO data to form transformation matrices.
      **/
     sa_nto_analysis(const arma::mat &s, const nto_analysis &ntos);
 
-    /** \brief Analyze a transition density matrix
+    /** \brief Retrieve left transformation matrix
+     **/
+    const ab_matrix &get_transf_l() { return m_ul; }
+
+    /** \brief Retrieve right transformation matrix
+     **/
+    const ab_matrix &get_transf_r() { return m_ur; }
+
+    /** \brief Decomposes a transition density matrix
         \param tdm Transition density matrix
+        \param xdm Decomposed matrix
+     **/
+    void decompose(const ab_matrix &tdm, ab_matrix &xdm) const;
+
+    /** \brief Analyse a transition density matrix
         \param out Output stream
+        \param tdm Transition density matrix
+        \param xdm Decomposed matrix
         \param thresh Threshold
 
-        Decomposes the transition density matrix and analyse the result
+        Decomposes the transition density matrix and analyses the result
      **/
-    void analyse(const ab_matrix &tdm, std::ostream &out,
-        double thresh = 1e-2) const;
-    
+    void analyse(std::ostream &out, const ab_matrix &tdm,
+        ab_matrix &xdm, double thresh = 1e-2) const;
+
+    /** \brief Analyse a transition density matrix
+        \param out Output stream
+        \param tdm Transition density matrix
+        \param thresh Threshold
+
+        Decomposes the transition density matrix and analyses the result
+     **/
+    void analyse(std::ostream &out, const ab_matrix &tdm,
+        double thresh = 1e-2) const {
+
+        ab_matrix xdm;
+        analyse(out, tdm, xdm, thresh);
+    }
+
 private:
     /** \brief Analyse decomposed transition density matrices)
         \param out Output stream

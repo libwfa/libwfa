@@ -235,15 +235,17 @@ void ndo_analysis_test::test_1() throw(libtest::test_exception) {
 
     for (size_t istate = 1; istate <= data.nstates(); istate++) {
 
-        ab_matrix dm(data.aeqb());
+        ab_matrix dm(data.aeqb()), ddm(data.aeqb());
         dm.alpha() = mat(nao, nao);
         if (! data.aeqb()) dm.beta() = mat(nao, nao);
 
         std::ostringstream ssdm; ssdm << "dm" << istate;
         read_ab_matrix(data, testname, ssdm.str().c_str(), dm);
 
+        ddm.alpha() = dm0.alpha() - dm.alpha();
+        if (! data.aeqb()) ddm.beta() = dm0.beta() - dm.beta();
 
-        ab_matrix ddm = dm0 - dm, at, de;
+        ab_matrix at, de;
         ndo_analysis na(s, c, ddm);
         na.form_ad(at, de);
 

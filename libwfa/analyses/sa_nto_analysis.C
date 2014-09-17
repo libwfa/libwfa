@@ -30,22 +30,33 @@ sa_nto_analysis::sa_nto_analysis(const arma::mat &s, const nto_analysis &nto) :
 }
 
 
-void sa_nto_analysis::analyse(const ab_matrix& tdm,
-    std::ostream& out, double thresh) const {
+void sa_nto_analysis::decompose(const ab_matrix& tdm, ab_matrix& xdm) const {
 
-    mat x;
     if (tdm.is_alpha_eq_beta()) {
-        x = m_ul.alpha() * tdm.alpha() * m_ur.alpha();
-        analysis(out, x, 2.0, 1e-2);
+        xdm.set_alpha_eq_beta();
+        xdm.alpha() = m_ul.alpha() * tdm.alpha() * m_ur.alpha();
+    }
+    else {
+        xdm.set_alpha_neq_beta();
+        xdm.alpha() = m_ul.alpha() * tdm.alpha() * m_ur.alpha();
+        xdm.beta() = m_ul.beta()  * tdm.beta()  * m_ur.beta();
+    }
+}
+
+
+void sa_nto_analysis::analyse(std::ostream& out, const ab_matrix& tdm,
+    ab_matrix &xdm, double thresh) const {
+
+    decompose(tdm, xdm);
+    if (tdm.is_alpha_eq_beta()) {
+        analysis(out, xdm.alpha(), 2.0, 1e-2);
     }
     else {
         out << "Alpha:" << std::endl;
-        x = m_ul.alpha() * tdm.alpha() * m_ur.alpha();
-        analysis(out, x, 1.0, 1e-2);
+        analysis(out, xdm.alpha(), 1.0, 1e-2);
 
         out << "Beta:" << std::endl;
-        x = m_ul.beta()  * tdm.beta()  * m_ur.beta();
-        analysis(out, x,  1.0, 1e-2);
+        analysis(out, xdm.beta(),  1.0, 1e-2);
     }
 }
 

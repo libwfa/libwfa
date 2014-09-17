@@ -18,7 +18,6 @@
 #include "ndo_analysis_test.h"
 #include "no_analysis_test.h"
 #include "nto_analysis_test.h"
-//#include "santo_analysis_test.h"
 #include "orbital_data_test.h"
 #include "orbital_selector_test.h"
 #include "orbital_type_test.h"
@@ -27,8 +26,8 @@
 #include "pop_loewdin_test.h"
 #include "pop_mulliken_test.h"
 #include "pop_printer_default_test.h"
+#include "sa_nto_analysis_test.h"
 #include "selector_test.h"
-//#include "transformations_dm_test.h"
 #include "version_test.h"
 
 using libtest::unit_test_factory;
@@ -91,7 +90,7 @@ private:
     unit_test_factory<ndo_analysis_test> m_utf_ndo_analysis;
     unit_test_factory<no_analysis_test> m_utf_no_analysis;
     unit_test_factory<nto_analysis_test> m_utf_nto_analysis;
-//    unit_test_factory<santo_analysis_test> m_utf_santo_analysis;
+    unit_test_factory<sa_nto_analysis_test> m_utf_sa_nto_analysis;
     unit_test_factory<orbital_data_test> m_utf_orbital_data;
     unit_test_factory<orbital_selector_test> m_utf_orbital_selector;
     unit_test_factory<orbital_type_test> m_utf_orbital_type;

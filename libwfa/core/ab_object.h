@@ -52,25 +52,7 @@ public:
         \param other Object to get data from
      **/
     ab_object &operator=(const ab_object &other);
-    
-    /** \brief Assignment of ab_object
-        \param other Object to get data from
-     **/
-    void set(const ab_object &other) {
-        if (m_aeqb && ! other.is_alpha_eq_beta()) {
-            m_data_b = new T(other.beta());
-        }
-        else if (! m_aeqb && other.is_alpha_eq_beta()) {
-            delete m_data_b;
-            m_data_b = m_data_a;
-        }
-        else if (! m_aeqb && ! other.is_alpha_eq_beta()) {
-            *m_data_b = other.beta();
-        }
-        m_aeqb = other.is_alpha_eq_beta();
-        *m_data_a = other.alpha();
-    }
-    
+
     /** \brief Set alpha == beta
 
         Modifies the container to enforce both objects to be identical. The
@@ -143,6 +125,8 @@ ab_object<T> &ab_object<T>::operator=(const ab_object<T> &other) {
     }
     *m_data_a = other.alpha();
     m_aeqb = other.is_alpha_eq_beta();
+
+    return *this;
 }
 
 

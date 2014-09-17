@@ -24,12 +24,12 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class ab_matrix : public ab_object< arma::mat > {
+class ab_matrix : public ab_object<arma::mat> {
 public:
     /** \brief Default constructor
         \param aeqb If true, alpha == beta matrix
      **/
-    ab_matrix(bool aeqb = false) : ab_object< arma::mat >(aeqb) { }
+    ab_matrix(bool aeqb = false) : ab_object<arma::mat>(aeqb) { }
 
     /** \brief Constructor for matrix with alpha == beta
         \param nrows Number of rows
@@ -37,8 +37,7 @@ public:
 
         If ncols is not given (== 0), a symmetric matrix is constructed
      **/
-    ab_matrix(size_t nrows, size_t ncols = 0) :
-        ab_object< arma::mat >(true) {
+    ab_matrix(size_t nrows, size_t ncols = 0) : ab_object<arma::mat>(true) {
 
         alpha() = arma::mat(nrows, ncols == 0 ? nrows : ncols);
     }
@@ -53,8 +52,7 @@ public:
         columns.
      **/
     ab_matrix(size_t nrows_a, size_t ncols_a,
-            size_t nrows_b, size_t ncols_b = 0) :
-                ab_object< arma::mat >(false) {
+        size_t nrows_b, size_t ncols_b = 0) : ab_object<arma::mat>(false) {
 
         alpha() = arma::mat(nrows_a, ncols_a);
         beta()  = arma::mat(nrows_b, ncols_b == 0 ? ncols_a : ncols_b);
@@ -76,7 +74,8 @@ public:
      **/
     size_t ncols_b() const { return beta().n_cols; }
 
-    /** \brief Add other to current matrix
+    /** \brief Add to current matrix
+        \param other Matrix to add
      **/
     ab_matrix &operator+=(const ab_matrix &other) {
         alpha() += other.alpha();
@@ -84,7 +83,8 @@ public:
         return *this;
     }
 
-    /** \brief Subtract other from current matrix
+    /** \brief Subtract from current matrix
+        \param other Matrix to subtract
      **/
     ab_matrix &operator-=(const ab_matrix &other) {
         alpha() -= other.alpha();
@@ -93,97 +93,25 @@ public:
     }
 
     /** \brief Scalar multiplication of the current matrix
+        \param Scalar factor
      **/
-    ab_matrix &operator*=(const double &scalar) {
+    ab_matrix &operator*=(double scalar) {
         alpha() *= scalar;
         if (! is_alpha_eq_beta()) beta() *= scalar;
         return *this;
     }
 
     /** \brief Transpose the ab_matrix
-     *
-     *  Note: this is a convenience function that does not have the full
-     *     efficiency of directly using the armadillo operations!
-     *
-     */
+
+        Note: this is a convenience function that does not have the full
+          efficiency of directly using the armadillo operations!
+     **/
     ab_matrix t() const {
-        ab_matrix outmat(this->is_alpha_eq_beta());
-
-        outmat.alpha() = this->alpha().t();
-        if (not this->is_alpha_eq_beta()) 
-            outmat.beta() = this->beta().t();
-
-        return outmat;
+        ab_matrix res(is_alpha_eq_beta());
+        res.alpha() = alpha().t();
+        if (! is_alpha_eq_beta()) res.beta() = beta().t();
+        return res;
     }
-
-    /** \brief Addition of two ab_matrix instances
-     *
-     *  Note: this is a convenience function that does not have the full
-     *     efficiency of directly using the armadillo operations!
-     *
-     */
-    ab_matrix operator+(const ab_matrix &other) const {
-        bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());
-        ab_matrix outmat(aeqb);
-
-        outmat.alpha() = this->alpha() + other.alpha();
-        if (not aeqb)
-            outmat.beta() = this->beta() + other.beta();
-
-        return outmat;
-    }    
-
-    /** \brief Subtraction of two ab_matrix instances
-     *
-     *  Note: this is a convenience function that does not have the full
-     *     efficiency of directly using the armadillo operations!
-     *
-     */
-    ab_matrix operator-(const ab_matrix &other) const {
-        bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());
-        ab_matrix outmat(aeqb);
-
-        outmat.alpha() = this->alpha() - other.alpha();
-        if (not aeqb)
-            outmat.beta() = this->beta() - other.beta();
-
-        return outmat;
-    }
-
-    /** \brief Matrix multiplication of two ab_matrix instances
-     *
-     *  Note: this is a convenience function that does not have the full
-     *     efficiency of directly using the armadillo operations!
-     *
-     */
-    ab_matrix operator*(const ab_matrix &other) const {
-        bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());
-        ab_matrix outmat(aeqb);
-
-        outmat.alpha() = this->alpha() * other.alpha();        
-        if (not aeqb)
-            outmat.beta() = this->beta() * other.beta();
-
-        return outmat;
-    }
-
-    /** \brief Element-wise multiplication of two ab_matrix instances
-     *
-     *  Note: this is a convenience function that does not have the full
-     *     efficiency of directly using the armadillo operations!
-     *
-     */
-    ab_matrix operator%(const ab_matrix &other) const {
-        bool aeqb(this->is_alpha_eq_beta() && other.is_alpha_eq_beta());
-        ab_matrix outmat(aeqb);
-
-        outmat.alpha() = this->alpha() % other.alpha();
-        if (not aeqb)
-            outmat.beta() = this->beta() % other.beta();
-
-        return outmat;
-    }    
-
 };
 
 } // namespace libwfa

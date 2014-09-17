@@ -1,8 +1,6 @@
 #include <sstream>
+#include <libwfa/analyses/sa_nto_analysis.h>
 #include <libwfa/libwfa_exception.h>
-#include <libwfa/export/ev_printer_nto.h>
-#include <libwfa/export/export_data_none.h>
-#include <libwfa/core/transformations_dm.h>
 #include "sa_nto_analysis_test.h"
 #include "test01_data.h"
 #include "test02_data.h"
@@ -26,147 +24,130 @@ void sa_nto_analysis_test::test_1() throw(libtest::test_exception) {
 
     try {
 
-        size_t nao = TestData::k_nao;
-        size_t nmo = TestData::k_nmo;
-        TestData data;
+    // Prepare input data:
 
-        mat s(nao, nao);
-        read_matrix(data, testname, "s", s);
+    size_t nao = TestData::k_nao;
+    size_t nmo = TestData::k_nmo;
+    TestData data;
 
-        ab_matrix c(data.aeqb());
-        c.alpha() = mat(nao, nmo);
-        if (! data.aeqb()) c.beta() = mat(nao, nmo);
-        read_ab_matrix(data, testname, "c", c);
+    mat s(nao, nao);
+    read_matrix(data, testname, "s", s);
 
-        ab_matrix hdms(data.aeqb()), edms(data.aeqb());
-        hdms.alpha() = mat(nao, nao, fill::zeros);
-        edms.alpha() = mat(nao, nao, fill::zeros);
-        if (! data.aeqb()) {
-            hdms.beta() = mat(nao, nao, fill::zeros);
-            edms.beta() = mat(nao, nao, fill::zeros);
+    ab_matrix c(data.aeqb());
+    c.alpha() = mat(nao, nmo);
+    if (! data.aeqb()) c.beta() = mat(nao, nmo);
+    read_ab_matrix(data, testname, "c", c);
+
+    ab_matrix hdm_av(data.aeqb()), edm_av(data.aeqb());
+    hdm_av.alpha() = mat(nao, nao, fill::zeros);
+    edm_av.alpha() = mat(nao, nao, fill::zeros);
+    if (! data.aeqb()) {
+        hdm_av.beta() = mat(nao, nao, fill::zeros);
+        edm_av.beta() = mat(nao, nao, fill::zeros);
+    }
+
+    // Form state-averaged hole and particle densities
+    for (size_t istate = 1; istate <= data.nstates(); istate++) {
+        ab_matrix tdm(data.aeqb());
+        tdm.alpha() = mat(nao, nao);
+        if (! data.aeqb()) tdm.beta() = mat(nao, nao);
+        std::ostringstream ssdm; ssdm << "tdm" << istate;
+        read_ab_matrix(data, testname, ssdm.str().c_str(), tdm);
+
+        ab_matrix hdm, edm;
+        nto_analysis::form_eh(s, tdm.t(), edm, hdm);
+
+        hdm_av += hdm;
+        edm_av += edm;
+    }
+
+    // Form spin-traced hole and particle densities
+    ab_matrix edm_av_s(true), hdm_av_s(true);
+    edm_av_s.alpha() = 0.5 * (edm_av.alpha() + edm_av.beta());
+    hdm_av_s.alpha() = 0.5 * (hdm_av.alpha() + hdm_av.beta());
+
+    // Construct SA-NTOs
+
+    sa_nto_analysis sa_nto1(s, nto_analysis(s, c, edm_av, hdm_av));
+    sa_nto_analysis sa_nto2(s, nto_analysis(s, c, edm_av_s, hdm_av_s));
+
+    const ab_matrix &u1 = sa_nto1.get_transf_l();
+    const ab_matrix &v1 = sa_nto1.get_transf_r();
+    const ab_matrix &u2 = sa_nto2.get_transf_l();
+    const ab_matrix &v2 = sa_nto2.get_transf_r();
+
+    if (accu(abs(u1.alpha().t() * u1.alpha() - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "U(1,alpha) not unitary.");
+    if (accu(abs(u1.beta().t() * u1.beta() - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "U(1,beta) not unitary.");
+    if (accu(abs(v1.alpha() * v1.alpha().t() - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "V(1,alpha) not unitary.");
+    if (accu(abs(v1.beta() * v1.beta().t() - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "V(1,beta) not unitary.");
+    if (! u2.is_alpha_eq_beta() || ! v2.is_alpha_eq_beta())
+        fail_test(testname, __FILE__, __LINE__, "SA-NTO(2): Alpha != beta.");
+    if (accu(abs(u2.alpha().t() * u2.alpha() - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "U(2,alpha) not unitary.");
+    if (accu(abs(u2.beta().t() * u2.beta() - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "U(2,beta) not unitary.");
+    if (accu(abs(v2.alpha() * v2.alpha().t() - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "V(2,alpha) not unitary.");
+    if (accu(abs(v2.beta() * v2.beta().t() - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "V(1,beta) not unitary.");
+
+    // Loop to decompose TDM for each state
+
+    for (size_t istate = 1; istate <= data.nstates(); istate++) {
+
+        ab_matrix tdm(data.aeqb());
+        tdm.alpha() = mat(nao, nao);
+        if (! data.aeqb()) tdm.beta() = mat(nao, nao);
+        std::ostringstream ssdm; ssdm << "tdm" << istate;
+        read_ab_matrix(data, testname, ssdm.str().c_str(), tdm);
+
+        tdm = tdm.t();
+
+        sa_nto_analysis sa_nto0(s, nto_analysis(s, c, tdm));
+
+        ab_matrix x0, x1, x2;
+        sa_nto0.decompose(tdm, x0);
+        sa_nto1.decompose(tdm, x1);
+        sa_nto2.decompose(tdm, x2);
+
+        const ab_matrix &ui = sa_nto0.get_transf_l();
+        const ab_matrix &vi = sa_nto0.get_transf_r();
+        if (accu(abs(ui.alpha().t() * ui.alpha() - s) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "U(0, alpha) not unitary.");
+        if (accu(abs(ui.beta().t() * ui.beta() - s) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "U(0, beta) not unitary.");
+        if (accu(abs(vi.alpha() * vi.alpha().t() - s) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "V(0, alpha) not unitary.");
+        if (accu(abs(vi.beta() * vi.beta().t() - s) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "V(0, beta) not unitary.");
+        if (accu(abs(ui.alpha() * tdm.alpha() * vi.alpha() - x0.alpha()) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "Bad transform (alpha).");
+        if (accu(abs(ui.beta() * tdm.beta() * vi.beta() - x0.beta()) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "Bad transform (beta).");
+        if (accu(abs(x0.alpha() - diagmat(x0.alpha().diag()))) > 1e-12)
+            fail_test(testname, __FILE__, __LINE__, "Not diagonal (alpha)");
+        if (accu(abs(x0.beta() - diagmat(x0.beta().diag()))) > 1e-12)
+            fail_test(testname, __FILE__, __LINE__, "Not diagonal (beta)");
+        if (accu(abs(u1.alpha() * tdm.alpha() * v1.alpha() - x1.alpha()) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "Bad transform (1, alpha).");
+        if (accu(abs(u1.beta() * tdm.beta() * v1.beta() - x1.beta()) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "Bad transform (1, beta).");
+        if (accu(abs(u2.alpha() * tdm.alpha() * v2.alpha() - x2.alpha()) > 1e-12) != 0) {
+            fail_test(testname, __FILE__, __LINE__, "Bad transform (2, alpha).");
         }
-        
-        // Preparation loop to form summed hole and particle densities
-        for (size_t istate = 1; istate <= data.nstates(); istate++) {
-            ab_matrix tdmt(data.aeqb());
-            tdmt.alpha() = mat(nao, nao);
-            if (! data.aeqb()) tdmt.beta() = mat(nao, nao);
-            std::ostringstream ssdm; ssdm << "tdm" << istate;
-            read_ab_matrix(data, testname, ssdm.str().c_str(), tdmt);
+        if (accu(abs(u2.beta() * tdm.beta() * v2.beta() - x2.beta()) > 1e-12) != 0)
+            fail_test(testname, __FILE__, __LINE__, "Bad transform (2, beta).");
+    }
 
-            ab_matrix tdm = tdmt.t();
-
-            ab_matrix hdm, edm;
-            form_eh(s, tdm, edm, hdm);
-            
-            hdms += hdm;
-            edms += edm;
-        }
-
-        std::ostringstream outdel2;
-        ev_printer_nto evpr;
-        export_data_none exdat;
-        sa_nto_analysis sana(s, c, edms, hdms, evpr, exdat, outdel2);
-        
-        // spin averaged analysis
-        ab_matrix edmss(true), hdmss(true);
-        edmss.alpha() = 0.5 * (edms.alpha() + edms.beta());
-        hdmss.alpha() = 0.5 * (hdms.alpha() + hdms.beta());
-        sa_nto_analysis ssana(s, c, edmss, hdmss, evpr, exdat, outdel2);
-       
-        // main loop
-        for (size_t istate = 1; istate <= data.nstates(); istate++) {
-            ab_matrix tdmt(data.aeqb());
-            tdmt.alpha() = mat(nao, nao);
-            if (! data.aeqb()) tdmt.beta() = mat(nao, nao);
-            std::ostringstream ssdm; ssdm << "tdm" << istate;
-            read_ab_matrix(data, testname, ssdm.str().c_str(), tdmt);
-
-            ab_matrix tdm = tdmt.t();
-
-            std::ostringstream outdel;
-            
-            { // SA-NTO decomposition for one state separately
-                //std::cout << "\nsummary for state " << istate << std::endl;
-                ab_matrix hdm, edm;
-                form_eh(s, tdm, edm, hdm);
-                sa_nto_analysis sana_i(s, c, edm, hdm, evpr, exdat, outdel);        
-                
-                //std::cout << "\nindividual for state " << istate << std::endl;
-                ab_matrix x;
-                sana_i.decompose(tdm, x);
-                sana_i.print(x, outdel);
-                
-                check(tdm, sana_i.get_trans(false), sana_i.get_trans(true),
-                      x, s, testname);
-                
-                for (int irow = 0; irow < x.nrows_a(); irow++) {
-                    for (int jcol = 0; jcol < x.ncols_a(); jcol++) {
-                        if (jcol != irow) {
-                            double x_a_ij = x.alpha()(irow, jcol);
-                            double x_b_ij = x.beta()(irow, jcol);
-                            if (x_a_ij * x_a_ij + x_b_ij * x_b_ij > 1e-20) {
-                                std::cout << "not diagonal: " << irow << " " <<
-                                    jcol << std::endl;
-                                //fail_test(testname, __FILE__, __LINE__, "Not diagonal.");
-                            }
-                        }
-                    }
-                }
-            }
-            
-            { // SA-NTO decomposition for the state-averaged matrices
-                //std::cout << "\nstate-ave. for state " << istate << std::endl;
-                ab_matrix x;
-                sana.decompose(tdm, x);
-                sana.print(x, outdel);
-                
-                check(tdm, sana.get_trans(false), sana.get_trans(true),
-                      x, s, testname);
-            }
-            
-            { // SA-NTO decomposition for spin- and state-averaged matrices
-                //std::cout << "\nspin- and state-ave. for state " << istate << std::endl;
-                ab_matrix x;
-                ssana.decompose(tdm, x);
-                ssana.print(x, outdel);
-                
-                ab_matrix &ui = ssana.get_trans(false);
-                ab_matrix &vit = ssana.get_trans(true);
-                check(tdm, ui, vit, x, s, testname);
-                
-                if ( (! ui.is_alpha_eq_beta()) || (! vit.is_alpha_eq_beta()) ) {
-                    fail_test(testname, __FILE__, __LINE__, "alpha != beta");
-                }
-            }
-        }
-
+    } catch(libtest::test_exception &e) {
+        throw;
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }
-
-}
-
-
-void sa_nto_analysis_test::check(const ab_matrix &tdm,
-    const ab_matrix &ui, const ab_matrix &vit, const ab_matrix &x,
-    const mat &s, const char* testname) {
-
-    check(tdm.alpha(), ui.alpha(), vit.alpha(), x.alpha(), s, testname);
-    check(tdm.beta(),  ui.beta(),  vit.beta() , x.beta(), s, testname);
-}
-
-void sa_nto_analysis_test::check(const mat &tdm_x, const mat &ui_x, const mat &vit_x,
-           const mat &x_x, const mat &s, const char* testname) {
-
-    mat x_chk_x = ui_x * tdm_x * vit_x;
-
-    if (accu(abs(ui_x.t() * ui_x - s) > 1e-12) != 0)
-        fail_test(testname, __FILE__, __LINE__, "U not unitary.");
-    if (accu(abs(vit_x * vit_x.t() - s) > 1e-12) != 0)
-        fail_test(testname, __FILE__, __LINE__, "V not unitary.");
-    if (accu(abs(x_chk_x - x_x) > 1e-12) != 0)
-        fail_test(testname, __FILE__, __LINE__, "Bad transform.");
 
 }
 

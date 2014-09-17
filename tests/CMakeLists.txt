@@ -18,7 +18,7 @@ set(SRC_HEADER
     ndo_analysis_test.h
     no_analysis_test.h
     nto_analysis_test.h
-#    sa_nto_analysis_test.h
+    sa_nto_analysis_test.h
     orbital_data_test.h
     orbital_selector_test.h
     orbital_type_test.h
@@ -33,7 +33,6 @@ set(SRC_HEADER
     test00_data.h
     test01_data.h
     test02_data.h
-#    transformations_dm_test.h
     version_test.h
 )
 
@@ -60,7 +59,7 @@ set(SRC
     ndo_analysis_test.C
     no_analysis_test.C
     nto_analysis_test.C
-#    sa_nto_analysis_test.C
+    sa_nto_analysis_test.C
     orbital_data_test.C
     orbital_selector_test.C
     orbital_type_test.C
@@ -75,7 +74,6 @@ set(SRC
     test00_data.C
     test01_data.C
     test02_data.C
-#    transformations_dm_test.C
     version_test.C
 )
 
