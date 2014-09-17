@@ -2,6 +2,7 @@
 #define LIBWFA_CTNUMBERS_H
 
 #include <libwfa/core/ab_matrix.h>
+#include <libwfa/export/ctnum_printer_i.h>
 #include "ctnum_analysis_i.h"
 
 namespace libwfa {
@@ -18,9 +19,8 @@ namespace libwfa {
  **/
 class ctnumbers {
 private:
-    const ctnum_analysis_i &m_analysis; //!< Analysis object
-    const arma::mat &m_s; //!< Overlap matrix
-    const ab_matrix &m_tdm; //!< Transition density matrix
+    double m_tot[2]; //!< Total omega
+    ab_matrix m_om; //!< Omega matrix
 
 public:
     /** \brief Constructor
@@ -28,30 +28,51 @@ public:
         \param s Overlap matrix
         \param tdm Transition density matrix
      **/
-    ctnumbers(const ctnum_analysis_i &a, const arma::mat &s,
-        const ab_matrix &tdm) : m_analysis(a), m_s(s), m_tdm(tdm) { }
+    ctnumbers(const ctnum_analysis_i &a,
+        const arma::mat &s, const ab_matrix &tdm);
+
+    /** \brief Constructor
+        \param a Analysis object
+        \param om Omega matrix
+     **/
+    ctnumbers(const ctnum_analysis_i &a, const ab_matrix &om) :
+        m_om(om.is_alpha_eq_beta()) {
+        initialize(a, om);
+    }
 
     /** \brief Destructor
      **/
     ~ctnumbers() { }
 
-    /** \brief Perform analysis
-        \param om Resulting omega matrix
-        \param om_tot Total omega
-
-        Performs the CT number analysis using the analysis object and returns
-        the resulting data.
+    /** \brief Return omega total
+        \param spin If true: beta spin, false: alpha spin
      **/
-    void perform(ab_matrix &om, double (&om_tot)[2]) const;
+    const double &omega_total(bool spin) const {
+        return m_tot[(spin && ! m_om.is_alpha_eq_beta() ? 1 : 0)];
+    }
+
+    /** \brief Return omega
+     **/
+    const ab_matrix &omega() const { return m_om; }
+
+    /** \brief Perform analysis
+        \param out Output stream
+     **/
+    void analyse(std::ostream &out) const;
+
+    /** \brief Export CT numbers
+        \param pr CT numbers printer
+     **/
+    void do_export(ctnum_printer_i &pr) const { pr.perform(m_om); }
 
     /** \brief Forms omega matrix from a transition density matrix
         \param[in] s Overlap matrix
         \param[in] tdm Transition density matrix
         \param[out] om Omega matrix
 
-        The function implements the transforms of the transition density matrix
-        into the Omega matrix, which is further used to compute the charge transfer
-        numbers.
+        The function implements the transforms of the transition density
+        matrix into the \f$\Omega\f$ matrix, which is further used to compute
+        the charge transfer numbers.
 
         The implementation uses the new formula
         \f[
@@ -69,11 +90,14 @@ public:
             const ab_matrix &tdm, ab_matrix &om);
 
 private:
+    void initialize(const ctnum_analysis_i &a, const ab_matrix &om);
+
     static void form_om(const arma::mat &s,
             const arma::mat &tdm, arma::mat &om) {
 
         om = 0.5 * ( (tdm * s) % (s * tdm) + tdm % (s * tdm * s) );
     }
+
 };
 
 } // namespace libwfa

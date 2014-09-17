@@ -23,16 +23,14 @@ void ctnum_export_test::test_1() {
 
     size_t na = 4;
 
-    double tot[2];
     ab_matrix r1(true), r2(true);
     r1.alpha() = symmatu(randu(na, na));
     r2.alpha() = symmatu(randu(na, na));
 
-    std::ostringstream ss1;
-    ctnum_export("test_1_set_1",
-            "Test 1, Set 1 1.23456 0.015").perform(r1, tot, ss1);
-    ctnum_export("test_1_set_2",
-            "Test 1, Set 2, 2.34566, 0.121").perform(r2, tot, ss1);
+    ctnum_export("ctnum_export_test_1_set_1",
+            "Test 1, Set 1 1.23456 0.015").perform(r1);
+    ctnum_export("ctnum_export_test_1_set_2",
+            "Test 1, Set 2, 2.34566, 0.121").perform(r2);
 }
 
 
@@ -44,18 +42,16 @@ void ctnum_export_test::test_2() {
 
     size_t na = 4;
 
-    double tot[2];
     ab_matrix r1, r2;
     r1.alpha() = symmatu(randu(na, na));
     r1.beta()  = symmatu(randu(na, na));
     r2.alpha() = symmatu(randu(na + 1, na + 1));
     r2.beta()  = symmatu(randu(na + 1, na + 1));
 
-    std::ostringstream ss2;
-    ctnum_export("test_2_set_1",
-            "Test 2, Set 1, 0.12348, 0.001", 5).perform(r1, tot, ss2);
-    ctnum_export("test_2_set_2",
-            "Test 2, Set 2, 2.34902, 0.382", 5).perform(r2, tot, ss2);
+    ctnum_export("ctnum_export_test_2_set_1",
+            "Test 2, Set 1, 0.12348, 0.001", 5).perform(r1);
+    ctnum_export("ctnum_export_test_2_set_2",
+            "Test 2, Set 2, 2.34902, 0.382", 5).perform(r2);
 }
 
 

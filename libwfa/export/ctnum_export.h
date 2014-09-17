@@ -39,8 +39,6 @@ public:
 
     /** \brief Export the CT number data
         \param om CT number data (omega matrix)
-        \param om_tot Omega total
-        \param out Output stream
 
         The CT number data which is passed as argument ct is exported into one
         or two files. If ct contains one matrix (alpha == beta), one file is
@@ -61,8 +59,7 @@ public:
         \c run_dens_ana.py available at
         http://www.iwr.uni-heidelberg.de/groups/compchem/personal/felix_plasser/download.html
      **/
-    virtual void perform(const ab_matrix &om,
-        const double (&om_tot)[2], std::ostream &out) const;
+    virtual void perform(const ab_matrix &om) const;
 
 private:
     void do_export(const std::string &fname, const arma::mat &ct) const;
