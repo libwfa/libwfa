@@ -80,13 +80,26 @@ public:
      **/
     bool post_process_optdm(std::ostream &out, const ab_matrix &tdm);
 
+    /** \brief Reset to original state (at construction)
+     **/
+    void reset() {
+        m_init_av = false;
+        delete m_sa.release();
+    }
+
 private:
     void add_to_average(const ab_matrix &edm, const ab_matrix &hdm);
 };
 
 
+/** \brief Holder for static analysis object
 
-
+    The analysis object needs to be initialized, for the C-style interface to
+    work properly.
+ **/
+struct wf_analysis_static {
+    static std::auto_ptr<wf_analysis> analysis; //!< Static analysis object
+};
 
 } // namespace adcman
 

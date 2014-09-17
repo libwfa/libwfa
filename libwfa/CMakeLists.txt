@@ -98,6 +98,7 @@ set(HEADERS
     ${EXPORT_HEADERS}
     ${ANALYSES_HEADERS}
     libwfa_exception.h
+    libwfa_interface.h
     version.h
     wf_analysis_data_i.h
     wf_analysis.h
@@ -108,6 +109,7 @@ set(SRC
     ${EXPORT_SRC}
     ${ANALYSES_SRC}
     libwfa_exception.C
+    libwfa_interface.C
     version.C
     wf_analysis.C
 )

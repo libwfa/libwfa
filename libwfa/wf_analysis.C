@@ -172,6 +172,7 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 bool wf_analysis::setup_sa_ntos(std::ostream &out) {
 
     if (! m_init_av) return false;
+    if (m_sa.get()) return true;
 
     ab_matrix edm(true), hdm(true);
     edm.alpha() = 0.5 * (m_edm_av.alpha() + m_edm_av.beta());
