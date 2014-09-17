@@ -26,7 +26,7 @@ namespace libwfa {
 class version {
 private:
     static const unsigned k_major = 1; //!< Major %version number
-    static const unsigned k_minor = 0; //!< Minor %version number
+    static const unsigned k_minor = 1; //!< Minor %version number
     static const char *k_status; //!< Version status
     static const char *k_authors[]; //!< List of authors
 

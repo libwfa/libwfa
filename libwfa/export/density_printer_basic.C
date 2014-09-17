@@ -1,15 +1,15 @@
 #include <libwfa/libwfa_exception.h>
-#include "density_printer_print.h"
+#include "density_printer_basic.h"
 
 namespace libwfa {
 
 using namespace arma;
 
 
-const char density_printer_print::k_clazz[] = "density_printer_print";
+const char density_printer_basic::k_clazz[] = "density_printer_basic";
 
 
-void density_printer_print::perform(density_type type, const ab_matrix &dm) {
+void density_printer_basic::perform(density_type type, const ab_matrix &dm) {
 
     if (! m_dt.test(type)) return;
 

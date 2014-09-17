@@ -9,7 +9,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class density_printer_print : public density_printer_i {
+class density_printer_basic : public density_printer_i {
 public:
     static const char k_clazz[]; //!< Class name
 
@@ -27,14 +27,14 @@ public:
         \param title Description of orbitals and densities
         \param dt Flag which density types to export
      **/
-    density_printer_print(std::ostream &out, const std::string &title,
+    density_printer_basic(std::ostream &out, const std::string &title,
         const dt_flag &dt = dt_flag(density_type::DT_ALL)) :
         m_out(out), m_title(title), m_dt(dt)
     { }
 
     /** \brief Destructor
      **/
-    virtual ~density_printer_print() { }
+    virtual ~density_printer_basic() { }
 
     /** \copydoc density_printer_i::perform
 

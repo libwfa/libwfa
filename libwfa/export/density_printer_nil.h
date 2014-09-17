@@ -1,5 +1,5 @@
-#ifndef LIBWFA_DENSITY_PRINTER_NONE_H
-#define LIBWFA_DENSITY_PRINTER_NONE_H
+#ifndef LIBWFA_DENSITY_PRINTER_NIL_H
+#define LIBWFA_DENSITY_PRINTER_NIL_H
 
 #include "density_printer_i.h"
 
@@ -10,11 +10,11 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class density_printer_none : public density_printer_i {
+class density_printer_nil : public density_printer_i {
 public:
     /** \brief Destructor
      **/
-    virtual ~density_printer_none() { }
+    virtual ~density_printer_nil() { }
 
     //! \brief Implementation of density_printer_i interface
     //@{
@@ -25,4 +25,4 @@ public:
 
 } // namespace libwfa
 
-#endif // LIBWFA_DENSITY_PRINTER_NONE_H
+#endif // LIBWFA_DENSITY_PRINTER_NIL_H

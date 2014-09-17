@@ -65,10 +65,10 @@ set(EXPORT_HEADERS
     export/ctnum_export.h
     export/ctnum_printer_i.h
     export/cube_writer.h
+    export/density_printer_basic.h
     export/density_printer_cube.h
     export/density_printer_i.h
-    export/density_printer_none.h
-    export/density_printer_print.h
+    export/density_printer_nil.h
     export/export_cube_base.h
     export/export_cube_i.h
     export/export_molden_i.h
@@ -83,8 +83,8 @@ set(EXPORT_HEADERS
 set(EXPORT_SRC
     export/ctnum_export.C
     export/cube_writer.C
+    export/density_printer_basic.C
     export/density_printer_cube.C
-    export/density_printer_print.C
     export/export_cube_base.C
     export/grid3d.C
     export/orbital_printer_basic.C
