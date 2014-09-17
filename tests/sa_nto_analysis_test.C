@@ -3,7 +3,7 @@
 #include <libwfa/export/ev_printer_nto.h>
 #include <libwfa/export/export_data_none.h>
 #include <libwfa/core/transformations_dm.h>
-#include "santo_analysis_test.h"
+#include "sa_nto_analysis_test.h"
 #include "test01_data.h"
 #include "test02_data.h"
 
@@ -12,17 +12,17 @@ namespace libwfa {
 using namespace arma;
 
 
-void santo_analysis_test::perform() throw(libtest::test_exception) {
+void sa_nto_analysis_test::perform() throw(libtest::test_exception) {
 
     test_1<test01_data>();
     test_1<test02_data>();
-    //fail_test("santo_analysis_test::perform()", __FILE__, __LINE__, "NIY");
+    //fail_test("sa_nto_analysis_test::perform()", __FILE__, __LINE__, "NIY");
 }
 
 template<typename TestData>
-void santo_analysis_test::test_1() throw(libtest::test_exception) {
+void sa_nto_analysis_test::test_1() throw(libtest::test_exception) {
 
-    static const char *testname = "santo_analysis_test::test_1()";
+    static const char *testname = "sa_nto_analysis_test::test_1()";
 
     try {
 
@@ -66,13 +66,13 @@ void santo_analysis_test::test_1() throw(libtest::test_exception) {
         std::ostringstream outdel2;
         ev_printer_nto evpr;
         export_data_none exdat;
-        santo_analysis sana(s, c, edms, hdms, evpr, exdat, outdel2);      
+        sa_nto_analysis sana(s, c, edms, hdms, evpr, exdat, outdel2);
         
         // spin averaged analysis
         ab_matrix edmss(true), hdmss(true);
         edmss.alpha() = 0.5 * (edms.alpha() + edms.beta());
         hdmss.alpha() = 0.5 * (hdms.alpha() + hdms.beta());
-        santo_analysis ssana(s, c, edmss, hdmss, evpr, exdat, outdel2);
+        sa_nto_analysis ssana(s, c, edmss, hdmss, evpr, exdat, outdel2);
        
         // main loop
         for (size_t istate = 1; istate <= data.nstates(); istate++) {
@@ -90,7 +90,7 @@ void santo_analysis_test::test_1() throw(libtest::test_exception) {
                 //std::cout << "\nsummary for state " << istate << std::endl;
                 ab_matrix hdm, edm;
                 form_eh(s, tdm, edm, hdm);
-                santo_analysis sana_i(s, c, edm, hdm, evpr, exdat, outdel);        
+                sa_nto_analysis sana_i(s, c, edm, hdm, evpr, exdat, outdel);        
                 
                 //std::cout << "\nindividual for state " << istate << std::endl;
                 ab_matrix x;
@@ -146,5 +146,29 @@ void santo_analysis_test::test_1() throw(libtest::test_exception) {
     }
 
 }
+
+
+void sa_nto_analysis_test::check(const ab_matrix &tdm,
+    const ab_matrix &ui, const ab_matrix &vit, const ab_matrix &x,
+    const mat &s, const char* testname) {
+
+    check(tdm.alpha(), ui.alpha(), vit.alpha(), x.alpha(), s, testname);
+    check(tdm.beta(),  ui.beta(),  vit.beta() , x.beta(), s, testname);
+}
+
+void sa_nto_analysis_test::check(const mat &tdm_x, const mat &ui_x, const mat &vit_x,
+           const mat &x_x, const mat &s, const char* testname) {
+
+    mat x_chk_x = ui_x * tdm_x * vit_x;
+
+    if (accu(abs(ui_x.t() * ui_x - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "U not unitary.");
+    if (accu(abs(vit_x * vit_x.t() - s) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "V not unitary.");
+    if (accu(abs(x_chk_x - x_x) > 1e-12) != 0)
+        fail_test(testname, __FILE__, __LINE__, "Bad transform.");
+
+}
+
 
 } // namespace libwfa

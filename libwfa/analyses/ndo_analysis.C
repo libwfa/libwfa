@@ -1,4 +1,4 @@
-#include <libwfa/core/transformations_dm.h>
+#include <iomanip>
 #include "ndo_analysis.h"
 
 namespace libwfa {
@@ -6,54 +6,156 @@ namespace libwfa {
 using namespace arma;
 
 
-void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
-    ab_matrix &u, ab_vector &ev,
-    export_data_i &opr, std::ostream &out) const {
+ndo_analysis::ndo_analysis(const mat &s,
+    const ab_matrix &c, const ab_matrix &ddm) {
 
-    diagonalize_dm(m_s, m_c, m_ddm, ev, u);
-
-    size_t nndo = m_pr.perform(density_type::difference, ev, out);
-
-    // Form full matrix u and vector e (properly sorted)
-
-    bool aeqb = u.is_alpha_eq_beta();
-    ab_orbital_selector s(aeqb);
-
-    size_t ntot = ev.alpha().n_elem;
-    nndo = std::min(2 * nndo, ntot) / 2;
-    s.alpha() = orbital_selector(ntot);
-    s.alpha().select(true, 0, nndo, 1, true);
-    s.alpha().select(false, ntot - nndo, ntot, 1, true);
-    if (! aeqb) {
-        ntot = ev.beta().n_elem;
-        s.beta() = orbital_selector(ntot);
-        s.beta().select(true, 0, nndo, 1, true);
-        s.beta().select(false, ntot - nndo, ntot, 1, true);
+    if (ddm.is_alpha_eq_beta()) {
+        m_ndo[0] = new orbital_data(s, c.alpha(), ddm.alpha());
+        m_ndo[1] = 0;
     }
-
-    opr.perform(orbital_type::ndo, u, ev, s);
-
-    form_ad(ev, u, at, de);
+    else {
+        m_ndo[0] = new orbital_data(s, c.alpha(), ddm.alpha());
+        m_ndo[1] = new orbital_data(s, c.beta(), ddm.beta());
+    }
 }
 
-void ndo_analysis::perform(ab_matrix &at, ab_matrix &de,
-    export_data_i &opr, std::ostream &out) const {
-        
-    ab_matrix u;
-    ab_vector ev;
-    perform(at, de, u, ev, opr, out);        
+
+ndo_analysis::~ndo_analysis() {
+
+    delete m_ndo[0]; m_ndo[0] = 0;
+    if (m_ndo[1]) { delete m_ndo[1]; m_ndo[1] = 0; }
 }
 
-void ndo_analysis::perform(export_data_i &opr, std::ostream &out) const {
 
-    ab_matrix at, de;
-    ab_matrix u;
-    ab_vector ev;
-    perform(at, de, u, ev, opr, out);
+void ndo_analysis::form_ad(ab_matrix &at, ab_matrix &de) const {
 
-    opr.perform(density_type::attach, at);
-    opr.perform(density_type::detach, de);
+    if (m_ndo[1]) {
+        at.set_alpha_neq_beta();
+        de.set_alpha_neq_beta();
+        form_ad(m_ndo[0]->get_occ(), m_ndo[0]->get_coeff(),
+                at.alpha(), de.alpha());
+        form_ad(m_ndo[1]->get_occ(), m_ndo[1]->get_coeff(),
+                at.beta(), de.beta());
+    }
+    else {
+        at.set_alpha_eq_beta();
+        de.set_alpha_eq_beta();
+        form_ad(m_ndo[0]->get_occ(), m_ndo[0]->get_coeff(),
+                at.alpha(), de.alpha());
+    }
 }
 
+
+void ndo_analysis::analyse(std::ostream &out, size_t nndo) const {
+
+    if (m_ndo[1]) {
+        out << "NDOs (alpha):" << std::endl;
+        analysis(out, m_ndo[0]->get_occ(), nndo);
+        out << "NDOs (beta):" << std::endl;
+        analysis(out, m_ndo[1]->get_occ(), nndo);
+    }
+    else {
+        out << "NDOs:" << std::endl;
+        analysis(out, m_ndo[0]->get_occ() * 2., nndo);
+    }
+}
+
+
+void ndo_analysis::export_orbitals(orbital_printer_i &pr, size_t nndo) const {
+
+    if (m_ndo[1]) {
+
+        orbital_selector s_a, s_b;
+        bld_selector(m_ndo[0]->get_occ(), nndo, s_a);
+        bld_selector(m_ndo[1]->get_occ(), nndo, s_b);
+
+        pr.perform(orbital_type::ndo, *m_ndo[0], s_a, *m_ndo[1], s_b);
+    }
+    else {
+
+        orbital_selector s;
+        bld_selector(m_ndo[0]->get_occ(), nndo, s);
+
+        pr.perform(orbital_type::ndo, *m_ndo[0], s);
+    }
+}
+
+
+void ndo_analysis::form_ad(const vec &e, const mat &c, mat &at, mat &de) {
+
+    Col<uword> ix = find(e > 0.0, 1);
+    if (ix.n_rows != 0) {
+        if (ix(0) != 0) {
+            mat ux = c.cols(ix(0), e.n_rows - 1);
+            at = ux * diagmat(e.rows(ix(0), e.n_rows - 1)) * ux.t();
+            ux = c.cols(0, ix(0) - 1);
+            de = ux * diagmat(e.rows(0, ix(0) - 1)) * ux.t();
+        }
+        else {
+            at = c * diagmat(e) * c.t();
+            de = mat(c.n_cols, c.n_cols, fill::zeros);
+        }
+    }
+    else {
+        at = mat(c.n_cols, c.n_cols, fill::zeros);
+        de = c * diagmat(e) * c.t();
+    }
+}
+
+
+void ndo_analysis::analysis(std::ostream &out, const vec &ev, size_t nndo) {
+
+    // Compute # attached and detached electrons first
+    double na = 0.0, na2 = 0.0, nd = 0.0, nd2 = 0.0;
+
+    size_t i = 0, nndo0 = 0;
+    for (; i < ev.n_elem && ev(i) < 0; i++, nndo0++) {
+        double cur = ev(i);
+        nd += cur; nd2 += cur * cur;
+    }
+    nd *= -1;
+    for (; i < ev.n_elem; i++) {
+        double cur = ev(i);
+        na += cur; na2 += cur * cur;
+    }
+    nndo0 = std::min(nndo0, ev.n_elem - nndo0);
+    nndo = std::min(nndo, nndo0);
+
+    std::string offset(2, ' ');
+    out << offset << "Leading detachment eigenvalues: ";
+    out << std::setprecision(4) << std::fixed;
+    for (i = 0; i < nndo; i++) out << std::setw(9) << ev(i);
+    out << std::endl;
+
+    out << offset << "Leading attachment eigenvalues: ";
+    out << std::setprecision(4) << std::fixed;
+    size_t j = ev.n_elem - 1;
+    for (i = 0; i < nndo; i++, j--) out << std::setw(9) << ev(j);
+    out << std::endl;
+
+    out << offset << "Number of detached / attached electrons: p_D = ";
+    out << std::setw(7) << nd;
+    out << ", p_A = " << std::setw(7) << na << std::endl;
+    out << std::setprecision(6);
+    out << offset << "Number of involved orbitals: PR_D = ";
+    out << std::setw(9) << (nd * nd) / nd2;
+    out << ", PR_A = ";
+    out << std::setw(9) << (na * na) / na2 << std::endl;
+}
+
+
+void ndo_analysis::bld_selector(const arma::vec &e, size_t nndo,
+    orbital_selector &sel) {
+
+    size_t ntot = e.size();
+    uvec pos = find(e >= 0.0, 1);
+    nndo = std::min(nndo, (size_t) pos(0));
+    nndo = std::min(nndo, ntot - nndo);
+
+    if (sel.n_indexes() != ntot) sel = orbital_selector(ntot);
+    sel.select(true, 0, nndo, 1, true);
+    sel.select(false, ntot - nndo, ntot, 1, true);
+
+}
 
 } // namespace libwfa

@@ -3,7 +3,6 @@
 #include <libwfa/analyses/ndo_analysis.h>
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
-#include <libwfa/core/transformations_dm.h>
 #include <libwfa/export/exciton_printer_ad.h>
 #include <memory>
 #include "analyse_opdm.h"

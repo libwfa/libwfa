@@ -2,8 +2,6 @@
 #define LIBWFA_NO_ANALYSIS_TEST_H
 
 #include "test_base.h"
-#include <libwfa/analyses/no_analysis.h>
-#include <libtest/unit_test.h>
 
 namespace libwfa {
 

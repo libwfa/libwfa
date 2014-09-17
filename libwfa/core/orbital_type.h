@@ -15,7 +15,7 @@ class orbital_type {
 public:
     enum { NT = 4, OT_ALL = 15 };
 
-    typedef std::bitset<NT> flag_t; //!< Flag for density types
+    typedef std::bitset<NT> flag_t; //!< Flag for orbital types
 
 private:
     size_t m_type;

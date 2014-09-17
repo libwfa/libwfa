@@ -18,6 +18,10 @@ public:
     virtual void perform() throw(libtest::test_exception);
     
 private:
+    void test_form_om_1a() throw(libtest::test_exception);
+
+    void test_form_om_1b() throw(libtest::test_exception);
+
     template<typename TestData>
     void test_1() throw(libtest::test_exception);   
 };

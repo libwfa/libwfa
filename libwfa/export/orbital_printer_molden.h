@@ -1,7 +1,7 @@
-#ifndef LIBWFA_EXPORT_ORBITALS_MOLDEN_H
-#define LIBWFA_EXPORT_ORBITALS_MOLDEN_H
+#ifndef LIBWFA_ORBITAL_PRINTER_MOLDEN_H
+#define LIBWFA_ORBITAL_PRINTER_MOLDEN_H
 
-#include "export_data_i.h"
+#include "orbital_printer_i.h"
 #include "export_molden_i.h"
 
 namespace libwfa {
@@ -13,7 +13,7 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class export_orbitals_molden : public export_data_i {
+class orbital_printer_molden : public orbital_printer_i {
 public:
     static const char k_clazz[]; //!< Class name
 
@@ -31,25 +31,26 @@ public:
         \param id ID / name of orbitals
         \param ot Flag which orbital types to export
      **/
-    export_orbitals_molden(export_molden_i &core, const std::string &id,
+    orbital_printer_molden(export_molden_i &core, const std::string &id,
         const ot_flag &ot = ot_flag(orbital_type::OT_ALL));
 
     /** \brief Destructor
      **/
-    virtual ~export_orbitals_molden() { }
+    virtual ~orbital_printer_molden() { }
 
-    /** \copydoc export_data_i::perform
+    /** \copydoc orbital_printer_i::perform
      **/
-    virtual void perform(density_type type, const ab_matrix &dm, bool ab_sep = true,
-        size_t spin_tr_d = 0) { }
+    virtual void perform(orbital_type type,
+            const orbital_data &orb, const orbital_selector &s);
 
-    /** \copydoc export_data_i::perform(libwfa::orbital_type, libwfa::ab_matrix&, libwfa::ab_vector&, libwfa::ab_orbital_selector&)
+    /** \copydoc orbital_printer_i::perform
      **/
-    virtual void perform(orbital_type type, const ab_matrix &coeff,
-        const ab_vector &ev, const ab_orbital_selector &s);
+    virtual void perform(orbital_type type,
+            const orbital_data &orb_a, const orbital_selector &s_a,
+            const orbital_data &orb_b, const orbital_selector &s_b);
 };
 
 
 } // namespace libwfa
 
-#endif // LIBWFA_EXPORT_ORBITALS_MOLDEN_H
+#endif // LIBWFA_ORBITAL_PRINTER_MOLDEN_H

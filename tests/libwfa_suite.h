@@ -3,7 +3,6 @@
 
 #include <libtest/test_suite.h>
 #include "ab_matrix_test.h"
-#include "ab_orbital_selector_test.h"
 #include "ab_vector_test.h"
 #include "ctnum_analysis_test.h"
 #include "ctnum_export_test.h"
@@ -19,7 +18,8 @@
 #include "ndo_analysis_test.h"
 #include "no_analysis_test.h"
 #include "nto_analysis_test.h"
-#include "santo_analysis_test.h"
+//#include "santo_analysis_test.h"
+#include "orbital_data_test.h"
 #include "orbital_selector_test.h"
 #include "orbital_type_test.h"
 #include "pop_analysis_ad_test.h"
@@ -28,7 +28,7 @@
 #include "pop_mulliken_test.h"
 #include "pop_printer_default_test.h"
 #include "selector_test.h"
-#include "transformations_dm_test.h"
+//#include "transformations_dm_test.h"
 #include "version_test.h"
 
 using libtest::unit_test_factory;
@@ -44,7 +44,6 @@ namespace libwfa {
 
     This suite runs the following tests:
     - \c ab_matrix_test
-    - \c ab_orbital_selector_test
     - \c ab_vector_test
     - \c ctnum_analysis_test
     - \c ctnum_export_test
@@ -61,6 +60,7 @@ namespace libwfa {
     - \c no_analysis_test
     - \c nto_analysis_test
     - \c santo_analysis_test
+    - \c orbital_data_test
     - \c orbital_selector_test
     - \c orbital_type_test
     - \c pop_analysis_ad_test
@@ -69,7 +69,6 @@ namespace libwfa {
     - \c pop_mulliken_test
     - \c pop_printer_default_test
     - \c selector_test
-    - \c transformations_dm_test
     - \c version_test
 
     \ingroup libwfa_tests
@@ -77,7 +76,6 @@ namespace libwfa {
 class libwfa_suite: public libtest::test_suite {
 private:
     unit_test_factory<ab_matrix_test> m_utf_ab_matrix;
-    unit_test_factory<ab_orbital_selector_test> m_utf_ab_orbital_selector;
     unit_test_factory<ab_vector_test> m_utf_ab_vector;
     unit_test_factory<ctnum_analysis_test> m_utf_ctnum_analysis;
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
@@ -93,7 +91,8 @@ private:
     unit_test_factory<ndo_analysis_test> m_utf_ndo_analysis;
     unit_test_factory<no_analysis_test> m_utf_no_analysis;
     unit_test_factory<nto_analysis_test> m_utf_nto_analysis;
-    unit_test_factory<santo_analysis_test> m_utf_santo_analysis;
+//    unit_test_factory<santo_analysis_test> m_utf_santo_analysis;
+    unit_test_factory<orbital_data_test> m_utf_orbital_data;
     unit_test_factory<orbital_selector_test> m_utf_orbital_selector;
     unit_test_factory<orbital_type_test> m_utf_orbital_type;
     unit_test_factory<pop_analysis_ad_test> m_utf_pop_analysis_ad;
@@ -102,7 +101,6 @@ private:
     unit_test_factory<pop_mulliken_test> m_utf_pop_mulliken;
     unit_test_factory<pop_printer_default_test> m_utf_pop_printer_default;
     unit_test_factory<selector_test> m_utf_selector;
-    unit_test_factory<transformations_dm_test> m_utf_transformations_dm;
     unit_test_factory<version_test> m_utf_version;
 
 public:

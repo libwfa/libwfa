@@ -55,7 +55,7 @@ public:
      **/
     ab_exciton_moments(size_t nmax = 2, bool aeqb = false);
 
-}; // class ab_exciton_moments
+};
 
 
 inline exciton_moments::exciton_moments(size_t nmax) : m_nmax(nmax),

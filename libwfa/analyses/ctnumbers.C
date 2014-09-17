@@ -1,4 +1,3 @@
-#include <libwfa/core/transformations_dm.h>
 #include "ctnumbers.h"
 
 namespace libwfa {
@@ -23,6 +22,20 @@ void ctnumbers::perform(ab_matrix &om, double (&om_tot)[2]) const {
         om.set_alpha_neq_beta();
         om_tot[1] = accu(om_ao.beta());
         m_analysis.perform(om_ao.beta(), om.beta());
+    }
+}
+
+
+void ctnumbers::form_om(const mat &s, const ab_matrix &tdm, ab_matrix &om) {
+
+    if (tdm.is_alpha_eq_beta()) {
+        om.set_alpha_eq_beta();
+        form_om(s, tdm.alpha(), om.alpha());
+    }
+    else {
+        om.set_alpha_neq_beta();
+        form_om(s, tdm.alpha(), om.alpha());
+        form_om(s, tdm.beta(), om.beta());
     }
 }
 

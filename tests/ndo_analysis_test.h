@@ -2,7 +2,6 @@
 #define LIBWFA_NDO_ANALYSIS_TEST_H
 
 #include "test_base.h"
-#include <libwfa/analyses/ndo_analysis.h>
 
 namespace libwfa {
 
@@ -16,8 +15,15 @@ public:
     virtual void perform() throw(libtest::test_exception);
     
 private:
+    void test_form_ad_1a() throw(libtest::test_exception);
+
+    void test_form_ad_1b() throw(libtest::test_exception);
+
     template<typename TestData>
-    void test_1() throw(libtest::test_exception);    
+    void test_form_ad_2() throw(libtest::test_exception);
+
+    template<typename TestData>
+    void test_1() throw(libtest::test_exception);
 };
 
 

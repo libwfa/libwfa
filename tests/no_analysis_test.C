@@ -1,8 +1,6 @@
-#include <sstream>
+#include <fstream>
 #include <libwfa/libwfa_exception.h>
 #include <libwfa/analyses/no_analysis.h>
-#include <libwfa/export/ev_printer_no.h>
-#include <libwfa/export/export_data_print.h>
 #include "no_analysis_test.h"
 #include "test01_data.h"
 #include "test02_data.h"
@@ -15,96 +13,47 @@ using namespace arma;
 void no_analysis_test::perform() throw(libtest::test_exception) {
 
     test_1<test01_data>();
-    test_1<test02_data>();    
+    test_1<test02_data>();
 }
 
 template<typename TestData>
 void no_analysis_test::test_1() throw(libtest::test_exception) {
 
-    static const char *testname = "nto_analysis_test::test_1()";
+    static const char *testname = "no_analysis_test::test_1()";
 
     try {
 
-        size_t nao = TestData::k_nao;
-        size_t nmo = TestData::k_nmo;
-        TestData data;
+    std::ofstream of("no_analysis_test", std::ofstream::app);
+    size_t nao = TestData::k_nao;
+    size_t nmo = TestData::k_nmo;
+    TestData data;
 
-        mat s(nao, nao);
-        read_matrix(data, testname, "s", s);
+    mat s(nao, nao);
+    read_matrix(data, testname, "s", s);
 
-        ab_matrix c(data.aeqb());
-        c.alpha() = mat(nao, nmo);
-        if (! data.aeqb()) c.beta() = mat(nao, nmo);
-        read_ab_matrix(data, testname, "c", c);
+    ab_matrix c(data.aeqb());
+    c.alpha() = mat(nao, nmo);
+    if (! data.aeqb()) c.beta() = mat(nao, nmo);
+    read_ab_matrix(data, testname, "c", c);
         
-        ev_printer_no evpr;
-        std::ostringstream ssdat;
-        export_data_print exdat(ssdat, "Test printer");
-               
-        // main loop
-        for (size_t istate = 1; istate <= data.nstates(); istate++) {
-            ab_matrix dm(data.aeqb());
+    for (size_t istate = 1; istate <= data.nstates(); istate++) {
 
-            dm.alpha() = mat(nao, nao);
-            if (! data.aeqb()) dm.beta() = mat(nao, nao);
+        ab_matrix dm(data.aeqb());
+        dm.alpha() = mat(nao, nao);
+        if (! data.aeqb()) dm.beta() = mat(nao, nao);
 
-            std::ostringstream ssdm; ssdm << "dm" << istate;
-            read_ab_matrix(data, testname, ssdm.str().c_str(), dm);
-            
-            std::ostringstream outdel;
-            
-            no_analysis noa(s, c, dm);
-            noa.perform(evpr, exdat, outdel);
-            
-            // Activate if print-out is required:
-            //std::cout << std::endl << ssdat.str() << std::endl;
+        std::ostringstream ssdm; ssdm << "dm" << istate;
+        read_ab_matrix(data, testname, ssdm.str().c_str(), dm);
 
-            { // test alpha
-                const mat &dm_x = dm.alpha();
-                const mat &u_x = noa.get_eigvect(false).alpha();
-                const vec &ev_x = noa.get_eigval(false).alpha();
-                if (accu(abs(u_x.t() * s * dm_x * s * u_x - diagmat(ev_x)) > 1e-12) != 0)
-                    fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-                if (accu(abs(u_x.t() * s * u_x - eye(nmo, nmo)) > 1e-12) != 0)
-                    fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-                if (accu(abs(dm_x - u_x * diagmat(ev_x) * u_x.t()) > 1e-12) != 0)
-                    fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-            }
-            { // test beta
-                const mat &dm_x = dm.beta();
-                const mat &u_x = noa.get_eigvect(false).beta();
-                const vec &ev_x = noa.get_eigval(false).beta();
-                if (accu(abs(u_x.t() * s * dm_x * s * u_x - diagmat(ev_x)) > 1e-12) != 0)
-                    fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-                if (accu(abs(u_x.t() * s * u_x - eye(nmo, nmo)) > 1e-12) != 0)
-                    fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-                if (accu(abs(dm_x - u_x * diagmat(ev_x) * u_x.t()) > 1e-12) != 0)
-                    fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-            }
-            { // test spin-traced
-                mat dm_x = 0.5 * (dm.alpha() + dm.beta());
-                const mat &u_x = noa.get_eigvect(true).alpha();
-                const vec &ev_x = noa.get_eigval(true).alpha();// + noa.get_eigval(true).alpha();
-                if (accu(abs(u_x.t() * s * dm_x * s * u_x - diagmat(ev_x)) > 1e-12) != 0)
-                    fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-                if (accu(abs(u_x.t() * s * u_x - eye(nmo, nmo)) > 1e-12) != 0)
-                    fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-                if (accu(abs(dm_x - u_x * diagmat(ev_x) * u_x.t()) > 1e-12) != 0)
-                    fail_test(testname, __FILE__, __LINE__, "Bad transform.");
-                
-                if (! noa.get_eigval(true).is_alpha_eq_beta())
-                    fail_test(testname, __FILE__, __LINE__, "alpha != beta");                    
-                if (! noa.get_eigvect(true).is_alpha_eq_beta())
-                    fail_test(testname, __FILE__, __LINE__, "alpha != beta");                    
-            }
+        no_analysis na(s, c, dm);
+        na.analyse(of);
+        of << std::endl;
+    }
 
-
-        }
-        
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }
-    
 }
+
 
 } // namespace libwfa

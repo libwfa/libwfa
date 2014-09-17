@@ -1,6 +1,5 @@
 set(SRC_HEADER
     ab_matrix_test.h
-    ab_orbital_selector_test.h
     ab_vector_test.h
     compare_ref.h
     ctnum_analysis_test.h
@@ -19,9 +18,10 @@ set(SRC_HEADER
     ndo_analysis_test.h
     no_analysis_test.h
     nto_analysis_test.h
-    santo_analysis_test.h
-    orbital_type_test.h
+#    sa_nto_analysis_test.h
+    orbital_data_test.h
     orbital_selector_test.h
+    orbital_type_test.h
     pop_analysis_ad_test.h
     pop_analysis_dm_test.h
     pop_loewdin_test.h
@@ -30,15 +30,15 @@ set(SRC_HEADER
     selector_test.h
     test_base.h
     test_data_base.h
+    test00_data.h
     test01_data.h
     test02_data.h
-    transformations_dm_test.h
+#    transformations_dm_test.h
     version_test.h
 )
 
 set(SRC
     ab_matrix_test.C
-    ab_orbital_selector_test.C
     ab_vector_test.C
     compare_ref.C
     ctnum_analysis_test.C
@@ -60,7 +60,8 @@ set(SRC
     ndo_analysis_test.C
     no_analysis_test.C
     nto_analysis_test.C
-    santo_analysis_test.C
+#    sa_nto_analysis_test.C
+    orbital_data_test.C
     orbital_selector_test.C
     orbital_type_test.C
     pop_analysis_ad_test.C
@@ -71,9 +72,10 @@ set(SRC
     selector_test.C
     test_base.C
     test_data_base.C
+    test00_data.C
     test01_data.C
     test02_data.C
-    transformations_dm_test.C
+#    transformations_dm_test.C
     version_test.C
 )
 

@@ -37,21 +37,8 @@ public:
         
         Performs deep copy
      **/
-    ab_object(const ab_object &other) : 
-        m_aeqb(other.is_alpha_eq_beta()) {
-        
-        m_data_a = new T(other.alpha());
-        m_data_b = (m_aeqb ? m_data_a : new T(other.beta()));
-    }
-    
-    /** \brief Constructor from object data, assuming alpha==beta
-     * \param object object data
-     */
-/*    ab_object(const T &object) : m_aeqb(true) {
-        m_data_a = new T(object);
-        m_data_b = m_data_a;
-    }*/
-     
+    ab_object(const ab_object &other);
+
     /** \brief Destructor
      **/
     ~ab_object() {
@@ -64,11 +51,7 @@ public:
     /** \brief Assignment operator
         \param other Object to get data from
      **/
-    ab_object &operator=(const ab_object &other) {
-        set(other);
-        
-        return *this;
-    }
+    ab_object &operator=(const ab_object &other);
     
     /** \brief Assignment of ab_object
         \param other Object to get data from
@@ -135,6 +118,33 @@ public:
      **/
     const T &beta() const { return *m_data_b; }
 };
+
+
+template<typename T>
+ab_object<T>::ab_object(const ab_object<T> &other) :
+    m_aeqb(other.is_alpha_eq_beta()) {
+
+    m_data_a = new T(other.alpha());
+    m_data_b = (m_aeqb ? m_data_a : new T(other.beta()));
+}
+
+
+template<typename T>
+ab_object<T> &ab_object<T>::operator=(const ab_object<T> &other) {
+
+    if (m_aeqb) {
+        if (! other.is_alpha_eq_beta()) m_data_b = new T(other.beta());
+    }
+    else {
+        if (other.is_alpha_eq_beta()) {
+            delete m_data_b; m_data_b = m_data_a;
+        }
+        else { *m_data_b = other.beta(); }
+    }
+    *m_data_a = other.alpha();
+    m_aeqb = other.is_alpha_eq_beta();
+}
+
 
 } // namespace libwfa
 
