@@ -16,6 +16,7 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("exciton_analysis", m_utf_exciton_analysis_test);
     add_test("export_cube_base", m_utf_export_cube_base);
     add_test("grid3d", m_utf_grid3d);
+    add_test("mom_builder", m_utf_mom_builder);
     add_test("ndo_analysis", m_utf_ndo_analysis);
     add_test("no_analysis", m_utf_no_analysis);
     add_test("nto_analysis", m_utf_nto_analysis);

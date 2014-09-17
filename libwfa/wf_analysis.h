@@ -101,6 +101,7 @@ struct wf_analysis_static {
     static std::auto_ptr<wf_analysis> analysis; //!< Static analysis object
 };
 
-} // namespace adcman
+
+} // namespace libwfa
 
 #endif // LIBWFA_WF_ANALYSIS_H

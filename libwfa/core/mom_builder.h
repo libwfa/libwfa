@@ -3,7 +3,7 @@
 
 #include "mom_builder_i.h"
 
-namespace libwfa{
+namespace libwfa {
 
 /** \brief Simple implementation of mom_builder_i
 
@@ -20,7 +20,6 @@ private:
     const arma::mat &m_zz; //!< Moment matrix \f$ z^2 \f$
 
 public:
-
     /**\brief Constructor, setting needed matrices
        \param s  Overlap matrix (zero-th moment)
        \param x  Moment matrix \f$ x \f$
@@ -31,11 +30,12 @@ public:
        \param zz Moment matrix \f$ z^2 \f$
 
      **/
-    mom_builder(const arma::mat &s, const arma::mat &x,
-        const arma::mat &y, const arma::mat &z,
-        const arma::mat &xx, const arma::mat &yy,
-        const arma::mat &zz) :
+    mom_builder(const arma::mat &s,
+        const arma::mat &x,  const arma::mat &y,  const arma::mat &z,
+        const arma::mat &xx, const arma::mat &yy, const arma::mat &zz) :
         m_s(s), m_x(x), m_y(y), m_z(z), m_xx(xx), m_yy(yy), m_zz(zz) { }
+
+    virtual ~mom_builder() { }
 
     /** \copydoc mom_builder_i::max_moment
      **/
@@ -48,8 +48,7 @@ public:
 
     /** \copydoc mom_builder_i::perform
      **/
-    virtual double perform(const arma::mat &dm,
-        size_t c, size_t n) const;
+    virtual double perform(const arma::mat &dm, size_t c, size_t n) const;
 
 private:
     /** \brief Returns the desired operator as a matrix
@@ -61,6 +60,6 @@ private:
 };
 
 
-}//end namespace libwfa
+} // namespace libwfa
 
 #endif // LIBWFA_MOM_BUILDER_H

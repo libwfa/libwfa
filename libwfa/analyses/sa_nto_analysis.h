@@ -79,4 +79,4 @@ private:
 } // namespace libwfa
 
 
-#endif /* SANTO_ANALYSIS_H_ */
+#endif // LIBWFA_SA_NTO_ANALYSIS_H

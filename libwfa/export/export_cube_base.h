@@ -62,7 +62,7 @@ private:
 private:
     grid3d m_grid; //!< The grid
     const arma::uvec &m_atnum; //!< Atom numbers (dim: N)
-    cosnt arma::mat &m_coords; //!< Atomic coordinates (dim: 3 x N)
+    const arma::mat &m_coords; //!< Atomic coordinates (dim: 3 x N)
     dm_list m_dms; //!< Density matrices to export as cube
     orb_list m_orbs; //!< Orbitals to export as cube
     std::string m_prefix; //!< Filename prefix

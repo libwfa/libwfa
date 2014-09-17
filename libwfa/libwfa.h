@@ -53,6 +53,10 @@
 #include "wf_analysis.h"
 //@}
 
+//! \name Core interfaces
+//@{
+#include "core/mom_builder.h"
+//@}
 
 //! \name Various density matrix analyses
 //@{
@@ -75,7 +79,5 @@
 #include "export/orbital_printer_molden.h"
 #include "export/orbital_printer_nil.h"
 //@}
-
-
 
 #endif // LIBWFA_LIBWFA_H

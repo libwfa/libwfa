@@ -9,12 +9,11 @@ set(SRC_HEADER
     density_type_test.h
     exciton_analysis_ad_test.h
     exciton_analysis_test.h
-#    exciton_printer_ad_test.h
-#    exciton_printer_test.h
     exciton_test_data_hhe.h
     export_cube_base_test.h
     grid3d_test.h
     libwfa_suite.h
+    mom_builder_test.h
     ndo_analysis_test.h
     no_analysis_test.h
     nto_analysis_test.h
@@ -47,13 +46,12 @@ set(SRC
     density_type_test.C
     exciton_analysis_ad_test.C
     exciton_analysis_test.C
-#    exciton_printer_test.C
-#    exciton_printer_ad_test.C
     exciton_test_data_hhe.C
     export_cube_base_test.C
     grid3d_test.C
     libwfa_tests.C
     libwfa_suite.C
+    mom_builder_test.C
     ndo_analysis_test.C
     no_analysis_test.C
     nto_analysis_test.C

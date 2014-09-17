@@ -80,7 +80,7 @@ public:
         The output matrices are reshaped and resized as required.
      **/
     static void form_eh(const arma::mat &s, const ab_matrix &tdm,
-        ab_matrix &edm,  ab_matrix &hdm);
+        ab_matrix &edm, ab_matrix &hdm);
 
 private:
     void initialize(const arma::mat &s, const ab_matrix &c,
@@ -98,6 +98,7 @@ private:
         hdm = tdm * s * tdm.t();
     }
 };
+
 
 } // namespace libwfa
 

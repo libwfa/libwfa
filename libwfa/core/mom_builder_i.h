@@ -54,11 +54,10 @@ public:
 
         TODO: extend to mixed direction moments
      **/
-    virtual double perform(const arma::mat &dm,
-        size_t c, size_t n) const = 0;
+    virtual double perform(const arma::mat &dm, size_t c, size_t n) const = 0;
 };
 
-}//end namespace libwfa
+} // namespace libwfa
 
 
 #endif // LIBWFA_MULTIPOL_CON_I_H

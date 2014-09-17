@@ -1,5 +1,5 @@
-#ifndef WF_ANALYSIS_DATA_I_H
-#define WF_ANALYSIS_DATA_I_H
+#ifndef LIBWFA_WF_ANALYSIS_DATA_I_H
+#define LIBWFA_WF_ANALYSIS_DATA_I_H
 
 #include <libwfa/analyses/ctnum_analysis_i.h>
 #include <libwfa/analyses/pop_analysis_i.h>
@@ -57,14 +57,12 @@ struct optdm_params {
 
 /** \brief Interface to provide the data required to perform the analysis
 
-    If new analyses are added to libwfa which require additional data please
+    If new analyses are added to libwfa which require additional data, please
     add the respective functions to the interface.
 
     \ingroup libwfa
  **/
 class wf_analysis_data_i {
-public:
-
 public:
     /** \brief Virtual destructor
      **/
@@ -98,15 +96,15 @@ public:
 
     /** \brief Parameter structure for state density matrix analyses
      **/
-    virtual opdm_params  opdm_params() = 0;
+    virtual opdm_params  get_opdm_params() = 0;
 
     /** \brief Parameter structure for difference density matrix analyses
      **/
-    virtual opddm_params opddm_params() = 0;
+    virtual opddm_params get_opddm_params() = 0;
 
     /** \brief Parameter structure for transition density matrix analyses
      **/
-    virtual optdm_params optdm_params() = 0;
+    virtual optdm_params get_optdm_params() = 0;
 
     //! \name Population analysis related functions
     //@{
@@ -161,6 +159,6 @@ public:
 };
 
 
-} // namespace adcman
+} // namespace libwfa
 
-#endif // LIBWFA_ANALYSIS_DATA_I_H
+#endif // LIBWFA_WF_ANALYSIS_DATA_I_H

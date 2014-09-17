@@ -30,8 +30,8 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     const arma::mat &s = m_h->overlap();
     const ab_matrix &c = m_h->coefficients();
 
-    opdm_params p1 = m_h->opdm_params();
-    opddm_params p2 = m_h->opddm_params();
+    opdm_params p1 = m_h->get_opdm_params();
+    opddm_params p2 = m_h->get_opddm_params();
 
     if (p1.no_analysis) {
         no_analysis no(s, c, sdm);
@@ -89,7 +89,7 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     const arma::mat &s = h.overlap();
     const ab_matrix &c = h.coefficients();
 
-    opdm_params p1 = m_h->opdm_params();
+    opdm_params p1 = m_h->get_opdm_params();
     if (p1.no_analysis) {
         no_analysis no(s, c, sdm);
         no.analyse(out, p1.nno);
@@ -128,7 +128,7 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     const ab_matrix &c = m_h->coefficients();
 
     // If NTO formatter exists, do NTO analysis
-    optdm_params p1 = m_h->optdm_params();
+    optdm_params p1 = m_h->get_optdm_params();
     if (p1.nto_analysis) {
         nto_analysis nto(s, c, tdm);
         nto.analyse(out, p1.nnto);
@@ -181,7 +181,7 @@ bool wf_analysis::setup_sa_ntos(std::ostream &out) {
     const arma::mat &s = m_h->overlap();
     const ab_matrix &c = m_h->coefficients();
 
-    optdm_params p1 = m_h->optdm_params();
+    optdm_params p1 = m_h->get_optdm_params();
 
     nto_analysis sa_ntos(s, c, edm, hdm);
     if (p1.nto_analysis) {

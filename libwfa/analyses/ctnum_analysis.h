@@ -25,6 +25,8 @@ public:
      **/
     ctnum_analysis(const arma::uvec &b2p);
 
+    /** \brief Virtual destructor
+     **/
     virtual ~ctnum_analysis() { }
 
     /** \copydoc ctnum_analysis_i::size
@@ -33,8 +35,7 @@ public:
 
     /** \copydoc ctnum_analysis_i::perform
      **/
-    virtual void perform(const arma::mat& om_ao,
-            arma::mat &om) const;
+    virtual void perform(const arma::mat& om_ao, arma::mat &om) const;
 };
 
 } // namespace libwfa
