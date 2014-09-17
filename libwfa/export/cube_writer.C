@@ -6,8 +6,8 @@ namespace libwfa {
 
 
 cube_writer::cube_writer(const std::string &filename,
-    const std::string &line1, const std::string &line2, const grid3d &grid,
-    const arma::Col<unsigned int> &atnum, const arma::mat &coords) :
+    const std::string &line1, const std::string &line2,
+    const grid3d &grid, const arma::uvec &atnum, const arma::mat &coords) :
     m_out(filename.c_str()), m_npoints(grid.size()),
     m_nrec(grid.npts().at(2)), m_cur(0) {
 
@@ -43,8 +43,7 @@ size_t cube_writer::write(const arma::vec &data) {
 
 
 void cube_writer::write_header(const std::string &l1, const std::string &l2,
-        const grid3d &grid, const arma::Col<unsigned int> &atnum,
-        const arma::mat &coords) {
+    const grid3d &grid, const arma::uvec &atnum, const arma::mat &coords) {
 
     if (atnum.n_elem != coords.n_cols) {
         throw libwfa_exception("cube_writer", "write_header(...)",

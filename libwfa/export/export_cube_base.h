@@ -60,9 +60,9 @@ private:
     typedef std::map<std::string, orb_data *> orb_list;
 
 private:
-    const grid3d &m_grid; //!< The grid
-    const arma::Col<unsigned int> &m_atnum; //!< Atom numbers (dim: N)
-    const arma::mat &m_coords; //!< Atomic coordinates (dim: 3 x N)
+    grid3d m_grid; //!< The grid
+    const arma::uvec &m_atnum; //!< Atom numbers (dim: N)
+    cosnt arma::mat &m_coords; //!< Atomic coordinates (dim: 3 x N)
     dm_list m_dms; //!< Density matrices to export as cube
     orb_list m_orbs; //!< Orbitals to export as cube
     std::string m_prefix; //!< Filename prefix
@@ -74,7 +74,7 @@ public:
         \param coords List of atomic coords (#atoms columns x 3 rows)
         \param prefix Prefix to use for the filenames (e.g. directory)
      **/
-    export_cube_base(const grid3d &grid, const arma::Col<unsigned int> &atnum,
+    export_cube_base(const grid3d &grid, const arma::uvec &atnum,
         const arma::mat &coord, const std::string prefix = "");
 
     /** \brief Destructor
@@ -82,6 +82,18 @@ public:
     virtual ~export_cube_base() {
         clear_data();
     }
+
+    /** \brief Return the grid data
+     **/
+    const grid3d &grid() const { return m_grid; }
+
+    /** \brief Return the vector of atomic numbers
+     **/
+    const arma::uvec &atomic_numbers() const { return m_atnum; }
+
+    /** \brief Return the 3xN matrix of atom positions
+     **/
+    const arma::mat &atomic_coordinates() const { return m_coords; }
 
     /** \copydoc export_cube_i::perform
      **/
@@ -108,8 +120,7 @@ protected:
         should contain the respective basis function evaluated at the grid
         points provided.
      **/
-    virtual void evaluate_on_grid(const arma::mat &pts,
-            arma::mat &b2g) = 0;
+    virtual void evaluate_on_grid(const arma::mat &pts, arma::mat &b2g) = 0;
 
 private:
     void clear_data();
