@@ -104,7 +104,6 @@ void pop_loewdin_test::test_2() throw(libtest::test_exception) {
         std::ostringstream ssdm; ssdm << "dm" << i;
         read_ab_matrix(data, testname, ssdm.str().c_str(), dm);
 
-        //vec pa, pa_ref(TestData::k_natoms);
         vec pa(TestData::k_natoms);
         vec pa_ref = data.pop_loewdin(i, true);
 
@@ -120,7 +119,7 @@ void pop_loewdin_test::test_2() throw(libtest::test_exception) {
 
             std::ostringstream oss;
             oss << "\n State " << i << ", population of atom " << x(0)
-                    << "(diff: " << std::setprecision(6) << std::scientific
+                    << " (diff: " << std::setprecision(6) << std::scientific
                     << pa(x(0)) - pa_ref(x(0)) << ")";
             fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
         }
@@ -140,7 +139,7 @@ void pop_loewdin_test::test_2() throw(libtest::test_exception) {
 
                 std::ostringstream oss;
                 oss << "\n State " << i << ", population of atom " << xb(0)
-                        << "(diff: " << std::setprecision(6) << std::scientific
+                        << " (diff: " << std::setprecision(6) << std::scientific
                         << pb(xb(0)) - pb_ref(xb(0)) << ")";
                 fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
             }            
