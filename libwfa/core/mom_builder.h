@@ -14,13 +14,13 @@ using namespace arma;
  **/
 class mom_builder : public mom_builder_i {
 private:
-    const arma::Mat<double> &m_s;  //!< Overlap matrix (zero-th moment)
-    const arma::Mat<double> &m_x;  //!< Moment matrix \f$ x \f$
-    const arma::Mat<double> &m_y;  //!< Moment matrix \f$ y \f$
-    const arma::Mat<double> &m_z;  //!< Moment matrix \f$ z \f$
-    const arma::Mat<double> &m_xx; //!< Moment matrix \f$ x^2 \f$
-    const arma::Mat<double> &m_yy; //!< Moment matrix \f$ y^2 \f$
-    const arma::Mat<double> &m_zz; //!< Moment matrix \f$ z^2 \f$
+    const arma::mat &m_s;  //!< Overlap matrix (zero-th moment)
+    const arma::mat &m_x;  //!< Moment matrix \f$ x \f$
+    const arma::mat &m_y;  //!< Moment matrix \f$ y \f$
+    const arma::mat &m_z;  //!< Moment matrix \f$ z \f$
+    const arma::mat &m_xx; //!< Moment matrix \f$ x^2 \f$
+    const arma::mat &m_yy; //!< Moment matrix \f$ y^2 \f$
+    const arma::mat &m_zz; //!< Moment matrix \f$ z^2 \f$
 
 public:
 
@@ -34,10 +34,10 @@ public:
        \param zz Moment matrix \f$ z^2 \f$
 
      **/
-    mom_builder(const arma::Mat<double> &s, const arma::Mat<double> &x,
-        const arma::Mat<double> &y, const arma::Mat<double> &z,
-        const arma::Mat<double> &xx, const arma::Mat<double> &yy,
-        const arma::Mat<double> &zz) :
+    mom_builder(const arma::mat &s, const arma::mat &x,
+        const arma::mat &y, const arma::mat &z,
+        const arma::mat &xx, const arma::mat &yy,
+        const arma::mat &zz) :
         m_s(s), m_x(x), m_y(y), m_z(z), m_xx(xx), m_yy(yy), m_zz(zz) { }
 
     /** \copydoc mom_builder_i::max_moment
@@ -46,12 +46,12 @@ public:
 
     /** \copydoc mom_builder_i::perform
      **/
-    virtual double perform(const arma::Mat<double> &dm,
+    virtual double perform(const arma::mat &dm,
         size_t c1, size_t n1, size_t c2, size_t n2) const;
 
     /** \copydoc mom_builder_i::perform
      **/
-    virtual double perform(const arma::Mat<double> &dm,
+    virtual double perform(const arma::mat &dm,
         size_t c, size_t n) const;
 
 private:
@@ -60,7 +60,7 @@ private:
         \param n Exponent
         \return Operator matrix
      **/
-    const Mat<double> &retrieve_op(size_t c, size_t n) const;
+    const mat &retrieve_op(size_t c, size_t n) const;
 };
 
 

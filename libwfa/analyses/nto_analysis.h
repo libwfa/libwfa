@@ -27,7 +27,7 @@ public:
         \param edm Electron density matrix
         \param edm Hole density matrix
      **/
-    nto_analysis_basic(const arma::Mat<double> &s, const ab_matrix &c,
+    nto_analysis_basic(const arma::mat &s, const ab_matrix &c,
         const ab_matrix &edm, const ab_matrix &hdm) :
         m_ee(edm.is_alpha_eq_beta()), m_eh(hdm.is_alpha_eq_beta()),
         m_ue(edm.is_alpha_eq_beta()), m_uh(hdm.is_alpha_eq_beta()) {
@@ -74,7 +74,7 @@ public:
  **/
 class nto_analysis {
 private:
-    const arma::Mat<double> &m_s; //!< Overlap matrix
+    const arma::mat &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficients
     const ab_matrix &m_tdm; //!< Transition density matrix
     const ev_printer_i &m_pr; //!< Printer of NTO summary
@@ -86,7 +86,7 @@ public:
         \param tdm Transition density matrices
         \param pr Formating object
      **/
-    nto_analysis(const arma::Mat<double> &s, const ab_matrix &c,
+    nto_analysis(const arma::mat &s, const ab_matrix &c,
         const ab_matrix &tdm, const ev_printer_i &pr) :
         m_s(s), m_c(c), m_tdm(tdm), m_pr(pr) { }
 

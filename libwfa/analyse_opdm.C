@@ -12,12 +12,12 @@ namespace libwfa {
 
 using namespace arma;
 
-analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
+analyse_opdm::analyse_opdm(const arma::mat &s, const ab_matrix &c,
     const mom_builder_i &bld, const ab_matrix &dm) :
     m_s(s), m_c(c), m_bld(bld), m_dm1(dm), m_dm2 (0), m_sdm (dm), m_ddm(dm) { }
 
 
-analyse_opdm::analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
+analyse_opdm::analyse_opdm(const arma::mat &s, const ab_matrix &c,
     const mom_builder_i &bld, const ab_matrix &dm0,
     const ab_matrix &dm, bool is_diff) :
     m_s(s), m_c(c), m_bld(bld), m_dm1(dm), m_dm2(build_dm(dm, dm0, is_diff)),
@@ -32,7 +32,7 @@ void analyse_opdm::do_register(const ev_printer_i &pr, bool is_no) {
 
 
 void analyse_opdm::do_register(const std::string &name,
-    const pop_analysis_i &ana, const Col<double> &ch0,
+    const pop_analysis_i &ana, const vec &ch0,
     const pop_printer_i &pr, pa_flag fl) {
 
     if (m_dm2.get() == 0) fl = (fl & pa_dm) == pa_dm ? pa_dm : pa_none;

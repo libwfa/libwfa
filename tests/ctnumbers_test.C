@@ -26,17 +26,17 @@ void ctnumbers_test::test_1() throw(libtest::test_exception) {
         size_t nmo = TestData::k_nmo;
         size_t na  = TestData::k_natoms;
         TestData data;
-        Col<size_t> b2p = data.bf2nuclei();
+        uvec b2p = data.bf2nuclei();
         
         ctnum_analysis cta(b2p);
 
-        Mat<double> s(nao, nao);
+        mat s(nao, nao);
         read_matrix(data, testname, "s", s);
 
         for (size_t istate = 1; istate <= data.nstates(); istate++) {
             ab_matrix tdm(data.aeqb());
-            tdm.alpha() = Mat<double>(nao, nao);
-            if (! data.aeqb()) tdm.beta() = Mat<double>(nao, nao);
+            tdm.alpha() = mat(nao, nao);
+            if (! data.aeqb()) tdm.beta() = mat(nao, nao);
 
             std::ostringstream ssdm; ssdm << "tdm" << istate;
             read_ab_matrix(data, testname, ssdm.str().c_str(), tdm);
@@ -52,8 +52,8 @@ void ctnumbers_test::test_1() throw(libtest::test_exception) {
             }
 
             ab_matrix om_at_ref(data.aeqb());
-            om_at_ref.alpha() = Mat<double>(na, na);
-            if (! data.aeqb()) om_at_ref.beta() = Mat<double>(na, na);
+            om_at_ref.alpha() = mat(na, na);
+            if (! data.aeqb()) om_at_ref.beta() = mat(na, na);
             
             std::ostringstream ssom; ssom << "om" << istate;
             read_ab_matrix(data, testname, ssom.str().c_str(), om_at_ref);

@@ -28,8 +28,8 @@ public:
         in AO basis. Any implementation should adjust the output matrix to the
         correct size.
      **/
-    virtual void perform(const arma::Mat<double> &om_ao,
-            arma::Mat<double> &om) const = 0;
+    virtual void perform(const arma::mat &om_ao,
+            arma::mat &om) const = 0;
 };
 
 

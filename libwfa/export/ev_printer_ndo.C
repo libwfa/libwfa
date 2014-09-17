@@ -36,7 +36,7 @@ size_t ev_printer_ndo::perform(density_type type,
 }
 
 
-size_t ev_printer_ndo::print(const Col<double> &ni, std::ostream &out) const {
+size_t ev_printer_ndo::print(const vec &ni, std::ostream &out) const {
 
     // Compute # attached and detached electrons first 
     double na = 0.0, na2 = 0.0, nd = 0.0, nd2 = 0.0;

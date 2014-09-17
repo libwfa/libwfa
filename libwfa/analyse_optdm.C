@@ -9,7 +9,7 @@ namespace libwfa {
 
 using namespace arma;
 
-analyse_optdm::analyse_optdm(const Mat<double> &s, const ab_matrix &c,
+analyse_optdm::analyse_optdm(const mat &s, const ab_matrix &c,
     const mom_builder_i &bld, const ab_matrix &tdm) :
     m_s(s), m_c(c), m_bld(bld), m_tdm(tdm), m_nto(0) {}
 

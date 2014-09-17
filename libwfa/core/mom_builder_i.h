@@ -35,7 +35,7 @@ public:
 
         TODO: extend to mixed direction moments
      **/
-    virtual double perform(const arma::Mat<double> &dm,
+    virtual double perform(const arma::mat &dm,
         size_t c1, size_t n1, size_t c2, size_t n2) const = 0;
 
     /** \brief Performs the computation
@@ -54,7 +54,7 @@ public:
 
         TODO: extend to mixed direction moments
      **/
-    virtual double perform(const arma::Mat<double> &dm,
+    virtual double perform(const arma::mat &dm,
         size_t c, size_t n) const = 0;
 };
 

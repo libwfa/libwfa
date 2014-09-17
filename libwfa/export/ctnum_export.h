@@ -65,7 +65,7 @@ public:
         const double (&om_tot)[2], std::ostream &out) const;
 
 private:
-    void do_export(const std::string &fname, const arma::Mat<double> &ct) const;
+    void do_export(const std::string &fname, const arma::mat &ct) const;
 };
 
 } // namespace libwfa

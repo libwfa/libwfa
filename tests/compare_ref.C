@@ -6,7 +6,7 @@ namespace libwfa {
 using namespace arma;
 
 
-void compare_ref::compare(const char *test, Mat<double> &m, Mat<double> &m_ref,
+void compare_ref::compare(const char *test, mat &m, mat &m_ref,
     double thresh) throw(libtest::test_exception) {
 
     if (m.n_cols != m_ref.n_cols) {

@@ -17,13 +17,13 @@ namespace libwfa {
 class ctnum_analysis : public ctnum_analysis_i {
 private:
     size_t m_nparts; //!< Number of parts
-    const arma::Col<size_t> &m_b2p; //!< Map of basis functions to fragments
+    const arma::uvec &m_b2p; //!< Map of basis functions to fragments
 
 public:
     /** \brief Constructor
         \param b2c Map of basis functions to molecular parts or fragments
      **/
-    ctnum_analysis(const arma::Col<size_t> &b2p);
+    ctnum_analysis(const arma::uvec &b2p);
 
     virtual ~ctnum_analysis() { }
 
@@ -33,8 +33,8 @@ public:
 
     /** \copydoc ctnum_analysis_i::perform
      **/
-    virtual void perform(const arma::Mat<double>& om_ao,
-            arma::Mat<double> &om) const;
+    virtual void perform(const arma::mat& om_ao,
+            arma::mat &om) const;
 };
 
 } // namespace libwfa

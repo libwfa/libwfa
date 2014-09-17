@@ -5,14 +5,14 @@ namespace libwfa {
 using namespace arma;
 
 
-ctnum_analysis::ctnum_analysis(const Col<size_t> &b2p) :
+ctnum_analysis::ctnum_analysis(const uvec &b2p) :
     m_nparts(0), m_b2p(b2p) {
 
     m_nparts = b2p.max() + 1;
 }
 
 
-void ctnum_analysis::perform(const Mat<double> &om_ao, Mat<double> &om) const {
+void ctnum_analysis::perform(const mat &om_ao, mat &om) const {
 
     om.resize(m_nparts, m_nparts);
     om.fill(0.0);

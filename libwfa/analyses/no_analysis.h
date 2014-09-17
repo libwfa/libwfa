@@ -14,7 +14,7 @@ namespace libwfa {
  **/
 class no_analysis {
 private:
-/*    const arma::Mat<double> &m_s; //!< Overlap matrix
+/*    const arma::mat &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficients
     const ab_matrix &m_sdm; //!< State density matrix
     const ev_printer_i &m_pr; //!< Formating object*/
@@ -32,7 +32,7 @@ public:
         \param sdm State density matrix
         \param pr Formatting object
      **/
-    no_analysis(const arma::Mat<double> &s, const ab_matrix &c,
+    no_analysis(const arma::mat &s, const ab_matrix &c,
         const ab_matrix &sdm) :
         m_e(c.is_alpha_eq_beta()), m_u(c.is_alpha_eq_beta()),
         m_est(c.is_alpha_eq_beta()), m_ust(c.is_alpha_eq_beta()) {

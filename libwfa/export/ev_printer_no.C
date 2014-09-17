@@ -37,7 +37,7 @@ size_t ev_printer_no::perform(density_type type,
 }
 
 
-size_t ev_printer_no::print(const Col<double> &ni, std::ostream &out) const {
+size_t ev_printer_no::print(const vec &ni, std::ostream &out) const {
 
     double nelec = accu(ni);
     size_t ihomo = ni.n_elem - (size_t)(nelec + 0.5);
@@ -55,7 +55,7 @@ size_t ev_printer_no::print(const Col<double> &ni, std::ostream &out) const {
     return nelec + 0.5;
 }
 
-size_t ev_printer_no::print_total(const Col<double> &ni, 
+size_t ev_printer_no::print_total(const vec &ni, 
     std::ostream &out) const {
 
     double nelec = 0.0, nu = 0.0, nu2 = 0.0, nunl = 0.0;

@@ -20,7 +20,7 @@ namespace libwfa {
 class pop_analysis_dm {
 private:
     const pop_analysis_i &m_analysis; //!< Analysis
-    const arma::Col<double> &m_p0; //!< Base population
+    const arma::vec &m_p0; //!< Base population
     const ab_matrix &m_sdm; //!< State density matrix
 
 public:
@@ -29,7 +29,7 @@ public:
         \param sdm State density matrix
         \param p0 Base population
      **/
-    pop_analysis_dm(const pop_analysis_i &a, const arma::Col<double> &p0,
+    pop_analysis_dm(const pop_analysis_i &a, const arma::vec &p0,
         const ab_matrix &sdm) : m_analysis(a), m_p0(p0), m_sdm(sdm) { }
 
     /** \brief Perform population analysis

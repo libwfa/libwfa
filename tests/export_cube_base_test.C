@@ -22,8 +22,8 @@ private:
     struct system_data {
         grid3d grid;
         Col<unsigned int> atnum;
-        Mat<double> coord;
-        Col<double> ao_exp;
+        mat coord;
+        vec ao_exp;
 
         system_data() : grid(10, 0.5), atnum(2),
             coord(3, 2, fill::zeros), ao_exp(4) {
@@ -49,7 +49,7 @@ public:
     size_t nao() const { return sys.coord.n_rows * sys.ao_exp.n_elem; }
 
 private:
-    virtual void evaluate_on_grid(const Mat<double> &pts, Mat<double> &b2g) {
+    virtual void evaluate_on_grid(const mat &pts, mat &b2g) {
 
         if (b2g.n_rows != pts.n_cols || b2g.n_cols != nao()) {
             b2g.resize(pts.n_cols, nao());
@@ -82,10 +82,10 @@ void export_cube_base_test::test_1() {
     try {
 
     export_cube_test ex;
-    Mat<double> dm1(ex.nao(), ex.nao(), fill::randu);
-    Mat<double> dm2(ex.nao(), ex.nao(), fill::randu);
-    Mat<double> orb1(ex.nao(), 4, fill::randu);
-    Mat<double> orb2(ex.nao(), 5, fill::randu);
+    mat dm1(ex.nao(), ex.nao(), fill::randu);
+    mat dm2(ex.nao(), ex.nao(), fill::randu);
+    mat orb1(ex.nao(), 4, fill::randu);
+    mat orb2(ex.nao(), 5, fill::randu);
     std::vector<size_t> i1(4, 0), i2(5, 0);
     for (size_t i = 0; i < 4; i++) i1[i] = 2 * i;
     for (size_t i = 0; i < 5; i++) i2[i] = i;

@@ -17,10 +17,10 @@ private:
      **/
     struct data_set{
         std::string name;
-        arma::Col<double> data;
+        arma::vec data;
 
         data_set(const std::string &name_,
-            const arma::Col<double> &data_ = arma::Col<double>()) :
+            const arma::vec &data_ = arma::vec()) :
             name(name_), data(data_) {
         }
     };
@@ -36,7 +36,7 @@ public:
         \param name Name of data set
         \return Reference to the empty data set.
      **/
-    arma::Col<double> &add(const std::string &name) {
+    arma::vec &add(const std::string &name) {
         m_sets.push_back(data_set(name));
         return m_sets.back().data;
     }
@@ -45,7 +45,7 @@ public:
         \param name Name of data set
         \param data The data to be added
      **/
-    void add(const std::string &name, const arma::Col<double> &data) {
+    void add(const std::string &name, const arma::vec &data) {
         m_sets.push_back(data_set(name, data));
     }
 
@@ -73,7 +73,7 @@ public:
 
     /** \brief Access to the current data set (const)
      **/
-    const arma::Col<double> &data(iterator i) const {
+    const arma::vec &data(iterator i) const {
         return i->data;
     }
 };

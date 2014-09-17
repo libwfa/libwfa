@@ -29,11 +29,11 @@ public:
 private:
     struct pa {
         const pop_analysis_i &analysis;
-        const arma::Col<double> &ch0;
+        const arma::vec &ch0;
         const pop_printer_i &printer;
         pa_flag flag;
 
-        pa(const pop_analysis_i &a, const arma::Col<double> &ch0_,
+        pa(const pop_analysis_i &a, const arma::vec &ch0_,
             const pop_printer_i &p, pa_flag fl) :
             analysis(a), ch0(ch0_), printer(p), flag(fl) { }
     };
@@ -43,7 +43,7 @@ private:
     pa_map_t m_pa; //!< List of population analyses
     const ev_printer_i *m_pr[2]; //!< Formating objects for NO and NDO summary
 
-    const arma::Mat<double> &m_s; //!< Overlap matrix
+    const arma::mat &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficient matrix
     const mom_builder_i &m_bld; //!< Multipole contraction engine
 
@@ -60,7 +60,7 @@ public:
         \param dm State density matrix
 
      */
-    analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c, 
+    analyse_opdm(const arma::mat &s, const ab_matrix &c, 
         const mom_builder_i &bld, const ab_matrix &dm);
 
     /** \brief Constructor for additional exciton analysis
@@ -70,7 +70,7 @@ public:
            \param dm State density matrix
            \param is_diff Is difference density?
         */
-    analyse_opdm(const arma::Mat<double> &s, const ab_matrix &c,
+    analyse_opdm(const arma::mat &s, const ab_matrix &c,
         const mom_builder_i &bld, const ab_matrix &dm0,
         const ab_matrix &dm, bool is_diff);
 
@@ -88,7 +88,7 @@ public:
         \param fl Flag for which density the population analysis is used
      **/
     void do_register(const std::string &name, const pop_analysis_i &pa,
-        const arma::Col<double> &ch0, const pop_printer_i &pr, pa_flag fl);
+        const arma::vec &ch0, const pop_printer_i &pr, pa_flag fl);
 
     /** \brief Performs density matrix analyses
         \param pr Density and orbital export / printer

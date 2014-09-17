@@ -34,8 +34,8 @@ test02_data::test02_data() : test_data_base("test02"),
             -3.000874165011687, -0.499562917494166, -0.499562917494148
     };
 
-    m_pop_mulliken = Mat<double>(pm, k_natoms, k_nstat + 1);
-    m_pop_loewdin = Mat<double>(pl, k_natoms, k_nstat + 1);
+    m_pop_mulliken = mat(pm, k_natoms, k_nstat + 1);
+    m_pop_loewdin = mat(pl, k_natoms, k_nstat + 1);
 }
 
 

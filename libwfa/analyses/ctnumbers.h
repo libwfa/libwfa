@@ -19,7 +19,7 @@ namespace libwfa {
 class ctnumbers {
 private:
     const ctnum_analysis_i &m_analysis; //!< Analysis object
-    const arma::Mat<double> &m_s; //!< Overlap matrix
+    const arma::mat &m_s; //!< Overlap matrix
     const ab_matrix &m_tdm; //!< Transition density matrix
 
 public:
@@ -28,7 +28,7 @@ public:
         \param s Overlap matrix
         \param tdm Transition density matrix
      **/
-    ctnumbers(const ctnum_analysis_i &a, const arma::Mat<double> &s,
+    ctnumbers(const ctnum_analysis_i &a, const arma::mat &s,
         const ab_matrix &tdm) : m_analysis(a), m_s(s), m_tdm(tdm) { }
 
     /** \brief Destructor

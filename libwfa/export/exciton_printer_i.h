@@ -29,7 +29,7 @@ protected:
     /** \brief Print a vector
       
      **/
-    void print_vec(Col<double> &vec, std::ostream &out,
+    void print_vec(vec &vec, std::ostream &out,
                 size_t width=10) const {
         out << "[";
         for (size_t i = 0; i < vec.n_rows; i++) {

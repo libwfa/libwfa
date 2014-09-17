@@ -34,7 +34,7 @@ public:
         const std::string &line2,
         const grid3d &grid,
         const arma::Col<unsigned int> &atnum,
-        const arma::Mat<double> &coords);
+        const arma::mat &coords);
 
     /** \brief Return the total number of points to be written
      **/
@@ -48,12 +48,12 @@ public:
         \param data Data array
         \return Number of points written
      **/
-    size_t write(const arma::Col<double> &data);
+    size_t write(const arma::vec &data);
 
 private:
     void write_header(const std::string &line1, const std::string &line2,
         const grid3d &grid, const arma::Col<unsigned int> &atnum,
-        const arma::Mat<double> &coords);
+        const arma::mat &coords);
 
 };
 

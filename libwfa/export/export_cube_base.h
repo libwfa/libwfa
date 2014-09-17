@@ -43,18 +43,18 @@ protected:
 private:
     struct dm_data {
         std::string desc; //!< Description
-        arma::Mat<double> data; //!< Density matrix data
+        arma::mat data; //!< Density matrix data
 
-        dm_data(const std::string &d, const arma::Mat<double> &dm) :
+        dm_data(const std::string &d, const arma::mat &dm) :
             desc(d), data(dm) { }
     };
     struct orb_data {
         std::string desc; //!< Description
         std::vector<size_t> idx; //!< Indexes
-        arma::Mat<double> data; //!< Orbital data
+        arma::mat data; //!< Orbital data
 
         orb_data(const std::string &d, const std::vector<size_t> &i,
-            const arma::Mat<double> &orb) : desc(d), idx(i), data(orb) { }
+            const arma::mat &orb) : desc(d), idx(i), data(orb) { }
     };
     typedef std::map<std::string, dm_data *> dm_list;
     typedef std::map<std::string, orb_data *> orb_list;
@@ -62,7 +62,7 @@ private:
 private:
     const grid3d &m_grid; //!< The grid
     const arma::Col<unsigned int> &m_atnum; //!< Atom numbers (dim: N)
-    const arma::Mat<double> &m_coords; //!< Atomic coordinates (dim: 3 x N)
+    const arma::mat &m_coords; //!< Atomic coordinates (dim: 3 x N)
     dm_list m_dms; //!< Density matrices to export as cube
     orb_list m_orbs; //!< Orbitals to export as cube
     std::string m_prefix; //!< Filename prefix
@@ -75,7 +75,7 @@ public:
         \param prefix Prefix to use for the filenames (e.g. directory)
      **/
     export_cube_base(const grid3d &grid, const arma::Col<unsigned int> &atnum,
-        const arma::Mat<double> &coord, const std::string prefix = "");
+        const arma::mat &coord, const std::string prefix = "");
 
     /** \brief Destructor
      **/
@@ -86,12 +86,12 @@ public:
     /** \copydoc export_cube_i::perform
      **/
     virtual void perform(const std::string &name, const std::string &desc,
-        const arma::Mat<double> &mat);
+        const arma::mat &mat);
 
-    /** \copydoc export_cube_i::perform(const std::string&, const std::string&, const std::vector<size_t>&, const arma::Mat<double>&)
+    /** \copydoc export_cube_i::perform(const std::string&, const std::string&, const std::vector<size_t>&, const arma::mat&)
      **/
     virtual void perform(const std::string &name, const std::string &desc,
-        const std::vector<size_t> &idx, const arma::Mat<double> &vecs);
+        const std::vector<size_t> &idx, const arma::mat &vecs);
 
     /** \brief Export the stored data as cube files
      **/
@@ -108,8 +108,8 @@ protected:
         should contain the respective basis function evaluated at the grid
         points provided.
      **/
-    virtual void evaluate_on_grid(const arma::Mat<double> &pts,
-            arma::Mat<double> &b2g) = 0;
+    virtual void evaluate_on_grid(const arma::mat &pts,
+            arma::mat &b2g) = 0;
 
 private:
     void clear_data();

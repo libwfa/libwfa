@@ -24,12 +24,12 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class ab_matrix : public ab_object< arma::Mat<double> > {
+class ab_matrix : public ab_object< arma::mat > {
 public:
     /** \brief Default constructor
         \param aeqb If true, alpha == beta matrix
      **/
-    ab_matrix(bool aeqb = false) : ab_object< arma::Mat<double> >(aeqb) { }
+    ab_matrix(bool aeqb = false) : ab_object< arma::mat >(aeqb) { }
 
     /** \brief Constructor for matrix with alpha == beta
         \param nrows Number of rows
@@ -38,9 +38,9 @@ public:
         If ncols is not given (== 0), a symmetric matrix is constructed
      **/
     ab_matrix(size_t nrows, size_t ncols = 0) :
-        ab_object< arma::Mat<double> >(true) {
+        ab_object< arma::mat >(true) {
 
-        alpha() = arma::Mat<double>(nrows, ncols == 0 ? nrows : ncols);
+        alpha() = arma::mat(nrows, ncols == 0 ? nrows : ncols);
     }
 
     /** \brief Constructor for matrix with alpha != beta
@@ -54,10 +54,10 @@ public:
      **/
     ab_matrix(size_t nrows_a, size_t ncols_a,
             size_t nrows_b, size_t ncols_b = 0) :
-                ab_object< arma::Mat<double> >(false) {
+                ab_object< arma::mat >(false) {
 
-        alpha() = arma::Mat<double>(nrows_a, ncols_a);
-        beta()  = arma::Mat<double>(nrows_b, ncols_b == 0 ? ncols_a : ncols_b);
+        alpha() = arma::mat(nrows_a, ncols_a);
+        beta()  = arma::mat(nrows_b, ncols_b == 0 ? ncols_a : ncols_b);
     }
 
     /** \brief Return the number of alpha-spin rows

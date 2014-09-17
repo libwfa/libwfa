@@ -36,7 +36,7 @@ void ab_vector_test::test_1a() {
         fail_test(testname, __FILE__, __LINE__, "beta != 0");
     }
 
-    Col<double> &a = v.alpha(), &b = v.beta();
+    vec &a = v.alpha(), &b = v.beta();
     a.resize(4);
     b.resize(2);
     if (v.nrows_a() != 4) {
@@ -142,7 +142,7 @@ void ab_vector_test::test_4a() {
     v.alpha().randu();
     v.beta().randu();
 
-    Col<double> alpha = v.alpha();
+    vec alpha = v.alpha();
     v.set_alpha_eq_beta();
     if (! v.is_alpha_eq_beta()) {
         fail_test(testname, __FILE__, __LINE__, "alpha != beta (flag).");

@@ -68,7 +68,7 @@ public:
 
 private:
     void perform(const std::string &name, const std::string &desc,
-            const arma::Mat<double> &c, const orbital_selector &s);
+            const arma::mat &c, const orbital_selector &s);
 };
 
 

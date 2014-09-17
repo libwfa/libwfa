@@ -16,7 +16,7 @@ namespace libwfa {
  **/
 class grid3d {
 private:
-    arma::Mat<double> m_vec; //!< Origin and direction (column) vectors (4x3)
+    arma::mat m_vec; //!< Origin and direction (column) vectors (4x3)
     arma::Col<unsigned int> m_npts; //!< Column vector with points
     size_t m_ntotal; //!< Total number of points
 
@@ -46,12 +46,12 @@ public:
         standard directions and the respective number of grid points. The
         grid is centered around (0,0,0).
      **/
-    grid3d(const arma::Col<unsigned int> &n, const arma::Col<double> &d);
+    grid3d(const arma::Col<unsigned int> &n, const arma::vec &d);
 
     /** \brief Set the grid origin
         \param x0 Origin vector
      **/
-    void set_origin(const arma::Col<double> &x0);
+    void set_origin(const arma::vec &x0);
 
     /** \brief Set grid cell vector and number of points along it
         \param i Index of grid cell vector
@@ -59,7 +59,7 @@ public:
         \param ei Grid cell vector
      **/
     void set_direction(unsigned int i,
-            unsigned int ni, const arma::Col<double> &ei);
+            unsigned int ni, const arma::vec &ei);
 
     size_t size() const { return m_ntotal; }
 
@@ -95,7 +95,7 @@ public:
         the last direction as the running index, i.e.
         \f$ (i,j,k) \rightarrow (i\cdot n_1 + j) \cdot n_2 + k \f$
      **/
-    size_t build_pts(size_t i0, arma::Mat<double> &pts) const;
+    size_t build_pts(size_t i0, arma::mat &pts) const;
 
 private:
     static void check_idx(unsigned int dim);

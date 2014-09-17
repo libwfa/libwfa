@@ -24,7 +24,7 @@ public:
         \param mat Density matrix in terms of basis functions
      **/
     virtual void perform(const std::string &name, const std::string &desc,
-        const arma::Mat<double> &mat) = 0;
+        const arma::mat &mat) = 0;
 
     /** \brief Schedule set of vectors for evaluation on a grid
         \param name Name associated with the vectors (use as filename)
@@ -32,7 +32,7 @@ public:
         \param vecs Set of vectors in basis functions (column vectors)
      **/
     virtual void perform(const std::string &name, const std::string &desc,
-        const std::vector<size_t> &idx, const arma::Mat<double> &vecs) = 0;
+        const std::vector<size_t> &idx, const arma::mat &vecs) = 0;
 };
 
 

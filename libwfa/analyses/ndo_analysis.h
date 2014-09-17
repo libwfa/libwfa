@@ -13,7 +13,7 @@ namespace libwfa {
  **/
 class ndo_analysis {
 private:
-    const arma::Mat<double> &m_s; //!< Overlap matrix
+    const arma::mat &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficients
     const ab_matrix &m_ddm; //!< Difference density matrix
     const ev_printer_i &m_pr; //!< Formating object
@@ -24,7 +24,7 @@ public:
         \param ddm Difference density matrix
         \param pr Formating object
      **/
-    ndo_analysis(const arma::Mat<double> &s, const ab_matrix &c,
+    ndo_analysis(const arma::mat &s, const ab_matrix &c,
         const ab_matrix &ddm, const ev_printer_i &pr) :
         m_s(s), m_c(c), m_ddm(ddm), m_pr(pr) { }
 

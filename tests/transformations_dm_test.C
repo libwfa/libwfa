@@ -43,13 +43,13 @@ public:
 
     static ab_matrix mo_coeff(bool aeqb) {
         ab_matrix c(aeqb);
-        c.alpha() = Mat<double>(k_ca, k_nmo, k_nao).t();
-        if (! aeqb) c.beta() = Mat<double>(k_cb, k_nmo, k_nao).t();
+        c.alpha() = mat(k_ca, k_nmo, k_nao).t();
+        if (! aeqb) c.beta() = mat(k_cb, k_nmo, k_nao).t();
         return c;
     }
 
-    static Mat<double> overlap() {
-        Mat<double> s(k_s, k_nao, k_nao);
+    static mat overlap() {
+        mat s(k_s, k_nao, k_nao);
         return s;
     }
 
@@ -125,7 +125,7 @@ void transformations_dm_test::test_form_eh_1a() throw(libtest::test_exception) {
 
     size_t nb = system_data::dim_ao();
 
-    Mat<double> s = system_data::overlap();
+    mat s = system_data::overlap();
 
     ab_matrix tdm(nb, nb), de, dh;
     ab_matrix de_ref(nb, nb), dh_ref(nb, nb);
@@ -133,8 +133,8 @@ void transformations_dm_test::test_form_eh_1a() throw(libtest::test_exception) {
     tdm.alpha().randu();
     { // Compute reference data
 
-    const Mat<double> &tdm_a = tdm.alpha();
-    Mat<double> &de_a = de_ref.alpha(), &dh_a = dh_ref.alpha();
+    const mat &tdm_a = tdm.alpha();
+    mat &de_a = de_ref.alpha(), &dh_a = dh_ref.alpha();
     for (size_t i = 0; i < nb; i++)
     for (size_t j = 0; j < nb; j++) {
 
@@ -191,7 +191,7 @@ void transformations_dm_test::test_form_eh_1b() throw(libtest::test_exception) {
 
     size_t nb = system_data::dim_ao();
 
-    Mat<double> s = system_data::overlap();
+    mat s = system_data::overlap();
 
     ab_matrix tdm(nb, nb, nb), de, dh;
     ab_matrix de_ref(nb, nb, nb), dh_ref(nb, nb, nb);
@@ -200,9 +200,9 @@ void transformations_dm_test::test_form_eh_1b() throw(libtest::test_exception) {
     tdm.beta().randu();
     { // Compute reference data
 
-    const Mat<double> &tdm_a = tdm.alpha(), &tdm_b = tdm.beta();
-    Mat<double> &de_a = de_ref.alpha(), &de_b = de_ref.beta();
-    Mat<double> &dh_a = dh_ref.alpha(), &dh_b = dh_ref.beta();
+    const mat &tdm_a = tdm.alpha(), &tdm_b = tdm.beta();
+    mat &de_a = de_ref.alpha(), &de_b = de_ref.beta();
+    mat &dh_a = dh_ref.alpha(), &dh_b = dh_ref.beta();
     for (size_t i = 0; i < nb; i++)
     for (size_t j = 0; j < nb; j++) {
 
@@ -279,15 +279,15 @@ void transformations_dm_test::test_form_om_1a() throw(libtest::test_exception) {
 
     size_t nb = system_data::dim_ao();
 
-    Mat<double> s = system_data::overlap();
+    mat s = system_data::overlap();
 
     ab_matrix tdm(nb, nb), om, om_ref(nb, nb);
 
     tdm.alpha().randu();
     { // Compute reference data
 
-    const Mat<double> &tdm_a = tdm.alpha();
-    Mat<double> &om_a = om_ref.alpha();
+    const mat &tdm_a = tdm.alpha();
+    mat &om_a = om_ref.alpha();
     for (size_t i = 0; i < nb; i++)
     for (size_t j = 0; j < nb; j++) {
 
@@ -337,7 +337,7 @@ void transformations_dm_test::test_form_om_1b() throw(libtest::test_exception) {
 
     size_t nb = system_data::dim_ao();
 
-    Mat<double> s = system_data::overlap();
+    mat s = system_data::overlap();
 
     ab_matrix tdm(nb, nb, nb), om, om_ref(nb, nb, nb);
 
@@ -345,8 +345,8 @@ void transformations_dm_test::test_form_om_1b() throw(libtest::test_exception) {
     tdm.beta().randu();
     { // Compute reference data
 
-    const Mat<double> &tdm_a = tdm.alpha(), &tdm_b = tdm.beta();
-    Mat<double> &om_a = om_ref.alpha(), &om_b = om_ref.beta();
+    const mat &tdm_a = tdm.alpha(), &tdm_b = tdm.beta();
+    mat &om_a = om_ref.alpha(), &om_b = om_ref.beta();
     for (size_t i = 0; i < nb; i++)
     for (size_t j = 0; j < nb; j++) {
 
@@ -416,7 +416,7 @@ throw(libtest::test_exception) {
 
     size_t nb = system_data::dim_ao(), nmo = system_data::dim_mo();
 
-    Mat<double> s = system_data::overlap();
+    mat s = system_data::overlap();
 
     ab_matrix dm(nb, nb), c = system_data::mo_coeff(true);
 
@@ -443,9 +443,9 @@ throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "u: alpha != beta");
     }
 
-    const Mat<double> &dm_a = dm.alpha();
-    const Mat<double> &u_a = u.alpha();
-    const Col<double> &ev_a = ev.alpha();
+    const mat &dm_a = dm.alpha();
+    const mat &u_a = u.alpha();
+    const vec &ev_a = ev.alpha();
     if (accu(abs(u_a.t() * s * dm_a * s * u_a - diagmat(ev_a)) > 1e-12) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Bad transform.");
     }
@@ -465,7 +465,7 @@ throw(libtest::test_exception) {
 
     size_t nb = system_data::dim_ao(), nmo = system_data::dim_mo();
 
-    Mat<double> s = system_data::overlap();
+    mat s = system_data::overlap();
 
     ab_matrix dm(nb, nb, nb), c = system_data::mo_coeff(false);
 
@@ -494,9 +494,9 @@ throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "u: alpha == beta");
     }
 
-    const Mat<double> &dm_a = dm.alpha(), &dm_b = dm.beta();
-    const Mat<double> &u_a = u.alpha(), &u_b = u.beta();
-    const Col<double> &ev_a = ev.alpha(), &ev_b = ev.beta();
+    const mat &dm_a = dm.alpha(), &dm_b = dm.beta();
+    const mat &u_a = u.alpha(), &u_b = u.beta();
+    const vec &ev_a = ev.alpha(), &ev_b = ev.beta();
     if (accu(abs(u_a.t() * s * dm_a * s * u_a - diagmat(ev_a)) > 1e-12) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Bad transform.");
     }
@@ -520,7 +520,7 @@ void transformations_dm_test::test_form_ad_1a() throw(libtest::test_exception) {
     // restricted and symmetric density matrix
 
     // Inputs
-    Mat<double> s = system_data::overlap();
+    mat s = system_data::overlap();
     ab_vector ev(true);
     ab_matrix u(true);
 
@@ -560,10 +560,10 @@ void transformations_dm_test::test_form_ad_1a() throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "dd: alpha != beta");
     }
 
-    const Mat<double> &u_a = u.alpha();
-    const Mat<double> &da_a = da.alpha(), &dd_a = dd.alpha();
+    const mat &u_a = u.alpha();
+    const mat &da_a = da.alpha(), &dd_a = dd.alpha();
 
-    Mat<double> evp;
+    mat evp;
     evp = u_a.t() * s * da_a * s * u_a;
     if (accu((evp % (abs(evp) > 1e-11)) < 0.0) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Attachment density.");
@@ -587,7 +587,7 @@ void transformations_dm_test::test_form_ad_1b() throw(libtest::test_exception) {
     // density matrix
 
     // Inputs
-    Mat<double> s = system_data::overlap();
+    mat s = system_data::overlap();
     ab_vector ev(false);
     ab_matrix u(false);
 
@@ -629,10 +629,10 @@ void transformations_dm_test::test_form_ad_1b() throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "dd: alpha == beta");
     }
 
-    const Mat<double> &u_a = u.alpha(), &u_b = u.beta();
-    const Mat<double> &da_a = da.alpha(), &da_b = da.beta();
+    const mat &u_a = u.alpha(), &u_b = u.beta();
+    const mat &da_a = da.alpha(), &da_b = da.beta();
 
-    Mat<double> evp;
+    mat evp;
     evp = u_a.t() * s * da_a * s * u_a;
     if (accu((evp % (abs(evp) > 1e-11)) < 0.0) != 0) {
         fail_test(testname, __FILE__, __LINE__, "Attachment density (alpha).");
@@ -642,7 +642,7 @@ void transformations_dm_test::test_form_ad_1b() throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "Attachment density (beta).");
     }
 
-    const Mat<double> &dd_a = dd.alpha(), &dd_b = dd.beta();
+    const mat &dd_a = dd.alpha(), &dd_b = dd.beta();
 
     evp = u_a.t() * s * dd_a * s * u_a;
     if (accu(evp % (abs(evp) > 1e-11) > 0.0) != 0) {
@@ -672,12 +672,12 @@ void transformations_dm_test::test_form_ad_2() throw(libtest::test_exception) {
     // density matrix
 
     size_t nb = system_data::dim_ao(), nmo = system_data::dim_mo();
-    Mat<double> s = system_data::overlap();
+    mat s = system_data::overlap();
     ab_matrix c = system_data::mo_coeff(false);
     ab_matrix dm(false);
 
-    dm.alpha() = randu< Mat<double> >(nmo, nmo);
-    dm.beta() = randu< Mat<double> >(nmo, nmo);
+    dm.alpha() = randu< mat >(nmo, nmo);
+    dm.beta() = randu< mat >(nmo, nmo);
     dm.alpha() = c.alpha() * 0.5 * (dm.alpha() + dm.alpha().t()) * c.alpha().t();
     //dm.beta() = c.beta() * 0.5 * (dm.beta() + dm.beta().t()) *c.beta().t();
     dm.beta() = c.alpha() * 0.5 * (dm.beta() + dm.beta().t()) *c.alpha().t();
@@ -701,8 +701,8 @@ void transformations_dm_test::test_form_ad_2() throw(libtest::test_exception) {
         fail_test(testname, __FILE__, __LINE__, "dd: alpha == beta");
     }
 
-    const Mat<double> &da_a = da.alpha(), &da_b = da.beta();
-    const Mat<double> &dd_a = dd.alpha(), &dd_b = dd.beta();
+    const mat &da_a = da.alpha(), &da_b = da.beta();
+    const mat &dd_a = dd.alpha(), &dd_b = dd.beta();
 
     if (accu(abs(da_a + dd_a - dm.alpha()) > 1e-11) != 0) {
         fail_test(testname, __FILE__, __LINE__, "da + dd != dm (alpha).");
@@ -724,25 +724,25 @@ void transformations_dm_test::test_form_ad_3() throw(libtest::test_exception) {
     size_t nmo = TestData::k_nmo;
     TestData data;
 
-    Mat<double> s(nao, nao);
+    mat s(nao, nao);
     read_matrix(data, testname, "s", s);
 
     ab_matrix c(data.aeqb());
-    c.alpha() = Mat<double>(nao, nmo);
-    if (! data.aeqb()) c.beta() = Mat<double>(nao, nmo);
+    c.alpha() = mat(nao, nmo);
+    if (! data.aeqb()) c.beta() = mat(nao, nmo);
     read_ab_matrix(data, testname, "c", c);
 
     for (size_t i = 1; i <= data.nstates(); i++) {
 
         ab_matrix ddm(data.aeqb());
         ab_matrix at_ref(data.aeqb()), de_ref(data.aeqb());
-        ddm.alpha() = Mat<double>(nao, nao);
-        at_ref.alpha() = Mat<double>(nao, nao);
-        de_ref.alpha() = Mat<double>(nao, nao);
+        ddm.alpha() = mat(nao, nao);
+        at_ref.alpha() = mat(nao, nao);
+        de_ref.alpha() = mat(nao, nao);
         if (! data.aeqb()) {
-            ddm.beta() = Mat<double>(nao, nao);
-            at_ref.beta() = Mat<double>(nao, nao);
-            de_ref.beta() = Mat<double>(nao, nao);
+            ddm.beta() = mat(nao, nao);
+            at_ref.beta() = mat(nao, nao);
+            de_ref.beta() = mat(nao, nao);
         }
         read_ab_matrix(data, testname, "ddm1", ddm);
         read_ab_matrix(data, testname, "atdm1", at_ref);

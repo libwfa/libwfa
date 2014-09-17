@@ -25,7 +25,7 @@ void exciton_analysis::perform(ab_exciton_moments &mom) const {
 }
 
 
-void exciton_analysis::calculate(const arma::Mat<double> &tdm,
+void exciton_analysis::calculate(const arma::mat &tdm,
     exciton_moments &mom) const {
 
     double n = m_bld.perform(tdm, 0, 0, 0, 0);
@@ -35,7 +35,7 @@ void exciton_analysis::calculate(const arma::Mat<double> &tdm,
 
         for (size_t j = 0; j <= i; j++) {
 
-            Col<double> mj(3, fill::zeros);
+            vec mj(3, fill::zeros);
             for (size_t k = 0; k < 3; k++)
                 mj(k) = m_bld.perform(tdm, k, j, k, i - j) / n;
             mom.set(j, i - j, mj);

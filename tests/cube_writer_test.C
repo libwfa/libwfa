@@ -27,11 +27,11 @@ void cube_writer_test::test_1() {
     double coord[6] = { 0.0, 0.0, -1.2, 0.0, 0.0, 1.2 };
     grid3d g(5, 0.5);
     cube_writer wr("cube_writer_test_1.cube", testname, "O2 test", g,
-            Col<unsigned int>(atnum, 2), Mat<double>(coord, 3, 2));
+            Col<unsigned int>(atnum, 2), mat(coord, 3, 2));
 
     if (wr.npoints() != 125) fail_test(testname, __FILE__, __LINE__, "npts");
 
-    Col<double> data(40);
+    vec data(40);
     size_t i = 0, n = 0;
     for (; ! wr.complete(); i++) {
         data.randu();

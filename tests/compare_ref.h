@@ -16,8 +16,8 @@ public:
         \param m_ref Reference matrix
         \param thresh Threshold
      **/
-    static void compare(const char *test, arma::Mat<double> &m,
-        arma::Mat<double> &m_ref, double thresh)
+    static void compare(const char *test, arma::mat &m,
+        arma::mat &m_ref, double thresh)
         throw(libtest::test_exception);
 
     /** \brief Compare two ab_matrices

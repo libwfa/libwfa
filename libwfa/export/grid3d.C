@@ -26,7 +26,7 @@ grid3d::grid3d(unsigned int n, double d) :
 }
 
 
-grid3d::grid3d(const Col<unsigned int> &n, const Col<double> &d) :
+grid3d::grid3d(const Col<unsigned int> &n, const vec &d) :
     m_vec(3, 4, fill::zeros), m_npts(n), m_ntotal(1) {
 
     m_vec.col(0) -= d % (n - 1) / 2.;
@@ -35,14 +35,14 @@ grid3d::grid3d(const Col<unsigned int> &n, const Col<double> &d) :
 }
 
 
-void grid3d::set_origin(const Col<double> &x0) {
+void grid3d::set_origin(const vec &x0) {
 
     m_vec.col(0) = x0;
 }
 
 
 void grid3d::set_direction(unsigned int i,
-    unsigned int ni, const Col<double> &ei) {
+    unsigned int ni, const vec &ei) {
 #ifdef LIBWFA_DEBUG
     check_idx(i);
 #endif
@@ -72,10 +72,10 @@ void grid3d::check() const {
 }
 
 
-size_t grid3d::build_pts(size_t i0, Mat<double> &pts) const {
+size_t grid3d::build_pts(size_t i0, mat &pts) const {
 
     if (pts.n_rows != 3) {
-        libwfa_exception("grid3d", "build_pts(size_t, arma::Mat<double> &)",
+        libwfa_exception("grid3d", "build_pts(size_t, arma::mat &)",
             __FILE__, __LINE__, "pts");
     }
 
@@ -96,7 +96,7 @@ size_t grid3d::build_pts(size_t i0, Mat<double> &pts) const {
     if (sz == 1) return sz;
 
     // Compute increments
-    Mat<double> inc(3, 3);
+    mat inc(3, 3);
     for (unsigned int  i = 0; i < 3; i++) {
        subview<double> ci = inc.col(i);
        ci = m_vec.col(i + 1);

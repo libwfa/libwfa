@@ -24,23 +24,23 @@ void pop_loewdin_test::test_1() throw(libtest::test_exception) {
 
     size_t na = 2, nb = 10, nb1 = 6;
 
-    Col<size_t> b2c(nb, fill::zeros);
+    uvec b2c(nb, fill::zeros);
     for (size_t i = nb1; i < nb; i++) b2c(i) = 1;
 
     // Use the upper and lower triagonal of a random matrix to
     // form symmetric overlap and density matrices
-    Mat<double> base(nb, nb, fill::randu);
-    Mat<double> dm = symmatl(base);
-    Mat<double> ov, ov2;
+    mat base(nb, nb, fill::randu);
+    mat dm = symmatl(base);
+    mat ov, ov2;
     {
-    Mat<double> u;
-    Col<double> e;
+    mat u;
+    vec e;
     eig_sym(e, u, symmatu(base));
     ov = u * diagmat(abs(e)) * u.t();
     ov2 = u * diagmat(sqrt(abs(e))) * u.t();
     }
 
-    Col<double> p, p_ref(na, fill::zeros);
+    vec p, p_ref(na, fill::zeros);
     for (size_t i = 0; i < nb1; i++) {
         double tmp = 0.0;
         for (size_t j = 0; j < nb; j++)
@@ -90,23 +90,23 @@ void pop_loewdin_test::test_2() throw(libtest::test_exception) {
     size_t nao = TestData::k_nao;
     size_t nmo = TestData::k_nmo;
     TestData data;
-    Col<size_t> b2p = data.bf2nuclei();
+    uvec b2p = data.bf2nuclei();
 
-    Mat<double> s(nao, nao);
+    mat s(nao, nao);
     read_matrix(data, testname, "s", s);
 
     for (size_t i = 0; i <= data.nstates(); i++) {
 
         ab_matrix dm(data.aeqb());
-        dm.alpha() = Mat<double>(nao, nao);
-        if (! data.aeqb()) dm.beta() = Mat<double>(nao, nao);
+        dm.alpha() = mat(nao, nao);
+        if (! data.aeqb()) dm.beta() = mat(nao, nao);
 
         std::ostringstream ssdm; ssdm << "dm" << i;
         read_ab_matrix(data, testname, ssdm.str().c_str(), dm);
 
-        //Col<double> pa, pa_ref(TestData::k_natoms);
-        Col<double> pa(TestData::k_natoms);
-        Col<double> pa_ref = data.pop_loewdin(i, true);
+        //vec pa, pa_ref(TestData::k_natoms);
+        vec pa(TestData::k_natoms);
+        vec pa_ref = data.pop_loewdin(i, true);
 
         pop_loewdin(s, b2p).perform(dm.alpha(), pa);
 
@@ -126,8 +126,8 @@ void pop_loewdin_test::test_2() throw(libtest::test_exception) {
         }
         
         if (! data.aeqb()) {
-            Col<double> pb(TestData::k_natoms);
-            Col<double> pb_ref = data.pop_loewdin(i, false);
+            vec pb(TestData::k_natoms);
+            vec pb_ref = data.pop_loewdin(i, false);
             pop_loewdin(s, b2p).perform(dm.beta(), pb);
 
             if (pb.n_elem != pb_ref.n_elem) {

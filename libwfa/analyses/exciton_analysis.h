@@ -32,7 +32,7 @@ public:
     void perform(ab_exciton_moments &mom) const;
 
 private:
-    void calculate(const arma::Mat<double> &tdm, exciton_moments &mom) const;
+    void calculate(const arma::mat &tdm, exciton_moments &mom) const;
 
 }; // class exciton_analysis
 

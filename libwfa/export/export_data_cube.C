@@ -22,21 +22,21 @@ void export_data_cube::perform(density_type type, const ab_matrix &dm, bool ab_s
     }
 
     if (dm.is_alpha_eq_beta()) {
-        const Mat<double> &dmx = 2. * dm.alpha();
+        const mat &dmx = 2. * dm.alpha();
         m_core.perform(name, desc, dmx);
     }
     else {
-        const Mat<double> &dm_a = dm.alpha(),  &dm_b = dm.beta();
+        const mat &dm_a = dm.alpha(),  &dm_b = dm.beta();
         if (ab_sep) {
             m_core.perform(name + "_a", desc + " (alpha part)", dm_a);
             m_core.perform(name + "_b", desc + " (beta part)", dm_b);
         }
         if (spin_tr_d >= 1) {
-            Mat<double> dm_tr = dm.alpha() + dm.beta();
+            mat dm_tr = dm.alpha() + dm.beta();
             m_core.perform(name + "_sp-tr", desc + " (spin-traced)", dm_tr);
         }
         if (spin_tr_d >= 2) {
-            Mat<double> dm_d = dm.alpha() - dm.beta();
+            mat dm_d = dm.alpha() - dm.beta();
             m_core.perform(name + "_sp-diff", desc + " (spin-difference)", dm_d);
         }
     }
@@ -74,9 +74,9 @@ void export_data_cube::perform(orbital_type type, const ab_matrix &coeff,
 
 
 void export_data_cube::perform(const std::string &name,
-    const std::string &desc, const Mat<double> &c, const orbital_selector &s) {
+    const std::string &desc, const mat &c, const orbital_selector &s) {
 
-    Mat<double> cc = c.cols(s.get_selected_arma());
+    mat cc = c.cols(s.get_selected_arma());
 
     m_core.perform(name, desc, s.get_selected(), cc);
 

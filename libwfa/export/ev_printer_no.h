@@ -29,8 +29,8 @@ public:
         const ab_vector &ni, std::ostream &out) const;
 
 private:
-    size_t print(const arma::Col<double> &ni, std::ostream &out) const;
-    size_t print_total(const arma::Col<double> &ni, std::ostream &out) const;
+    size_t print(const arma::vec &ni, std::ostream &out) const;
+    size_t print_total(const arma::vec &ni, std::ostream &out) const;
 };
 
 

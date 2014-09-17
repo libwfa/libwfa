@@ -29,12 +29,12 @@ void no_analysis_test::test_1() throw(libtest::test_exception) {
         size_t nmo = TestData::k_nmo;
         TestData data;
 
-        Mat<double> s(nao, nao);
+        mat s(nao, nao);
         read_matrix(data, testname, "s", s);
 
         ab_matrix c(data.aeqb());
-        c.alpha() = Mat<double>(nao, nmo);
-        if (! data.aeqb()) c.beta() = Mat<double>(nao, nmo);
+        c.alpha() = mat(nao, nmo);
+        if (! data.aeqb()) c.beta() = mat(nao, nmo);
         read_ab_matrix(data, testname, "c", c);
         
         ev_printer_no evpr;
@@ -45,8 +45,8 @@ void no_analysis_test::test_1() throw(libtest::test_exception) {
         for (size_t istate = 1; istate <= data.nstates(); istate++) {
             ab_matrix dm(data.aeqb());
 
-            dm.alpha() = Mat<double>(nao, nao);
-            if (! data.aeqb()) dm.beta() = Mat<double>(nao, nao);
+            dm.alpha() = mat(nao, nao);
+            if (! data.aeqb()) dm.beta() = mat(nao, nao);
 
             std::ostringstream ssdm; ssdm << "dm" << istate;
             read_ab_matrix(data, testname, ssdm.str().c_str(), dm);
@@ -60,9 +60,9 @@ void no_analysis_test::test_1() throw(libtest::test_exception) {
             //std::cout << std::endl << ssdat.str() << std::endl;
 
             { // test alpha
-                const Mat<double> &dm_x = dm.alpha();
-                const Mat<double> &u_x = noa.get_eigvect(false).alpha();
-                const Col<double> &ev_x = noa.get_eigval(false).alpha();
+                const mat &dm_x = dm.alpha();
+                const mat &u_x = noa.get_eigvect(false).alpha();
+                const vec &ev_x = noa.get_eigval(false).alpha();
                 if (accu(abs(u_x.t() * s * dm_x * s * u_x - diagmat(ev_x)) > 1e-12) != 0)
                     fail_test(testname, __FILE__, __LINE__, "Bad transform.");
                 if (accu(abs(u_x.t() * s * u_x - eye(nmo, nmo)) > 1e-12) != 0)
@@ -71,9 +71,9 @@ void no_analysis_test::test_1() throw(libtest::test_exception) {
                     fail_test(testname, __FILE__, __LINE__, "Bad transform.");
             }
             { // test beta
-                const Mat<double> &dm_x = dm.beta();
-                const Mat<double> &u_x = noa.get_eigvect(false).beta();
-                const Col<double> &ev_x = noa.get_eigval(false).beta();
+                const mat &dm_x = dm.beta();
+                const mat &u_x = noa.get_eigvect(false).beta();
+                const vec &ev_x = noa.get_eigval(false).beta();
                 if (accu(abs(u_x.t() * s * dm_x * s * u_x - diagmat(ev_x)) > 1e-12) != 0)
                     fail_test(testname, __FILE__, __LINE__, "Bad transform.");
                 if (accu(abs(u_x.t() * s * u_x - eye(nmo, nmo)) > 1e-12) != 0)
@@ -82,9 +82,9 @@ void no_analysis_test::test_1() throw(libtest::test_exception) {
                     fail_test(testname, __FILE__, __LINE__, "Bad transform.");
             }
             { // test spin-traced
-                Mat<double> dm_x = 0.5 * (dm.alpha() + dm.beta());
-                const Mat<double> &u_x = noa.get_eigvect(true).alpha();
-                const Col<double> &ev_x = noa.get_eigval(true).alpha();// + noa.get_eigval(true).alpha();
+                mat dm_x = 0.5 * (dm.alpha() + dm.beta());
+                const mat &u_x = noa.get_eigvect(true).alpha();
+                const vec &ev_x = noa.get_eigval(true).alpha();// + noa.get_eigval(true).alpha();
                 if (accu(abs(u_x.t() * s * dm_x * s * u_x - diagmat(ev_x)) > 1e-12) != 0)
                     fail_test(testname, __FILE__, __LINE__, "Bad transform.");
                 if (accu(abs(u_x.t() * s * u_x - eye(nmo, nmo)) > 1e-12) != 0)

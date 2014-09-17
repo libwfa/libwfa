@@ -32,11 +32,11 @@ namespace libwfa {
 
     \ingroup libwfa_trans
  **/
-void form_eh(const arma::Mat<double> &s, const ab_matrix &tdm,
+void form_eh(const arma::mat &s, const ab_matrix &tdm,
         ab_matrix &de, ab_matrix &dh);
 
-void form_eh(const arma::Mat<double> &s, const arma::Mat<double> &tdm,
-        arma::Mat<double> &de, arma::Mat<double> &dh);
+void form_eh(const arma::mat &s, const arma::mat &tdm,
+        arma::mat &de, arma::mat &dh);
 
 /** \brief Forms omega matrix from a transition density matrix
     \param[in] s Overlap matrix
@@ -62,11 +62,11 @@ void form_eh(const arma::Mat<double> &s, const arma::Mat<double> &tdm,
 
     \ingroup libwfa_trans
  **/
-void form_om(const arma::Mat<double> &s, const ab_matrix &tdm,
+void form_om(const arma::mat &s, const ab_matrix &tdm,
         ab_matrix &om);
 
-void form_om(const arma::Mat<double> &s, const arma::Mat<double> &tdm,
-        arma::Mat<double> &om);
+void form_om(const arma::mat &s, const arma::mat &tdm,
+        arma::mat &om);
 
 /** \brief Diagonalizes a density matrix in AO basis
     \param[in] s Overlap matrix
@@ -102,7 +102,7 @@ void form_om(const arma::Mat<double> &s, const arma::Mat<double> &tdm,
 
     \ingroup libwfa_trans
  **/
-void diagonalize_dm(const arma::Mat<double> &s, const ab_matrix &c,
+void diagonalize_dm(const arma::mat &s, const ab_matrix &c,
         const ab_matrix &dm, ab_vector &ev, ab_matrix &u);
 
 
@@ -145,7 +145,7 @@ void form_ad(const ab_vector &ev, const ab_matrix &u,
 
     \ingroup libwfa_trans
 **/
-void form_ad(const arma::Mat<double> &s, const ab_matrix &c,
+void form_ad(const arma::mat &s, const ab_matrix &c,
         const ab_matrix &dm, ab_matrix &da, ab_matrix &dd);
 
 } // namespace libwfa

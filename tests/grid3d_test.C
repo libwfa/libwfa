@@ -33,7 +33,7 @@ void grid3d_test::test_1a() {
     if (fabs(accu(g.origin())) > 0.0)
         fail_test(testname, __FILE__, __LINE__, "origin");
     for (unsigned int i = 0; i < 3; i++) {
-        Col<double> ref(3, fill::zeros); ref(i) = 1.;
+        vec ref(3, fill::zeros); ref(i) = 1.;
         if (fabs(accu(ref - g.direction(i))) > 0.0)
             fail_test(testname, __FILE__, __LINE__, "direction");
     }
@@ -52,14 +52,14 @@ void grid3d_test::test_1b() {
     double x0_[3] = { -2.25, -2.25, -2.25 };
 
     Col<unsigned int> n_ref(n_, 3);
-    Col<double> x0_ref(x0_, 3);
+    vec x0_ref(x0_, 3);
     if (accu(n_ref - g.npts()) != 0)
         fail_test(testname, __FILE__, __LINE__, "npts");
     if (fabs(accu(x0_ref - g.origin())) > 0.0)
         fail_test(testname, __FILE__, __LINE__, "origin");
 
     for (unsigned int i = 0; i < 3; i++) {
-        Col<double> ei_ref(3, fill::zeros);
+        vec ei_ref(3, fill::zeros);
         ei_ref(i) = 0.5;
         if (fabs(accu(ei_ref - g.direction(i))) > 0.0)
         fail_test(testname, __FILE__, __LINE__, "direction");
@@ -79,7 +79,7 @@ void grid3d_test::test_1c() {
     double x0_[3] = { -0.9, -2, -1.75 };
 
     Col<unsigned int> n(n_, 3);
-    Col<double> d(d_, 3), x0_ref(x0_, 3);
+    vec d(d_, 3), x0_ref(x0_, 3);
 
     grid3d g(n, d);
     if (accu(n - g.npts()) > 0)
@@ -87,7 +87,7 @@ void grid3d_test::test_1c() {
     if (fabs(accu(x0_ref - g.origin())) > 1e-15)
         fail_test(testname, __FILE__, __LINE__, "origin");
     for (unsigned int i = 0; i < 3; i++) {
-        Col<double> ei(3, fill::zeros);
+        vec ei(3, fill::zeros);
         ei(i) = d(i);
         if (fabs(accu(ei - g.direction(i))) > 0.0)
             fail_test(testname, __FILE__, __LINE__, "direction");
@@ -103,7 +103,7 @@ void grid3d_test::test_2a() {
 
     double x0a_[3] = { -4.5, -4.5, -4.5 };
     double x0b_[3] = { 0., 0., 0. };
-    Col<double> x0a_ref(x0a_, 3), x0(x0b_, 3);
+    vec x0a_ref(x0a_, 3), x0(x0b_, 3);
 
     grid3d g(10, 1.0);
     if (fabs(accu(x0a_ref - g.origin())) > 0.0)
@@ -129,15 +129,15 @@ void grid3d_test::test_2b() {
             { 0.2, 0.1, 0.0 } };
     double x0_ref[3] = { 0.0, 0.0, 0.0 };
     for (unsigned int i = 0; i < 3; i++)
-        g.set_direction(i, n[i], Col<double>(ev[i], 3));
+        g.set_direction(i, n[i], vec(ev[i], 3));
 
     if (accu(Col<unsigned int>(n, 3) - g.npts()) > 0.0)
         fail_test(testname, __FILE__, __LINE__, "npts");
-    if (fabs(accu(Col<double>(x0_ref, 3) - g.origin())) > 0.0)
+    if (fabs(accu(vec(x0_ref, 3) - g.origin())) > 0.0)
         fail_test(testname, __FILE__, __LINE__, "origin");
 
     for (unsigned int i = 0; i < 3; i++) {
-        if (fabs(accu(Col<double>(ev[i], 3) - g.direction(i))) > 0.0)
+        if (fabs(accu(vec(ev[i], 3) - g.direction(i))) > 0.0)
             fail_test(testname, __FILE__, __LINE__, "direction");
     }
 }
@@ -157,7 +157,7 @@ void grid3d_test::test_3() {
             { 0.0, 0.0, 0.5 },
             { 0.0, 0.2, 0.0 } };
     for (unsigned int i = 0; i < 3; i++)
-        g.set_direction(i, n[i], Col<double>(ev[i], 3));
+        g.set_direction(i, n[i], vec(ev[i], 3));
 
     bool fail = false;
     try {
@@ -181,17 +181,17 @@ void grid3d_test::test_4() {
 
     grid3d g(5, 0.1);
     double x0_[3] = { 0., 0., 0. };
-    Col<double> x0(x0_, 3);
+    vec x0(x0_, 3);
     g.set_origin(x0);
 
-    Mat<double> pts(3, 10);
+    mat pts(3, 10);
     g.build_pts(23, pts);
     for (unsigned int i = 0, i0 = 0; i < 5; i++) {
         for (unsigned int j = 0; j < 5; j++) {
             for (unsigned int k = 0; k < 5; k++, i0++) {
                 if (i0 < 23 || i0 >= 33) continue;
 
-                Col<double> pt_ref = x0 + g.direction(0) * i +
+                vec pt_ref = x0 + g.direction(0) * i +
                         g.direction(1) * j + g.direction(2) * k;
                 if (fabs(accu(pts.col(i0 - 23) - pt_ref)) > 1e-15)
                     fail_test(testname, __FILE__, __LINE__, "pts");

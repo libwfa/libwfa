@@ -38,7 +38,7 @@ void ab_matrix_test::test_1a() {
         fail_test(testname, __FILE__, __LINE__, "beta != 0");
     }
 
-    Mat<double> &a = m.alpha(), &b = m.beta();
+    mat &a = m.alpha(), &b = m.beta();
     a.resize(4, 5);
     b.resize(2, 3);
     if (m.nrows_a() != 4 || m.ncols_a() != 5) {
@@ -204,7 +204,7 @@ void ab_matrix_test::test_4a() {
     m.alpha().randu();
     m.beta().randu();
 
-    Mat<double> alpha = m.alpha();
+    mat alpha = m.alpha();
     m.set_alpha_eq_beta();
     if (! m.is_alpha_eq_beta()) {
         fail_test(testname, __FILE__, __LINE__, "alpha != beta (flag).");

@@ -6,25 +6,25 @@ namespace libwfa{
 
 using namespace arma;
 
-double mom_builder::perform(const Mat<double> &dm,
+double mom_builder::perform(const mat &dm,
     size_t c1, size_t n1, size_t c2, size_t n2) const{
 
-    const Mat<double> &m1 = retrieve_op(c1, n1);
-    const Mat<double> &m2 = retrieve_op(c2, n2);
+    const mat &m1 = retrieve_op(c1, n1);
+    const mat &m2 = retrieve_op(c2, n2);
 
     return accu((dm * m1) % (m2 * dm));
 }
 
 
-double mom_builder::perform (const Mat<double> &dm, size_t c, size_t n) const{
+double mom_builder::perform (const mat &dm, size_t c, size_t n) const{
 
-    const Mat<double> &m = retrieve_op(c, n);
+    const mat &m = retrieve_op(c, n);
 
     return trace(dm * m);
 }
 
 
-const Mat<double> &mom_builder::retrieve_op(size_t c, size_t n) const{
+const mat &mom_builder::retrieve_op(size_t c, size_t n) const{
 
     static const char clazz[] = "mom_builder";
     static const char method[] = "retrieve_op(size_t, size_t)";

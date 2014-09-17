@@ -30,27 +30,27 @@ void santo_analysis_test::test_1() throw(libtest::test_exception) {
         size_t nmo = TestData::k_nmo;
         TestData data;
 
-        Mat<double> s(nao, nao);
+        mat s(nao, nao);
         read_matrix(data, testname, "s", s);
 
         ab_matrix c(data.aeqb());
-        c.alpha() = Mat<double>(nao, nmo);
-        if (! data.aeqb()) c.beta() = Mat<double>(nao, nmo);
+        c.alpha() = mat(nao, nmo);
+        if (! data.aeqb()) c.beta() = mat(nao, nmo);
         read_ab_matrix(data, testname, "c", c);
 
         ab_matrix hdms(data.aeqb()), edms(data.aeqb());
-        hdms.alpha() = Mat<double>(nao, nao, fill::zeros);
-        edms.alpha() = Mat<double>(nao, nao, fill::zeros);
+        hdms.alpha() = mat(nao, nao, fill::zeros);
+        edms.alpha() = mat(nao, nao, fill::zeros);
         if (! data.aeqb()) {
-            hdms.beta() = Mat<double>(nao, nao, fill::zeros);
-            edms.beta() = Mat<double>(nao, nao, fill::zeros);
+            hdms.beta() = mat(nao, nao, fill::zeros);
+            edms.beta() = mat(nao, nao, fill::zeros);
         }
         
         // Preparation loop to form summed hole and particle densities
         for (size_t istate = 1; istate <= data.nstates(); istate++) {
             ab_matrix tdmt(data.aeqb());
-            tdmt.alpha() = Mat<double>(nao, nao);
-            if (! data.aeqb()) tdmt.beta() = Mat<double>(nao, nao);
+            tdmt.alpha() = mat(nao, nao);
+            if (! data.aeqb()) tdmt.beta() = mat(nao, nao);
             std::ostringstream ssdm; ssdm << "tdm" << istate;
             read_ab_matrix(data, testname, ssdm.str().c_str(), tdmt);
 
@@ -77,8 +77,8 @@ void santo_analysis_test::test_1() throw(libtest::test_exception) {
         // main loop
         for (size_t istate = 1; istate <= data.nstates(); istate++) {
             ab_matrix tdmt(data.aeqb());
-            tdmt.alpha() = Mat<double>(nao, nao);
-            if (! data.aeqb()) tdmt.beta() = Mat<double>(nao, nao);
+            tdmt.alpha() = mat(nao, nao);
+            if (! data.aeqb()) tdmt.beta() = mat(nao, nao);
             std::ostringstream ssdm; ssdm << "tdm" << istate;
             read_ab_matrix(data, testname, ssdm.str().c_str(), tdmt);
 

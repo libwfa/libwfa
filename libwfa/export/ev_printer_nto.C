@@ -43,7 +43,7 @@ size_t ev_printer_nto::perform(density_type type,
 }
 
 
-size_t ev_printer_nto::print(const Col<double> &ni, std::ostream &out) const {
+size_t ev_printer_nto::print(const vec &ni, std::ostream &out) const {
 
     std::string offset(2, ' ');
     out << offset << "Leading SVs: ";

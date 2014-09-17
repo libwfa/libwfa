@@ -36,8 +36,8 @@ public:
     void perform(ab_exciton_moments &mom) const;
 
 private:
-    void calculate(const arma::Mat<double> &adm,
-        const arma::Mat<double> &ddm, exciton_moments &mom) const;
+    void calculate(const arma::mat &adm,
+        const arma::mat &ddm, exciton_moments &mom) const;
 };
 
 } // namespace libwfa

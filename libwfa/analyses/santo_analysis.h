@@ -37,7 +37,7 @@ public:
      *  \param dpr Printer of SA-NTOs
      *  \param out Output stream
      **/
-    santo_analysis(const arma::Mat<double> &s, const ab_matrix &c,
+    santo_analysis(const arma::mat &s, const ab_matrix &c,
          const ab_matrix &edm, const ab_matrix &hdm,
          const ev_printer_i &evpr, export_data_i &opr,
          std::ostream &out);
@@ -90,7 +90,7 @@ private:
      *  \param out  Output stream
      *  \param dfac Set to 2. in the case of spin-traced NTOs
      */
-    void print(const arma::Mat<double> &xm, std::ostream &out, double dfac = 1.);
+    void print(const arma::mat &xm, std::ostream &out, double dfac = 1.);
     
 };
 

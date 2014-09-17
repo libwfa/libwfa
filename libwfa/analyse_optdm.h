@@ -29,7 +29,7 @@ private:
 
 private:
     cna_map_t m_ca; //!< List of CT number analysis
-    const arma::Mat<double> &m_s; //!< Overlap matrix
+    const arma::mat &m_s; //!< Overlap matrix
     const ab_matrix &m_c; //!< MO coefficient matrix
     const ab_matrix &m_tdm; //!< Transition density matrix
     const ev_printer_i *m_nto; //!< Formating object of NTO summary
@@ -41,7 +41,7 @@ public:
         \param c Coefficient matrix
         \param tdm Transistion density matrix
      */
-    analyse_optdm(const arma::Mat<double> &s, const ab_matrix &c, 
+    analyse_optdm(const arma::mat &s, const ab_matrix &c, 
         const mom_builder_i &con, const ab_matrix &tdm);
 
     /** \brief Register NTO analysis

@@ -51,8 +51,8 @@ void export_data_print::perform(orbital_type type, const ab_matrix &coeff,
     if (! aeqb) m_out << "Alpha spin part:";
 
     const orbital_selector &sa = s.alpha();
-    const Col<double> &eva = ev.alpha();
-    const Mat<double> &ca = coeff.alpha();
+    const vec &eva = ev.alpha();
+    const mat &ca = coeff.alpha();
     Col<uword> ela = sa.get_selected_arma();
 
     for (size_t i = 0; i < ela.n_elem; i++) {
@@ -65,8 +65,8 @@ void export_data_print::perform(orbital_type type, const ab_matrix &coeff,
     if (aeqb) return;
 
     const orbital_selector &sb = s.beta();
-    const Col<double> &evb = ev.beta();
-    const Mat<double> &cb = coeff.beta();
+    const vec &evb = ev.beta();
+    const mat &cb = coeff.beta();
     Col<uword> elb = sb.get_selected_arma();
 
     for (size_t i = 0; i < elb.n_elem; i++) {

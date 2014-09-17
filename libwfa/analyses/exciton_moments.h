@@ -20,7 +20,7 @@ using namespace arma;
 class exciton_moments {
 private:
     size_t m_nmax; //!< Highest moment
-    arma::Mat<double> m_mom; //!< Computed moments
+    arma::mat m_mom; //!< Computed moments
 
 public:
     /** \brief Default constructor
@@ -29,7 +29,7 @@ public:
 
     /** \brief Set data for specific moment
      **/
-    void set(size_t ne, size_t nh, const arma::Col<double> &m) {
+    void set(size_t ne, size_t nh, const arma::vec &m) {
         m_mom.col(determine_loc(ne, nh)) = m;
     }
 

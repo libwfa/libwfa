@@ -10,19 +10,19 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
-class ab_vector : public ab_object< arma::Col<double> > {
+class ab_vector : public ab_object< arma::vec > {
 public:
     /** \brief Default constructor
         \param aeqb If true, alpha == beta spin vector
      **/
-    ab_vector(bool aeqb = false) : ab_object< arma::Col<double> >(aeqb) { }
+    ab_vector(bool aeqb = false) : ab_object< arma::vec >(aeqb) { }
 
     /** \brief Constructor for alpha == beta
         \param nrows Number of rows
      **/
-    ab_vector(size_t nrows) : ab_object< arma::Col<double> >(true) {
+    ab_vector(size_t nrows) : ab_object< arma::vec >(true) {
 
-        alpha() = arma::Col<double>(nrows);
+        alpha() = arma::vec(nrows);
     }
 
     /** \brief Constructor for alpha != beta
@@ -30,10 +30,10 @@ public:
         \param nrows_b Number of beta-spin rows
      **/
     ab_vector(size_t nrows_a, size_t nrows_b) :
-        ab_object< arma::Col<double> >(false) {
+        ab_object< arma::vec >(false) {
 
-        alpha() = arma::Col<double>(nrows_a);
-        beta()  = arma::Col<double>(nrows_b);
+        alpha() = arma::vec(nrows_a);
+        beta()  = arma::vec(nrows_b);
     }
 
     /** \brief Return the number of alpha-spin rows

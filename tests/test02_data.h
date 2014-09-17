@@ -58,13 +58,13 @@ public:
     static const size_t k_nstat; //!< Number of states    
 
 private:
-    arma::Col<size_t> m_atnum; //!< Atomic numbers
-    arma::Col<double> m_nch; //!< Nuclear charges
-    arma::Col<size_t> m_bf2nuc; //!< Map of basis functions to nuclei
+    arma::uvec m_atnum; //!< Atomic numbers
+    arma::vec m_nch; //!< Nuclear charges
+    arma::uvec m_bf2nuc; //!< Map of basis functions to nuclei
     
 
-    arma::Mat<double> m_pop_mulliken; //!< Reference for population analysis
-    arma::Mat<double> m_pop_loewdin; //!< Reference for population analysis
+    arma::mat m_pop_mulliken; //!< Reference for population analysis
+    arma::mat m_pop_loewdin; //!< Reference for population analysis
 
 public:
     test02_data();
@@ -73,17 +73,17 @@ public:
 
     size_t nstates() { return k_nstat; }
 
-    arma::Col<size_t> atomic_numbers() { return m_atnum; }
+    arma::uvec atomic_numbers() { return m_atnum; }
 
-    arma::Col<double> nuclear_charges() { return m_nch; }
+    arma::vec nuclear_charges() { return m_nch; }
 
-    arma::Col<size_t> bf2nuclei() { return m_bf2nuc; }
+    arma::uvec bf2nuclei() { return m_bf2nuc; }
     
-    arma::Col<double> pop_mulliken(size_t istate, bool alpha) {
+    arma::vec pop_mulliken(size_t istate, bool alpha) {
         return m_pop_mulliken.col(istate);
     }
 
-    arma::Col<double> pop_loewdin(size_t istate, bool alpha) {
+    arma::vec pop_loewdin(size_t istate, bool alpha) {
         return m_pop_loewdin.col(istate);
     }
 };

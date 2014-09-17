@@ -29,16 +29,16 @@ void pop_analysis_dm_test::test_1() throw(libtest::test_exception) {
     size_t nmo = TestData::k_nmo;
 
     TestData data;
-    Col<size_t> b2p = data.bf2nuclei();
-    Col<double> p0 = data.nuclear_charges();
-    Mat<double> s(nao, nao);
+    uvec b2p = data.bf2nuclei();
+    vec p0 = data.nuclear_charges();
+    mat s(nao, nao);
     read_matrix(data, testname, "s", s);
 
     for (size_t i = 0; i <= data.nstates(); i++) {
 
         ab_matrix dm(data.aeqb());
-        dm.alpha() = Mat<double>(nao, nao);
-        if (! data.aeqb()) dm.beta() = Mat<double>(nao, nao);
+        dm.alpha() = mat(nao, nao);
+        if (! data.aeqb()) dm.beta() = mat(nao, nao);
 
         std::ostringstream ssdm; ssdm << "dm" << i;
         read_ab_matrix(data, testname, ssdm.str().c_str(), dm);

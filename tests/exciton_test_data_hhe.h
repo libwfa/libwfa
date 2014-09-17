@@ -21,19 +21,19 @@ private:
     static const double k_ref[15];
 
 public:
-    static arma::Mat<double> overlap() { return arma::Mat<double>(k_s,4,4); }
-    static arma::Mat<double> x()  { return arma::Mat<double>(k_x, 4, 4); }
-    static arma::Mat<double> y()  { return arma::Mat<double>(k_y, 4, 4); }
-    static arma::Mat<double> z()  { return arma::Mat<double>(k_z, 4, 4); }
-    static arma::Mat<double> xx() { return arma::Mat<double>(k_xx, 4, 4); }
-    static arma::Mat<double> yy() { return arma::Mat<double>(k_yy, 4, 4); }
-    static arma::Mat<double> zz() { return arma::Mat<double>(k_zz, 4, 4); }
-    static arma::Mat<double> tdm() { return arma::Mat<double>(k_tdm, 4, 4); }
-    static arma::Col<double> rh() { return arma::Col<double>(k_ref, 3); }
-    static arma::Col<double> re() { return arma::Col<double>(k_ref + 3, 3); }
-    static arma::Col<double> rhre() { return arma::Col<double>(k_ref + 6, 3); }
-    static arma::Col<double> rh2() { return arma::Col<double>(k_ref + 9, 3); }
-    static arma::Col<double> re2() { return arma::Col<double>(k_ref + 12, 3); }
+    static arma::mat overlap() { return arma::mat(k_s,4,4); }
+    static arma::mat x()  { return arma::mat(k_x, 4, 4); }
+    static arma::mat y()  { return arma::mat(k_y, 4, 4); }
+    static arma::mat z()  { return arma::mat(k_z, 4, 4); }
+    static arma::mat xx() { return arma::mat(k_xx, 4, 4); }
+    static arma::mat yy() { return arma::mat(k_yy, 4, 4); }
+    static arma::mat zz() { return arma::mat(k_zz, 4, 4); }
+    static arma::mat tdm() { return arma::mat(k_tdm, 4, 4); }
+    static arma::vec rh() { return arma::vec(k_ref, 3); }
+    static arma::vec re() { return arma::vec(k_ref + 3, 3); }
+    static arma::vec rhre() { return arma::vec(k_ref + 6, 3); }
+    static arma::vec rh2() { return arma::vec(k_ref + 9, 3); }
+    static arma::vec re2() { return arma::vec(k_ref + 12, 3); }
 };
 
 

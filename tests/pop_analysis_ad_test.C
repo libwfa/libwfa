@@ -30,18 +30,18 @@ void pop_analysis_ad_test::test_1() throw(libtest::test_exception) {
     size_t nmo = TestData::k_nmo;
 
     TestData data;
-    Col<size_t> b2p = data.bf2nuclei();
-    Mat<double> s(nao, nao);
+    uvec b2p = data.bf2nuclei();
+    mat s(nao, nao);
     read_matrix(data, testname, "s", s);
 
     for (size_t i = 0; i < data.nstates(); i++) {
 
         ab_matrix at(data.aeqb()), de(data.aeqb());
-        at.alpha() = Mat<double>(nao, nao);
-        de.alpha() = Mat<double>(nao, nao);
+        at.alpha() = mat(nao, nao);
+        de.alpha() = mat(nao, nao);
         if (! data.aeqb()) {
-            at.beta() = Mat<double>(nao, nao);
-            de.beta() = Mat<double>(nao, nao);
+            at.beta() = mat(nao, nao);
+            de.beta() = mat(nao, nao);
         }
 
         std::ostringstream ssat; ssat << "atdm" << i + 1;

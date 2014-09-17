@@ -20,15 +20,15 @@ void ctnum_analysis_test::test_1() {
 
     size_t na = 2, nb = 10, nb1 = 6;
 
-    std::vector<size_t> b2c(nb, 0);
+    std::vector<uword> b2c(nb, 0);
     for (size_t i = nb1; i < nb; i++) b2c[i] = 1;
 
     // Use the upper and lower triagonal of a random matrix to
     // form omega matrices
-    Mat<double> base = randu< Mat<double> >(nb, nb);
-    Mat<double> om_ao = symmatl(base);
+    mat base = randu< mat >(nb, nb);
+    mat om_ao = symmatl(base);
 
-    Mat<double> om_at, om_ref(na, na);
+    mat om_at, om_ref(na, na);
     om_ref.fill(0.0);
     for (size_t i = 0; i < nb1; i++) {
         for (size_t j = 0; j < nb1; j++) {
