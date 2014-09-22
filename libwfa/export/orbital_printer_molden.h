@@ -32,7 +32,7 @@ public:
         \param ot Flag which orbital types to export
      **/
     orbital_printer_molden(export_molden_i &core, const std::string &id,
-        const ot_flag &ot = ot_flag(orbital_type::OT_ALL));
+        const ot_flag &ot = ot_flag(orbital_type::ALL));
 
     /** \brief Destructor
      **/

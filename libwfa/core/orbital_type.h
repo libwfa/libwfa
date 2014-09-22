@@ -13,8 +13,16 @@ namespace libwfa {
  **/
 class orbital_type {
 public:
-    enum { NT = 4, OT_ALL = 15 };
-
+    enum { NT = 5 };
+    enum ot {
+        NONE   = 0,
+        MO     = 1 << 0,
+        NO     = 1 << 1,
+        NDO    = 1 << 2,
+        NTO    = 1 << 3,
+        DYSON  = 1 << 4,
+        ALL    = 31
+    };
     typedef std::bitset<NT> flag_t; //!< Flag for orbital types
 
 private:
@@ -38,8 +46,9 @@ public:
     //@{
     static const orbital_type mo; //!< Molecular orbital type
     static const orbital_type no; //!< Natural orbital type
-    static const orbital_type nto; //!< Natural transition orbital type
     static const orbital_type ndo; //!< Natural difference orbital type
+    static const orbital_type nto; //!< Natural transition orbital type
+    static const orbital_type dyson; //!< Dyson orbital type
     //@}
 
 

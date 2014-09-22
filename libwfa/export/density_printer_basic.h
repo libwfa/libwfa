@@ -28,7 +28,7 @@ public:
         \param dt Flag which density types to export
      **/
     density_printer_basic(std::ostream &out, const std::string &title,
-        const dt_flag &dt = dt_flag(density_type::DT_ALL)) :
+        const dt_flag &dt = dt_flag(density_type::ALL)) :
         m_out(out), m_title(title), m_dt(dt)
     { }
 

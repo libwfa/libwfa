@@ -11,50 +11,6 @@
 namespace libwfa {
 
 
-/** \brief Parameters of state density matrix analysis
- **/
-struct opdm_params {
-    bool no_analysis; //!< Perform NO analysis
-    size_t nno; //!< Number of leading NOs to print
-};
-
-
-/** \brief Parameters of difference density matrix analysis
- **/
-struct opddm_params {
-    /** \brief Parameter for NDO analysis
-     **/
-    typedef enum {
-        NONE = 0, //!< Do nothing
-        NDO = 1, //!< Perform NDO analysis only
-        FORM_AD = 2, //!< Form attachment / detachment densities
-        EXCITON = 3 //!< Perform exciton analysis on top of A/D densities
-    } ndo_param;
-
-    ndo_param ndo_analysis; //!< NDO analysis parameter
-    size_t nndo; //!< Number of leading NDO pairs to print
-};
-
-
-/** \brief Parameters of transition density matrix analysis
- **/
-struct optdm_params {
-    /** \brief Parameter for electron / hole density analysis
-     **/
-    typedef enum {
-        NONE = 0, //!< Do nothing
-        FORM_EH = 1, //!< Form electron / hole densities
-        AVERAGE = 2 //!< Add to average electron / hole densities
-    } eh_param;
-
-    bool nto_analysis; //!< Perform NTO analysis
-    size_t nnto; //!< Number of leading NTOs to print
-    double thresh; //!< Zero threshold for NTO occupation numbers
-    eh_param eh; //!< Electron / hole densities parameter
-    bool exciton_analysis; //!< Perform exciton analysis
-};
-
-
 /** \brief Interface to provide the data required to perform the analysis
 
     If new analyses are added to libwfa which require additional data, please
@@ -82,8 +38,8 @@ public:
         \param desc Description of state
         \return Pointer to new density printer
      **/
-    virtual std::auto_ptr<density_printer_i> density_printer(
-            const std::string &name, const std::string &desc) = 0;
+    virtual density_printer_i *density_printer(const std::string &name,
+            const std::string &desc) = 0;
 
     /** \brief Construct a printer of orbitals
         \param name Name of state to which the orbitals belong
@@ -91,20 +47,8 @@ public:
         \param desc Description of state
         \return Pointer to new orbital printer
      **/
-    virtual std::auto_ptr<orbital_printer_i> orbital_printer(
-            const std::string &name, const std::string &desc) = 0;
-
-    /** \brief Parameter structure for state density matrix analyses
-     **/
-    virtual opdm_params  get_opdm_params() = 0;
-
-    /** \brief Parameter structure for difference density matrix analyses
-     **/
-    virtual opddm_params get_opddm_params() = 0;
-
-    /** \brief Parameter structure for transition density matrix analyses
-     **/
-    virtual optdm_params get_optdm_params() = 0;
+    virtual orbital_printer_i *orbital_printer(const std::string &name,
+            const std::string &desc) = 0;
 
     //! \name Population analysis related functions
     //@{

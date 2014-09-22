@@ -13,7 +13,20 @@ namespace libwfa {
  **/
 class density_type {
 public:
-    enum { NT = 7, DT_ALL = 127 };
+    enum { NT = 7 };
+    enum dt {
+        NONE = 0,
+        STATE  = 1 << 0,
+        TRANS  = 1 << 1,
+        DIFF   = 1 << 2,
+        ATTACH = 1 << 3,
+        DETACH = 1 << 4,
+        PART   = 1 << 5,
+        HOLE   = 1 << 6,
+        AD     = 24,
+        PH     = 96,
+        ALL    = 127
+    };
     typedef std::bitset<NT> flag_t; //!< Flag for density types
 
 private:

@@ -58,14 +58,14 @@ void exciton_analysis_ad::analysis(std::ostream &out,
 
         //out << "  <r_h,i^2> - <r_h,i>^2 [Ang^2]:" << std::string(owidth-66, ' ');
         //print_vec(sh2, out);
-        out << os << "Hole size [Ang]:" << std::string(10, ' ')
+        out << os << "Hole size [Ang]:" << std::string(14, ' ')
             << std::setw(10) << sh << std::endl;
         out << os << "  Cartesian components [Ang]: ";
         print(out, sqrt(sh2));
         out << std::endl;
         //out << "  <r_e,i^2> - <r_e,i>^2 [Ang^2]:" << std::string(owidth-66, ' ');
         //print_vec(se2, out);
-        out << os << "Electron size [Ang]:" << std::string(10, '-')
+        out << os << "Electron size [Ang]:" << std::string(10, ' ')
             << std::setw(10) << se << std::endl;
         out << os << "  Cartesian components [Ang]: ";
         print(out, sqrt(se2));

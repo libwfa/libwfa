@@ -46,7 +46,7 @@ public:
      **/
     orbital_printer_cube(export_cube_i &core,
         const std::string &id, const std::string &desc,
-        const ot_flag &ot = ot_flag(orbital_type::OT_ALL)) :
+        const ot_flag &ot = ot_flag(orbital_type::ALL)) :
         m_core(core), m_id(id), m_desc(desc), m_ot(ot) { }
 
     /** \brief Destructor

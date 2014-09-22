@@ -29,7 +29,7 @@ public:
         \param ot Flag which orbital types to export
      **/
     orbital_printer_basic(std::ostream &out, const std::string &title,
-        const ot_flag &ot = ot_flag(orbital_type::OT_ALL)) :
+        const ot_flag &ot = ot_flag(orbital_type::ALL)) :
         m_out(out), m_title(title), m_ot(ot)
     { }
 

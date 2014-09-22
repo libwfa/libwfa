@@ -12,6 +12,52 @@ namespace libwfa {
 
 using namespace arma;
 
+
+wf_analysis::wf_analysis(wf_analysis_data_i *h,
+    const std::set<std::string> &p1, const wfa_params &p2) :
+    m_h(h), m_p2(p2), m_init_av(false), m_sa(0) {
+
+    for (std::set<std::string>::const_iterator i = p1.begin();
+            i != p1.end(); i++) {
+        const std::string &a = *i; activate(a);
+    }
+}
+
+
+void wf_analysis::activate(const std::string &a) {
+
+    ana_type p = convert(a);
+    if (p == NA) return;
+
+    m_p1.set(p);
+    if (p == FORM_AD)
+        m_p1.set(NDO);
+    else if (p == EXCITON_AD) {
+        m_p1.set(NDO);
+        m_p1.set(FORM_AD);
+    }
+    else if (p == SA_NTO)
+        m_p1.set(FORM_EH);
+}
+
+
+void wf_analysis::deactivate(const std::string &a) {
+
+    ana_type p = convert(a);
+    if (p == NA) return;
+
+    m_p1.reset(p);
+    if (p == NDO) {
+        m_p1.reset(EXCITON_AD);
+        m_p1.reset(FORM_AD);
+    }
+    else if (p == FORM_AD)
+        m_p1.reset(EXCITON_AD);
+    else if (p == FORM_EH)
+        m_p1.reset(SA_NTO);
+}
+
+
 void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     const std::string &desc, const ab_matrix &ddm, const ab_matrix &dm0) {
 
@@ -30,21 +76,21 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     const arma::mat &s = m_h->overlap();
     const ab_matrix &c = m_h->coefficients();
 
-    opdm_params p1 = m_h->get_opdm_params();
-    opddm_params p2 = m_h->get_opddm_params();
-
-    if (p1.no_analysis) {
+    if (m_p1.test(NO)) {
         no_analysis no(s, c, sdm);
-        no.analyse(out, p1.nno);
+        no.analyse(out, m_p2.nno);
         no.export_orbitals(*pr2);
+        out << std::endl;
     }
 
     ab_matrix at, de;
-    if (p2.ndo_analysis) {
+    if (m_p1.test(NDO)) {
         ndo_analysis ndo(s, c, ddm);
-        ndo.analyse(out, p2.nndo);
-        ndo.export_orbitals(*pr2, p2.nndo);
-        if (p2.ndo_analysis > opddm_params::NDO) {
+        ndo.analyse(out, m_p2.nndo);
+        ndo.export_orbitals(*pr2, m_p2.nndo);
+        out << std::endl;
+
+        if (m_p1.test(FORM_AD)) {
             ndo.form_ad(at, de);
             pr1->perform(density_type::attach, at);
             pr1->perform(density_type::detach, de);
@@ -61,15 +107,18 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
         const std::vector<std::string> &l = m_h->pop_labels(i);
 
         pop_analysis_dm(pa, p0, sdm).perform(pdata);
-        if (p2.ndo_analysis > opddm_params::NDO)
+        if (m_p1.test(FORM_AD))
             pop_analysis_ad(pa, at, de).perform(pdata);
 
         out << pname << std::endl;
         pdata.print(out, l);
+        out << std::endl;
     }
 
-    if (p2.ndo_analysis == opddm_params::EXCITON)
-        exciton_analysis_ad(m_h->mom_builder(), at, de).analyse(out);
+    if (m_p1.test(EXCITON_AD)) {
+        exciton_analysis_ad(m_h->mom_builder(), at, de).analyse(out, 0);
+        out << std::endl;
+    }
 }
 
 
@@ -89,11 +138,12 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     const arma::mat &s = h.overlap();
     const ab_matrix &c = h.coefficients();
 
-    opdm_params p1 = m_h->get_opdm_params();
-    if (p1.no_analysis) {
+    //opdm_params p1 = m_h->get_opdm_params();
+    if (m_p1.test(NO)) {
         no_analysis no(s, c, sdm);
-        no.analyse(out, p1.nno);
+        no.analyse(out, m_p2.nno);
         no.export_orbitals(*pr2);
+        out << std::endl;
     }
 
     // Perform population analyses
@@ -108,6 +158,7 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
         pop_analysis_dm(pa, p0, sdm).perform(pdata);
         out << pname << std::endl;
         pdata.print(out, l);
+        out << std::endl;
     }
 
 }
@@ -128,19 +179,18 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     const ab_matrix &c = m_h->coefficients();
 
     // If NTO formatter exists, do NTO analysis
-    optdm_params p1 = m_h->get_optdm_params();
-    if (p1.nto_analysis) {
+    if (m_p1.test(NTO)) {
         nto_analysis nto(s, c, tdm);
-        nto.analyse(out, p1.nnto);
-        nto.export_orbitals(*pr2, p1.thresh);
+        nto.analyse(out, m_p2.nnto);
+        nto.export_orbitals(*pr2, m_p2.nto_thresh);
+        out << std::endl;
     }
-    if (p1.eh) {
+    if (m_p1.test(FORM_EH)) {
         ab_matrix edm, hdm;
         nto_analysis::form_eh(s, tdm, edm, hdm);
         pr1->perform(density_type::particle, edm);
         pr1->perform(density_type::hole, hdm);
-        if (p1.eh == optdm_params::AVERAGE)
-            add_to_average(edm, hdm);
+        if (m_p1.test(SA_NTO)) add_to_average(edm, hdm);
     }
 
     if (m_h->n_ctnum_analyses() != 0) {
@@ -161,17 +211,20 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             out << cname << std::endl;
             ct.analyse(out);
             ct.do_export(*cpr);
+            out << std::endl;
         }
     }
 
-    if (p1.exciton_analysis)
-        exciton_analysis(m_h->mom_builder(), tdm).analyse(out);
+    if (m_p1.test(EXCITON)) {
+        exciton_analysis(m_h->mom_builder(), tdm).analyse(out, 0);
+        out << std::endl;
+    }
 }
 
 
 bool wf_analysis::setup_sa_ntos(std::ostream &out) {
 
-    if (! m_init_av) return false;
+    if (! m_p1.test(SA_NTO) || ! m_init_av) return false;
     if (m_sa.get()) return true;
 
     ab_matrix edm(true), hdm(true);
@@ -181,16 +234,15 @@ bool wf_analysis::setup_sa_ntos(std::ostream &out) {
     const arma::mat &s = m_h->overlap();
     const ab_matrix &c = m_h->coefficients();
 
-    optdm_params p1 = m_h->get_optdm_params();
-
     nto_analysis sa_ntos(s, c, edm, hdm);
-    if (p1.nto_analysis) {
+    if (m_p1.test(NTO)) {
         std::auto_ptr<orbital_printer_i> pr(m_h->orbital_printer("sa_nto",
                 "State-averaged NTOs"));
-        sa_ntos.analyse(out, p1.nnto);
-        sa_ntos.export_orbitals(*pr, p1.thresh);
+        sa_ntos.analyse(out, m_p2.nnto);
+        sa_ntos.export_orbitals(*pr, m_p2.nto_thresh);
     }
     m_sa = std::auto_ptr<sa_nto_analysis>(new sa_nto_analysis(s, sa_ntos));
+
     return true;
 }
 
@@ -198,6 +250,7 @@ bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm) {
 
     if (m_sa.get() == 0) return false;
 
+    out << "Decomposition into state-averaged NTOs" << std::endl;
     m_sa->analyse(out, tdm);
     return true;
 }
@@ -216,4 +269,20 @@ void wf_analysis::add_to_average(const ab_matrix &edm, const ab_matrix &hdm) {
     }
 }
 
-} // namespace adcman
+wf_analysis::ana_type wf_analysis::convert(const std::string &a) {
+
+    // TODO: Improve conversion
+    if (a == "no") return NO;
+    else if (a == "ndo") return NDO;
+    else if (a == "ad") return FORM_AD;
+    else if (a == "exciton_ad") return EXCITON_AD;
+    else if (a == "nto") return NTO;
+    else if (a == "eh") return FORM_EH;
+    else if (a == "exciton") return EXCITON;
+    else if (a == "sa_nto") return SA_NTO;
+    else return NA;
+}
+
+std::auto_ptr<wf_analysis> wf_analysis_static::analysis(0);
+
+} // namespace libwfa

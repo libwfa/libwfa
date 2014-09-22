@@ -52,10 +52,10 @@ void nto_analysis::export_orbitals(orbital_printer_i &pr, double thresh) const {
         const mat &ce_a = m_nto[0]->get_coeff(), &ch_a = m_nto[1]->get_coeff();
         const vec &ee_b = m_nto[2]->get_occ(),   &eh_b = m_nto[2]->get_occ();
         const mat &ce_b = m_nto[3]->get_coeff(), &ch_b = m_nto[3]->get_coeff();
-        orbital_data nto_a(join_rows(ch_a, fliplr(ce_a)),
-                join_cols(eh_a * -1., flipud(ee_a)));
-        orbital_data nto_b(join_rows(ch_b, fliplr(ce_b)),
-                join_cols(eh_b * -1., flipud(ee_b)));
+        orbital_data nto_a(join_cols(eh_a * -1., flipud(ee_a)),
+                join_rows(ch_a, fliplr(ce_a)));
+        orbital_data nto_b(join_cols(eh_b * -1., flipud(ee_b)),
+                join_rows(ch_b, fliplr(ce_b)));
         orbital_selector s_a, s_b;
         build_selector(ee_a, eh_a, thresh, s_a);
         build_selector(ee_b, eh_b, thresh, s_b);
@@ -66,8 +66,8 @@ void nto_analysis::export_orbitals(orbital_printer_i &pr, double thresh) const {
 
         const vec &ee = m_nto[0]->get_occ(), &eh = m_nto[1]->get_occ();
         const mat &ce = m_nto[0]->get_coeff(), &ch = m_nto[1]->get_coeff();
-        orbital_data nto(join_rows(ch, fliplr(ce)),
-                join_cols(eh * -1., flipud(ee)));
+        orbital_data nto(join_cols(eh * -1., flipud(ee)),
+                join_rows(ch, fliplr(ce)));
         orbital_selector s;
         build_selector(ee, eh, thresh, s);
 
@@ -115,8 +115,7 @@ void nto_analysis::initialize(const arma::mat &s, const ab_matrix &c,
 void nto_analysis::analysis(std::ostream &out,
     const arma::vec &e, size_t nnto) {
 
-    std::string offset(2, ' ');
-    out << offset << "Leading SVs: ";
+    out << "  Leading SVs: ";
     out << std::setprecision(4) << std::fixed;
     for (size_t i = 0, j = e.n_rows - 1; i < nnto; i++, j--)
         out << std::setw(9) << e(j);
@@ -124,9 +123,9 @@ void nto_analysis::analysis(std::ostream &out,
 
     double total = accu(e);
     out << std::setprecision(6) << std::fixed;
-    out << offset << "Sum of SVs:  " << std::setw(9) << total << std::endl;
-    out << offset << "Participation ratio (PR_NTO): "
-        << std::setw(9) << total * total / dot(e, e);
+    out << "  Sum of SVs:  " << std::setw(11) << total << std::endl;
+    out << "  Participation ratio (PR_NTO):  "
+        << std::setw(11) << total * total / dot(e, e);
     out << std::endl;
 }
 
@@ -135,11 +134,14 @@ void nto_analysis::build_selector(const arma::vec &e, const arma::vec &h,
     double thresh, orbital_selector &sel) {
 
     size_t ntot = h.size() + e.size();
-    uvec ph = find(h > thresh, 1), pe = find(e > thresh, 1);
+    uvec p = find(h > thresh, 1);
+    size_t ph = (p.size() == 1 ? p(0) : 0);
+    p = find(e > thresh, 1);
+    size_t pe = (p.size() == 1 ? p(0) : 0);
     if (sel.n_indexes() != ntot) sel = orbital_selector(ntot);
 
-    sel.select(true, h.size() - ph(0), h.size(), 1);
-    sel.select(false, h.size(), h.size() + pe(0), 1);
+    sel.select(true, h.size() - ph, h.size(), 1);
+    sel.select(false, h.size(), h.size() + pe, 1);
 }
 
 

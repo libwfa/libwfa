@@ -122,22 +122,22 @@ void ndo_analysis::analysis(std::ostream &out, const vec &ev, size_t nndo) {
     nndo = std::min(nndo, nndo0);
 
     std::string offset(2, ' ');
-    out << offset << "Leading detachment eigenvalues: ";
+    out << "  Leading detachment eigenvalues: ";
     out << std::setprecision(4) << std::fixed;
     for (i = 0; i < nndo; i++) out << std::setw(9) << ev(i);
     out << std::endl;
 
-    out << offset << "Leading attachment eigenvalues: ";
+    out << "  Leading attachment eigenvalues: ";
     out << std::setprecision(4) << std::fixed;
     size_t j = ev.n_elem - 1;
     for (i = 0; i < nndo; i++, j--) out << std::setw(9) << ev(j);
     out << std::endl;
 
-    out << offset << "Number of detached / attached electrons: p_D = ";
+    out << "  Number of detached / attached electrons: p_D = ";
     out << std::setw(7) << nd;
     out << ", p_A = " << std::setw(7) << na << std::endl;
     out << std::setprecision(6);
-    out << offset << "Number of involved orbitals: PR_D = ";
+    out << "  Number of involved orbitals: PR_D = ";
     out << std::setw(9) << (nd * nd) / nd2;
     out << ", PR_A = ";
     out << std::setw(9) << (na * na) / na2 << std::endl;
@@ -148,8 +148,9 @@ void ndo_analysis::bld_selector(const arma::vec &e, size_t nndo,
     orbital_selector &sel) {
 
     size_t ntot = e.size();
-    uvec pos = find(e >= 0.0, 1);
-    nndo = std::min(nndo, (size_t) pos(0));
+    uvec p = find(e >= 0.0, 1);
+
+    nndo = std::min(nndo, (size_t) (p.size() == 1 ? p(0) : 0));
     nndo = std::min(nndo, ntot - nndo);
 
     if (sel.n_indexes() != ntot) sel = orbital_selector(ntot);

@@ -46,7 +46,7 @@ public:
      **/
     density_printer_cube(export_cube_i &core,
         const std::string &id, const std::string &desc,
-        const dt_flag &dt = dt_flag(density_type::DT_ALL)) :
+        const dt_flag &dt = dt_flag(density_type::ALL)) :
         m_core(core), m_id(id), m_desc(desc), m_dt(dt) { }
 
     /** \brief Destructor
