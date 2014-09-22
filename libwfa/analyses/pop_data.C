@@ -53,7 +53,7 @@ void pop_data::print(std::ostream &out, const std::vector<std::string> &l,
     }
     out << std::endl;
 
-    out << os1 << std::string(width, '-') << std::endl;
+    out << os1 << std::string(width - off, '-') << std::endl;
         
     arma::vec total(m_sets.size(), arma::fill::zeros);
     for (size_t i = 0, j = 1; i != l.size(); i++, j++) {
@@ -72,7 +72,7 @@ void pop_data::print(std::ostream &out, const std::vector<std::string> &l,
     }
 
     // sum
-    out << os1 << std::string(width, '-') << std::endl;
+    out << os1 << std::string(width - off, '-') << std::endl;
 
     out << std::right;
     out << os1 << std::setw(nw) << "Sum:";
