@@ -29,8 +29,7 @@ public:
         Routine to perform the population analysis for one density matrix. The
         routine should adjust the output vector to the correct size.
      **/
-    virtual void perform(const arma::mat &dm,
-            arma::vec &p) const = 0;
+    virtual void perform(const arma::mat &dm, arma::vec &p) const = 0;
 
 };
 

@@ -179,18 +179,27 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     const ab_matrix &c = m_h->coefficients();
 
     // If NTO formatter exists, do NTO analysis
-    if (m_p1.test(NTO)) {
+    if (m_p1.test(FORM_EH)) {
+
+        ab_matrix edm, hdm;
+        nto_analysis::form_eh(s, tdm, edm, hdm);
+
+        if (m_p1.test(NTO)) {
+            nto_analysis nto(s, c, edm, hdm);
+            nto.analyse(out, m_p2.nnto);
+            nto.export_orbitals(*pr2, m_p2.nto_thresh);
+            out << std::endl;
+        }
+        pr1->perform(density_type::particle, edm);
+        pr1->perform(density_type::hole, hdm);
+        if (m_p1.test(SA_NTO)) add_to_average(edm, hdm);
+    }
+    else if (m_p1.test(NTO)) {
+
         nto_analysis nto(s, c, tdm);
         nto.analyse(out, m_p2.nnto);
         nto.export_orbitals(*pr2, m_p2.nto_thresh);
         out << std::endl;
-    }
-    if (m_p1.test(FORM_EH)) {
-        ab_matrix edm, hdm;
-        nto_analysis::form_eh(s, tdm, edm, hdm);
-        pr1->perform(density_type::particle, edm);
-        pr1->perform(density_type::hole, hdm);
-        if (m_p1.test(SA_NTO)) add_to_average(edm, hdm);
     }
 
     if (m_h->n_ctnum_analyses() != 0) {
