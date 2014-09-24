@@ -9,12 +9,15 @@ namespace libwfa {
 
 
 /** \brief General parameters for analyses
+
+    Stores the orbital parameters for NO, NDO, and NTO analyses.
+    The orbital parameters consist of the number of leading orbital pairs
+    (integer) to print and a threshold for important orbitals to export.
  **/
 struct wfa_params {
-    size_t nno, nndo, nnto;
-    double nto_thresh;
+    std::pair<size_t, double> no, ndo, nto; //!< Orbital parameters
 
-    wfa_params() : nno(3), nndo(3), nnto(3), nto_thresh(1e-6) { }
+    wfa_params() : no(3, 1e-2), ndo(3, 1e-2), nto(3, 1e-2) { }
 };
 
 /** \brief Wave function analysis class

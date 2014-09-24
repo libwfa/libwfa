@@ -134,14 +134,14 @@ void nto_analysis::build_selector(const arma::vec &e, const arma::vec &h,
     double thresh, orbital_selector &sel) {
 
     size_t ntot = h.size() + e.size();
-    uvec p = find(h > thresh, 1);
-    size_t ph = (p.size() == 1 ? p(0) : 0);
-    p = find(e > thresh, 1);
-    size_t pe = (p.size() == 1 ? p(0) : 0);
+    uvec ph = find(h > thresh, 1), pe = find(e > thresh, 1);
+
+    size_t nh = (ph.size() == 1 ? ph(0) : 0);
+    size_t ne = (pe.size() == 1 ? pe(0) : 0);
     if (sel.n_indexes() != ntot) sel = orbital_selector(ntot);
 
-    sel.select(true, h.size() - ph, h.size(), 1);
-    sel.select(false, h.size(), h.size() + pe, 1);
+    if (nh > 0) sel.select(true, nh, h.size(), 1);
+    if (ne > 0) sel.select(false, h.size(), h.size() + (e.size() - ne), 1);
 }
 
 

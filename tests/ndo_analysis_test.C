@@ -3,6 +3,7 @@
 #include <libwfa/analyses/ndo_analysis.h>
 #include "compare_ref.h"
 #include "ndo_analysis_test.h"
+#include "test_orbital_printer.h"
 #include "test00_data.h"
 #include "test01_data.h"
 #include "test02_data.h"
@@ -215,10 +216,14 @@ void ndo_analysis_test::test_1() throw(libtest::test_exception) {
 
     try {
 
+    double thresh = 1e-1;
+    test_orbital_printer pr(thresh, orbital_type::flag_t(orbital_type::NDO));
+
     std::ofstream of("ndo_analysis_test", std::ofstream::app);
     size_t nao = TestData::k_nao;
     size_t nmo = TestData::k_nmo;
     TestData data;
+
 
     mat s(nao, nao);
     read_matrix(data, testname, "s", s);
@@ -286,6 +291,7 @@ void ndo_analysis_test::test_1() throw(libtest::test_exception) {
 
         na.analyse(of);
         of << std::endl;
+        na.export_orbitals(pr, thresh);
     }
 
     } catch(std::exception &e) {

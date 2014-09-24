@@ -20,6 +20,7 @@ set(SRC_HEADER
     sa_nto_analysis_test.h
     orbital_data_test.h
     orbital_selector_test.h
+    test_orbital_printer.h
     orbital_type_test.h
     pop_analysis_ad_test.h
     pop_analysis_dm_test.h
@@ -58,6 +59,7 @@ set(SRC
     sa_nto_analysis_test.C
     orbital_data_test.C
     orbital_selector_test.C
+    test_orbital_printer.C
     orbital_type_test.C
     pop_analysis_ad_test.C
     pop_analysis_dm_test.C

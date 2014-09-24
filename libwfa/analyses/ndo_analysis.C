@@ -61,20 +61,20 @@ void ndo_analysis::analyse(std::ostream &out, size_t nndo) const {
 }
 
 
-void ndo_analysis::export_orbitals(orbital_printer_i &pr, size_t nndo) const {
+void ndo_analysis::export_orbitals(orbital_printer_i &pr, double thresh) const {
 
     if (m_ndo[1]) {
 
         orbital_selector s_a, s_b;
-        bld_selector(m_ndo[0]->get_occ(), nndo, s_a);
-        bld_selector(m_ndo[1]->get_occ(), nndo, s_b);
+        bld_selector(m_ndo[0]->get_occ(), thresh, s_a);
+        bld_selector(m_ndo[1]->get_occ(), thresh, s_b);
 
         pr.perform(orbital_type::ndo, *m_ndo[0], s_a, *m_ndo[1], s_b);
     }
     else {
 
         orbital_selector s;
-        bld_selector(m_ndo[0]->get_occ(), nndo, s);
+        bld_selector(m_ndo[0]->get_occ(), thresh, s);
 
         pr.perform(orbital_type::ndo, *m_ndo[0], s);
     }
@@ -144,18 +144,19 @@ void ndo_analysis::analysis(std::ostream &out, const vec &ev, size_t nndo) {
 }
 
 
-void ndo_analysis::bld_selector(const arma::vec &e, size_t nndo,
+void ndo_analysis::bld_selector(const arma::vec &e, double thresh,
     orbital_selector &sel) {
 
     size_t ntot = e.size();
-    uvec p = find(e >= 0.0, 1);
+    uvec p0 = find(e < -1. * thresh, 1), p1 = find(e > thresh, 1);
 
-    nndo = std::min(nndo, (size_t) (p.size() == 1 ? p(0) : 0));
-    nndo = std::min(nndo, ntot - nndo);
+    size_t n0 = (size_t) (p0.size() == 1 ? p0(0) + 1 : 0);
+    size_t n1 = (size_t) (p1.size() == 1 ? p1(0) : ntot);
 
     if (sel.n_indexes() != ntot) sel = orbital_selector(ntot);
-    sel.select(true, 0, nndo, 1, true);
-    sel.select(false, ntot - nndo, ntot, 1, true);
+
+    if (n0 > 0)    sel.select(true,   0,   n0, 1, true);
+    if (n1 < ntot) sel.select(false, n1, ntot, 1, true);
 
 }
 

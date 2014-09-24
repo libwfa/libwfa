@@ -78,16 +78,16 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
 
     if (m_p1.test(NO)) {
         no_analysis no(s, c, sdm);
-        no.analyse(out, m_p2.nno);
-        no.export_orbitals(*pr2);
+        no.analyse(out, m_p2.no.first);
+        no.export_orbitals(*pr2, m_p2.no.second);
         out << std::endl;
     }
 
     ab_matrix at, de;
     if (m_p1.test(NDO)) {
         ndo_analysis ndo(s, c, ddm);
-        ndo.analyse(out, m_p2.nndo);
-        ndo.export_orbitals(*pr2, m_p2.nndo);
+        ndo.analyse(out, m_p2.ndo.first);
+        ndo.export_orbitals(*pr2, m_p2.ndo.second);
         out << std::endl;
 
         if (m_p1.test(FORM_AD)) {
@@ -141,8 +141,8 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     //opdm_params p1 = m_h->get_opdm_params();
     if (m_p1.test(NO)) {
         no_analysis no(s, c, sdm);
-        no.analyse(out, m_p2.nno);
-        no.export_orbitals(*pr2);
+        no.analyse(out, m_p2.no.first);
+        no.export_orbitals(*pr2, m_p2.no.second);
         out << std::endl;
     }
 
@@ -186,8 +186,8 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 
         if (m_p1.test(NTO)) {
             nto_analysis nto(s, c, edm, hdm);
-            nto.analyse(out, m_p2.nnto);
-            nto.export_orbitals(*pr2, m_p2.nto_thresh);
+            nto.analyse(out, m_p2.nto.first);
+            nto.export_orbitals(*pr2, m_p2.nto.second);
             out << std::endl;
         }
         pr1->perform(density_type::particle, edm);
@@ -197,8 +197,8 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     else if (m_p1.test(NTO)) {
 
         nto_analysis nto(s, c, tdm);
-        nto.analyse(out, m_p2.nnto);
-        nto.export_orbitals(*pr2, m_p2.nto_thresh);
+        nto.analyse(out, m_p2.nto.first);
+        nto.export_orbitals(*pr2, m_p2.nto.second);
         out << std::endl;
     }
 
@@ -242,8 +242,8 @@ bool wf_analysis::setup_sa_ntos(std::ostream &out) {
     if (m_p1.test(NTO)) {
         std::auto_ptr<orbital_printer_i> pr(m_h->orbital_printer("sa_nto",
                 "State-averaged NTOs"));
-        sa_ntos.analyse(out, m_p2.nnto);
-        sa_ntos.export_orbitals(*pr, m_p2.nto_thresh);
+        sa_ntos.analyse(out, m_p2.nto.first);
+        sa_ntos.export_orbitals(*pr, m_p2.nto.second);
     }
     m_sa = std::auto_ptr<sa_nto_analysis>(new sa_nto_analysis(s, sa_ntos));
 

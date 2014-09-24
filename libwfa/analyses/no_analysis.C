@@ -46,17 +46,17 @@ void no_analysis::analyse(std::ostream &out, size_t nno) const {
 }
 
 
-void no_analysis::export_orbitals(orbital_printer_i &pr) const {
+void no_analysis::export_orbitals(orbital_printer_i &pr, double thresh) const {
 
     if (m_no[1]) {
         orbital_selector s_a, s_b;
-        build_selector(m_no[0]->get_occ(), s_a);
-        build_selector(m_no[1]->get_occ(), s_b);
+        build_selector(m_no[0]->get_occ(), thresh, s_a);
+        build_selector(m_no[1]->get_occ(), thresh, s_b);
         pr.perform(orbital_type::no, *m_no[0], s_a, *m_no[1], s_b);
     }
     else {
         orbital_selector s;
-        build_selector(m_no[0]->get_occ(), s);
+        build_selector(m_no[0]->get_occ(), thresh, s);
         pr.perform(orbital_type::no, *m_no[0], s);
     }
 }
@@ -103,13 +103,19 @@ void no_analysis::analysis_p2(std::ostream &out, const vec &ev) {
 }
 
 
-void no_analysis::build_selector(const vec &e, orbital_selector &sel) {
+void no_analysis::build_selector(const vec &e, double thresh,
+    orbital_selector &sel) {
 
-    size_t ntot = e.size(), nelec = accu(e);
+    size_t ntot = e.size(), nelec = accu(e), pos = 0;
+    uvec v = find(e > thresh, 1);
+    if (v.size() != 0) pos = v(0);
+
     if (sel.n_indexes() != ntot) sel = orbital_selector(ntot);
 
-    sel.select(true, ntot - nelec, ntot, 1, true);
-    sel.select(false, ntot - 2 * nelec, ntot - nelec, 1, true);
+    size_t nv = std::max(pos, ntot - 2 * nelec);
+    size_t no = std::max(pos, ntot - nelec);
+    sel.select(true, no, ntot, 1, true);
+    if (nv < no) sel.select(false, nv, no, 1, true);
 }
 
 } // namespace libwfa

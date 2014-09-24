@@ -43,15 +43,17 @@ public:
     /** \brief Perform NDO analysis
         \param out Output stream
         \param nndo Max number of important NDO pairs
-        \return Number of important NDO pairs
      **/
     void analyse(std::ostream &out, size_t nndo = 3) const;
 
     /** \brief Export orbitals
         \param pr Orbital printer
-        \param nndo Max number of NDO pairs
+        \param thresh Threshold for orbitals to export
+
+        Only NDOs with absolute "occupation" number larger than the threshold
+        are exported.
      **/
-    void export_orbitals(orbital_printer_i &pr, size_t nndo) const;
+    void export_orbitals(orbital_printer_i &pr, double thresh) const;
 
 private:
     static void form_ad(const arma::vec &e, const arma::mat &c,
@@ -61,7 +63,7 @@ private:
             const arma::vec &e, size_t nndo = 3);
 
     static void bld_selector(const arma::vec &e,
-            size_t nndo, orbital_selector &sel);
+            double thresh, orbital_selector &sel);
 };
 
 } // namespace libwfa

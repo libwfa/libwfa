@@ -38,8 +38,11 @@ public:
 
     /** \brief Export NOs
         \param pr Orbital printer
+        \param thresh Threshold to determine important orbitals
+
+        Only NOs with occupation number larger than the threshold are exported
      **/
-    void export_orbitals(orbital_printer_i &pr) const;
+    void export_orbitals(orbital_printer_i &pr, double thresh) const;
 
 private:
     static void analysis_p1(std::ostream &out,
@@ -47,7 +50,8 @@ private:
 
     static void analysis_p2(std::ostream &out, const arma::vec &e);
 
-    static void build_selector(const arma::vec &e, orbital_selector &sel);
+    static void build_selector(const arma::vec &e, double thresh,
+            orbital_selector &sel);
 };
 
 
