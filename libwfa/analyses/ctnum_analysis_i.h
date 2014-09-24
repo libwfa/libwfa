@@ -20,15 +20,15 @@ public:
      **/
     virtual size_t size() const = 0;
 
-    /** \brief Perform CT number analysis for given \f$ \Omega \f$ matrix
-        \param[in] om_ao \f$ \Omega \f$ matrix in AO basis
+    /** \brief Perform CT number analysis for given transition density matrix
+        \param[in] tdm Transition density matrix in AO basis
         \param[out] om Result CT number matrix
 
-        Perform the CT number analysis for the supplied \f$ \Omega \f$ matrix.
-        in AO basis. Any implementation should adjust the output matrix to the
-        correct size.
+        Perform the CT number analysis for the supplied transition density
+        matrix in AO basis. Any implementation should adjust the output matrix
+        to the correct size.
      **/
-    virtual void perform(const arma::mat &om_ao, arma::mat &om) const = 0;
+    virtual void perform(const arma::mat &tdm, arma::mat &om) const = 0;
 };
 
 } // namespace libwfa

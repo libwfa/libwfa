@@ -1,7 +1,7 @@
 #ifndef LIBWFA_CTNUM_ANALYSIS_TEST_H
 #define LIBWFA_CTNUM_ANALYSIS_TEST_H
 
-#include <libtest/unit_test.h>
+#include "test_base.h"
 
 namespace libwfa {
 
@@ -10,12 +10,14 @@ namespace libwfa {
 
     \ingroup libwfa_tests
  **/
-class ctnum_analysis_test : public libtest::unit_test {
+class ctnum_analysis_test : public test_base {
 public:
     virtual void perform() throw(libtest::test_exception);
 
 private:
-    void test_1();
+    void test_form_om_1() throw(libtest::test_exception);
+
+    void test_1() throw(libtest::test_exception);
 
 };
 

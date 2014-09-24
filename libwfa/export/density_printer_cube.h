@@ -35,6 +35,7 @@ private:
     std::string m_id; //!< ID / name of density (or -ies)
     std::string m_desc; //!< Description
     dt_flag m_dt; //!< Flag which density types to export
+    dt_flag m_dt_tot; //!< Flag for which density types to export the total and spin densities
 
 public:
     /** \brief Constructor
@@ -46,8 +47,9 @@ public:
      **/
     density_printer_cube(export_cube_i &core,
         const std::string &id, const std::string &desc,
-        const dt_flag &dt = dt_flag(density_type::ALL)) :
-        m_core(core), m_id(id), m_desc(desc), m_dt(dt) { }
+        const dt_flag &dt = dt_flag(density_type::ALL),
+        const dt_flag &dt_tot = dt_flag(density_type::STATE)) :
+        m_core(core), m_id(id), m_desc(desc), m_dt(dt), m_dt_tot(dt_tot) { }
 
     /** \brief Destructor
      **/

@@ -202,10 +202,8 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
         out << std::endl;
     }
 
-    if (m_h->n_ctnum_analyses() != 0) {
 
-        ab_matrix om;
-        ctnumbers::form_om(s, tdm, om);
+    if (m_h->n_ctnum_analyses() != 0) {
 
         for (size_t i = 0; i < m_h->n_ctnum_analyses(); i++) {
 
@@ -213,11 +211,8 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             const std::string &cname = m_h->ctnum_name(i);
             std::auto_ptr<ctnum_printer_i> cpr(m_h->ctnum_printer(i, name, desc));
 
-            ab_matrix omx;
-            double om_tot[2];
-            ctnumbers ct(ca, om);
-
             out << cname << std::endl;
+            ctnumbers ct(ca, tdm);
             ct.analyse(out);
             ct.do_export(*cpr);
             out << std::endl;
