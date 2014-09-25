@@ -21,19 +21,36 @@ void density_printer_cube::perform(density_type type, const ab_matrix &dm) {
     }
 
     if (dm.is_alpha_eq_beta()) {
-        m_core.perform(name, desc, dm.alpha() * 2.0);
+        if (type == density_type::hole)
+            m_core.perform(name, desc, dm.alpha() * -2.0);
+        else
+            m_core.perform(name, desc, dm.alpha() * 2.0);
     }
     else {
         const mat &dm_a = dm.alpha(),  &dm_b = dm.beta();
         if (m_dt_tot.test(type)) {
-            m_core.perform(name + "_tot",
-                    desc + " (total)", dm.alpha() + dm.beta());
-            m_core.perform(name + "_sd",
-                    desc + " (spin)", dm.alpha() - dm.beta());
+            if (type == density_type::hole) {
+                m_core.perform(name + "_tot",
+                        desc + " (total)", (dm.alpha() + dm.beta()) * -1.);
+                m_core.perform(name + "_sd",
+                        desc + " (spin)", dm.alpha() - dm.beta());
+            }
+            else {
+                m_core.perform(name + "_tot",
+                        desc + " (total)", dm.alpha() + dm.beta());
+                m_core.perform(name + "_sd",
+                        desc + " (spin)", dm.alpha() - dm.beta());
+            }
         }
         else {
-            m_core.perform(name + "_a", desc + " (alpha part)", dm_a);
-            m_core.perform(name + "_b", desc + " (beta part)", dm_b);
+            if (type == density_type::hole) {
+                m_core.perform(name + "_a", desc + " (alpha part)", dm_a * -1.);
+                m_core.perform(name + "_b", desc + " (beta part)", dm_b * -1.);
+            }
+            else {
+                m_core.perform(name + "_a", desc + " (alpha part)", dm_a);
+                m_core.perform(name + "_b", desc + " (beta part)", dm_b);
+            }
         }
     }
 }
