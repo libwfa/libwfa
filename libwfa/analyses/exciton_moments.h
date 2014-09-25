@@ -45,7 +45,7 @@ private:
 
 
 inline exciton_moments::exciton_moments(size_t nmax) : m_nmax(nmax),
-    m_mom(3, ((nmax + 1) * (nmax + 2)) / 2 - 1, arma::fill::zeros) {
+    m_mom(3, ((nmax + 1) * (nmax + 2)) / 2, arma::fill::zeros) {
 
 }
 
@@ -60,7 +60,7 @@ inline size_t exciton_moments::determine_loc(size_t ne, size_t nh) const {
     }
 #endif
 
-    return (n * (n + 1)) / 2 + ne - 1;
+    return (n * (n + 1)) / 2 + ne;
 }
 
 

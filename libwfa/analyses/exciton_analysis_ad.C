@@ -76,6 +76,9 @@ void exciton_analysis_ad::calculate(const mom_builder_i &bld,
     const arma::mat &adm, const arma::mat &ddm, exciton_moments &mom) {
 
     double n = bld.perform(adm, 'x', 0);
+    vec m0(3, fill::zeros);
+    m0(0) = n;
+    mom.set(0, 0, m0);
 
     for (size_t i = 1; i <= mom.n_max(); i++) {
         vec mh(3, fill::zeros), me(3, fill::zeros);
