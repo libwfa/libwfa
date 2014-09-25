@@ -36,9 +36,9 @@ void exciton_analysis_base::analyse(std::ostream &out, size_t off) const {
         combine(*m_mom[0], *m_mom[1], total);
         out << os << "Total:" << std::endl;
         analysis(out, total, off + 2);
-        out << os << "alpha spin:" << std::endl;
+        out << std::endl << os << "alpha spin:" << std::endl;
         analysis(out, *m_mom[0], off + 2);
-        out << os << "beta spin:" << std::endl;
+        out << std::endl << os << "beta spin:" << std::endl;
         analysis(out, *m_mom[1], off + 2);
     }
     else {
@@ -72,12 +72,12 @@ void exciton_analysis_base::combine(const exciton_moments &a,
         throw 1;
     }
 
-    for (size_t i = 0; i < nmax; i++) {
+    for (size_t i = 0; i <= nmax; i++) {
         for (size_t j = 0; j <= i; j++) {
 
-            vec ma = a.get(i, j), mb = b.get(i, j);
+            vec ma = a.get(j, i - j), mb = b.get(j, i - j);
             vec mc = (sa * ma + sb * mb) / (sa + sb);
-            res.set(i, j, mc);
+            res.set(j, i - j, mc);
         }
     }
 }
