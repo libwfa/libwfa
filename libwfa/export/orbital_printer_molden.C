@@ -38,7 +38,7 @@ void orbital_printer_molden::perform(orbital_type type,
     uvec idx = s.get_selected_arma();
     if (idx.n_rows != 0) {
         mat c = orb.get_coeff().cols(idx);
-        vec e = orb.get_occ().rows(idx);
+        vec e = orb.get_occ().rows(idx) * 2.;
         m_core.perform(name, c, e, no);
     }
 
