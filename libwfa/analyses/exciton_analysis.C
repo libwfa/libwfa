@@ -22,9 +22,7 @@ exciton_analysis::exciton_analysis(const mom_builder_i &bld,
 void exciton_analysis::print_header(std::ostream &out, size_t off) const {
 
     std::string os(off, ' ');
-    out << os << "Spatial multipole analysis of the transition density matrix"
-            << std::endl;
-    out << os << "in terms of the hole (r_h) and electron (r_e) coordinates."
+    out << os << "Exciton analysis of the transition density matrix:"
             << std::endl;
 }
 
