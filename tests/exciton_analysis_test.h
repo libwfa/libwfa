@@ -15,6 +15,11 @@ public:
 
 private:
     void test_1();
+
+    /** \brief unrestricted case
+     *
+     */
+    void test_2();
 };
 
 
