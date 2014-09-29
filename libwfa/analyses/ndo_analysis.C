@@ -148,9 +148,9 @@ void ndo_analysis::bld_selector(const arma::vec &e, double thresh,
     orbital_selector &sel) {
 
     size_t ntot = e.size();
-    uvec p0 = find(e < -1. * thresh, 1), p1 = find(e > thresh, 1);
+    uvec p0 = find(e > -1. * thresh, 1), p1 = find(e > thresh, 1);
 
-    size_t n0 = (size_t) (p0.size() == 1 ? p0(0) + 1 : 0);
+    size_t n0 = (size_t) (p0.size() == 1 ? p0(0) : 0);
     size_t n1 = (size_t) (p1.size() == 1 ? p1(0) : ntot);
 
     if (sel.n_indexes() != ntot) sel = orbital_selector(ntot);
