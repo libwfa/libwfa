@@ -37,10 +37,12 @@
 
     \b Literature
 
-    [1] Plasser, F.; Wormit, M.; Dreuw, A. \a JCP, \a 2014, \a 141, 024106
-        (DOI: 10.1063/1.4885819)
-    [2] Plasser, F.; Baeppler, S.A.; Wormit, M.; Dreuw, A. \a JCP, \a 2014,
-        \a 141, 024107 (DOI: 10.1063/1.4885820)
+    [1] Plasser, F.; Wormit, M.; Dreuw, A. \a JCP, \b 2014, \a 141, 024106
+        (DOI: 10.1063/1.4885819).
+
+    [2] Plasser, F.; Baeppler, S.A.; Wormit, M.; Dreuw, A. \a JCP, \b 2014,
+        \a 141, 024107 (DOI: 10.1063/1.4885820).
+
     [3] Plasser, F.; Lischka, H. \a JCTC, \b 2012, \a 8, 2777.
  **/
 
