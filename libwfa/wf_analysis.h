@@ -17,7 +17,7 @@ namespace libwfa {
 struct wfa_params {
     std::pair<size_t, double> no, ndo, nto; //!< Orbital parameters
 
-    wfa_params() : no(3, 1e-2), ndo(3, 1e-2), nto(3, 1e-2) { }
+    wfa_params() : no(4, 1e-3), ndo(5, 1e-3), nto(5, 1e-3) { }
 };
 
 /** \brief Wave function analysis class
