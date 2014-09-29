@@ -35,6 +35,9 @@ void no_analysis::analyse(std::ostream &out, size_t nno) const {
         analysis_p1(out, m_no[0]->get_occ(), nno);
         out << "NOs (beta)" << std::endl;
         analysis_p1(out, m_no[1]->get_occ(), nno);
+
+        out << "NOs (spin-traced)" << std::endl;
+        analysis_p1(out, m_no[2]->get_occ(), nno);
         analysis_p2(out, m_no[2]->get_occ());
     }
     else {
@@ -65,7 +68,7 @@ void no_analysis::export_orbitals(orbital_printer_i &pr, double thresh) const {
 void no_analysis::analysis_p1(std::ostream &out, const vec &ev, size_t nno) {
 
     double nelec = accu(ev);
-    size_t ihomo = ev.n_elem - 1 - (size_t)(nelec / ev(ev.n_elem - 1) + 0.5);
+    size_t ihomo = ev.n_elem - (size_t)(nelec / ev(ev.n_elem - 1) + 0.5);
 
     size_t min = (ihomo > nno ? ihomo - nno : 0);
     size_t max = (ihomo + nno < ev.n_elem ? ihomo + nno : ev.n_elem);
