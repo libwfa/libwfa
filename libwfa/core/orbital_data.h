@@ -31,7 +31,7 @@ public:
         This constructor assumes that the density matrix \f$ D \f$ has been
         formed using the coefficient matrix \f$ C \f$ via
         \f$ D = C \tilde{D} C' \f$ and that the relation
-        \f$ C' S C = \mathbb{I} \f$ holds.
+        \f$ C' S C = \mathbf{I} \f$ holds.
 
         Then, it transforms the density matrix back to the original basis via
         \f[
