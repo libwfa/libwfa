@@ -22,20 +22,18 @@ struct wfa_params {
 
 /** \brief Wave function analysis class
 
-    Wrapper class to perform all available analyses.
+    Wrapper class to perform any or all available analyses.
 
-    If new analyses are added to the library, please amend the respective
-    functions below.
-
-    Currently the following analyses can be activated:
-    - NO analysis: no
-    - NDO analysis: ndo
-    - Form attachment/detachment densities: ad
-    - Exciton analysis based on a/d densities: exciton_ad
-    - NTO analysis: nto
-    - Formation of electron/hole densities: eh
-    - Exciton analysis based on transition densities: exciton
-    - State-averaged NTO analysis: sa_nto
+    Currently, the following analyses can be activated / deactivated by
+    the respective keywords:
+    - NO analysis (keyword: no)
+    - NDO analysis (keyword: ndo)
+    - Form attachment/detachment densities (keyword: ad)
+    - Exciton analysis based on a/d densities (keyword: exciton_ad)
+    - NTO analysis (keyword: nto)
+    - Formation of electron/hole densities (keyword: eh)
+    - Exciton analysis based on transition densities (keyword: exciton)
+    - State-averaged NTO analysis (keyword: sa_nto)
 
     Additionally, population and CT number analyses will be performed, if
     provided by the analysis data object.

@@ -117,7 +117,6 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
 
     if (m_p1.test(EXCITON_AD)) {
         exciton_analysis_ad(m_h->mom_builder(), at, de).analyse(out, 0);
-        out << std::endl;
     }
 }
 
@@ -221,7 +220,6 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 
     if (m_p1.test(EXCITON)) {
         exciton_analysis(m_h->mom_builder(), tdm).analyse(out, 0);
-        out << std::endl;
     }
 }
 

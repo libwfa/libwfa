@@ -21,9 +21,8 @@ exciton_analysis::exciton_analysis(const mom_builder_i &bld,
 
 void exciton_analysis::print_header(std::ostream &out, size_t off) const {
 
-    std::string os(off, ' ');
-    out << os << "Exciton analysis of the transition density matrix:"
-            << std::endl;
+    out << std::string(off, ' ');
+    out << "Exciton analysis of the transition density matrix" << std::endl;
 }
 
 
@@ -61,7 +60,7 @@ void exciton_analysis::analysis(std::ostream &out,
         print(out, re);
         out << std::endl;
         out << os << "|<r_e - r_h>| [Ang]:" << std::string(16, ' ')
-                << std::setw(10) << tot << std::endl << std::endl;
+                << std::setw(10) << tot << std::endl;
     } // End of scope of rh, re, and tot
 
     { // Scope of quadratic quantities

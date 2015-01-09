@@ -3,12 +3,12 @@
 
 /** \mainpage Wave-function analysis tool library
 
-    libwfa provides a C++ library for the analysis of wavefunctions. This
+    \c libwfa provides a C++ library for the analysis of wavefunctions. This
     analysis is based on density matrices, which provide a unified formalism
     independent of the underlying wavefunction model.
 
-    The methods used have been described in detail in Ref. [1] and examples
-    are provided in Ref. [2].
+    The methods which have been implemented are described in detail
+    in Ref. [1] and examples are provided in Ref. [2].
     Briefly, the implemented methods consist of the following parts:
 
     1. Analysis of state density matrices for

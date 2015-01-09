@@ -26,19 +26,19 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c,
 void nto_analysis::analyse(std::ostream &out, size_t nnto) const {
 
     if (m_nto[2]) {
-        out << "NTOs (alpha-electron):" << std::endl;
+        out << "NTOs (alpha-electron)" << std::endl;
         analysis(out, m_nto[0]->get_occ(), nnto);
-        out << "NTOs (alpha-hole):" << std::endl;
+        out << "NTOs (alpha-hole)" << std::endl;
         analysis(out, m_nto[1]->get_occ(), nnto);
-        out << "NTOs (beta-electron):" << std::endl;
+        out << "NTOs (beta-electron)" << std::endl;
         analysis(out, m_nto[0]->get_occ(), nnto);
-        out << "NTOs (beta-hole):" << std::endl;
+        out << "NTOs (beta-hole)" << std::endl;
         analysis(out, m_nto[1]->get_occ(), nnto);
     }
     else {
-        out << "NTOs (electron):" << std::endl;
+        out << "NTOs (electron)" << std::endl;
         analysis(out, m_nto[0]->get_occ() * 2.0, nnto);
-        out << "NTOs (hole):" << std::endl;
+        out << "NTOs (hole)" << std::endl;
         analysis(out, m_nto[1]->get_occ() * 2.0, nnto);
     }
 }
@@ -115,8 +115,9 @@ void nto_analysis::initialize(const arma::mat &s, const ab_matrix &c,
 void nto_analysis::analysis(std::ostream &out,
     const arma::vec &e, size_t nnto) {
 
-    out << "  Leading SVs: ";
+    out << "  Leading SVs:" << std::endl;
     out << std::setprecision(4) << std::fixed;
+    out << "  ";
     for (size_t i = 0, j = e.n_rows - 1; i < nnto; i++, j--)
         out << std::setw(9) << e(j);
     out << std::endl;

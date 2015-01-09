@@ -78,7 +78,7 @@ void pop_data::print(std::ostream &out, const std::vector<std::string> &l,
     out << os1 << std::setw(nw) << "Sum:";
     for (size_t i = 0; i < total.size(); i++) 
         out << std::setw(cw) << total(i);
-    out << std::endl << std::endl;
+    out << std::endl;
 }
 
 

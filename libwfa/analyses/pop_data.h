@@ -85,7 +85,7 @@ public:
         \param offset Line offset (default: 2)
      **/
     void print(std::ostream &out, const std::vector<std::string> &l,
-        size_t colwidth = 16, size_t prec = 6, size_t offset = 2) const;
+        size_t colwidth = 16, size_t prec = 6, size_t offset = 0) const;
 };
 
 } // namespace libwfa

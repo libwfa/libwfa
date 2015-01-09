@@ -36,9 +36,9 @@ void exciton_analysis_base::analyse(std::ostream &out, size_t off) const {
         combine(*m_mom[0], *m_mom[1], total);
         out << os << "Total:" << std::endl;
         analysis(out, total, off + 2);
-        out << std::endl << os << "alpha spin:" << std::endl;
+        out << std::endl << os << "Alpha spin:" << std::endl;
         analysis(out, *m_mom[0], off + 2);
-        out << std::endl << os << "beta spin:" << std::endl;
+        out << std::endl << os << "Beta spin:" << std::endl;
         analysis(out, *m_mom[1], off + 2);
     }
     else {

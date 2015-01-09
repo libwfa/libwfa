@@ -73,9 +73,10 @@ void no_analysis::analysis_p1(std::ostream &out, const vec &ev, size_t nno) {
     size_t min = (ihomo > nno ? ihomo - nno : 0);
     size_t max = (ihomo + nno < ev.n_elem ? ihomo + nno : ev.n_elem);
 
-    out << "  Occupation of frontier NOs:";
+    out << "  Occupation of frontier NOs:" << std::endl;
     out << std::fixed << std::setprecision(4);
-    for (size_t i = min; i < max; i++) out << " " << std::setw(6) << ev(i);
+    out << "  ";
+    for (size_t i = min; i < max; i++) out << std::setw(9) << ev(i);
     out << std::endl;
     out << "  Number of electrons: ";
     out << std::setprecision(6) << std::setw(9) << nelec << std::endl;

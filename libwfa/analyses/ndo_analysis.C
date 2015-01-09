@@ -49,13 +49,13 @@ void ndo_analysis::form_ad(ab_matrix &at, ab_matrix &de) const {
 void ndo_analysis::analyse(std::ostream &out, size_t nndo) const {
 
     if (m_ndo[1]) {
-        out << "NDOs (alpha):" << std::endl;
+        out << "NDOs (alpha)" << std::endl;
         analysis(out, m_ndo[0]->get_occ(), nndo);
-        out << "NDOs (beta):" << std::endl;
+        out << "NDOs (beta)" << std::endl;
         analysis(out, m_ndo[1]->get_occ(), nndo);
     }
     else {
-        out << "NDOs:" << std::endl;
+        out << "NDOs" << std::endl;
         analysis(out, m_ndo[0]->get_occ() * 2., nndo);
     }
 }
@@ -122,14 +122,16 @@ void ndo_analysis::analysis(std::ostream &out, const vec &ev, size_t nndo) {
     nndo = std::min(nndo, nndo0);
 
     std::string offset(2, ' ');
-    out << "  Leading detachment eigenvalues: ";
+    out << "  Leading detachment eigenvalues:" << std::endl;
     out << std::setprecision(4) << std::fixed;
+    out << "  ";
     for (i = 0; i < nndo; i++) out << std::setw(9) << ev(i);
     out << std::endl;
 
-    out << "  Leading attachment eigenvalues: ";
+    out << "  Leading attachment eigenvalues:" << std::endl;
     out << std::setprecision(4) << std::fixed;
     size_t j = ev.n_elem - 1;
+    out << "  ";
     for (i = 0; i < nndo; i++, j--) out << std::setw(9) << ev(j);
     out << std::endl;
 

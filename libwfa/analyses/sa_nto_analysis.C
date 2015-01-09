@@ -52,10 +52,10 @@ void sa_nto_analysis::analyse(std::ostream& out, const ab_matrix& tdm,
         analysis(out, xdm.alpha(), 2.0, 1e-2);
     }
     else {
-        out << "Alpha:" << std::endl;
+        out << "Alpha spin:" << std::endl;
         analysis(out, xdm.alpha(), 1.0, 1e-2);
 
-        out << "Beta:" << std::endl;
+        out << "Beta spin:" << std::endl;
         analysis(out, xdm.beta(),  1.0, 1e-2);
     }
 }
