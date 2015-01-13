@@ -80,11 +80,11 @@ void post_process_optdm(double *tdm_a, double *tdm_b, size_t nao);
 
 /** \brief Reset the analysis to its original state after initialization
  **/
-void reset_analysis();
+void reset_wf_analysis();
 
 /** \brief Shutdown the analysis
  **/
-void shutdown_analysis();
+void shutdown_wf_analysis();
 
 //@}
 

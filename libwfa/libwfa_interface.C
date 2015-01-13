@@ -104,7 +104,7 @@ void post_process_optdm(double *tdm_a, double *tdm_b, size_t nao) {
 }
 
 
-void reset_analysis() {
+void reset_wf_analysis() {
 
     if (wf_analysis_static::analysis.get() == 0) return;
 
@@ -112,7 +112,7 @@ void reset_analysis() {
 }
 
 
-void shutdown_analysis() {
+void shutdown_wf_analysis() {
 
     if (wf_analysis_static::analysis.get() == 0) return;
 
