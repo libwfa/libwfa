@@ -20,9 +20,45 @@ namespace libwfa {
  **/
 class wf_analysis_data_i {
 public:
+    /** Types of wave function / density analyses to be performed
+     **/
+    enum analysis_type {
+        NO = 0,     //!< Natural orbital analysis
+        NDO,        //!< Natural difference orbital analysis
+        FORM_AD,    //!< Form attachment/detachment densities
+        EXCITON_AD, //!< Exciton analysis on a/d densities
+        NTO,        //!< Natural transition orbital analysis
+        FORM_EH,    //!< Form electron/hole densities
+        EXCITON,    //!< Exciton analysis on transition density
+        SA_NTO,     //!< State-averaged NTO analysis
+    };
+    enum { WFA_TYPES = 8 }; //!< Number of analysis types
+
+    /** \brief Orbital parameters
+     **/
+    struct orbital_params {
+        size_t norb; //!< Number of leading orbitals
+        double thresh; //!< Threshold of important orbitals
+
+        orbital_params(size_t norb_ = 0, double thresh_ = 0.0) :
+            norb(norb_), thresh(thresh_) { }
+    };
+
+public:
     /** \brief Virtual destructor
      **/
     virtual ~wf_analysis_data_i() { }
+
+    /** \brief Return if a certain analysis should be performed
+     **/
+    virtual bool is_active(enum analysis_type t) = 0;
+
+    /** \brief Return parameters for orbital analyses
+        \return Pair comprising the number of leading orbitals to print and
+            an threshold for important orbitals (see e.g. \ref no_analysis
+            for details)
+     **/
+    virtual orbital_params get_orbital_params(enum orbital_type::ot t) = 0;
 
     /** \brief Retrieve the AO overlap matrix
      **/

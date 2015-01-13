@@ -52,6 +52,7 @@
 //! \name General
 //@{
 #include "version.h"
+#include "libwfa_exception.h"
 #include "wf_analysis.h"
 //@}
 
