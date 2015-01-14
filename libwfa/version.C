@@ -10,7 +10,6 @@ const char *version::k_authors[] = {
         "Benjamin Thomitzni",
         "Michael Wormit"
 };
-const char *version::k_license =
 
 
 std::string version::get_string() {
