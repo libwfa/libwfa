@@ -14,7 +14,7 @@ public:
     static const char k_clazz[]; //!< Class name
 
 public:
-    typedef orbital_type::flag_t ot_flag;
+    typedef orbital_type::flag_t ot_flag; //!< Flag for orbital types
 
 private:
     std::ostream &m_out; //!< Output stream
@@ -25,7 +25,6 @@ public:
     /** \brief Constructor
         \param out Output stream
         \param title Description of orbitals and densities
-        \param dt Flag which density types to export
         \param ot Flag which orbital types to export
      **/
     orbital_printer_basic(std::ostream &out, const std::string &title,
@@ -37,7 +36,8 @@ public:
      **/
     virtual ~orbital_printer_basic() { }
 
-    /** \copydoc orbital_printer_i::perform
+    /** \copydoc orbital_printer_i::perform(orbital_type, const orbital_data &,
+            const orbital_selector &)
 
         Appends the orbital type to the header and writes the selected
         orbitals and eigenvalues to the output stream
@@ -45,7 +45,9 @@ public:
     virtual void perform(orbital_type type,
             const orbital_data &orb, const orbital_selector &s);
 
-    /** \copydoc orbital_printer_i::perform
+    /** \copydoc orbital_printer_i::perform(orbital_type, const orbital_data &,
+            const orbital_selector &, const orbital_data &,
+            const orbital_selector &)
 
         Appends the orbital type to the header and writes the selected
         orbitals and eigenvalues to the output stream

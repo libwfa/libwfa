@@ -12,9 +12,6 @@ namespace libwfa {
     \ingroup libwfa
  **/
 class pop_analysis_ad {
-public:
-    typedef std::pair<ab_matrix, ab_matrix> ab_matrix_pair;
-
 private:
     const pop_analysis_i &m_analysis; //!< Analysis
     const ab_matrix &m_at; //!< Attachment density matrix
@@ -32,7 +29,7 @@ public:
     /** \brief Perform population analysis
         \param pop Population data
      **/
-    void perform(pop_data &pr) const;
+    void perform(pop_data &pop) const;
 };
 
 } // namespace libwfa

@@ -61,6 +61,8 @@ public:
     void set_direction(unsigned int i,
             unsigned int ni, const arma::vec &ei);
 
+    /** \brief Returns the total number of grid points
+     **/
     size_t size() const { return m_ntotal; }
 
     /** \brief Return origin column vector
@@ -75,7 +77,6 @@ public:
     arma::subview<double> direction(unsigned int i) const;
 
     /** \brief Return number of points in along one direction
-        \param dir Grid direction
      **/
     const arma::Col<unsigned int> &npts() const {
         return m_npts;

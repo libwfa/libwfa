@@ -27,8 +27,7 @@ private:
 
 public:
     /** \brief Initializes the wave function analysis
-        \param h Analysis data
-        \param p Parameters for analyses
+        \param h Analysis data object
      **/
     wf_analysis(wf_analysis_data_i *h) : m_h(h), m_sa(0), m_init_av(false) { }
 

@@ -40,6 +40,8 @@ public:
         size_t norb; //!< Number of leading orbitals
         double thresh; //!< Threshold of important orbitals
 
+        /** \brief Constructor
+         **/
         orbital_params(size_t norb_ = 0, double thresh_ = 0.0) :
             norb(norb_), thresh(thresh_) { }
     };

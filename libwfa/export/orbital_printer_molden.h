@@ -18,7 +18,7 @@ public:
     static const char k_clazz[]; //!< Class name
 
 public:
-    typedef orbital_type::flag_t ot_flag;
+    typedef orbital_type::flag_t ot_flag; //!< Flag for orbital types
 
 private:
     export_molden_i &m_core; //!< Molden file
@@ -38,12 +38,15 @@ public:
      **/
     virtual ~orbital_printer_molden() { }
 
-    /** \copydoc orbital_printer_i::perform
+    /** \copydoc orbital_printer_i::perform(orbital_type, const orbital_data &,
+            const orbital_selector &)
      **/
     virtual void perform(orbital_type type,
             const orbital_data &orb, const orbital_selector &s);
 
-    /** \copydoc orbital_printer_i::perform
+    /** \copydoc orbital_printer_i::perform(orbital_type, const orbital_data &,
+            const orbital_selector &, const orbital_data &,
+            const orbital_selector &)
      **/
     virtual void perform(orbital_type type,
             const orbital_data &orb_a, const orbital_selector &s_a,

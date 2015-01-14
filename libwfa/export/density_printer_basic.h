@@ -14,7 +14,7 @@ public:
     static const char k_clazz[]; //!< Class name
 
 public:
-    typedef density_type::flag_t dt_flag;
+    typedef density_type::flag_t dt_flag; //!< Flag for density types
 
 private:
     std::ostream &m_out; //!< Output stream

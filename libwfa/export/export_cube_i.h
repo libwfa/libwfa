@@ -21,14 +21,15 @@ public:
     /** \brief Schedule density matrix for evaluation on a grid
         \param name Name associated with the matrix (use as filename)
         \param desc Description of the matrix (use as comment line)
-        \param m Density matrix in terms of basis functions
+        \param mat Density matrix in terms of basis functions
      **/
     virtual void perform(const std::string &name, const std::string &desc,
-        const arma::mat &m) = 0;
+        const arma::mat &mat) = 0;
 
     /** \brief Schedule set of vectors for evaluation on a grid
         \param name Name associated with the vectors (use as filename)
         \param desc Description of the vectors (use as comment line)
+        \param idx Index list of orbitals to be exported
         \param vecs Set of vectors in basis functions (column vectors)
      **/
     virtual void perform(const std::string &name, const std::string &desc,

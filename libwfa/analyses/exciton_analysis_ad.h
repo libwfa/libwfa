@@ -20,6 +20,12 @@ using namespace arma;
  **/
 class exciton_analysis_ad : public exciton_analysis_base {
 public:
+    /** \brief Constructor
+        \param bld Moment builder
+        \param adm Attachment density matrix
+        \param ddm Detachment density matrix
+        \param maxmm Highest moment to perform analysis
+     **/
     exciton_analysis_ad(const mom_builder_i &bld,
         const ab_matrix &adm, const ab_matrix &ddm, size_t maxmm = 2);
 

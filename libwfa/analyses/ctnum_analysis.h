@@ -23,7 +23,7 @@ private:
 public:
     /** \brief Constructor
         \param s Overlap matrix
-        \param b2c Map of basis functions to molecular parts or fragments
+        \param b2p Map of basis functions to molecular parts or fragments
      **/
     ctnum_analysis(const arma::mat &s, const arma::uvec &b2p);
 

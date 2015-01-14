@@ -93,7 +93,7 @@ public:
     }
 
     /** \brief Scalar multiplication of the current matrix
-        \param Scalar factor
+        \param scalar Scalar factor
      **/
     ab_matrix &operator*=(double scalar) {
         alpha() *= scalar;

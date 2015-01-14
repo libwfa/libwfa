@@ -14,7 +14,7 @@ namespace libwfa {
     - constructing the \f$\Omega\f$ matrices in AOs from transition density
       matrices
     - computing CT number matrices and the total CT number
-      \f$ \Omega_{\text{total}}\f$ .
+      \f$ \Omega_{\mathrm{total}}\f$ .
 
     \ingroup libwfa
  **/
@@ -26,7 +26,6 @@ private:
 public:
     /** \brief Constructor
         \param a Analysis object
-        \param s Overlap matrix
         \param tdm Transition density matrix
      **/
     ctnumbers(const ctnum_analysis_i &a, const ab_matrix &tdm);

@@ -28,7 +28,7 @@ public:
     static const char k_clazz[]; //!< Class name
 
 public:
-    typedef density_type::flag_t dt_flag;
+    typedef density_type::flag_t dt_flag; //!< Flag for density types
 
 private:
     export_cube_i &m_core; //!< Core class for export as cube files
@@ -43,7 +43,7 @@ public:
         \param id ID / name of orbitals and densities
         \param desc Description of orbitals and densities
         \param dt Flag which density types to export
-        \param ot Flag which orbital types to export
+        \param dt_tot Flag for which density types to export the total and spin densities
      **/
     density_printer_cube(export_cube_i &core,
         const std::string &id, const std::string &desc,

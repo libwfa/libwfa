@@ -52,6 +52,7 @@ public:
 
     /** \brief Perform NTO analysis
         \param out Output stream
+        \param nnto Number of leading NTOs
      **/
     void analyse(std::ostream &out, size_t nnto = 3) const;
 

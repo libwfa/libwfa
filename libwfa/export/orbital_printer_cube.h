@@ -28,7 +28,7 @@ public:
     static const char k_clazz[]; //!< Class name
 
 public:
-    typedef orbital_type::flag_t ot_flag;
+    typedef orbital_type::flag_t ot_flag; //!< Flag for orbital types
 
 private:
     export_cube_i &m_core; //!< Core class for export as cube files
@@ -41,7 +41,6 @@ public:
         \param core Export object into cube files
         \param id ID / name of orbitals and densities
         \param desc Description of orbitals and densities
-        \param dt Flag which density types to export
         \param ot Flag which orbital types to export
      **/
     orbital_printer_cube(export_cube_i &core,
@@ -53,12 +52,15 @@ public:
      **/
     virtual ~orbital_printer_cube() { }
 
-    /** \copydoc orbital_printer_i::perform
+    /** \copydoc orbital_printer_i::perform(orbital_type, const orbital_data &,
+            const orbital_selector &)
      **/
     virtual void perform(orbital_type type,
             const orbital_data &orb, const orbital_selector &s);
 
-    /** \copydoc orbital_printer_i::perform
+    /** \copydoc orbital_printer_i::perform(orbital_type, const orbital_data &,
+            const orbital_selector &, const orbital_data &,
+            const orbital_selector &)
      **/
     virtual void perform(orbital_type type,
             const orbital_data &orb_a, const orbital_selector &s_a,

@@ -71,7 +71,7 @@ public:
     /** \brief Constructor
         \param grid Grid to generate the volumetric data
         \param atnum List of atomic numbers
-        \param coords List of atomic coords (#atoms columns x 3 rows)
+        \param coord List of atomic coordinates (# atoms columns x 3 rows)
         \param prefix Prefix to use for the filenames (e.g. directory)
      **/
     export_cube_base(const grid3d &grid, const arma::uvec &atnum,
@@ -100,7 +100,8 @@ public:
     virtual void perform(const std::string &name, const std::string &desc,
         const arma::mat &mat);
 
-    /** \copydoc export_cube_i::perform(const std::string&, const std::string&, const std::vector<size_t>&, const arma::mat&)
+    /** \copydoc export_cube_i::perform(const std::string&, const std::string&,
+            const std::vector<size_t>&, const arma::mat&)
      **/
     virtual void perform(const std::string &name, const std::string &desc,
         const std::vector<size_t> &idx, const arma::mat &vecs);

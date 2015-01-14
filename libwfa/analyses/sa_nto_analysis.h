@@ -19,7 +19,7 @@ private:
 public:
     /** \brief Constructor
         \param s Overlap
-        \param nto State-averaged NTO data
+        \param ntos State-averaged NTO data
 
         Construct the NTO data to form transformation matrices.
      **/

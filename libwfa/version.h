@@ -29,6 +29,7 @@ private:
     static const unsigned k_minor = 1; //!< Minor %version number
     static const char *k_status; //!< Version status
     static const char *k_authors[]; //!< List of authors
+    static const char *k_license; //!< Software license
 
 public:
     /** \brief Returns the major %version number
@@ -56,6 +57,10 @@ public:
     /** \brief Returns a list of authors
      **/
     static std::list<std::string> get_authors();
+
+    /** \brief Returns the license as string
+     **/
+    static std::string get_license();
 };
 
 

@@ -29,19 +29,26 @@ public:
     size_t n_max() const { return m_nmax; }
 
     /** \brief Set data for specific moment
+        \param ne ne-th moment of electron
+        \param nh nh-th moment of hole
+        \param m Moment data
      **/
     void set(size_t ne, size_t nh, const arma::vec &m) {
         m_mom.col(determine_loc(ne, nh)) = m;
     }
 
+    /** \brief Retrieve a specific moment vector
+        \param ne ne-th moment of electron
+        \param nh nh-th moment of hole
+        \return 3D column vector with moment data
+     **/
     arma::subview_col<double> get(size_t ne, size_t nh) const {
         return m_mom.col(determine_loc(ne, nh));
     }
 
 private:
     size_t determine_loc(size_t ne, size_t nh) const;
-
-}; // class exciton_moments
+};
 
 
 inline exciton_moments::exciton_moments(size_t nmax) : m_nmax(nmax),

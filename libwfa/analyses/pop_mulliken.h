@@ -34,7 +34,7 @@ public:
 
     /** \copydoc pop_analysis_i::perform
      **/
-    virtual void perform(const arma::mat &d_bb, arma::vec &p) const;
+    virtual void perform(const arma::mat &dm, arma::vec &p) const;
 
 };
 

@@ -28,7 +28,6 @@ public:
        \param xx Moment matrix \f$ x^2 \f$
        \param yy Moment matrix \f$ y^2 \f$
        \param zz Moment matrix \f$ z^2 \f$
-
      **/
     mom_builder(const arma::mat &s,
         const arma::mat &x,  const arma::mat &y,  const arma::mat &z,
@@ -41,12 +40,12 @@ public:
      **/
     virtual size_t max_moment() const { return 2; }
 
-    /** \copydoc mom_builder_i::perform
+    /** \copydoc mom_builder_i::perform(const arma::mat &, size_t, size_t, size_t, size_t) const
      **/
     virtual double perform(const arma::mat &dm,
         size_t c1, size_t n1, size_t c2, size_t n2) const;
 
-    /** \copydoc mom_builder_i::perform
+    /** \copydoc mom_builder_i::perform(const arma::mat &, size_t, size_t) const
      **/
     virtual double perform(const arma::mat &dm, size_t c, size_t n) const;
 

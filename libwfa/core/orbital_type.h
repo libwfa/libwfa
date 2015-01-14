@@ -14,14 +14,16 @@ namespace libwfa {
 class orbital_type {
 public:
     enum { NT = 5 };
+    /** \brief Numeric values of orbital types to use with flag_t
+     **/
     enum ot {
-        NONE   = 0,
-        MO     = 1 << 0,
-        NO     = 1 << 1,
-        NDO    = 1 << 2,
-        NTO    = 1 << 3,
-        DYSON  = 1 << 4,
-        ALL    = 31
+        NONE   = 0,     //!< NONE
+        MO     = 1 << 0,//!< MO
+        NO     = 1 << 1,//!< NO
+        NDO    = 1 << 2,//!< NDO
+        NTO    = 1 << 3,//!< NTO
+        DYSON  = 1 << 4,//!< DYSON
+        ALL    = 31     //!< ALL
     };
     typedef std::bitset<NT> flag_t; //!< Flag for orbital types
 
