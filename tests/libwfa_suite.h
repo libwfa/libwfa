@@ -13,6 +13,7 @@
 #include "exciton_analysis_test.h"
 #include "export_cube_base_test.h"
 #include "grid3d_test.h"
+#include "libwfa_exception_test.h"
 #include "mom_builder_test.h"
 #include "ndo_analysis_test.h"
 #include "no_analysis_test.h"
@@ -52,6 +53,7 @@ namespace libwfa {
     - \c exciton_analysis_test
     - \c export_cube_base_test
     - \c grid3d_test
+    - \c libwfa_exception_test
     - \c mom_builder_test
     - \c ndo_analysis_test
     - \c no_analysis_test
@@ -83,6 +85,7 @@ private:
     unit_test_factory<exciton_analysis_test> m_utf_exciton_analysis_test;
     unit_test_factory<export_cube_base_test> m_utf_export_cube_base;
     unit_test_factory<grid3d_test> m_utf_grid3d;
+    unit_test_factory<libwfa_exception_test> m_utf_libwfa_exception;
     unit_test_factory<mom_builder_test> m_utf_mom_builder;
     unit_test_factory<ndo_analysis_test> m_utf_ndo_analysis;
     unit_test_factory<no_analysis_test> m_utf_no_analysis;

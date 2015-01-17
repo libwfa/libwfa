@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <sstream>
 #include <cstring>
 #include "libwfa_exception.h"
 
@@ -22,37 +22,38 @@ void libwfa_exception::init(const char *clazz, const char *method,
         strcpy(m_message, "<No error message>");
     }
 
+    std::ostringstream oss;
     if(strlen(m_clazz) == 0) {
         if(strlen(m_method) == 0) {
             if(strlen(m_file) == 0)
-                snprintf(m_what, 1024, "libwfa: %s", m_message);
+                oss << "libwfa: " << m_message;
             else
-                snprintf(m_what, 1024, "libwfa, %s (%u): %s",
-                        m_file, m_line, m_message);
+                oss << "libwfa, " << m_file << " (" << m_line << "): "
+                    << m_message;
         } else {
             if(strlen(m_file) == 0)
-                snprintf(m_what, 1024, "libwfa::%s: %s", m_method, m_message);
+                oss << "libwfa::" << m_method << ": " << m_message;
             else
-                snprintf(m_what, 1024, "libwfa::%s, %s (%u): %s",
-                        m_method, m_file, m_line, m_message);
+                oss << "libwfa::" << m_method << ", " << m_file << " ("
+                    << m_line << "): " << m_message;
         }
     } else {
         if(strlen(m_method) == 0) {
             if(strlen(m_file) == 0)
-                snprintf(m_what, 1024, "libwfa::%s: %s",
-                        m_clazz, m_message);
+                oss << "libwfa::" << m_clazz << ": " << m_message;
             else
-                snprintf(m_what, 1024, "libwfa::%s, %s (%u): %s",
-                        m_clazz, m_file, m_line, m_message);
+                oss << "libwfa::" << m_clazz << ", " << m_file << " ("
+                    << m_line << "): " << m_message;
         } else {
             if(strlen(m_file) == 0)
-                snprintf(m_what, 1024, "libwfa::%s::%s: %s",
-                        m_clazz, m_method, m_message);
+                oss << "libwfa::" << m_clazz << "::" << m_method << ": "
+                    << m_message;
             else
-                snprintf(m_what, 1024, "libwfa::%s::%s, %s (%u): %s",
-                        m_clazz, m_method, m_file, m_line, m_message);
+                oss << "libwfa::" << m_clazz << "::" << m_method << ", "
+                    << m_file << " (" << m_line << "): " << m_message;
         }
     }
+    strncpy(m_what, oss.str().c_str(), 1024);
 }
 
 

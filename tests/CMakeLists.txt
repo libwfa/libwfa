@@ -12,6 +12,7 @@ set(SRC_HEADER
     exciton_test_data_hhe.h
     export_cube_base_test.h
     grid3d_test.h
+    libwfa_exception_test.h
     libwfa_suite.h
     mom_builder_test.h
     ndo_analysis_test.h
@@ -50,6 +51,7 @@ set(SRC
     exciton_test_data_hhe.C
     export_cube_base_test.C
     grid3d_test.C
+    libwfa_exception_test.C
     libwfa_tests.C
     libwfa_suite.C
     mom_builder_test.C
