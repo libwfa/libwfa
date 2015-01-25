@@ -80,6 +80,26 @@ public:
         m_aeqb = false;
     }
 
+    /** \brief Acquire an object as alpha or beta component
+        \param alpha Use as alpha (true) or beta (false)
+        \param data Object pointer to acquire
+
+        The class takes control of the object pointer, so that it is deleted
+        when the ab_object goes out of scope. Please use with great care and
+        only, if you know what you are doing.
+     **/
+    void acquire(bool alpha, T *data) {
+        if (alpha || m_aeqb) {
+            delete m_data_a;
+            m_data_a = data;
+            if (m_aeqb) m_data_b = data;
+        }
+        else {
+            delete m_data_b;
+            m_data_b = data;
+        }
+    }
+
     /** \brief Are alpha- and beta-spin matrices identical
      **/
     bool is_alpha_eq_beta() const { return m_aeqb; }
