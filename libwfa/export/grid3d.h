@@ -87,14 +87,16 @@ public:
     void check() const;
 
     /** \brief Build 3D coordinates for a set of grid points
-        \param i0 Index of first grid point to compute
-        \param pts Data array to store points (expected size: Mat(3, sz))
+        \param[in] i0 Index of first grid point to compute
+        \param[out] pts Data array to store points (expected size: Mat(3, sz))
         \return Number of points built
 
         Computes sz grid points starting with the i0-th grid point. The
         algorithm assumes the usual linearization of 3d indexes using
         the last direction as the running index, i.e.
         \f$ (i,j,k) \rightarrow (i\cdot n_1 + j) \cdot n_2 + k \f$
+
+        Does not resize the array!
      **/
     size_t build_pts(size_t i0, arma::mat &pts) const;
 
