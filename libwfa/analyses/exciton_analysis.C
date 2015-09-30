@@ -67,29 +67,25 @@ void exciton_analysis::analysis(std::ostream &out,
         vec sh2 = mom.get(0, 2) - mom.get(0, 1) % mom.get(0, 1);
         vec se2 = mom.get(2, 0) - mom.get(1, 0) % mom.get(1, 0);
         vec d2  = mom.get(2, 0) + mom.get(0, 2) - mom.get(1, 1) * 2.;
+        vec R2  = 0.25 * (sh2 + se2 + mom.get(1, 1) * 2. - mom.get(0, 1) % mom.get(1, 0) * 2.);
         sh2 *= constants::au2ang * constants::au2ang;
         se2 *= constants::au2ang * constants::au2ang;
         d2  *= constants::au2ang * constants::au2ang;
+        R2  *= constants::au2ang * constants::au2ang;
         double sh = sqrt(accu(sh2)), se = sqrt(accu(se2));
         double cov = accu(mom.get(1, 1) - mom.get(1, 0) % mom.get(0, 1));
         cov *= constants::au2ang * constants::au2ang;
 
-        //out << "<r_h,i^2> - <r_h,i>^2 [Ang^2]: ";
-        //print(out, sh2);
         out << os << "Hole size [Ang]:" << std::string(20, ' ')
                 << std::setw(10) << sh << std::endl;
         out << os << "  Cartesian components [Ang]:" << std::string(7, ' ');
         print(out, sqrt(sh2));
         out << std::endl;
-        //out << "<r_e,i^2> - <r_e,i>^2 [Ang^2]: ";
-        //print(out, se2);
         out << os << "Electron size [Ang]:" << std::string(16, ' ')
                 << std::setw(10) << se << std::endl;
         out << os << "  Cartesian components [Ang]:" << std::string(7, ' ');
         print(out, sqrt(se2));
         out << std::endl;
-        //out << "  <(r_e,i-r_h,i)^2> [Ang^2]:" << std::string(owidth-62, ' ');
-        //print_vec(d2, out);
         out << os << "RMS electron-hole separation [Ang]: "
                 << std::setw(10) << sqrt(accu(d2)) << std::endl;
         out << os << "  Cartesian components [Ang]:" << std::string(7, ' ');
@@ -99,6 +95,11 @@ void exciton_analysis::analysis(std::ostream &out,
                 << std::setw(10) << cov << std::endl;
         out << os << "Correlation coefficient:" << std::string(12, ' ')
                 << std::setw(10) << cov / (se * sh) << std::endl;
+        out << os << "Center-of-mass size [Ang]:" << std::string(10, ' ')
+                << std::setw(10) << sqrt(accu(R2)) << std::endl;
+        out << os << "  Cartesian components [Ang]:" << std::string(7, ' ');
+        print(out, sqrt(R2));
+        out << std::endl;
     }
 }
 
