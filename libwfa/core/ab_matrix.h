@@ -101,7 +101,7 @@ public:
         return *this;
     }
 
-    /** \brief Transpose the ab_matrix
+    /** \brief Return the transpose of the ab_matrix
 
         Note: this is a convenience function that does not have the full
           efficiency of directly using the armadillo operations!
@@ -111,6 +111,13 @@ public:
         res.alpha() = alpha().t();
         if (! is_alpha_eq_beta()) res.beta() = beta().t();
         return res;
+    }
+    
+    /** \brief Transpose the ab_matrix
+     **/
+    void inplace_trans() {
+        arma::inplace_trans(alpha());
+        if (! is_alpha_eq_beta()) arma::inplace_trans(beta());
     }
 };
 

@@ -48,6 +48,7 @@ void ndo_analysis::form_ad(ab_matrix &at, ab_matrix &de) const {
 
 void ndo_analysis::analyse(std::ostream &out, size_t nndo) const {
 
+    if (nndo == 0)  return;
     if (m_ndo[1]) {
         out << "NDOs (alpha)" << std::endl;
         analysis(out, m_ndo[0]->get_occ(), nndo);

@@ -30,6 +30,7 @@ no_analysis::~no_analysis() {
 
 void no_analysis::analyse(std::ostream &out, size_t nno) const {
 
+    if (nno == 0)  return;
     if (m_no[1]) {
         out << "NOs (alpha)" << std::endl;
         analysis_p1(out, m_no[0]->get_occ(), nno);

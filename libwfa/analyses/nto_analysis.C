@@ -25,6 +25,7 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c,
 
 void nto_analysis::analyse(std::ostream &out, size_t nnto) const {
 
+    if (nnto == 0)  return;
     if (m_nto[2]) {
         out << "NTOs (alpha-electron)" << std::endl;
         analysis(out, m_nto[0]->get_occ(), nnto);
