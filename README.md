@@ -11,7 +11,7 @@ Type:
 ./configure
 cd build
 make
-cd ../test
+cd ../tests
 ../build/tests/libwfa_tests
 ~~~~
 
