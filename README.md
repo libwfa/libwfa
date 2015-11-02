@@ -3,12 +3,15 @@ Wave-function analysis tool library for quantum chemical applications
 
 Code and ideas by F. Plasser, M. Wormit, S. A. Bäppler, B. Thomitzni, and A. Dreuw
 
-To compile the standalone version type:
+Please contact one of the authors, if you are interested in interfacing libwfa to you quantum chemistry code. See LICENSE for licensing information.
+
+Compiling and testing the standalone version requires the libtest library (to be distributed separately).
+Type:
 ~~~~
 ./configure
 cd build
 make
-make test
+cd ../test
+../build/tests/libwfa_tests
 ~~~~
 
-See LICENSE for licensing information. If you want to interface libwfa to your quantum chemistry code, please contact one of the authors.
