@@ -17,9 +17,9 @@ include_directories(${LIBWFA_DIR})
 add_subdirectory(libwfa)
 
 
-if (${HAVE_LIBTEST})
+if (HAVE_LIBTEST)
 	add_subdirectory(tests)
-else (${HAVE_LIBTEST})
+else (HAVE_LIBTEST)
 	Message(WARNING "libtest not found. Just compiling the bare library, but no tests.")
-endif(${HAVE_LIBTEST})
+endif(HAVE_LIBTEST)
 
