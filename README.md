@@ -5,13 +5,16 @@ Code and ideas by F. Plasser, M. Wormit, S. A. Bäppler, B. Thomitzni, and A. Dr
 
 Please contact one of the authors if you are interested in interfacing libwfa to your quantum chemistry code. See LICENSE for licensing information.
 
-Compiling and testing the standalone version requires the libtest library (to be distributed separately).
-Type:
+To compile the standalone version, type:
 ~~~~
 ./configure
 cd build
 make
-cd ../tests
+~~~~
+
+Testing requires the libtest library, which is currently not included. Compile libtest, then type:
+~~~~
+cd libwfa/tests
 ../build/tests/libwfa_tests
 ~~~~
 
