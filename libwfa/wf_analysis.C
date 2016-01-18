@@ -201,10 +201,13 @@ bool wf_analysis::setup_sa_ntos(std::ostream &out) {
 
     nto_analysis sa_ntos(s, c, edm, hdm);
     if (m_h->is_active(wf_analysis_data_i::NTO)) {
+        // Do not print out analysis of NTO spectrum here
+        std::ostringstream dout;
+
         std::auto_ptr<orbital_printer_i> pr(m_h->orbital_printer("sa_nto",
                 "State-averaged NTOs"));
         orbital_params pnto = m_h->get_orbital_params(orbital_type::NTO);
-        sa_ntos.analyse(out, pnto.norb);
+        sa_ntos.analyse(dout, pnto.norb);
         sa_ntos.export_orbitals(*pr, pnto.thresh);
     }
     m_sa = std::auto_ptr<sa_nto_analysis>(new sa_nto_analysis(s, sa_ntos));

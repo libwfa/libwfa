@@ -37,10 +37,10 @@ void nto_analysis::analyse(std::ostream &out, size_t nnto) const {
         analysis(out, m_nto[1]->get_occ(), nnto);
     }
     else {
-        out << "NTOs (electron)" << std::endl;
+        out << "NTOs" << std::endl;
         analysis(out, m_nto[0]->get_occ() * 2.0, nnto);
-        out << "NTOs (hole)" << std::endl;
-        analysis(out, m_nto[1]->get_occ() * 2.0, nnto);
+//        out << "NTOs (hole)" << std::endl;
+//        analysis(out, m_nto[1]->get_occ() * 2.0, nnto);
     }
 }
 
@@ -138,7 +138,7 @@ void nto_analysis::analysis(std::ostream &out,
     out << std::endl;
     out << "  Entanglement entropy:          "
         << std::setw(11) << SHE << std::endl;
-    out << "  # entangled states:            "
+    out << "  Number of entangled states:    "
         << std::setw(11) << pow(2, SHE) << std::endl;
 }
 
