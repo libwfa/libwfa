@@ -124,11 +124,22 @@ void nto_analysis::analysis(std::ostream &out,
     out << std::endl;
 
     double total = accu(e);
+    double SHE = 0.;
+    for (size_t i = 0; i < e.size(); i++) {
+        if (e(i) > 0.)
+            SHE -= e(i) * log2(e(i)/total);
+    }
+    SHE /= total;
+    
     out << std::setprecision(6) << std::fixed;
     out << "  Sum of SVs:  " << std::setw(11) << total << std::endl;
     out << "  Participation ratio (PR_NTO):  "
         << std::setw(11) << total * total / dot(e, e);
     out << std::endl;
+    out << "  Entanglement entropy:          "
+        << std::setw(11) << SHE << std::endl;
+    out << "  # entangled states:            "
+        << std::setw(11) << pow(2, SHE) << std::endl;
 }
 
 
