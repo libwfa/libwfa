@@ -27,14 +27,14 @@ void nto_analysis::analyse(std::ostream &out, size_t nnto) const {
 
     if (nnto == 0)  return;
     if (m_nto[2]) {
-        out << "NTOs (alpha-electron)" << std::endl;
+        out << "NTOs (alpha)" << std::endl;
         analysis(out, m_nto[0]->get_occ(), nnto);
-        out << "NTOs (alpha-hole)" << std::endl;
-        analysis(out, m_nto[1]->get_occ(), nnto);
-        out << "NTOs (beta-electron)" << std::endl;
-        analysis(out, m_nto[0]->get_occ(), nnto);
-        out << "NTOs (beta-hole)" << std::endl;
-        analysis(out, m_nto[1]->get_occ(), nnto);
+//        out << "NTOs (alpha-hole)" << std::endl;
+//        analysis(out, m_nto[1]->get_occ(), nnto);
+        out << "NTOs (beta)" << std::endl;
+        analysis(out, m_nto[2]->get_occ(), nnto);
+//        out << "NTOs (beta-hole)" << std::endl;
+//        analysis(out, m_nto[3]->get_occ(), nnto);
     }
     else {
         out << "NTOs" << std::endl;
@@ -127,9 +127,10 @@ void nto_analysis::analysis(std::ostream &out,
     double SHE = 0.;
     for (size_t i = 0; i < e.size(); i++) {
         if (e(i) > 0.)
-            SHE -= e(i) * log2(e(i)/total);
+    //        SHE -= e(i) * log2(e(i)/total);
+            SHE -= e(i) * log2(e(i));
     }
-    SHE /= total;
+    //SHE /= total;
     
     out << std::setprecision(6) << std::fixed;
     out << "  Sum of SVs:  " << std::setw(11) << total << std::endl;
