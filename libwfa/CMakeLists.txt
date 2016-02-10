@@ -116,9 +116,15 @@ set(SRC
 
 set(TARGETS wfa)
 add_library(wfa ${SRC} ${HEADERS})
+
 if(QCHEM_SOURCE_DIR)
   add_subdirectory(qchem)
 endif(QCHEM_SOURCE_DIR)
+
+set(MOLCAS TRUE)
+if(MOLCAS)
+  add_subdirectory(molcas)
+endif(MOLCAS)
 
 set_property(TARGET ${TARGETS} APPEND PROPERTY 
     COMPILE_DEFINITIONS_DEBUG LIBWFA_DEBUG)
