@@ -1,9 +1,13 @@
 #ifndef LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 #define LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 
+#include "H5Cpp.h"
+#include "hdf5.h"
+#include "hdf5_hl.h"
 #include <libwfa/wf_analysis_data_i.h>
-namespace libwfa
-{
+
+namespace libwfa {
+    
 class molcas_wf_analysis_data : public libwfa::wf_analysis_data_i {
 private:
     /** \brief Internal structure to hold population analyses
@@ -69,8 +73,8 @@ private:
     orbital_type::flag_t m_ot; //!< Orbital types activated for export
     density_type::flag_t m_dt; //!< Density types activated for export
 
-//    enum export_type m_export_dens; //!< How to export densities
-//    enum export_type m_export_orbs; //!< How to export orbitals
+    enum export_type m_export_dens; //!< How to export densities
+    enum export_type m_export_orbs; //!< How to export orbitals
 
 //    std::auto_ptr<qchem_export_cube> m_ccore; //!< Pointer to cube export core
 //    std::auto_ptr<qchem_export_molden> m_mcore; //!< Pointer to molden export core
@@ -83,8 +87,23 @@ public:
 
     /** \brief Virtual destructor
      **/
-    virtual ~molcas_wf_analysis_data();    
+    virtual ~molcas_wf_analysis_data() {}
+
+private:
+    void initialize();
 };
+
+/** \brief Setup the wave function / density matrix analysis data for Molcas
+    \return Pointer to data object
+
+    This is a convenience wrapper to initialize the analysis data object. If
+    more fine-tuning is required, the function can serve as template on how
+    the object can be setup.
+
+    \ingroup libwfa_molcas
+ **/
+molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file);
+
 } // libwfa
-    
+
 #endif // LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
