@@ -7,7 +7,11 @@ set(SRC
     molcas_state_analysis.C
 )
 
-set(TARGETS wfa_molcas)
-
+set(TARGETS wfa_molcas.x)
 add_executable(wfa_molcas.x ${SRC} ${HDR})
-TARGET_LINK_LIBRARIES(wfa_molcas.x hdf5 hdf5_cpp)
+add_dependencies(wfa_molcas.x generated_headers)
+target_link_libraries(wfa_molcas.x wfa)
+target_link_libraries(wfa_molcas.x hdf5 hdf5_cpp)
+
+set_property(TARGET ${TARGETS} APPEND PROPERTY 
+    COMPILE_DEFINITIONS_DEBUG LIBWFA_DEBUG)

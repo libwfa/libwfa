@@ -62,8 +62,12 @@ private:
         EXPORT_NONE = 0,//!< EXPORT_NONE
         EXPORT_MOLDEN,  //!< EXPORT_MOLDEN
     };
-    
+
+public:
+    static const char k_clazz[]; //!< Class name
+
 private:
+    H5::H5File m_file;
     std::vector<pa_data *> m_pa; //!< Population analyses
 //    std::vector<cta_data *> m_cta; //!< CT number analyses
 
@@ -83,11 +87,99 @@ private:
 public:
     /** \brief Constructor
      **/
-    molcas_wf_analysis_data();
+    molcas_wf_analysis_data(H5::H5File file);
 
     /** \brief Virtual destructor
      **/
-    virtual ~molcas_wf_analysis_data() {}
+    ~molcas_wf_analysis_data() {}
+
+    /** \brief Return if a certain analysis should be performed
+     **/
+    bool is_active(enum analysis_type t) {}
+    
+    /** \brief Return parameters for orbital analyses
+        \return Pair comprising the number of leading orbitals to print and
+            an threshold for important orbitals (see e.g. \ref no_analysis
+            for details)
+     **/
+    orbital_params get_orbital_params(enum orbital_type::ot t) {}
+
+    /** \brief Retrieve the AO overlap matrix
+     **/
+    const arma::mat &overlap() {}
+
+    /** \brief Retrieve the MO coefficient matrices
+     **/
+    const ab_matrix &coefficients() {}
+
+    /** \brief Construct a printer of density matrices
+        \param name Name of state to which the density matrices belong
+            (should be usable as file name)
+        \param desc Description of state
+        \return Pointer to new density printer
+     **/
+    density_printer_i *density_printer(const std::string &name,
+            const std::string &desc) {}
+
+    /** \brief Construct a printer of orbitals
+        \param name Name of state to which the orbitals belong
+            (should be usable as file name)
+        \param desc Description of state
+        \return Pointer to new orbital printer
+     **/
+    orbital_printer_i *orbital_printer(const std::string &name,
+            const std::string &desc) {}
+
+    //! \name Population analysis related functions
+    //@{
+
+    /** \brief Number of population analyses available
+     **/
+    size_t n_pop_analyses() {}
+
+    /** \brief Name of i-th population analysis
+     **/
+    const std::string &pop_name(size_t i) {}
+
+    /** \brief Row labels for i-th population analysis
+     **/
+    const std::vector<std::string> &pop_labels(size_t i) {}
+
+    /** \brief i-th population analysis
+     **/
+    const pop_analysis_i &pop_analysis(size_t i) {}
+
+    /** \brief Base populations for i-th population analysis
+     **/
+    const arma::vec &ref_population(size_t i) {}
+
+    //@}
+
+    //! \name CT number analysis related functions
+    //@{
+
+    /** \brief Number of CT number analyses available
+     **/
+    size_t n_ctnum_analyses() {}
+
+    /** \brief Name of i-th CT number analysis
+     **/
+    const std::string &ctnum_name(size_t i) {}
+
+    /** \brief i-th CT number analysis
+     **/
+    const ctnum_analysis_i &ctnum_analysis(size_t i) {}
+
+    /** \brief Printer of i-th CT number data
+     **/
+    std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
+            const std::string &name, const std::string &desc) {}
+
+    //@}
+
+    /** \brief Builder of exciton moments
+     **/
+    const mom_builder_i &mom_builder() {}
 
 private:
     void initialize();
