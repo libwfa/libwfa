@@ -2,9 +2,8 @@
 #define LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 
 #include "H5Cpp.h"
-#include "hdf5.h"
-#include "hdf5_hl.h"
 #include <libwfa/wf_analysis_data_i.h>
+#include "molcas_mom_builder.h"
 
 namespace libwfa {
     
@@ -44,7 +43,10 @@ private:
         arma::mat coordinates; //!< Atom coordinates
         arma::uvec bf2atoms; //!< Map of basis functions to atoms
         ab_matrix c_fb; //!< MO coefficients
-//        molcas_mom_builder mom; //!< Moments builder
+        arma::mat s; //!< AO-Overlap matrix
+        molcas_mom_builder mom; //!< Moments builder
+        int ndocc; //!< Number of doubly occupied orbitals
+        int nact; //!< Number of active orbitals
 
         /** \brief Constructor
             \param nao Number of atomic basis functions
@@ -53,7 +55,7 @@ private:
             \param unr Unrestricted calculation
          **/
         base_data(size_t nao, size_t nb2, size_t maxmm, bool unr) :
-            c_fb(unr) { } // add mom ...
+            c_fb(unr), mom(nao, nb2, maxmm) { }
     };
 
     /** \brief Export types
@@ -87,30 +89,57 @@ private:
 public:
     /** \brief Constructor
      **/
-    molcas_wf_analysis_data(H5::H5File file);
+    molcas_wf_analysis_data(H5::H5File &file);
 
     /** \brief Virtual destructor
      **/
-    ~molcas_wf_analysis_data() {}
+    //virtual ~molcas_wf_analysis_data() { cleanup(); }
 
+    /** \brief Initialize population analysis
+        \param name Name of population analysis (possible values: mulliken,
+            loewdin)
+     **/
+    void init_pop_analysis(const std::string &name);
+
+    /** \brief Initialize CT number analysis
+        \param name Name of CT number analysis (possible values: atomic)
+     **/
+    void init_ctnum_analysis(const std::string &name);
+
+    /** \brief Activate certain analysis
+     **/
+    void activate(enum analysis_type t);
+    
+    /** \brief Set orbital parameters for one orbital type
+        \param t Orbital type
+        \param nno Number of leading orbitals
+        \param thresh Threshold of important orbitals
+     **/
+    void set_orbital_params(enum orbital_type::ot t,
+            size_t nno, double thresh);
+    
     /** \brief Return if a certain analysis should be performed
      **/
-    bool is_active(enum analysis_type t) {}
+    bool is_active(enum analysis_type t);
     
     /** \brief Return parameters for orbital analyses
         \return Pair comprising the number of leading orbitals to print and
             an threshold for important orbitals (see e.g. \ref no_analysis
             for details)
      **/
-    orbital_params get_orbital_params(enum orbital_type::ot t) {}
+    orbital_params get_orbital_params(enum orbital_type::ot t);
 
     /** \brief Retrieve the AO overlap matrix
      **/
-    const arma::mat &overlap() {}
+    const arma::mat &overlap() {
+        return m_moldata->s;
+    }
 
     /** \brief Retrieve the MO coefficient matrices
      **/
-    const ab_matrix &coefficients() {}
+    const ab_matrix &coefficients() {
+        return m_moldata->c_fb;
+    }
 
     /** \brief Construct a printer of density matrices
         \param name Name of state to which the density matrices belong
@@ -119,7 +148,7 @@ public:
         \return Pointer to new density printer
      **/
     density_printer_i *density_printer(const std::string &name,
-            const std::string &desc) {}
+            const std::string &desc);
 
     /** \brief Construct a printer of orbitals
         \param name Name of state to which the orbitals belong
@@ -128,30 +157,38 @@ public:
         \return Pointer to new orbital printer
      **/
     orbital_printer_i *orbital_printer(const std::string &name,
-            const std::string &desc) {}
+            const std::string &desc);
 
     //! \name Population analysis related functions
     //@{
 
     /** \brief Number of population analyses available
      **/
-    size_t n_pop_analyses() {}
+    size_t n_pop_analyses() { return m_pa.size(); }
 
     /** \brief Name of i-th population analysis
      **/
-    const std::string &pop_name(size_t i) {}
+    const std::string &pop_name(size_t i) {
+        return m_pa[i]->name;
+    }
 
     /** \brief Row labels for i-th population analysis
      **/
-    const std::vector<std::string> &pop_labels(size_t i) {}
+    const std::vector<std::string> &pop_labels(size_t i) {
+        return m_pa[i]->labels;}
 
     /** \brief i-th population analysis
      **/
-    const pop_analysis_i &pop_analysis(size_t i) {}
+    const pop_analysis_i &pop_analysis(size_t i) {
+        return *m_pa[i]->analysis;
+    }
 
     /** \brief Base populations for i-th population analysis
      **/
-    const arma::vec &ref_population(size_t i) {}
+    const arma::vec &ref_population(size_t i) {
+        return m_pa[i]->p0;
+
+    }
 
     //@}
 
@@ -179,10 +216,22 @@ public:
 
     /** \brief Builder of exciton moments
      **/
-    const mom_builder_i &mom_builder() {}
+    const mom_builder_i &mom_builder() {
+        return m_moldata->mom;
+    }
 
+    /** \brief Build the density matrix
+        \param buf Buffer with density matrix data
+        \return Full density matrix in the AO basis
+        
+        The appropriate number of doubly occupied orbitals are added
+        and the density is transformed to the AO basis.
+     **/
+    ab_matrix build_dm(const double *buf);
+    
 private:
     void initialize();
+    void cleanup();
 };
 
 /** \brief Setup the wave function / density matrix analysis data for Molcas
