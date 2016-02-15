@@ -5,7 +5,7 @@ namespace libwfa {
 using namespace H5;
 
 const char molcas_wf_analysis_data::k_clazz[] = "molcas_wf_analysis_data";
-    
+
 molcas_wf_analysis_data::molcas_wf_analysis_data(H5File &file) :
     m_file(file), m_export_dens(EXPORT_NONE), m_export_orbs(EXPORT_NONE) {
     initialize();
@@ -95,68 +95,71 @@ orbital_printer_i *molcas_wf_analysis_data::orbital_printer(
 ab_matrix molcas_wf_analysis_data::build_dm(const double *buf) {
     int nao = m_moldata->c_fb.nrows_a();
     int nmo = m_moldata->c_fb.ncols_a();
-    
+
     ab_matrix dmo = ab_matrix(nmo, nmo);
     dmo.alpha().zeros();
-    
+
     int nocc = m_moldata->ndocc;
     for (int iocc=0; iocc<nocc; iocc++)
         dmo.alpha().at(iocc, iocc) = 1.;
-        
+
     int nact = m_moldata->nact;
     arma::mat dmact(buf, nact, nact);
     dmo.alpha().submat(nocc, nocc, nocc+nact-1, nocc+nact-1) = 0.5 * dmact;
 
     ab_matrix dao(nao, nao);
     dao.alpha() = m_moldata->c_fb.alpha() * dmo.alpha() * m_moldata->c_fb.alpha().t();
-        
+
     return dao;
 }
 
 void molcas_wf_analysis_data::initialize() {
-    
-    static const char method[] = "initialize()";    
-    
-    Group Grp_main = m_file.openGroup("/");
+
+    static const char method[] = "initialize()";
+
     hsize_t natoms;
-    int nbas_t;
+    hsize_t nsym, nbas_t;
+    int nbas[8];
     hsize_t nmo;
-    
+    arma::mat desym;
+
+    Group Grp_main = m_file.openGroup("/");
+
     // Read basic info
     {
         Attribute Att_nbas = Grp_main.openAttribute("NBAS");
         DataSpace Spac_nbas = Att_nbas.getSpace();
-        hsize_t nnbas;
-        Spac_nbas.getSimpleExtentDims(&nnbas, NULL);
-        
-        int nbas[nnbas];
+        Spac_nbas.getSimpleExtentDims(&nsym, NULL);
+        if (nsym > 8)
+            throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "More than 8 irreps");
+
         Att_nbas.read(PredType::NATIVE_INT, nbas);
-    
+
         nbas_t = 0;
         std::cout << " Basis functions per irrep: ";
-        for (int ibas=0; ibas<nnbas; ibas++) {
-            std::cout << " " << nbas[ibas];
-            nbas_t += nbas[ibas];
+        for (size_t isym=0; isym<nsym; isym++) {
+            std::cout << " " << nbas[isym];
+            nbas_t += nbas[isym];
         }
-        std::cout << std::endl;    
-    
+        std::cout << std::endl;
+
         m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 0, 0, false));
     }
-    
+
     // Read atomic numbers/charges. Different in the case of ECPs(?)
     {
-        DataSet Set = m_file.openDataSet("CENTER_CHARGES");
+        H5std_string h5label = (nsym==1) ? "CENTER_CHARGES" : "DESYM_CENTER_CHARGES";
+        DataSet Set = m_file.openDataSet(h5label);
         DataSpace Space = Set.getSpace();
         int rank = Space.getSimpleExtentNdims();
-        if (rank != 1)         
+        if (rank != 1)
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent rank");
-        
+
         Space.getSimpleExtentDims(&natoms, NULL);
         std::cout << " Number of atoms: " << natoms << std::endl;
-        //double t[natoms];
         int num_buf[natoms];
         Set.read(&num_buf, PredType::NATIVE_INT);
-        
+
         m_moldata->atoms = std::vector<std::string>(natoms);
         m_moldata->atomic_numbers = arma::uvec(natoms);
         m_moldata->atomic_charges = arma::vec(natoms);
@@ -164,32 +167,48 @@ void molcas_wf_analysis_data::initialize() {
             m_moldata->atomic_numbers.at(i) = num_buf[i];
             m_moldata->atomic_charges.at(i) = num_buf[i];
         }
-        std::cout << std::endl;
     }
-    
+
     // Read atom labels
     {
-        DataSet Set = m_file.openDataSet("CENTER_LABELS");
-        int len = 6;
-        StrType strtype = Set.getStrType();      
+        H5std_string h5label;
+        hsize_t len;
+        if (nsym==1) {
+            h5label = "CENTER_LABELS";
+            len = 6;
+        }
+        else {
+            h5label = "DESYM_CENTER_LABELS";
+            len = 10;
+        }
+        DataSet Set = m_file.openDataSet(h5label);
+
+        /*std::string labels[natoms];
+        DataSpace Spac_read(H5S_VECTOR);
+        Set.read(*labels, strtype, Spac_read);
+        std::cout << "label: " << labels[0] << std::endl;*/
+
         char labels[natoms][len];
+
+        StrType strtype = Set.getStrType();
         Set.read(labels, strtype);
-        
+
         for (size_t i = 0; i < natoms; i++) {
             m_moldata->atoms.at(i) = std::string(labels[i], len);
         }
     }
-    
+
     // Read atomic coordinates
     {
-        DataSet Set = m_file.openDataSet("CENTER_COORDINATES");
+        H5std_string h5label = (nsym==1) ? "CENTER_COORDINATES" : "DESYM_CENTER_COORDINATES";
+        DataSet Set = m_file.openDataSet(h5label);
         DataSpace Space = Set.getSpace();
         int rank = Space.getSimpleExtentNdims();
-        if (rank != 2) {            
+        if (rank != 2) {
             throw libwfa_exception(k_clazz,
                 method, __FILE__, __LINE__, "Inconsistent rank");
         }
-        
+
         hsize_t dims[rank];
         Space.getSimpleExtentDims(dims, NULL);
         double buf[dims[0] * dims[1]];
@@ -197,87 +216,158 @@ void molcas_wf_analysis_data::initialize() {
         m_moldata->coordinates = arma::mat(buf, 3, natoms);
         //m_moldata->coordinates.print();
     }
-    
+
     // MO types
     {
         DataSet Set = m_file.openDataSet("MO_TYPEINDICES");
         int len = 1;
-        StrType strtype = Set.getStrType();      
+        StrType strtype = Set.getStrType();
 
         DataSpace Space = Set.getSpace();
         int rank = Space.getSimpleExtentNdims();
-        if (rank != 1) 
+        if (rank != 1)
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent rank");
-        
+
         Space.getSimpleExtentDims(&nmo, NULL);
         char buf[nmo][len];
         Set.read(buf, strtype);
-        
+
         std::string str(*buf, nmo*len);
-        m_moldata->ndocc = std::count(str.begin(), str.end(), 'I');
+        m_moldata->ndocc = std::count(str.begin(), str.end(), 'I') +
+                           std::count(str.begin(), str.end(), 'F');
         m_moldata->nact  = std::count(str.begin(), str.end(), '1') +
                            std::count(str.begin(), str.end(), '2') +
                            std::count(str.begin(), str.end(), '3');
     }
-    
-    // Mapping of basis functions to atoms
-    //   Use DESYMM in the case of symmetry
-    {
-        DataSet Set = m_file.openDataSet("BASIS_FUNCTION_IDS");
+
+    // Desymmetrization matrix
+    if (nsym>1){
+        H5std_string h5label = "DESYM_MATRIX";
+        DataSet Set = m_file.openDataSet(h5label);
         DataSpace Space = Set.getSpace();
         int rank = Space.getSimpleExtentNdims();
-        if (rank != 2) 
+        if (rank != 1)
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent rank");
-        
+
+        hsize_t dim;
+        Space.getSimpleExtentDims(&dim, NULL);
+        double buf[dim];
+        Set.read(&buf, PredType::NATIVE_DOUBLE);
+
+        if (nbas_t * nbas_t != dim)
+            throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent desym matrix");
+
+        desym = arma::mat(buf, nbas_t, nbas_t);
+    }
+
+    // Mapping of basis functions to atoms
+    {
+        H5std_string h5label = (nsym==1) ? "BASIS_FUNCTION_IDS" : "DESYM_BASIS_FUNCTION_IDS";
+        DataSet Set = m_file.openDataSet(h5label);
+        DataSpace Space = Set.getSpace();
+        int rank = Space.getSimpleExtentNdims();
+        if (rank != 2)
+            throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent rank");
+
         hsize_t dims[rank];
         Space.getSimpleExtentDims(dims, NULL);
         if (dims[1] != 4)
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent dims");
-        
+
         int buf[dims[0] * dims[1]];
         Set.read(&buf, PredType::NATIVE_INT);
         m_moldata->bf2atoms = arma::uvec(dims[0]);
         for (size_t i = 0; i < dims[0]; i++) {
             m_moldata->bf2atoms.at(i) = buf[4*i] - 1;
         }
-        //m_moldata->bf2atoms.print();
     }
-    
+
     // MO-coefficients
-    //  TODO: transpose?
+    // TODO: adjust dimensions in case of rectangular MO-matrix
     {
         DataSet Set = m_file.openDataSet("MO_VECTORS");
         DataSpace Space = Set.getSpace();
         int rank = Space.getSimpleExtentNdims();
-        if (rank != 1) 
+        if (rank != 1)
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent rank");
-        
+
         hsize_t dim;
         Space.getSimpleExtentDims(&dim, NULL);
-        if (nbas_t * nbas_t != dim)
-            throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent MO vectors");
-        
         double buf[dim];
         Set.read(&buf, PredType::NATIVE_DOUBLE);
-        m_moldata->c_fb.alpha() = arma::mat(buf, nbas_t, nbas_t);
+
+        if (nsym == 1) { // no symmetry
+            if (nbas_t * nbas_t != dim)
+                throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent MO vectors (no symmetry)");
+
+            m_moldata->c_fb.alpha() = arma::mat(buf, nbas_t, nbas_t);
+        } // symmetry
+        else {
+            hsize_t dim_chk = 0;
+            for (size_t isym=0; isym<nsym; isym++)
+                dim_chk += nbas[isym] * nbas[isym];
+
+            if (dim_chk != dim)
+                throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent MO vectors (symmetry)");
+
+            // Fill the blocks of the MO matrix
+            m_moldata->c_fb.alpha() = arma::zeros(nbas_t, nbas_t);
+            size_t i=0;
+            for (size_t isym=0; isym<nsym; isym++) {
+                int kbas = nbas[isym];
+                if (kbas==0) continue;
+
+                arma::mat block(buf, kbas, kbas);
+                m_moldata->c_fb.alpha().submat(i, i, i+kbas-1, i+kbas-1) = block;
+
+                i+=kbas;
+            }
+            m_moldata->c_fb.alpha() = desym * m_moldata->c_fb.alpha();
+        }
     }
-    
+
     // Overlap matrix
     {
         DataSet Set = m_file.openDataSet("AO_OVERLAP_MATRIX");
         DataSpace Space = Set.getSpace();
         int rank = Space.getSimpleExtentNdims();
-        if (rank != 1) 
+        if (rank != 1)
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent rank");
-        
+
         hsize_t dim;
         Space.getSimpleExtentDims(&dim, NULL);
-        if (nbas_t * nbas_t != dim)
-            throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent S matrix");
-        
         double buf[dim];
         Set.read(&buf, PredType::NATIVE_DOUBLE);
-        m_moldata->s = arma::mat(buf, nbas_t, nbas_t);
+
+
+        if (nsym == 1) { // no symmetry
+            if (nbas_t * nbas_t != dim)
+                throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent S-matrix (no symmetry)");
+
+                m_moldata->s = arma::mat(buf, nbas_t, nbas_t);
+        } // symmetry
+        else {
+            hsize_t dim_chk = 0;
+            for (size_t isym=0; isym<nsym; isym++)
+                dim_chk += nbas[isym] * nbas[isym];
+
+            if (dim_chk != dim)
+                throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent S-matrix (symmetry)");
+
+            // Fill the blocks of the MO matrix
+            m_moldata->s = arma::zeros(nbas_t, nbas_t);
+            size_t i=0;
+            for (size_t isym=0; isym<nsym; isym++) {
+                int kbas = nbas[isym];
+                if (kbas==0) continue;
+
+                arma::mat block(buf, kbas, kbas);
+                m_moldata->s.submat(i, i, i+kbas-1, i+kbas-1) = block;
+
+                i+=kbas;
+            }
+            m_moldata->s = desym * m_moldata->s * desym.t();
+        }
     }
 }
 
@@ -299,26 +389,26 @@ void molcas_wf_analysis_data::cleanup() {
 
 molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
     std::cout << "Starting setup..." << std::endl;
-    
+
     molcas_wf_analysis_data *h = new molcas_wf_analysis_data(file);
-    
+
     size_t norb = 3;
     double thresh = 1e-3;
-    
+
     // Setup parameters for orbital print-out; currently use the same parameters
     // for NOs, NDOs, and NTOs
     h->set_orbital_params(orbital_type::NO,  norb, thresh);
     h->set_orbital_params(orbital_type::NDO, norb, thresh);
-    h->set_orbital_params(orbital_type::NTO, norb, thresh);    
-    
+    h->set_orbital_params(orbital_type::NTO, norb, thresh);
+
     // Activate Mulliken population analysis
     // TODO: Loewdin
     h->init_pop_analysis("mulliken");
-    
+
     h->activate(molcas_wf_analysis_data::NO);
     h->activate(molcas_wf_analysis_data::NDO);
     h->activate(molcas_wf_analysis_data::FORM_AD);
-    
+
     return h;
 }
 } // namespace libwfa
