@@ -22,10 +22,10 @@ int main(int argc, char** argv)
     libwfa::wf_analysis wf(wfdata);
     
     // Check what kind of job was performed
-    std::string molcas_module;
+    H5std_string molcas_module;
     {
-        Attribute Att = Grp_main.openAttribute("MOLCAS_MODULE");
-        StrType strtype(0, H5T_VARIABLE);
+        Attribute Att = file.openGroup("/").openAttribute("MOLCAS_MODULE");
+        StrType strtype(PredType::C_S1, 16);
         Att.read(strtype, molcas_module);        
     }
     
@@ -36,7 +36,6 @@ int main(int argc, char** argv)
         
     }
     else if (molcas_module=="RASSCF") {
-    // First do density matrix analysis
         std::cout << "  " << std::string(76, '-') << std::endl;
         std::cout << std::string(23, ' ') << "RASSCF Density Matrix Analysis" << std::endl;
         std::cout << "  " << std::string(76, '-') << std::endl << std::endl;
@@ -73,7 +72,8 @@ int main(int argc, char** argv)
     else {
         std::ostringstream os;
         os << "Unknown molcas MOLCAS module: " << molcas_module;
-        throw libwfa_exception("main", "main", __FILE__, __LINE__, os.str());
+        const std::string errmsg = os.str();
+        throw libwfa_exception("main", "main", __FILE__, __LINE__, errmsg.c_str());
     }
     return 0;
 } // main
