@@ -96,47 +96,56 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf) {
     int nao = m_moldata->c_fb.nrows_a();
     int nmo = m_moldata->c_fb.ncols_a();
 
-    ab_matrix dmo(m_moldata->c_fb.is_alpha_eq_beta());
-    dmo.alpha() = arma::zeros(nmo, nmo);
+    bool aeqb = m_moldata->c_fb.is_alpha_eq_beta();
 
-//    std::cout << "mo_types, nmo, nao: " << m_moldata->mo_types << nmo << nao << std::endl;
-//    std::cout << "size: " << dmo.alpha().size() << " " << dmo.alpha().n_cols << " " << dmo.alpha().n_rows << std::endl;
-
-    std::string imot, jmot;
-    for (int imo=0; imo<nmo; imo++) {
-        imot = m_moldata->mo_types[imo];
-        if (imot == "I" || imot == "F"){ // Inactive or frozen
-            dmo.alpha().at(imo, imo) = 1.;
-        }
-        else if (imot == "1" || imot == "2" || imot == "3") { // Active
-            for (int jmo=0; jmo<nmo; jmo++){
-                jmot = m_moldata->mo_types[jmo];
-                if (jmot == "1" || jmot == "2" || jmot == "3") {
-                    dmo.alpha().at(imo, jmo) = *buf * 0.5;
-                    buf++;
+    ab_matrix dmo(aeqb);
+    { // Construct the alpha part
+        dmo.alpha() = arma::zeros(nmo, nmo);
+        std::string imot, jmot;
+        for (int imo=0; imo<nmo; imo++) {
+            imot = m_moldata->mo_types_a[imo];
+            if (imot == "I" || imot == "F"){ // Inactive or frozen
+                dmo.alpha().at(imo, imo) = 1.;
+            }
+            else if (imot == "1" || imot == "2" || imot == "3") { // Active
+                for (int jmo=0; jmo<nmo; jmo++){
+                    jmot = m_moldata->mo_types_a[jmo];
+                    if (jmot == "1" || jmot == "2" || jmot == "3") {
+                        dmo.alpha().at(imo, jmo) = *buf * 0.5;
+                        buf++;
+                    }
                 }
             }
+            else if (imot == "S") {} // Secondary
+            else {
+                std::ostringstream os;
+                os << std::endl << "Unknown MO type: " << imot;
+                const std::string errmsg = os.str();
+                throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__, errmsg.c_str());
+            }
         }
-        else if (imot == "S") {} // Secondary
-        else {
-            std::ostringstream os;
-            os << std::endl << "Unknown MO type: " << imot;
-            const std::string errmsg = os.str();
-            throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__, errmsg.c_str());
+    }
+    if (!aeqb) { // Beta part in the case of UHF
+        dmo.beta() = arma::zeros(nmo, nmo);
+        std::string imot;
+        for (int imo=0; imo<nmo; imo++) {
+            imot = m_moldata->mo_types_a[imo];
+            if (imot == "I" || imot == "F"){ // Inactive or frozen
+                dmo.beta().at(imo, imo) = 1.;
+            }
+            else if (imot == "S") {} // Secondary
+            else {
+                throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__,
+                    "\nUnrestricted orbitals currently only supported for UHF");
+            }
         }
     }
 
-    ab_matrix dao(nao, nao);
+    ab_matrix dao(aeqb);
     dao.alpha() = m_moldata->c_fb.alpha() * dmo.alpha() * m_moldata->c_fb.alpha().t();
+    if (!aeqb)
+        dao.beta() = m_moldata->c_fb.beta() * dmo.beta() * m_moldata->c_fb.beta().t();
 
-//    std::cout << "dmo trace: " << trace(dmo.alpha()) << std::endl;
-    //dao.alpha().print();
-    //std::cout << "dao trace: " << trace(dao.alpha()) << " " << accu(dao.alpha() % m_moldata->s) << std::endl;
-    //m_moldata->s.print();
-    //std::cout << std::endl;
-    //m_moldata->c_fb.alpha().print();
-    //std::cout << std::endl;
-    //(m_moldata->c_fb.alpha().t() * m_moldata->s * m_moldata->c_fb.alpha()).print();
     return dao;
 }
 
@@ -147,10 +156,20 @@ void molcas_wf_analysis_data::initialize() {
     hsize_t natoms;
     hsize_t nsym, nbas_t;
     int nbas[8];
-    hsize_t nmo;
     arma::mat desym;
+    bool aeqb;
 
     Group Grp_main = m_file.openGroup("/");
+
+    try {
+        DataSet Set = m_file.openDataSet("MO_TYPEINDICES");
+        aeqb = true;
+    }
+    catch( FileIException error ) { // Unrestricted case
+        std::cout << std::endl << "MO_TYPEINDICES not found" << std::endl;
+        std::cout << "  ... assuming unrestricted orbitals." << std::endl << std::endl;
+        aeqb = false;
+    }
 
     // Number of basis functions
     {
@@ -171,7 +190,7 @@ void molcas_wf_analysis_data::initialize() {
         }
         std::cout << std::endl;
 
-        m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 0, 0, false));
+        m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 0, 0, aeqb));
     }
 
     // Read atomic numbers/charges. Different in the case of ECPs(?)
@@ -240,25 +259,6 @@ void molcas_wf_analysis_data::initialize() {
         m_moldata->coordinates.print();
     }
 
-    // MO types
-    {
-        DataSet Set = m_file.openDataSet("MO_TYPEINDICES");
-        int len = 1;
-        StrType strtype = Set.getStrType();
-
-        DataSpace Space = Set.getSpace();
-        int rank = Space.getSimpleExtentNdims();
-        if (rank != 1)
-            throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent rank");
-
-        Space.getSimpleExtentDims(&nmo, NULL);
-        char buf[nmo][len];
-        Set.read(buf, strtype);
-
-        std::string str(*buf, nmo*len);
-        m_moldata->mo_types = str;
-    }
-
     // Desymmetrization matrix
     if (nsym>1){
         H5std_string h5label = "DESYM_MATRIX";
@@ -298,53 +298,6 @@ void molcas_wf_analysis_data::initialize() {
         m_moldata->bf2atoms = arma::uvec(dims[0]);
         for (size_t i = 0; i < dims[0]; i++) {
             m_moldata->bf2atoms.at(i) = buf[4*i] - 1;
-        }
-    }
-
-    // MO-coefficients
-    // TODO: adjust dimensions in case of rectangular MO-matrix
-    {
-        DataSet Set = m_file.openDataSet("MO_VECTORS");
-        DataSpace Space = Set.getSpace();
-        int rank = Space.getSimpleExtentNdims();
-        if (rank != 1)
-            throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent rank");
-
-        hsize_t dim;
-        Space.getSimpleExtentDims(&dim, NULL);
-        double buf[dim];
-        Set.read(&buf, PredType::NATIVE_DOUBLE);
-
-        if (nsym == 1) { // no symmetry
-            if (nbas_t * nbas_t != dim)
-                throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent MO vectors (no symmetry)");
-
-            m_moldata->c_fb.alpha() = arma::mat(buf, nbas_t, nbas_t);
-        } // symmetry
-        else {
-            hsize_t dim_chk = 0;
-            for (size_t isym=0; isym<nsym; isym++)
-                dim_chk += nbas[isym] * nbas[isym];
-
-            if (dim_chk != dim)
-                throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent MO vectors (symmetry)");
-
-            // Fill the blocks of the MO matrix
-            m_moldata->c_fb.alpha() = arma::zeros(nbas_t, nbas_t);
-            size_t i=0;
-            double *buf_ptr = buf;
-            for (size_t isym=0; isym<nsym; isym++) {
-                int kbas = nbas[isym];
-                if (kbas==0) continue;
-
-                m_moldata->c_fb.alpha().submat(i, i, i+kbas-1, i+kbas-1) = arma::mat(buf_ptr, kbas, kbas);
-
-                i+=kbas;
-                buf_ptr += kbas*kbas;
-            }
-//            std::cout << "fptmp: c_fb" << std::endl;
-//            m_moldata->c_fb.alpha().print();
-            m_moldata->c_fb.alpha() = desym * m_moldata->c_fb.alpha();
         }
     }
 
@@ -394,6 +347,113 @@ void molcas_wf_analysis_data::initialize() {
             m_moldata->s = desym * m_moldata->s * desym.t();
         }
     }
+
+    // MO types
+    if (aeqb) {
+        DataSet Set = m_file.openDataSet("MO_TYPEINDICES");
+        std::string str = get_mo_types(Set);
+        m_moldata->mo_types_a = str;
+        m_moldata->mo_types_b = str;
+    }
+    else { // Unrestricted case
+        {
+            DataSet Set = m_file.openDataSet("MO_ALPHA_TYPEINDICES");
+            m_moldata->mo_types_a = get_mo_types(Set);
+        }
+        {
+            DataSet Set = m_file.openDataSet("MO_BETA_TYPEINDICES");
+            m_moldata->mo_types_b = get_mo_types(Set);
+        }
+        std::cout << m_moldata->mo_types_b << std::endl;
+    }
+
+    // MO-coefficients
+    // TODO: adjust dimensions in case of rectangular MO-matrix
+    if (aeqb) {
+        DataSet Set = m_file.openDataSet("MO_VECTORS");
+        m_moldata->c_fb.alpha() = get_mo_vectors(Set, nsym, nbas);
+        if (nsym>1)
+            m_moldata->c_fb.alpha() = desym * m_moldata->c_fb.alpha();
+    }
+    else {
+        {
+            DataSet Set = m_file.openDataSet("MO_ALPHA_VECTORS");
+            m_moldata->c_fb.alpha() = get_mo_vectors(Set, nsym, nbas);
+            if (nsym>1)
+                m_moldata->c_fb.alpha() = desym * m_moldata->c_fb.alpha();
+        }
+        {
+            DataSet Set = m_file.openDataSet("MO_BETA_VECTORS");
+            m_moldata->c_fb.beta() = get_mo_vectors(Set, nsym, nbas);
+            if (nsym>1)
+                m_moldata->c_fb.beta() = desym * m_moldata->c_fb.beta();
+        }
+    }
+}
+
+std::string molcas_wf_analysis_data::get_mo_types(const H5::DataSet &Set) {
+    int len = 1;
+    StrType strtype = Set.getStrType();
+
+    DataSpace Space = Set.getSpace();
+    int rank = Space.getSimpleExtentNdims();
+    if (rank != 1)
+        throw libwfa_exception(k_clazz, "get_mo_types", __FILE__, __LINE__, "Inconsistent rank");
+
+    hsize_t nmo;
+    Space.getSimpleExtentDims(&nmo, NULL);
+    char buf[nmo][len];
+    Set.read(buf, strtype);
+
+    std::string str(*buf, nmo*len);
+    return str;
+}
+
+arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5::DataSet &Set, const size_t nsym, const int *nbas) {
+    DataSpace Space = Set.getSpace();
+    int rank = Space.getSimpleExtentNdims();
+    if (rank != 1)
+        throw libwfa_exception(k_clazz, "get_mo_vectors", __FILE__, __LINE__, "Inconsistent rank");
+
+    hsize_t dim;
+    Space.getSimpleExtentDims(&dim, NULL);
+    double buf[dim];
+    Set.read(&buf, PredType::NATIVE_DOUBLE);
+
+    int nbas_t = 0;
+    for (size_t isym=0; isym<nsym; isym++)
+        nbas_t += nbas[isym];
+
+    arma::mat retmat;
+    if (nsym == 1) { // no symmetry
+        if (nbas_t * nbas_t != dim)
+            throw libwfa_exception(k_clazz, "get_mo_vectors", __FILE__, __LINE__, "Inconsistent MO vectors (no symmetry)");
+
+        retmat = arma::mat(buf, nbas_t, nbas_t);
+    } // symmetry
+    else {
+        hsize_t dim_chk = 0;
+        for (size_t isym=0; isym<nsym; isym++)
+            dim_chk += nbas[isym] * nbas[isym];
+
+        if (dim_chk != dim)
+            throw libwfa_exception(k_clazz, "get_mo_vectors", __FILE__, __LINE__, "Inconsistent MO vectors (symmetry)");
+
+        // Fill the blocks of the MO matrix
+        retmat = arma::zeros(nbas_t, nbas_t);
+        size_t i=0;
+        double *buf_ptr = buf;
+        for (size_t isym=0; isym<nsym; isym++) {
+            int kbas = nbas[isym];
+            if (kbas==0) continue;
+
+            retmat.submat(i, i, i+kbas-1, i+kbas-1) = arma::mat(buf_ptr, kbas, kbas);
+
+            i+=kbas;
+            buf_ptr += kbas*kbas;
+        }
+    }
+    return retmat;
 }
 
 void molcas_wf_analysis_data::cleanup() {

@@ -48,7 +48,8 @@ private:
         //int ndocc; //!< Number of doubly occupied orbitals
         //int nact; //!< Number of active orbitals
         //size_t nsym; //!< Number of symmetries
-        std::string mo_types; //!< Types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
+        std::string mo_types_a; //!< Alpha types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
+        std::string mo_types_b; //!< Beta types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
 
         /** \brief Constructor
             \param nao Number of atomic basis functions
@@ -234,6 +235,8 @@ public:
 private:
     void initialize();
     void cleanup();
+    std::string get_mo_types(const H5::DataSet &Set);
+    arma::mat get_mo_vectors(const H5::DataSet &Set, const size_t nsym, const int *nbas);
 };
 
 /** \brief Setup the wave function / density matrix analysis data for Molcas
