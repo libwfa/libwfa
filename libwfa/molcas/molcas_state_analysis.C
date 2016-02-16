@@ -21,11 +21,26 @@ int main(int argc, char** argv)
     libwfa::molcas_wf_analysis_data *wfdata = libwfa::molcas_setup_wf_analysis_data(file);
     libwfa::wf_analysis wf(wfdata);
     
-    // First do density matrix analysis
-    std::cout << "  " << std::string(76, '-') << std::endl;
-    std::cout << std::string(28, ' ') << "Density Matrix Analysis" << std::endl;
-    std::cout << "  " << std::string(76, '-') << std::endl << std::endl;
+    // Check what kind of job was performed
+    std::string molcas_module;
     {
+        Attribute Att = Grp_main.openAttribute("MOLCAS_MODULE");
+        StrType strtype(0, H5T_VARIABLE);
+        Att.read(strtype, molcas_module);        
+    }
+    
+    if (molcas_module=="SCF") {
+        std::cout << "  " << std::string(76, '-') << std::endl;
+        std::cout << std::string(31, ' ') << "SCF MO Analysis" << std::endl;
+        std::cout << "  " << std::string(76, '-') << std::endl << std::endl;
+        
+    }
+    else if (molcas_module=="RASSCF") {
+    // First do density matrix analysis
+        std::cout << "  " << std::string(76, '-') << std::endl;
+        std::cout << std::string(23, ' ') << "RASSCF Density Matrix Analysis" << std::endl;
+        std::cout << "  " << std::string(76, '-') << std::endl << std::endl;
+    
         DataSet Set = file.openDataSet("DENSITY_MATRIX");
         DataSpace Space = Set.getSpace();
         int rank = Space.getSimpleExtentNdims();
@@ -39,24 +54,7 @@ int main(int argc, char** argv)
         
         double dens_buf[dims[0] * dims[1] * dims[2]];
         Set.read(&dens_buf, PredType::NATIVE_DOUBLE);
-        
-/*        { // closed shell
-            std::cout << "Closed shell" << std::endl;
-            ab_matrix dm0(44, 44);
-            dm0.alpha().zeros();
-            int nocc = 16;
-            for (int iocc=0; iocc<nocc; iocc++)
-                dm0.alpha().at(iocc, iocc) = 1.;
-            
-            arma::mat ca = wfdata->coefficients().alpha();
-            dm0.alpha() = ca * dm0.alpha() * ca.t();
-            
-            std::ostringstream name;
-            name << "hf";
-            
-            wf.analyse_opdm(std::cout, name.str(), name.str(), dm0);       
-        }*/
-        
+                
         std::cout << "  Ground state:" << std::endl;
         std::cout << "  " << std::string(18, '-') << std::endl;        
         ab_matrix dm0 = wfdata->build_dm(dens_buf);
@@ -71,5 +69,11 @@ int main(int argc, char** argv)
             ab_matrix ddm = wfdata->build_dm(dens_buf + istate*dens_offs); ddm -= dm0;
             wf.analyse_opdm(std::cout, "es", "es", ddm, dm0);
         }
-    } // density matrix analysis
-}
+    } // RASSCF
+    else {
+        std::ostringstream os;
+        os << "Unknown molcas MOLCAS module: " << molcas_module;
+        throw libwfa_exception("main", "main", __FILE__, __LINE__, os.str());
+    }
+    return 0;
+} // main

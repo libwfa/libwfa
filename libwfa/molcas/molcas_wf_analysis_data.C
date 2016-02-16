@@ -145,11 +145,6 @@ void molcas_wf_analysis_data::initialize() {
 
         m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 0, 0, false));
     }
-    
-    // Read module
-    {
-        Attribute Att = Grp_main.openAttribute("MOLCAS_MODULE");
-    }
 
     // Read atomic numbers/charges. Different in the case of ECPs(?)
     {
