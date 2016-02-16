@@ -125,7 +125,7 @@ void molcas_wf_analysis_data::initialize() {
 
     Group Grp_main = m_file.openGroup("/");
 
-    // Read basic info
+    // Number of basis functions
     {
         Attribute Att_nbas = Grp_main.openAttribute("NBAS");
         DataSpace Spac_nbas = Att_nbas.getSpace();
@@ -144,6 +144,11 @@ void molcas_wf_analysis_data::initialize() {
         std::cout << std::endl;
 
         m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 0, 0, false));
+    }
+    
+    // Read module
+    {
+        Attribute Att = Grp_main.openAttribute("MOLCAS_MODULE");
     }
 
     // Read atomic numbers/charges. Different in the case of ECPs(?)
