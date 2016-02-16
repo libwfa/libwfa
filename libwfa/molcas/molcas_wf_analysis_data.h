@@ -45,8 +45,10 @@ private:
         ab_matrix c_fb; //!< MO coefficients
         arma::mat s; //!< AO-Overlap matrix
         molcas_mom_builder mom; //!< Moments builder
-        int ndocc; //!< Number of doubly occupied orbitals
-        int nact; //!< Number of active orbitals
+        //int ndocc; //!< Number of doubly occupied orbitals
+        //int nact; //!< Number of active orbitals
+        //size_t nsym; //!< Number of symmetries
+        std::string mo_types; //!< Types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
 
         /** \brief Constructor
             \param nao Number of atomic basis functions

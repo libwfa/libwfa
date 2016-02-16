@@ -34,6 +34,8 @@ int main(int argc, char** argv)
         std::cout << std::string(31, ' ') << "SCF MO Analysis" << std::endl;
         std::cout << "  " << std::string(76, '-') << std::endl << std::endl;
         
+        ab_matrix dm0 = wfdata->build_dm(0);
+        wf.analyse_opdm(std::cout, "gs", "gs", dm0);
     }
     else if (molcas_module=="RASSCF") {
         std::cout << "  " << std::string(76, '-') << std::endl;
@@ -71,7 +73,7 @@ int main(int argc, char** argv)
     } // RASSCF
     else {
         std::ostringstream os;
-        os << "Unknown molcas MOLCAS module: " << molcas_module;
+        os << std::endl << "Unknown molcas MOLCAS module: " << molcas_module;
         const std::string errmsg = os.str();
         throw libwfa_exception("main", "main", __FILE__, __LINE__, errmsg.c_str());
     }

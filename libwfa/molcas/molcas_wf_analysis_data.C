@@ -96,20 +96,47 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf) {
     int nao = m_moldata->c_fb.nrows_a();
     int nmo = m_moldata->c_fb.ncols_a();
 
-    ab_matrix dmo = ab_matrix(nmo, nmo);
-    dmo.alpha().zeros();
+    ab_matrix dmo(m_moldata->c_fb.is_alpha_eq_beta());
+    dmo.alpha() = arma::zeros(nmo, nmo);
 
-    int nocc = m_moldata->ndocc;
-    for (int iocc=0; iocc<nocc; iocc++)
-        dmo.alpha().at(iocc, iocc) = 1.;
+//    std::cout << "mo_types, nmo, nao: " << m_moldata->mo_types << nmo << nao << std::endl;
+//    std::cout << "size: " << dmo.alpha().size() << " " << dmo.alpha().n_cols << " " << dmo.alpha().n_rows << std::endl;
 
-    int nact = m_moldata->nact;
-    arma::mat dmact(buf, nact, nact);
-    dmo.alpha().submat(nocc, nocc, nocc+nact-1, nocc+nact-1) = 0.5 * dmact;
+    std::string imot, jmot;
+    for (int imo=0; imo<nmo; imo++) {
+        imot = m_moldata->mo_types[imo];
+        if (imot == "I" || imot == "F"){ // Inactive or frozen
+            dmo.alpha().at(imo, imo) = 1.;
+        }
+        else if (imot == "1" || imot == "2" || imot == "3") { // Active
+            for (int jmo=0; jmo<nmo; jmo++){
+                jmot = m_moldata->mo_types[jmo];
+                if (jmot == "1" || jmot == "2" || jmot == "3") {
+                    dmo.alpha().at(imo, jmo) = *buf * 0.5;
+                    buf++;
+                }
+            }
+        }
+        else if (imot == "S") {} // Secondary
+        else {
+            std::ostringstream os;
+            os << std::endl << "Unknown MO type: " << imot;
+            const std::string errmsg = os.str();
+            throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__, errmsg.c_str());
+        }
+    }
 
     ab_matrix dao(nao, nao);
     dao.alpha() = m_moldata->c_fb.alpha() * dmo.alpha() * m_moldata->c_fb.alpha().t();
 
+//    std::cout << "dmo trace: " << trace(dmo.alpha()) << std::endl;
+    //dao.alpha().print();
+    //std::cout << "dao trace: " << trace(dao.alpha()) << " " << accu(dao.alpha() % m_moldata->s) << std::endl;
+    //m_moldata->s.print();
+    //std::cout << std::endl;
+    //m_moldata->c_fb.alpha().print();
+    //std::cout << std::endl;
+    //(m_moldata->c_fb.alpha().t() * m_moldata->s * m_moldata->c_fb.alpha()).print();
     return dao;
 }
 
@@ -132,6 +159,7 @@ void molcas_wf_analysis_data::initialize() {
         Spac_nbas.getSimpleExtentDims(&nsym, NULL);
         if (nsym > 8)
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "More than 8 irreps");
+        //m_moldata->nsym = nsym;
 
         Att_nbas.read(PredType::NATIVE_INT, nbas);
 
@@ -183,11 +211,6 @@ void molcas_wf_analysis_data::initialize() {
         }
         DataSet Set = m_file.openDataSet(h5label);
 
-        /*std::string labels[natoms];
-        DataSpace Spac_read(H5S_VECTOR);
-        Set.read(*labels, strtype, Spac_read);
-        std::cout << "label: " << labels[0] << std::endl;*/
-
         char labels[natoms][len];
 
         StrType strtype = Set.getStrType();
@@ -214,7 +237,7 @@ void molcas_wf_analysis_data::initialize() {
         double buf[dims[0] * dims[1]];
         Set.read(&buf, PredType::NATIVE_DOUBLE);
         m_moldata->coordinates = arma::mat(buf, 3, natoms);
-        //m_moldata->coordinates.print();
+        m_moldata->coordinates.print();
     }
 
     // MO types
@@ -233,11 +256,7 @@ void molcas_wf_analysis_data::initialize() {
         Set.read(buf, strtype);
 
         std::string str(*buf, nmo*len);
-        m_moldata->ndocc = std::count(str.begin(), str.end(), 'I') +
-                           std::count(str.begin(), str.end(), 'F');
-        m_moldata->nact  = std::count(str.begin(), str.end(), '1') +
-                           std::count(str.begin(), str.end(), '2') +
-                           std::count(str.begin(), str.end(), '3');
+        m_moldata->mo_types = str;
     }
 
     // Desymmetrization matrix
@@ -313,15 +332,18 @@ void molcas_wf_analysis_data::initialize() {
             // Fill the blocks of the MO matrix
             m_moldata->c_fb.alpha() = arma::zeros(nbas_t, nbas_t);
             size_t i=0;
+            double *buf_ptr = buf;
             for (size_t isym=0; isym<nsym; isym++) {
                 int kbas = nbas[isym];
                 if (kbas==0) continue;
 
-                arma::mat block(buf, kbas, kbas);
-                m_moldata->c_fb.alpha().submat(i, i, i+kbas-1, i+kbas-1) = block;
+                m_moldata->c_fb.alpha().submat(i, i, i+kbas-1, i+kbas-1) = arma::mat(buf_ptr, kbas, kbas);
 
                 i+=kbas;
+                buf_ptr += kbas*kbas;
             }
+//            std::cout << "fptmp: c_fb" << std::endl;
+//            m_moldata->c_fb.alpha().print();
             m_moldata->c_fb.alpha() = desym * m_moldata->c_fb.alpha();
         }
     }
@@ -354,18 +376,21 @@ void molcas_wf_analysis_data::initialize() {
             if (dim_chk != dim)
                 throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent S-matrix (symmetry)");
 
-            // Fill the blocks of the MO matrix
+            // Fill the blocks
             m_moldata->s = arma::zeros(nbas_t, nbas_t);
             size_t i=0;
+            double *buf_ptr = buf;
             for (size_t isym=0; isym<nsym; isym++) {
                 int kbas = nbas[isym];
                 if (kbas==0) continue;
 
-                arma::mat block(buf, kbas, kbas);
-                m_moldata->s.submat(i, i, i+kbas-1, i+kbas-1) = block;
+                m_moldata->s.submat(i, i, i+kbas-1, i+kbas-1) = arma::mat(buf_ptr, kbas, kbas);
 
                 i+=kbas;
+                buf_ptr += kbas*kbas;
             }
+//            std::cout << "fptmp: s" << std::endl;
+//            m_moldata->s.print();
             m_moldata->s = desym * m_moldata->s * desym.t();
         }
     }
@@ -408,7 +433,6 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
     h->activate(molcas_wf_analysis_data::NO);
     h->activate(molcas_wf_analysis_data::NDO);
     h->activate(molcas_wf_analysis_data::FORM_AD);
-
     return h;
 }
 } // namespace libwfa
