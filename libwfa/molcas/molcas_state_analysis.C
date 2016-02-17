@@ -34,7 +34,7 @@ int main(int argc, char** argv)
         std::cout << std::string(31, ' ') << "SCF MO Analysis" << std::endl;
         std::cout << "  " << std::string(76, '-') << std::endl << std::endl;
         
-        ab_matrix dm0 = wfdata->build_dm(0);
+        ab_matrix dm0 = wfdata->build_dm(0, 0, true);
         wf.analyse_opdm(std::cout, "gs", "gs", dm0);
     }
     else if (molcas_module=="RASSCF") {
@@ -42,23 +42,43 @@ int main(int argc, char** argv)
         std::cout << std::string(23, ' ') << "RASSCF Density Matrix Analysis" << std::endl;
         std::cout << "  " << std::string(76, '-') << std::endl << std::endl;
     
+        // Density matrix
         DataSet Set = file.openDataSet("DENSITY_MATRIX");
-        DataSpace Space = Set.getSpace();
-        int rank = Space.getSimpleExtentNdims();
-        if (rank != 3)
-            throw libwfa_exception("main", "main", __FILE__, __LINE__, "Inconsistent rank for DM");
-        
-        hsize_t dims[rank];
-        Space.getSimpleExtentDims(dims, NULL);
+        hsize_t dims[3];
+        {
+            DataSpace Space = Set.getSpace();
+            if (Space.getSimpleExtentNdims() != 3)
+                throw libwfa_exception("main", "main", __FILE__, __LINE__, "Inconsistent rank for DM");
+            
+            Space.getSimpleExtentDims(dims, NULL);
+        }
         size_t nexc = dims[0]-1;        
         size_t dens_offs = dims[1] * dims[2];
         
         double dens_buf[dims[0] * dims[1] * dims[2]];
         Set.read(&dens_buf, PredType::NATIVE_DOUBLE);
                 
+        // Spin-density matrix
+        bool aeqb_dens = true;
+        double sdens_buf[dims[0] * dims[1] * dims[2]];
+        {
+            DataSet Set_s = file.openDataSet("SPINDENSITY_MATRIX");
+            if (Set_s.getSpace().getSimpleExtentNdims() != 3)
+                throw libwfa_exception("main", "main", __FILE__, __LINE__, "Inconsistent rank for Spin-DM");
+                        
+            Set_s.read(&sdens_buf, PredType::NATIVE_DOUBLE);
+            
+            double *smin = std::min_element(sdens_buf, sdens_buf + dims[0] * dims[1] * dims[2]);
+            double *smax = std::max_element(sdens_buf, sdens_buf + dims[0] * dims[1] * dims[2]);
+            if (*smax-*smin > 1.e-6) {
+                std::cout << "Found non-vanishing spin-density, activating spin-analysis." << std::endl << std::endl;
+                aeqb_dens = false;
+            }
+        }
+        
         std::cout << "  Ground state:" << std::endl;
         std::cout << "  " << std::string(18, '-') << std::endl;        
-        ab_matrix dm0 = wfdata->build_dm(dens_buf);
+        ab_matrix dm0 = wfdata->build_dm(dens_buf, sdens_buf, aeqb_dens);
         wf.analyse_opdm(std::cout, "gs", "gs", dm0);
         
         // Loop over all states
@@ -67,7 +87,7 @@ int main(int argc, char** argv)
                     << ":" << std::endl;
             std::cout << "  " << std::string(18, '-') << std::endl;
             
-            ab_matrix ddm = wfdata->build_dm(dens_buf + istate*dens_offs); ddm -= dm0;
+            ab_matrix ddm = wfdata->build_dm(dens_buf + istate*dens_offs, sdens_buf + istate*dens_offs, aeqb_dens); ddm -= dm0;
             wf.analyse_opdm(std::cout, "es", "es", ddm, dm0);
         }
     } // RASSCF

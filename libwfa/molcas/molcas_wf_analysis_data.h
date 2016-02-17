@@ -45,9 +45,6 @@ private:
         ab_matrix c_fb; //!< MO coefficients
         arma::mat s; //!< AO-Overlap matrix
         molcas_mom_builder mom; //!< Moments builder
-        //int ndocc; //!< Number of doubly occupied orbitals
-        //int nact; //!< Number of active orbitals
-        //size_t nsym; //!< Number of symmetries
         std::string mo_types_a; //!< Alpha types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
         std::string mo_types_b; //!< Beta types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
 
@@ -230,7 +227,7 @@ public:
         The appropriate number of doubly occupied orbitals are added
         and the density is transformed to the AO basis.
      **/
-    ab_matrix build_dm(const double *buf);
+    ab_matrix build_dm(const double *buf, const double *sbuf, const bool aeqb_dens);
     
 private:
     void initialize();

@@ -92,27 +92,37 @@ orbital_printer_i *molcas_wf_analysis_data::orbital_printer(
         return new orbital_printer_nil();
 }
 
-ab_matrix molcas_wf_analysis_data::build_dm(const double *buf) {
+ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbuf, const bool aeqb_dens) {
     int nao = m_moldata->c_fb.nrows_a();
     int nmo = m_moldata->c_fb.ncols_a();
 
-    bool aeqb = m_moldata->c_fb.is_alpha_eq_beta();
+    bool aeqb = m_moldata->c_fb.is_alpha_eq_beta() && aeqb_dens;
 
     ab_matrix dmo(aeqb);
     { // Construct the alpha part
         dmo.alpha() = arma::zeros(nmo, nmo);
-        std::string imot, jmot;
+        if (!aeqb) dmo.beta() = arma::zeros(nmo, nmo);
+        std::string imot, jmot, imot_b;
         for (int imo=0; imo<nmo; imo++) {
             imot = m_moldata->mo_types_a[imo];
+            imot_b = m_moldata->mo_types_b[imo];
             if (imot == "I" || imot == "F"){ // Inactive or frozen
                 dmo.alpha().at(imo, imo) = 1.;
             }
             else if (imot == "1" || imot == "2" || imot == "3") { // Active
+                if (imot != imot_b)
+                    throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__, "Inconsistent mo_types");
+                
                 for (int jmo=0; jmo<nmo; jmo++){
                     jmot = m_moldata->mo_types_a[jmo];
                     if (jmot == "1" || jmot == "2" || jmot == "3") {
                         dmo.alpha().at(imo, jmo) = *buf * 0.5;
-                        buf++;
+                        
+                        if (!aeqb_dens) {
+                            dmo.alpha().at(imo, jmo) += *sbuf * 0.5;
+                            dmo.beta().at(imo, jmo)  =(*buf - *sbuf)*0.5;
+                        }
+                        buf++; sbuf++;
                     }
                 }
             }
@@ -123,20 +133,10 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf) {
                 const std::string errmsg = os.str();
                 throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__, errmsg.c_str());
             }
-        }
-    }
-    if (!aeqb) { // Beta part in the case of UHF
-        dmo.beta() = arma::zeros(nmo, nmo);
-        std::string imot;
-        for (int imo=0; imo<nmo; imo++) {
-            imot = m_moldata->mo_types_a[imo];
-            if (imot == "I" || imot == "F"){ // Inactive or frozen
-                dmo.beta().at(imo, imo) = 1.;
-            }
-            else if (imot == "S") {} // Secondary
-            else {
-                throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__,
-                    "\nUnrestricted orbitals currently only supported for UHF");
+            
+            if (!aeqb) {
+                if (imot_b == "I" || imot_b == "F")
+                    dmo.beta().at(imo, imo) = 1.;
             }
         }
     }
