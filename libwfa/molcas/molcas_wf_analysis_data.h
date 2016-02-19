@@ -62,14 +62,14 @@ private:
      **/
     enum export_type {
         EXPORT_NONE = 0,//!< EXPORT_NONE
-        EXPORT_MOLDEN,  //!< EXPORT_MOLDEN
+        EXPORT_H5,  //!< EXPORT_H5
     };
 
 public:
     static const char k_clazz[]; //!< Class name
 
 private:
-    H5::H5File m_file;
+    H5::H5File m_file; //!< HDF5 file
     std::vector<pa_data *> m_pa; //!< Population analyses
 //    std::vector<cta_data *> m_cta; //!< CT number analyses
 
@@ -82,8 +82,7 @@ private:
     enum export_type m_export_dens; //!< How to export densities
     enum export_type m_export_orbs; //!< How to export orbitals
 
-//    std::auto_ptr<qchem_export_cube> m_ccore; //!< Pointer to cube export core
-//    std::auto_ptr<qchem_export_molden> m_mcore; //!< Pointer to molden export core
+//    std::auto_ptr<molcas_export_h5orb> m_ocore; //!< Pointer to orbital export core
     std::auto_ptr<base_data> m_moldata; //!< Molecular data
     
 public:
@@ -93,7 +92,14 @@ public:
 
     /** \brief Virtual destructor
      **/
-    //virtual ~molcas_wf_analysis_data() { cleanup(); }
+    virtual ~molcas_wf_analysis_data() { cleanup(); }
+    
+    /** \brief Initialize orbital export
+        \param oe How to export orbitals (possible values: cube, molden)
+        \param ot Types of orbitals to export
+     **/
+    void init_orbital_export(const std::string &oe,
+            const orbital_type::flag_t &ot);
 
     /** \brief Initialize population analysis
         \param name Name of population analysis (possible values: mulliken,

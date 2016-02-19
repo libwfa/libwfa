@@ -1,5 +1,6 @@
 #include <libwfa/libwfa.h>
 #include "molcas_wf_analysis_data.h"
+#include "orbital_printer_h5.h"
 
 namespace libwfa {
 using namespace H5;
@@ -10,6 +11,14 @@ molcas_wf_analysis_data::molcas_wf_analysis_data(H5File &file) :
     m_file(file), m_export_dens(EXPORT_NONE), m_export_orbs(EXPORT_NONE) {
     initialize();
     std::cout << "Initialization finished." << std::endl;
+}
+
+void molcas_wf_analysis_data::init_orbital_export(const std::string &oe,
+        const orbital_type::flag_t &ot) {
+
+    m_ot = ot;
+    if (oe == "h5" || oe == "hdf5") { m_export_orbs = EXPORT_H5; }
+    else { m_ot.reset(); }
 }
 
 void molcas_wf_analysis_data::init_pop_analysis(const std::string &name) {
@@ -74,7 +83,7 @@ density_printer_i *molcas_wf_analysis_data::density_printer(
     const std::string &name, const std::string &desc) {
 
     /*if (m_export_dens == EXPORT_FCHK)
-        return new qchem_density_printer_fchk(desc, m_dt);
+        return new molcas_density_printer_fchk(desc, m_dt);
     else if (m_export_dens == EXPORT_CUBE)
         return new density_printer_cube(*m_ccore, name, desc, m_dt);
     else*/
@@ -83,12 +92,9 @@ density_printer_i *molcas_wf_analysis_data::density_printer(
 
 orbital_printer_i *molcas_wf_analysis_data::orbital_printer(
         const std::string &name, const std::string &desc) {
-
-/*    if (m_export_orbs == EXPORT_MOLDEN)
-        return new orbital_printer_molden(*m_mcore, name, m_ot);
-    else if (m_export_orbs == EXPORT_CUBE)
-        return new orbital_printer_cube(*m_ccore, name, desc, m_ot);
-    else */
+    if (m_export_orbs == EXPORT_H5)
+        return new orbital_printer_h5(m_file, name, m_ot);
+    else
         return new orbital_printer_nil();
 }
 
@@ -486,9 +492,17 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
     h->set_orbital_params(orbital_type::NDO, norb, thresh);
     h->set_orbital_params(orbital_type::NTO, norb, thresh);
 
+    // Initialize orbital export
+    orbital_type::flag_t ot;
+    ot.set(orbital_type::no);
+    ot.set(orbital_type::ndo);
+    ot.set(orbital_type::nto);
+    h->init_orbital_export("h5", ot);
+        
     // Activate Mulliken population analysis
     // TODO: Loewdin
     h->init_pop_analysis("mulliken");
+    //h->init_pop_analysis("loewdin");
 
     h->activate(molcas_wf_analysis_data::NO);
     h->activate(molcas_wf_analysis_data::NDO);
