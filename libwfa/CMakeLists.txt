@@ -121,8 +121,8 @@ if(QCHEM_SOURCE_DIR)
   add_subdirectory(qchem)
 endif(QCHEM_SOURCE_DIR)
 
-set(MOLCAS TRUE)
 if(MOLCAS)
+  Message("Configuring Molcas interface ...")
   add_subdirectory(molcas)
 endif(MOLCAS)
 
