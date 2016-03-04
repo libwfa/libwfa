@@ -21,6 +21,16 @@ std::string orbital_type::convert() const {
     }
 }
 
+std::string orbital_type::convert_upper() const {
+    switch (m_type) {
+    case 0: return "MO";
+    case 1: return "NO";
+    case 2: return "NDO";
+    case 3: return "NTO";
+    case 4: return "DYSON";
+    default: return "UNKNOWN";
+    }
+}
 
 std::ostream &operator<<(std::ostream &out, orbital_type type) {
 

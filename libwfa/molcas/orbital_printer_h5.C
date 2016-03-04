@@ -4,31 +4,46 @@
 namespace libwfa {
 
 using namespace H5;
+using namespace arma;
 
 const char orbital_printer_h5::k_clazz[] = "orbital_printer_h5";
 
 void orbital_printer_h5::perform(orbital_type type,
         const orbital_data &orb, const orbital_selector &s) {
-    std::cout << "\n  *** Exporting restricted orbitals: " << m_id << std::endl;
-    
-    // TOOD:desymmetrize
-    
-    const int rank = 1;
-    hsize_t dim = 5;
-    DataSpace Space(rank, &dim);
-    
-    double vals[] = {1., 2., 3., 4., 5.};
-    
-    std::cout << "fptmp A" << std::endl;
-    
-    H5File wfile("molcas.scf.h5", H5F_ACC_RDWR);
-    
-    // TODO: Check if dataset already exists ...
-    DataSet Set(m_file.createDataSet("a2", PredType::NATIVE_DOUBLE, Space));
-    
-    Set.write(vals, PredType::NATIVE_DOUBLE);
 
-    std::cout << "fptmp B" << std::endl;
+    // TOOD:desymmetrize
+
+    H5std_string name(m_id + "_" + type.convert_upper() + "_VECTORS");
+    std::cout << "\n  *** Exporting " << type << ": " << name << std::endl;
+
+    //size_t no = s.n_selected(true);
+
+    //uvec idx = s.get_selected_arma();
+    //if (idx.n_rows != 0) {
+        mat c = orb.get_coeff();//.cols(idx);
+
+        const int rank = 1;
+        hsize_t dim = c.size();
+        DataSpace Space(rank, &dim);
+
+        double *dataptr = c.memptr();
+
+        std::cout << "fptmp A" << std::endl;
+
+        H5File wfile("molcas.scf.h5", H5F_ACC_RDWR);
+
+        DataSet Set;
+        try {
+            Set = m_file.createDataSet(name, PredType::NATIVE_DOUBLE, Space);
+        }
+        catch( FileIException error ) { // open and overwrite the dataset if it already exists
+            std::cout << std::endl << "Overwriting existing dataset " << name << std::endl;
+            Set = m_file.openDataSet(name);
+        }
+        Set.write(dataptr, PredType::NATIVE_DOUBLE);
+
+        std::cout << "fptmp B" << std::endl;
+    //}
 }
 
 void orbital_printer_h5::perform(orbital_type type,

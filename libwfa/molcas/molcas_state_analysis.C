@@ -35,7 +35,7 @@ int main(int argc, char** argv)
         std::cout << "  " << std::string(76, '-') << std::endl << std::endl;
 
         ab_matrix dm0 = wfdata->build_dm(0, 0, true);
-        wf.analyse_opdm(std::cout, "gs", "gs", dm0);
+        wf.analyse_opdm(std::cout, "GS", "gs", dm0);
     }
     else if (molcas_module=="RASSCF") {
         std::cout << "  " << std::string(76, '-') << std::endl;
