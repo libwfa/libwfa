@@ -4,6 +4,7 @@
 #include "H5Cpp.h"
 #include <libwfa/wf_analysis_data_i.h>
 #include "molcas_mom_builder.h"
+#include "molcas_export_h5orbs.h"
 
 namespace libwfa {
     
@@ -82,7 +83,7 @@ private:
     enum export_type m_export_dens; //!< How to export densities
     enum export_type m_export_orbs; //!< How to export orbitals
 
-//    std::auto_ptr<molcas_export_h5orb> m_ocore; //!< Pointer to orbital export core
+    std::auto_ptr<molcas_export_h5orbs> m_h5core; //!< Pointer to orbital export core
     std::auto_ptr<base_data> m_moldata; //!< Molecular data
     
 public:
@@ -238,6 +239,7 @@ public:
 private:
     void initialize();
     void cleanup();
+    void setup_h5core();
     std::string get_mo_types(const H5::DataSet &Set);
     arma::mat get_mo_vectors(const H5::DataSet &Set, const size_t nsym, const int *nbas);
 };

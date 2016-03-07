@@ -1,14 +1,14 @@
 set(HDR
     molcas_wf_analysis_data.h
     molcas_mom_builder.h
-    orbital_printer_h5.h
+    molcas_export_h5orbs.h
 )
 
 set(SRC
     molcas_wf_analysis_data.C
     molcas_state_analysis.C
     molcas_mom_builder.C
-    orbital_printer_h5.C
+    molcas_export_h5orbs.C
 )
 
 set(TARGETS wfa_molcas.x)

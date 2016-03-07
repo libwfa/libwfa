@@ -79,12 +79,12 @@ int main(int argc, char** argv)
         std::cout << "  Ground state:" << std::endl;
         std::cout << "  " << std::string(18, '-') << std::endl;
         ab_matrix dm0 = wfdata->build_dm(dens_buf, sdens_buf, aeqb_dens);
-        wf.analyse_opdm(std::cout, "gs", "gs++", dm0);
+        wf.analyse_opdm(std::cout, "GS", "gs++", dm0);
 
         // Loop over all states
         for (int istate = 1; istate <= nexc; istate++) {
             std::ostringstream name, descr;
-            name << "es_" << istate;
+            name << "ES_" << istate;
             descr << "Excited state " << std::setw(3) << istate;
 
             std::cout << "  " << descr.str() << ":" << std::endl;

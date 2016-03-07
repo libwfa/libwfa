@@ -1,6 +1,5 @@
 #include <libwfa/libwfa.h>
 #include "molcas_wf_analysis_data.h"
-#include "orbital_printer_h5.h"
 
 namespace libwfa {
 using namespace H5;
@@ -17,7 +16,7 @@ void molcas_wf_analysis_data::init_orbital_export(const std::string &oe,
         const orbital_type::flag_t &ot) {
 
     m_ot = ot;
-    if (oe == "h5" || oe == "hdf5") { m_export_orbs = EXPORT_H5; }
+    if (oe == "h5" || oe == "hdf5") { m_export_orbs = EXPORT_H5; setup_h5core(); }
     else { m_ot.reset(); }
 }
 
@@ -93,7 +92,7 @@ density_printer_i *molcas_wf_analysis_data::density_printer(
 orbital_printer_i *molcas_wf_analysis_data::orbital_printer(
         const std::string &name, const std::string &desc) {
     if (m_export_orbs == EXPORT_H5)
-        return new orbital_printer_h5(m_file, name, m_ot);
+        return new orbital_printer_molden(*m_h5core, name, m_ot);
     else
         return new orbital_printer_nil();
 }
@@ -476,6 +475,12 @@ void molcas_wf_analysis_data::cleanup() {
         delete *i; *i = 0;
     }
     m_cta.clear();*/
+}
+
+void molcas_wf_analysis_data::setup_h5core() {
+    if (m_h5core.get() != 0) return;
+    
+    m_h5core = std::auto_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file));
 }
 
 molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
