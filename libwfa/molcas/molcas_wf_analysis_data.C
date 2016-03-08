@@ -161,7 +161,6 @@ void molcas_wf_analysis_data::initialize() {
     hsize_t natoms;
     hsize_t nsym, nbas_t;
     int nbas[8];
-    arma::mat desym;
     bool aeqb;
 
     Group Grp_main = m_file.openGroup("/");
@@ -188,14 +187,15 @@ void molcas_wf_analysis_data::initialize() {
         Att_nbas.read(PredType::NATIVE_INT, nbas);
 
         nbas_t = 0;
-        std::cout << " Basis functions per irrep: ";
         for (size_t isym=0; isym<nsym; isym++) {
-            std::cout << " " << nbas[isym];
             nbas_t += nbas[isym];
         }
-        std::cout << std::endl;
-
         m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 0, 0, aeqb));
+        
+        m_moldata->nbas = arma::uvec(nsym);
+        for (size_t isym=0; isym<nsym; isym++) {
+            m_moldata->nbas(isym) = nbas[isym];
+        }
     }
 
     // Read atomic numbers/charges. Different in the case of ECPs(?)
@@ -281,7 +281,7 @@ void molcas_wf_analysis_data::initialize() {
         if (nbas_t * nbas_t != dim)
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent desym matrix");
 
-        desym = arma::mat(buf, nbas_t, nbas_t);
+        m_moldata->desym = arma::mat(buf, nbas_t, nbas_t);
     }
 
     // Mapping of basis functions to atoms
@@ -347,56 +347,36 @@ void molcas_wf_analysis_data::initialize() {
                 i+=kbas;
                 buf_ptr += kbas*kbas;
             }
-//            std::cout << "fptmp: s" << std::endl;
-//            m_moldata->s.print();
-            m_moldata->s = desym * m_moldata->s * desym.t();
+            m_moldata->s = m_moldata->desym * m_moldata->s * m_moldata->desym.t();
         }
     }
 
     // MO types
     if (aeqb) {
-        DataSet Set = m_file.openDataSet("MO_TYPEINDICES");
-        std::string str = get_mo_types(Set);
+        std::string str = get_mo_types("MO_TYPEINDICES");
         m_moldata->mo_types_a = str;
         m_moldata->mo_types_b = str;
     }
     else { // Unrestricted case
-        {
-            DataSet Set = m_file.openDataSet("MO_ALPHA_TYPEINDICES");
-            m_moldata->mo_types_a = get_mo_types(Set);
-        }
-        {
-            DataSet Set = m_file.openDataSet("MO_BETA_TYPEINDICES");
-            m_moldata->mo_types_b = get_mo_types(Set);
-        }
-        std::cout << m_moldata->mo_types_b << std::endl;
+        m_moldata->mo_types_a = get_mo_types("MO_ALPHA_TYPEINDICES");
+        m_moldata->mo_types_b = get_mo_types("MO_BETA_TYPEINDICES");
     }
 
     // MO-coefficients
     // TODO: adjust dimensions in case of rectangular MO-matrix
     if (aeqb) {
-        DataSet Set = m_file.openDataSet("MO_VECTORS");
-        m_moldata->c_fb.alpha() = get_mo_vectors(Set, nsym, nbas);
-        if (nsym>1)
-            m_moldata->c_fb.alpha() = desym * m_moldata->c_fb.alpha();
+        m_moldata->c_fb.alpha() = get_mo_vectors("MO_VECTORS", nsym, nbas);
+        //std::cout << "c_fb.alpha" << std::endl;
+        //m_moldata->c_fb.alpha().print();
     }
     else {
-        {
-            DataSet Set = m_file.openDataSet("MO_ALPHA_VECTORS");
-            m_moldata->c_fb.alpha() = get_mo_vectors(Set, nsym, nbas);
-            if (nsym>1)
-                m_moldata->c_fb.alpha() = desym * m_moldata->c_fb.alpha();
-        }
-        {
-            DataSet Set = m_file.openDataSet("MO_BETA_VECTORS");
-            m_moldata->c_fb.beta() = get_mo_vectors(Set, nsym, nbas);
-            if (nsym>1)
-                m_moldata->c_fb.beta() = desym * m_moldata->c_fb.beta();
-        }
+        m_moldata->c_fb.alpha() = get_mo_vectors("MO_ALPHA_VECTORS", nsym, nbas);
+        m_moldata->c_fb.beta()  = get_mo_vectors("MO_BETA_VECTORS" , nsym, nbas);
     }
 }
 
-std::string molcas_wf_analysis_data::get_mo_types(const H5::DataSet &Set) {
+std::string molcas_wf_analysis_data::get_mo_types(const H5std_string &setname) {
+    DataSet Set = m_file.openDataSet(setname);
     int len = 1;
     StrType strtype = Set.getStrType();
 
@@ -414,7 +394,8 @@ std::string molcas_wf_analysis_data::get_mo_types(const H5::DataSet &Set) {
     return str;
 }
 
-arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5::DataSet &Set, const size_t nsym, const int *nbas) {
+arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5std_string &setname, const size_t nsym, const int *nbas) {
+    DataSet Set = m_file.openDataSet(setname);
     DataSpace Space = Set.getSpace();
     int rank = Space.getSimpleExtentNdims();
     if (rank != 1)
@@ -435,8 +416,8 @@ arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5::DataSet &Set, const 
             throw libwfa_exception(k_clazz, "get_mo_vectors", __FILE__, __LINE__, "Inconsistent MO vectors (no symmetry)");
 
         retmat = arma::mat(buf, nbas_t, nbas_t);
-    } // symmetry
-    else {
+    }
+    else { // symmetry
         hsize_t dim_chk = 0;
         for (size_t isym=0; isym<nsym; isym++)
             dim_chk += nbas[isym] * nbas[isym];
@@ -457,7 +438,9 @@ arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5::DataSet &Set, const 
             i+=kbas;
             buf_ptr += kbas*kbas;
         }
+        retmat = m_moldata->desym * retmat;        
     }
+    
     return retmat;
 }
 
@@ -480,7 +463,7 @@ void molcas_wf_analysis_data::cleanup() {
 void molcas_wf_analysis_data::setup_h5core() {
     if (m_h5core.get() != 0) return;
     
-    m_h5core = std::auto_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file));
+    m_h5core = std::auto_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file, m_moldata->nbas, m_moldata->desym));
 }
 
 molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
@@ -489,7 +472,7 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
     molcas_wf_analysis_data *h = new molcas_wf_analysis_data(file);
 
     size_t norb = 3;
-    double thresh = 1e-3;
+    double thresh = 1.e-5;
 
     // Setup parameters for orbital print-out; currently use the same parameters
     // for NOs, NDOs, and NTOs
@@ -504,10 +487,9 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
     ot.set(orbital_type::nto);
     h->init_orbital_export("h5", ot);
         
-    // Activate Mulliken population analysis
-    // TODO: Loewdin
+    // Activate population analysis
     h->init_pop_analysis("mulliken");
-    //h->init_pop_analysis("loewdin");
+    h->init_pop_analysis("loewdin");
 
     h->activate(molcas_wf_analysis_data::NO);
     h->activate(molcas_wf_analysis_data::NDO);

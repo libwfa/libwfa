@@ -16,13 +16,15 @@ namespace libwfa {
 class molcas_export_h5orbs: public libwfa::export_molden_i {
 private:
     H5::H5File m_file; //!< HDF5 file
-
+    arma::uvec m_nbas; //!< Number of basis functions per irrep
+    arma::mat  m_desym; //!< Desymmetrization matrix
+    
 public:
     /** \brief Constructor
         \param prefix Prefix of h5file (directory)
      **/
-    molcas_export_h5orbs(H5::H5File &file) :
-        m_file(file) { }
+    molcas_export_h5orbs(H5::H5File &file, arma::uvec nbas, arma::mat desym) :
+        m_file(file), m_nbas(nbas), m_desym(desym) { }
 
     /** \brief Virtual destructor
      **/
@@ -37,6 +39,10 @@ public:
         const arma::mat &c_a, const arma::vec &e_a, size_t nocc_a,
         const arma::mat &c_b, const arma::vec &e_b, size_t nocc_b);
     //@}
+
+private:
+    arma::vec desym(const arma::mat c);
+    void h5_vec(const H5std_string oname, const arma::vec data);
 };
 
 

@@ -45,6 +45,8 @@ private:
         arma::uvec bf2atoms; //!< Map of basis functions to atoms
         ab_matrix c_fb; //!< MO coefficients
         arma::mat s; //!< AO-Overlap matrix
+        arma::uvec nbas; //!< Number of basis functions per irrep
+        arma::mat desym; //!< Desymmetrization matrix
         molcas_mom_builder mom; //!< Moments builder
         std::string mo_types_a; //!< Alpha types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
         std::string mo_types_b; //!< Beta types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
@@ -240,8 +242,8 @@ private:
     void initialize();
     void cleanup();
     void setup_h5core();
-    std::string get_mo_types(const H5::DataSet &Set);
-    arma::mat get_mo_vectors(const H5::DataSet &Set, const size_t nsym, const int *nbas);
+    std::string get_mo_types(const H5std_string &setname);
+    arma::mat get_mo_vectors(const H5std_string &setname, const size_t nsym, const int *nbas);
 };
 
 /** \brief Setup the wave function / density matrix analysis data for Molcas
