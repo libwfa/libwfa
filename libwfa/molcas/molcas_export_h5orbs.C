@@ -3,6 +3,7 @@
 namespace libwfa {
 
 using namespace H5;
+
 void molcas_export_h5orbs::perform(const std::string &name,
     const arma::mat &c, const arma::vec &e, size_t nocc) {
 
@@ -39,12 +40,13 @@ void molcas_export_h5orbs::h5_vec(H5std_string oname, const arma::vec data) {
     DataSet Set;
 
     try {
+        Exception::dontPrint();
         DataSpace Space(rank, &dim);
-        Set = m_file.createDataSet(oname, PredType::NATIVE_DOUBLE, Space);
+        Set = m_group.createDataSet(oname, PredType::NATIVE_DOUBLE, Space);
     }
-    catch( FileIException error ) { // open and overwrite the dataset if it already exists
-        std::cout << std::endl << "Overwriting existing dataset " << oname << std::endl;
-        Set = m_file.openDataSet(oname);
+    catch( GroupIException error ) { // open and overwrite the dataset if it already exists
+        //std::cout << "WARNING: Overwriting existing dataset " << oname << std::endl;
+        Set = m_group.openDataSet(oname);
     }
     Set.write(dataptr, PredType::NATIVE_DOUBLE);
 }

@@ -166,6 +166,7 @@ void molcas_wf_analysis_data::initialize() {
     Group Grp_main = m_file.openGroup("/");
 
     try {
+        Exception::dontPrint();
         DataSet Set = m_file.openDataSet("MO_TYPEINDICES");
         aeqb = true;
     }

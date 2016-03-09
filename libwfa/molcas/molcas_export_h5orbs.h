@@ -15,16 +15,25 @@ namespace libwfa {
  **/
 class molcas_export_h5orbs: public libwfa::export_molden_i {
 private:
-    H5::H5File m_file; //!< HDF5 file
-    arma::uvec m_nbas; //!< Number of basis functions per irrep
-    arma::mat  m_desym; //!< Desymmetrization matrix
+    //H5::H5File m_file; //!< HDF5 file
+    H5::Group  m_group; //!< Group on HDF5 file
+    const arma::uvec m_nbas; //!< Number of basis functions per irrep
+    const arma::mat  m_desym; //!< Desymmetrization matrix
     
 public:
     /** \brief Constructor
         \param prefix Prefix of h5file (directory)
      **/
-    molcas_export_h5orbs(H5::H5File &file, arma::uvec nbas, arma::mat desym) :
-        m_file(file), m_nbas(nbas), m_desym(desym) { }
+    molcas_export_h5orbs(H5::H5File &file, const arma::uvec nbas, const arma::mat desym) :
+        m_nbas(nbas), m_desym(desym) {
+        try {
+            m_group = file.createGroup("WFA");
+        }
+        catch( H5::FileIException error ) {
+            std::cout << std::endl << "WARNING: Overwriting data in existing group WFA " << std::endl;
+            m_group = file.openGroup("WFA");
+        }
+    }
 
     /** \brief Virtual destructor
      **/
