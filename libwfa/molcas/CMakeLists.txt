@@ -1,10 +1,12 @@
 set(HDR
+    molcas_wf_analysis.h
     molcas_wf_analysis_data.h
     molcas_mom_builder.h
     molcas_export_h5orbs.h
 )
 
 set(SRC
+    molcas_wf_analysis.C
     molcas_wf_analysis_data.C
     molcas_state_analysis.C
     molcas_mom_builder.C

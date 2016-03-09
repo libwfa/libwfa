@@ -262,7 +262,7 @@ void molcas_wf_analysis_data::initialize() {
         double buf[dims[0] * dims[1]];
         Set.read(&buf, PredType::NATIVE_DOUBLE);
         m_moldata->coordinates = arma::mat(buf, 3, natoms);
-        m_moldata->coordinates.print();
+        //m_moldata->coordinates.print();
     }
 
     // Desymmetrization matrix

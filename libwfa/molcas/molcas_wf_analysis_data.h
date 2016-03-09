@@ -7,7 +7,7 @@
 #include "molcas_export_h5orbs.h"
 
 namespace libwfa {
-    
+
 class molcas_wf_analysis_data : public libwfa::wf_analysis_data_i {
 private:
     /** \brief Internal structure to hold population analyses
@@ -87,7 +87,7 @@ private:
 
     std::auto_ptr<molcas_export_h5orbs> m_h5core; //!< Pointer to orbital export core
     std::auto_ptr<base_data> m_moldata; //!< Molecular data
-    
+
 public:
     /** \brief Constructor
      **/
@@ -96,7 +96,7 @@ public:
     /** \brief Virtual destructor
      **/
     virtual ~molcas_wf_analysis_data() { cleanup(); }
-    
+
     /** \brief Initialize orbital export
         \param oe How to export orbitals (possible values: cube, molden)
         \param ot Types of orbitals to export
@@ -118,7 +118,7 @@ public:
     /** \brief Activate certain analysis
      **/
     void activate(enum analysis_type t);
-    
+
     /** \brief Set orbital parameters for one orbital type
         \param t Orbital type
         \param nno Number of leading orbitals
@@ -126,17 +126,21 @@ public:
      **/
     void set_orbital_params(enum orbital_type::ot t,
             size_t nno, double thresh);
-    
+
     /** \brief Return if a certain analysis should be performed
      **/
     bool is_active(enum analysis_type t);
-    
+
     /** \brief Return parameters for orbital analyses
         \return Pair comprising the number of leading orbitals to print and
             an threshold for important orbitals (see e.g. \ref no_analysis
             for details)
      **/
     orbital_params get_orbital_params(enum orbital_type::ot t);
+
+    const H5::H5File &h5file() {
+        return m_file;
+    }
 
     /** \brief Retrieve the AO overlap matrix
      **/
@@ -232,12 +236,12 @@ public:
     /** \brief Build the density matrix
         \param buf Buffer with density matrix data
         \return Full density matrix in the AO basis
-        
+
         The appropriate number of doubly occupied orbitals are added
         and the density is transformed to the AO basis.
      **/
     ab_matrix build_dm(const double *buf, const double *sbuf, const bool aeqb_dens);
-    
+
 private:
     void initialize();
     void cleanup();
