@@ -17,11 +17,11 @@ public:
     molcas_wf_analysis(molcas_wf_analysis_data *h) : wf_analysis(h), m_mdata(h) { }
     
     void scf_analysis();
-    void rasscf_analysis();
-    void rassi_analysis();
-    void header1(std::string title);
+    void rasscf_analysis(size_t refstate);
+    void rassi_analysis(size_t refstate);
 
 private:
+    void header1(std::string title);
     void header2(std::string title);
 };
     

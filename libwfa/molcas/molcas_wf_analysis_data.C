@@ -38,7 +38,7 @@ void molcas_wf_analysis_data::init_pop_analysis(const std::string &name) {
 }
 
 void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
-    
+
     const arma::mat &s = m_moldata->s;
     const arma::uvec &b2a = m_moldata->bf2atoms;
     if (name  == "atomic") {
@@ -94,7 +94,7 @@ std::auto_ptr<ctnum_printer_i> molcas_wf_analysis_data::ctnum_printer(size_t i,
             const std::string &name, const std::string &desc) {
     ctnum_printer_i *pr = new ctnum_export(name + "_ctnum_" +
             m_cta[i]->suffix, desc);
-    return std::auto_ptr<ctnum_printer_i>(pr);    
+    return std::auto_ptr<ctnum_printer_i>(pr);
 }
 
 ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbuf, const bool aeqb_dens) {
@@ -117,12 +117,12 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbu
             else if (imot == "1" || imot == "2" || imot == "3") { // Active
                 if (imot != imot_b)
                     throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__, "Inconsistent mo_types");
-                
+
                 for (int jmo=0; jmo<nmo; jmo++){
                     jmot = m_moldata->mo_types_a[jmo];
                     if (jmot == "1" || jmot == "2" || jmot == "3") {
                         dmo.alpha().at(imo, jmo) = *buf * 0.5;
-                        
+
                         if (!aeqb_dens) {
                             dmo.alpha().at(imo, jmo) += *sbuf * 0.5;
                             dmo.beta().at(imo, jmo)  =(*buf - *sbuf)*0.5;
@@ -138,7 +138,7 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbu
                 const std::string errmsg = os.str();
                 throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__, errmsg.c_str());
             }
-            
+
             if (!aeqb) {
                 if (imot_b == "I" || imot_b == "F")
                     dmo.beta().at(imo, imo) = 1.;
@@ -157,13 +157,14 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbu
 ab_matrix molcas_wf_analysis_data::build_dm_ao(const double *buf, const size_t dim) {
     int nao = m_moldata->c_fb.nrows_a();
     bool aeqb = true; // at least for now ...
-    
+
     ab_matrix dao(aeqb);
     read_ao_mat(buf, dim, dao.alpha());
     //dao.alpha().print();
     if (m_moldata->nbas.size() > 1)
-        dao.alpha() = m_moldata->desym.t() * dao.alpha() * m_moldata->desym;
+        dao.alpha() = m_moldata->desym * dao.alpha() * m_moldata->desym.t();
 
+    dao *= 0.5;
     return dao;
 }
 
@@ -175,11 +176,11 @@ arma::cube molcas_wf_analysis_data::read_dens_raw(H5std_string key) {
 
     hsize_t dims[3];
     Space.getSimpleExtentDims(dims, NULL);
-    
+
     arma::cube dens = arma::cube(dims[2], dims[1], dims[0]);
     double *dens_buf = dens.memptr();
     Set.read(dens_buf, PredType::NATIVE_DOUBLE);
-    
+
     return dens;
 }
 
@@ -229,7 +230,7 @@ void molcas_wf_analysis_data::initialize() {
             nbas_t += nbas[isym];
         }
         m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 0, 0, aeqb));
-        
+
         m_moldata->nbas = arma::uvec(nsym);
         for (size_t isym=0; isym<nsym; isym++) {
             m_moldata->nbas(isym) = nbas[isym];
@@ -373,7 +374,7 @@ void molcas_wf_analysis_data::initialize() {
             m_moldata->mo_types_a = get_mo_types("MO_ALPHA_TYPEINDICES");
             m_moldata->mo_types_b = get_mo_types("MO_BETA_TYPEINDICES");
         }
-    
+
         // MO-coefficients
         // TODO: adjust dimensions in case of rectangular MO-matrix
         if (aeqb) {
@@ -391,10 +392,9 @@ void molcas_wf_analysis_data::initialize() {
         arma::mat u;
         arma::vec e;
         eig_sym(e, u, m_moldata->s);
-        
+
         //m_moldata->c_fb.alpha() = arma::eye(nbas_t, nbas_t);
         m_moldata->c_fb.alpha() = u * arma::diagmat(1/sqrt(e)) * u.t();
-        m_moldata->c_fb.alpha().print();
     }
 }
 
@@ -432,8 +432,8 @@ arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5std_string &setname) {
     arma::mat retmat;
     read_ao_mat(buf, dim, retmat);
     if (m_moldata->nbas.size() > 1)
-        retmat = m_moldata->desym * retmat;        
-    
+        retmat = m_moldata->desym * retmat;
+
     return retmat;
 }
 
@@ -446,23 +446,23 @@ void molcas_wf_analysis_data::cleanup() {
         delete *i; *i = 0;
     }
     m_pa.clear();
-/*    for (std::vector<cta_data *>::iterator i = m_cta.begin();
+    for (std::vector<cta_data *>::iterator i = m_cta.begin();
             i != m_cta.end(); i++) {
         delete *i; *i = 0;
     }
-    m_cta.clear();*/
+    m_cta.clear();
 }
 
 void molcas_wf_analysis_data::setup_h5core() {
     if (m_h5core.get() != 0) return;
-    
+
     m_h5core = std::auto_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file, m_moldata->nbas, m_moldata->desym));
 }
 
 void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat) {
     size_t nbas_t = nbas_t = arma::accu(m_moldata->nbas);
     size_t nsym = m_moldata->nbas.size();
-    
+
     if (nsym == 1) { // no symmetry
         if (nbas_t * nbas_t != dim)
             throw libwfa_exception(k_clazz, "read_ao_mat", __FILE__, __LINE__, "Inconsistent AO-matrix (no symmetry)");
@@ -513,16 +513,23 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
     ot.set(orbital_type::ndo);
     ot.set(orbital_type::nto);
     h->init_orbital_export("h5", ot);
-        
+
     // Activate population analysis
     h->init_pop_analysis("mulliken");
     h->init_pop_analysis("loewdin");
 
     h->init_ctnum_analysis("atomic");
-    
+
     h->activate(molcas_wf_analysis_data::NO);
     h->activate(molcas_wf_analysis_data::NDO);
+    h->activate(molcas_wf_analysis_data::NTO);
+    h->activate(molcas_wf_analysis_data::SA_NTO);
+    
+    h->activate(molcas_wf_analysis_data::FORM_EH);
     h->activate(molcas_wf_analysis_data::FORM_AD);
+    
+    //h->activate(molcas_wf_analysis_data::EXCITON);
+    //h->activate(molcas_wf_analysis_data::EXCITON_AD);    
     return h;
 }
 } // namespace libwfa
