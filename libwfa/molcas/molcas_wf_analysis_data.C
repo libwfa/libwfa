@@ -38,15 +38,13 @@ void molcas_wf_analysis_data::init_pop_analysis(const std::string &name) {
 }
 
 void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
-
-    /*
-    //const arma::mat &s = m_moldata->mom.get(0, 0);
-    arma::mat s;
+    
+    const arma::mat &s = m_moldata->s;
     const arma::uvec &b2a = m_moldata->bf2atoms;
-    /*if (name  == "atomic") {
+    if (name  == "atomic") {
         m_cta.push_back(new cta_data("Atomic CT numbers", "atomic",
                 new libwfa::ctnum_analysis(s, b2a)));
-    }*/
+    }
 }
 
 void molcas_wf_analysis_data::activate(enum analysis_type t) {
@@ -81,12 +79,7 @@ bool molcas_wf_analysis_data::is_active(enum analysis_type t) {
 density_printer_i *molcas_wf_analysis_data::density_printer(
     const std::string &name, const std::string &desc) {
 
-    /*if (m_export_dens == EXPORT_FCHK)
-        return new molcas_density_printer_fchk(desc, m_dt);
-    else if (m_export_dens == EXPORT_CUBE)
-        return new density_printer_cube(*m_ccore, name, desc, m_dt);
-    else*/
-        return new density_printer_nil();
+    return new density_printer_nil();
 }
 
 orbital_printer_i *molcas_wf_analysis_data::orbital_printer(
@@ -95,6 +88,13 @@ orbital_printer_i *molcas_wf_analysis_data::orbital_printer(
         return new orbital_printer_molden(*m_h5core, name, m_ot);
     else
         return new orbital_printer_nil();
+}
+
+std::auto_ptr<ctnum_printer_i> molcas_wf_analysis_data::ctnum_printer(size_t i,
+            const std::string &name, const std::string &desc) {
+    ctnum_printer_i *pr = new ctnum_export(name + "_ctnum_" +
+            m_cta[i]->suffix, desc);
+    return std::auto_ptr<ctnum_printer_i>(pr);    
 }
 
 ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbuf, const bool aeqb_dens) {
@@ -154,6 +154,19 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbu
     return dao;
 }
 
+ab_matrix molcas_wf_analysis_data::build_dm_ao(const double *buf, const size_t dim) {
+    int nao = m_moldata->c_fb.nrows_a();
+    bool aeqb = true; // at least for now ...
+    
+    ab_matrix dao(aeqb);
+    read_ao_mat(buf, dim, dao.alpha());
+    //dao.alpha().print();
+    if (m_moldata->nbas.size() > 1)
+        dao.alpha() = m_moldata->desym.t() * dao.alpha() * m_moldata->desym;
+
+    return dao;
+}
+
 arma::cube molcas_wf_analysis_data::read_dens_raw(H5std_string key) {
     DataSet Set = m_file.openDataSet(key);
     DataSpace Space = Set.getSpace();
@@ -182,7 +195,7 @@ void molcas_wf_analysis_data::initialize() {
 
     bool aeqb = true;
     bool found_mos = true;
-    //Exception::dontPrint(); // Do not pring excessive error messages in the try blocks
+    Exception::dontPrint(); // Do not print excessive error messages from HDF5
     try {
         DataSet Set = m_file.openDataSet("MO_VECTORS");
         std::cout << std::endl << "Found restricted MO-coefficients: MO_VECTORS" << std::endl;
@@ -374,8 +387,14 @@ void molcas_wf_analysis_data::initialize() {
         }
     }
     else {
-        std::cout << "Using unit matrix for MO-coefficients (temporary)" << std::endl;
-        m_moldata->c_fb.alpha() = arma::eye(nbas_t, nbas_t);
+        // Do a Loewdin orthogonalization, since no MO-coefficients are available
+        arma::mat u;
+        arma::vec e;
+        eig_sym(e, u, m_moldata->s);
+        
+        //m_moldata->c_fb.alpha() = arma::eye(nbas_t, nbas_t);
+        m_moldata->c_fb.alpha() = u * arma::diagmat(1/sqrt(e)) * u.t();
+        m_moldata->c_fb.alpha().print();
     }
 }
 
@@ -499,6 +518,8 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
     h->init_pop_analysis("mulliken");
     h->init_pop_analysis("loewdin");
 
+    h->init_ctnum_analysis("atomic");
+    
     h->activate(molcas_wf_analysis_data::NO);
     h->activate(molcas_wf_analysis_data::NDO);
     h->activate(molcas_wf_analysis_data::FORM_AD);

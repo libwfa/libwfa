@@ -74,7 +74,7 @@ public:
 private:
     H5::H5File m_file; //!< HDF5 file
     std::vector<pa_data *> m_pa; //!< Population analyses
-//    std::vector<cta_data *> m_cta; //!< CT number analyses
+    std::vector<cta_data *> m_cta; //!< CT number analyses
 
     std::bitset<WFA_TYPES> m_analyses; //!< Activated analyses
     std::map<unsigned, orbital_params> m_oparams;
@@ -138,6 +138,8 @@ public:
      **/
     orbital_params get_orbital_params(enum orbital_type::ot t);
 
+    /** \brief Retrieve the HDF5 file
+     **/
     const H5::H5File &h5file() {
         return m_file;
     }
@@ -210,20 +212,20 @@ public:
 
     /** \brief Number of CT number analyses available
      **/
-    size_t n_ctnum_analyses() {}
+    size_t n_ctnum_analyses() { return m_cta.size(); }
 
     /** \brief Name of i-th CT number analysis
      **/
-    const std::string &ctnum_name(size_t i) {}
+    const std::string &ctnum_name(size_t i) { return m_cta[i]->name; }
 
     /** \brief i-th CT number analysis
      **/
-    const ctnum_analysis_i &ctnum_analysis(size_t i) {}
+    const ctnum_analysis_i &ctnum_analysis(size_t i) { return *m_cta[i]->analysis; }
 
     /** \brief Printer of i-th CT number data
      **/
     std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
-            const std::string &name, const std::string &desc) {}
+            const std::string &name, const std::string &desc);
 
     //@}
 
@@ -233,7 +235,7 @@ public:
         return m_moldata->mom;
     }
 
-    /** \brief Build the density matrix
+    /** \brief Build the density matrix from MOs
         \param buf Density matrix data (MO basis)
         \param sbuf Spin-density matrix data (MO basis)
         \param aeqb_dens Is alpha equal to beta
@@ -243,6 +245,13 @@ public:
         and the density is transformed to the AO basis.
      **/
     ab_matrix build_dm(const double *buf, const double *sbuf, const bool aeqb_dens);
+    
+    /** \brief Build the density matrix from AOs
+        \param buf Density matrix data (AO basis)
+        \return Full density matrix in the AO basis
+     **/
+    ab_matrix build_dm_ao(const double *buf, const size_t dim);
+    
     
     /** \brief Read a density in raw format
         \param key name of the density

@@ -57,15 +57,33 @@ void molcas_wf_analysis::rasscf_analysis() {
 void molcas_wf_analysis::rassi_analysis() {
     // Density matrix
     arma::cube tden = m_mdata->read_dens_raw("SFS_TRANSITION_DENSITIES");
-    double *tden_buf = tden.memptr();
+    const double *tden_buf = tden.memptr();
     
     // Loop over all transition densities
     for (int iden = 0; iden < tden.n_slices; iden++) {
         for (int jden = 0; jden < tden.n_cols; jden++) {
-            std::ostringstream name, descr;
-            name << "T_" << iden + 1 << "-" << jden + 1;
-            descr << "RASSI analysis for transiton from less" << iden+1 << " to " << jden+1;
-            header2(descr.str());
+            if (iden==jden) {
+                std::ostringstream name, descr;
+                name << "ES_" << iden;
+                descr << "RASSI analysis for state " << std::setw(3) << iden+1;
+                header2(descr.str());
+                ab_matrix dm = m_mdata->build_dm_ao(tden_buf, tden.n_rows);
+                dm *= 0.5;
+                analyse_opdm(std::cout, name.str(), descr.str(), dm);
+            }
+            else if (jden > iden) {
+                std::ostringstream name, descr;
+                name << "T_" << iden + 1 << "-" << jden + 1;
+                descr << "RASSI analysis for transiton from " << iden+1 << " to " << jden+1;
+                header2(descr.str());
+                
+                ab_matrix tdm = m_mdata->build_dm_ao(tden_buf, tden.n_rows);
+                tdm *= 0.5;
+                tdm.inplace_trans();
+                analyse_optdm(std::cout, name.str(), name.str(), tdm);
+            }
+            
+            tden_buf += tden.n_rows;
         }
     }
 }
