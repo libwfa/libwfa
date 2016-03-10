@@ -9,28 +9,24 @@ using namespace H5;
 
 const char molcas_wf_analysis::k_clazz[] = "molcas_wf_analysis";
 
-void molcas_wf_analysis::scf_analysis(molcas_wf_analysis_data *wfdata) {
+void molcas_wf_analysis::scf_analysis() {
 
-    header1("SCF MO Analysis");
-
-    ab_matrix dm0 = wfdata->build_dm(0, 0, true);
+    ab_matrix dm0 = m_mdata->build_dm(0, 0, true);
     analyse_opdm(std::cout, "GS", "SCF ground state", dm0);
 }
 
-void molcas_wf_analysis::rasscf_analysis(molcas_wf_analysis_data *wfdata) {
-
-    header1("RASSCF Density Matrix Analysis");
+void molcas_wf_analysis::rasscf_analysis() {
 
     // Density matrix
-    arma::cube dens = wfdata->read_dens_raw("DENSITY_MATRIX");
+    arma::cube dens = m_mdata->read_dens_raw("DENSITY_MATRIX");
     double *dens_buf = dens.memptr();
 
-    size_t nexc = dens.n_rows - 1;
-    size_t dens_offs = dens.n_cols * dens.n_slices;
+    size_t nexc = dens.n_slices - 1;
+    size_t dens_offs = dens.n_rows * dens.n_cols;
 
 
     // Spin-density matrix
-    arma::cube sdens = wfdata->read_dens_raw("SPINDENSITY_MATRIX");
+    arma::cube sdens = m_mdata->read_dens_raw("SPINDENSITY_MATRIX");
     double *sdens_buf = sdens.memptr();
 
     double *smin = std::min_element(sdens_buf, sdens_buf + sdens.size());
@@ -42,7 +38,7 @@ void molcas_wf_analysis::rasscf_analysis(molcas_wf_analysis_data *wfdata) {
     }
 
     header2("RASSCF ground state");
-    ab_matrix dm0 = wfdata->build_dm(dens_buf, sdens_buf, aeqb_dens);
+    ab_matrix dm0 = m_mdata->build_dm(dens_buf, sdens_buf, aeqb_dens);
     analyse_opdm(std::cout, "GS", "RASSCF ground state", dm0);
 
     // Loop over all states
@@ -52,9 +48,25 @@ void molcas_wf_analysis::rasscf_analysis(molcas_wf_analysis_data *wfdata) {
         descr << "RASSCF excited state " << std::setw(3) << istate;
         header2(descr.str());
 
-        ab_matrix ddm = wfdata->build_dm(dens_buf + istate*dens_offs, sdens_buf + istate*dens_offs, aeqb_dens);
+        ab_matrix ddm = m_mdata->build_dm(dens_buf + istate*dens_offs, sdens_buf + istate*dens_offs, aeqb_dens);
         ddm -= dm0;
         analyse_opdm(std::cout, name.str(), descr.str(), ddm, dm0);
+    }
+}
+
+void molcas_wf_analysis::rassi_analysis() {
+    // Density matrix
+    arma::cube tden = m_mdata->read_dens_raw("SFS_TRANSITION_DENSITIES");
+    double *tden_buf = tden.memptr();
+    
+    // Loop over all transition densities
+    for (int iden = 0; iden < tden.n_slices; iden++) {
+        for (int jden = 0; jden < tden.n_cols; jden++) {
+            std::ostringstream name, descr;
+            name << "T_" << iden + 1 << "-" << jden + 1;
+            descr << "RASSI analysis for transiton from less" << iden+1 << " to " << jden+1;
+            header2(descr.str());
+        }
     }
 }
 

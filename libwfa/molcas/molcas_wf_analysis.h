@@ -7,17 +7,21 @@
 namespace libwfa {
 
 class molcas_wf_analysis : public wf_analysis {
+private:
+    molcas_wf_analysis_data *m_mdata;
+    
 public:
     static const char k_clazz[]; //!< Class name
     
 public:
-    molcas_wf_analysis(wf_analysis_data_i *h, H5::H5File &file) : wf_analysis(h) { }
+    molcas_wf_analysis(molcas_wf_analysis_data *h) : wf_analysis(h), m_mdata(h) { }
     
-    void scf_analysis(molcas_wf_analysis_data *wfdata);
-    void rasscf_analysis(molcas_wf_analysis_data *wfdata);
+    void scf_analysis();
+    void rasscf_analysis();
+    void rassi_analysis();
+    void header1(std::string title);
 
 private:
-    void header1(std::string title);
     void header2(std::string title);
 };
     

@@ -234,7 +234,9 @@ public:
     }
 
     /** \brief Build the density matrix
-        \param buf Buffer with density matrix data
+        \param buf Density matrix data (MO basis)
+        \param sbuf Spin-density matrix data (MO basis)
+        \param aeqb_dens Is alpha equal to beta
         \return Full density matrix in the AO basis
 
         The appropriate number of doubly occupied orbitals are added
@@ -252,8 +254,9 @@ private:
     void initialize();
     void cleanup();
     void setup_h5core();
+    void read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat);
     std::string get_mo_types(const H5std_string &setname);
-    arma::mat get_mo_vectors(const H5std_string &setname, const size_t nsym, const int *nbas);
+    arma::mat get_mo_vectors(const H5std_string &setname);
 };
 
 /** \brief Setup the wave function / density matrix analysis data for Molcas

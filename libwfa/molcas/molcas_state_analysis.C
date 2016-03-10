@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     H5File file( file_name, H5F_ACC_RDWR );
 
     molcas_wf_analysis_data *wfdata = libwfa::molcas_setup_wf_analysis_data(file);
-    molcas_wf_analysis wf(wfdata, file);
+    molcas_wf_analysis wf(wfdata);
 
     // Check what kind of job was performed
     H5std_string molcas_module;
@@ -36,12 +36,18 @@ int main(int argc, char** argv)
     }
 
     if (molcas_module=="SCF") {
-        wf.scf_analysis(wfdata);
+        wf.header1("SCF MO Analysis");
+        wf.scf_analysis();
     }
     else if (molcas_module=="RASSCF") {
+        wf.header1("RASSCF Density Matrix Analysis");
         std::cout << "Using state " << ref_state << " of file " <<
             *ref_name << " as a reference for attachment/detachment analysis." << std::endl;
-        wf.rasscf_analysis(wfdata);
+        wf.rasscf_analysis();
+    }
+    else if (molcas_module=="RASSI") {
+        wf.header1("RASSI Transition Density Matrix Analysis");
+        wf.rassi_analysis();
     }
     else {
         std::ostringstream os;
