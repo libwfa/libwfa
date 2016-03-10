@@ -241,6 +241,12 @@ public:
         and the density is transformed to the AO basis.
      **/
     ab_matrix build_dm(const double *buf, const double *sbuf, const bool aeqb_dens);
+    
+    /** \brief Read a density in raw format
+        \param key name of the density
+        \return raw density matrix as cube
+    **/
+    arma::cube read_dens_raw(H5std_string key);
 
 private:
     void initialize();

@@ -15,6 +15,10 @@ public:
     
     void scf_analysis(molcas_wf_analysis_data *wfdata);
     void rasscf_analysis(molcas_wf_analysis_data *wfdata);
+
+private:
+    void header1(std::string title);
+    void header2(std::string title);
 };
     
 } // namespace libwfa

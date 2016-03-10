@@ -154,6 +154,22 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbu
     return dao;
 }
 
+arma::cube molcas_wf_analysis_data::read_dens_raw(H5std_string key) {
+    DataSet Set = m_file.openDataSet(key);
+    DataSpace Space = Set.getSpace();
+    if (Space.getSimpleExtentNdims() != 3)
+        throw libwfa_exception(k_clazz, "read_dens_raw", __FILE__, __LINE__, "Inconsistent rank");
+
+    hsize_t dims[3];
+    Space.getSimpleExtentDims(dims, NULL);
+    
+    arma::cube dens = arma::cube(dims[0], dims[1], dims[2]);
+    double *dens_buf = dens.memptr();
+    Set.read(dens_buf, PredType::NATIVE_DOUBLE);
+    
+    return dens;
+}
+
 void molcas_wf_analysis_data::initialize() {
 
     static const char method[] = "initialize()";
