@@ -196,7 +196,7 @@ void molcas_wf_analysis_data::initialize() {
 
     bool aeqb = true;
     bool found_mos = true;
-    Exception::dontPrint(); // Do not print excessive error messages from HDF5
+    //Exception::dontPrint(); // Do not print excessive error messages from HDF5
     try {
         DataSet Set = m_file.openDataSet("MO_VECTORS");
         std::cout << std::endl << "Found restricted MO-coefficients: MO_VECTORS" << std::endl;

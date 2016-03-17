@@ -65,6 +65,9 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
     header1("RASSI Transition Density Matrix Analysis");
 
     arma::cube tden = m_mdata->read_dens_raw("SFS_TRANSITION_DENSITIES");
+    if (refstate >= tden.n_slices)
+        throw libwfa_exception(k_clazz, "rassi_analysis", __FILE__, __LINE__, "refstate > nstate");
+
     const double *tden_buf = tden.memptr();
     
     ab_matrix dm0 = m_mdata->build_dm_ao(tden_buf + (refstate + refstate * tden.n_cols)*tden.n_rows, tden.n_rows);
@@ -91,16 +94,19 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
                 analyse_opdm(std::cout, name.str(), name.str(), ddm, dm0);
             }
             { // Transition density analysis
-                int jstate = std::min(istate, (int)refstate);
-                int kstate = std::max(istate, (int)refstate);
                 std::ostringstream name, header;                
-                name << "T_" << jstate + 1 << "-" << kstate + 1;
-                header << "RASSI analysis for transiton from " << jstate+1 << " to " << kstate+1;
+                name << "T_" << refstate+1 << "-" << istate+1;
+                header << "RASSI analysis for transiton from " << refstate+1 << " to " << istate+1;
                 header2(header.str());
                 
+                int jstate = std::min(istate, (int)refstate);
+                int kstate = std::max(istate, (int)refstate);
+
                 const double *itden_buf = tden_buf + (kstate + jstate * tden.n_cols)*tden.n_rows;
                 ab_matrix tdm = m_mdata->build_dm_ao(itden_buf, tden.n_rows);
-                tdm.inplace_trans();
+                if (istate > (int)refstate) // Transpose of the indices are switched
+                    tdm.inplace_trans();
+
                 analyse_optdm(std::cout, name.str(), name.str(), tdm);
             }
         }

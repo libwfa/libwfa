@@ -35,7 +35,7 @@ void molcas_export_h5orbs::setup(H5File &file) {
         try {
             m_group = file.createGroup("/WFA");
 
-            H5std_string descr = "Wavefunction analysis data produced by molcas_wfa.x";
+            H5std_string descr = "Wavefunction analysis data produced by wfa_molcas.x";
             DataSpace Space(H5S_SCALAR);
             StrType strtype(PredType::C_S1, descr.size());
 
