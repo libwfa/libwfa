@@ -20,6 +20,9 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
 
     // Density matrix
     arma::cube dens = m_mdata->read_dens_raw("DENSITY_MATRIX");
+    if (refstate >= dens.n_slices)
+        throw libwfa_exception(k_clazz, "rasscf_analysis", __FILE__, __LINE__, "refstate > nstate");
+
     double *dens_buf = dens.memptr();
 
     size_t dens_offs = dens.n_rows * dens.n_cols;
@@ -38,22 +41,28 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
 
     ab_matrix dm0 = m_mdata->build_dm(dens_buf + refstate*dens_offs, sdens_buf + refstate*dens_offs, aeqb_dens);
 
+    // Read the energies
+    arma::vec ener = m_mdata->read_vec_h5("ROOT_ENERGIES");
+    ener -= ener(refstate);    
+
     // Loop over all states
     for (int istate = 0; istate < dens.n_slices; istate++) {
         if (istate == refstate) {
             std::ostringstream name, header;
-            name << "S_" << refstate+1;
+            name << "A_" << refstate+1;
             header << "RASSCF analysis for reference state " << name.str();
             header2(header.str());
-
+            m_mdata->energy_print(ener(istate), std::cout);
+            
             analyse_opdm(std::cout, name.str(), name.str(), dm0);
         }
         else {
             std::ostringstream name, header;
-            name << "S_" << istate+1;
+            name << "A_" << istate+1;
             header << "RASSCF analysis for state " << name.str();
             header2(header.str());
-    
+            m_mdata->energy_print(ener(istate), std::cout);
+            
             ab_matrix ddm = m_mdata->build_dm(dens_buf + istate*dens_offs, sdens_buf + istate*dens_offs, aeqb_dens);
             ddm -= dm0;
             analyse_opdm(std::cout, name.str(), name.str(), ddm, dm0);
@@ -64,41 +73,58 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
 void molcas_wf_analysis::rassi_analysis(size_t refstate) {
     header1("RASSI Transition Density Matrix Analysis");
 
+    // Read the densities
     arma::cube tden = m_mdata->read_dens_raw("SFS_TRANSITION_DENSITIES");
     if (refstate >= tden.n_slices)
         throw libwfa_exception(k_clazz, "rassi_analysis", __FILE__, __LINE__, "refstate > nstate");
 
     const double *tden_buf = tden.memptr();
-    
     ab_matrix dm0 = m_mdata->build_dm_ao(tden_buf + (refstate + refstate * tden.n_cols)*tden.n_rows, tden.n_rows);
-    
+
+    // Read the energies
+    arma::vec ener = m_mdata->read_vec_h5("SFS_ENERGIES");
+    ener -= ener(refstate);
+
     // Loop over all transition densities
     for (int istate = 0; istate < tden.n_slices; istate++) {
         if (istate == refstate) {
-            std::ostringstream name, header;
-            name << "S_" << refstate+1;
-            header << "RASSI analysis for reference state " << std::setw(3) << refstate+1;
+            std::ostringstream name, descr, header;
+
+            name << "A_" << refstate+1;
+            descr << name.str() << " " << std::setprecision(5) << ener(istate);
+
+            header << "RASSI analysis for reference state " << name.str();
             header2(header.str());
-            analyse_opdm(std::cout, name.str(), name.str(), dm0);
+            m_mdata->energy_print(ener(istate), std::cout);
+
+            analyse_opdm(std::cout, name.str(), descr.str(), dm0);
         }
         else {
             { // State/difference density analysis
-                std::ostringstream name, header;
-                name << "S_" << istate+1;
-                header << "RASSI analysis for state " << std::setw(3) << istate+1;
+                std::ostringstream name, descr, header;
+
+                name << "A_" << istate+1;
+                descr << name.str() << " " << std::setprecision(5) << ener(istate);
+
+                header << "RASSI analysis for state " << name.str();
                 header2(header.str());
-                
+                m_mdata->energy_print(ener(istate), std::cout);
+
                 const double *itden_buf = tden_buf + (istate + istate * tden.n_cols)*tden.n_rows;
                 ab_matrix ddm = m_mdata->build_dm_ao(itden_buf, tden.n_rows);
                 ddm -= dm0;
-                analyse_opdm(std::cout, name.str(), name.str(), ddm, dm0);
+                analyse_opdm(std::cout, name.str(), descr.str(), ddm, dm0);
             }
             { // Transition density analysis
-                std::ostringstream name, header;                
-                name << "T_" << refstate+1 << "-" << istate+1;
-                header << "RASSI analysis for transiton from " << refstate+1 << " to " << istate+1;
+                std::ostringstream name, descr, header;
+
+                name << "Tr_" << refstate+1 << "-" << istate+1;
+                descr << name.str() << " " << std::setprecision(5) << ener(istate);
+
+                header << "RASSI analysis for transiton from state " << refstate+1 << " to " << istate+1 << " (" << name.str() << ")";
                 header2(header.str());
-                
+                m_mdata->energy_print(ener(istate), std::cout);
+
                 int jstate = std::min(istate, (int)refstate);
                 int kstate = std::max(istate, (int)refstate);
 
@@ -107,7 +133,7 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
                 if (istate > (int)refstate) // Transpose of the indices are switched
                     tdm.inplace_trans();
 
-                analyse_optdm(std::cout, name.str(), name.str(), tdm);
+                analyse_optdm(std::cout, name.str(), descr.str(), tdm);
             }
         }
     }

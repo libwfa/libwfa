@@ -1,4 +1,5 @@
 #include <libwfa/libwfa.h>
+#include <libwfa/core/constants.h>
 #include "molcas_wf_analysis_data.h"
 
 namespace libwfa {
@@ -168,6 +169,22 @@ ab_matrix molcas_wf_analysis_data::build_dm_ao(const double *buf, const size_t d
     return dao;
 }
 
+arma::vec molcas_wf_analysis_data::read_vec_h5(H5std_string key) {
+    DataSet Set = m_file.openDataSet(key);
+    DataSpace Space = Set.getSpace();
+    if (Space.getSimpleExtentNdims() != 1)
+        throw libwfa_exception(k_clazz, "read_vec_h5", __FILE__, __LINE__, "Inconsistent rank");
+
+    hsize_t dim;
+    Space.getSimpleExtentDims(&dim, NULL);
+
+    arma::vec retvec = arma::vec(dim);
+    double *buf = retvec.memptr();
+    Set.read(buf, PredType::NATIVE_DOUBLE);
+
+    return retvec;
+}
+
 arma::cube molcas_wf_analysis_data::read_dens_raw(H5std_string key) {
     DataSet Set = m_file.openDataSet(key);
     DataSpace Space = Set.getSpace();
@@ -182,6 +199,11 @@ arma::cube molcas_wf_analysis_data::read_dens_raw(H5std_string key) {
     Set.read(dens_buf, PredType::NATIVE_DOUBLE);
 
     return dens;
+}
+
+void molcas_wf_analysis_data::energy_print(const double ener, std::ostream &out) {
+    out << "Energy: " << std::setprecision(5) << ener*constants::au2eV
+        << " eV" << std::endl << std::endl;
 }
 
 void molcas_wf_analysis_data::initialize() {

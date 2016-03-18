@@ -13,6 +13,7 @@ struct constants {
     //@{
     static const double au2ang; //!< a.u. to Angstrom constants factor
     static const double au2nm; //!< a.u. to nm constants factor
+    static const double au2eV; //!< Hartree to eV factor
     //@}
 };
 

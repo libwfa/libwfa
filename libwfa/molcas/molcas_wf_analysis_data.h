@@ -1,6 +1,9 @@
 #ifndef LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 #define LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 
+#include <iostream>
+#include <iomanip>
+#include <stdlib.h>
 #include "H5Cpp.h"
 #include <libwfa/wf_analysis_data_i.h>
 #include "molcas_mom_builder.h"
@@ -253,12 +256,24 @@ public:
     ab_matrix build_dm_ao(const double *buf, const size_t dim);
     
     
+    /** \brief Read a vector from the HDF5 file
+        \param key name of the data
+        \return data as vector
+    **/
+    arma::vec read_vec_h5(H5std_string key);
+    
     /** \brief Read a density in raw format
         \param key name of the density
         \return raw density matrix as cube
     **/
     arma::cube read_dens_raw(H5std_string key);
 
+    /** \brief Print a string with the energy
+        \param Energy (a.u.)
+        \param out Output stream
+     **/
+    void energy_print(const double ener, std::ostream &out);
+    
 private:
     void initialize();
     void cleanup();
