@@ -52,4 +52,19 @@ message(STATUS "ARMADILLO_LIBRARIES: ${ARMADILLO_LIBRARIES}")
 include_directories(${ARMADILLO_INCLUDE_DIRS})
 set(LIBWFA_DEP_LIBS ${ARMADILLO_LIBRARIES})
 
-
+#
+#   Find HDF5 if MOLCAS option is requested
+#
+if(MOLCAS)
+    FIND_PACKAGE(HDF5 NAMES hdf5)
+    if(NOT HDF5_FOUND)
+        FIND_PACKAGE(HDF5) # Find non-cmake built HDF5
+    endif(NOT HDF5_FOUND)
+    if(HDF5_FOUND)
+        INCLUDE_DIRECTORIES(${HDF5_INCLUDE_DIR})
+        message(STATUS "HDF5 libraries found: ${HDF5_LIBRARIES}")
+        message(STATUS "HDF5 include directory: ${HDF5_INCLUDE_DIR}")
+    else(HDF5_FOUND)
+        message(FATAL_ERROR "HDF5 library not found but is required for MOLCAS interface of LibWFA.")
+    endif(HDF5_FOUND)
+endif(MOLCAS)
