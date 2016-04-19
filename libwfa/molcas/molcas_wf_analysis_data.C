@@ -207,17 +207,32 @@ void molcas_wf_analysis_data::energy_print(const double ener, std::ostream &out)
         << " eV" << std::endl << std::endl;
 }
 
-std::string molcas_wf_analysis_data::lsym_label() {
-    int lsym;
-    
+std::string molcas_wf_analysis_data::rasscf_label() {
+
+
+
     Group Grp_main = m_file.openGroup("/");
-    Attribute Att = Grp_main.openAttribute("LSYM");
-    Att.read(PredType::NATIVE_INT, &lsym);
-    
+
+    int lsym;
+    {
+        Attribute Att = Grp_main.openAttribute("LSYM");
+        Att.read(PredType::NATIVE_INT, &lsym);
+    }
+    int imult;
+    {
+        Attribute Att = Grp_main.openAttribute("SPINMULT");
+        Att.read(PredType::NATIVE_INT, &imult);
+    }
+
+    std::ostringstream ostream;
+
     std::string str = m_moldata->irrep_labels.at(lsym-1);
     std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-    
-    return str;
+
+    ostream << "(" << imult << ") ";
+    ostream << str;
+
+    return ostream.str();
 }
 
 void molcas_wf_analysis_data::initialize() {
@@ -274,21 +289,20 @@ void molcas_wf_analysis_data::initialize() {
             m_moldata->nbas(isym) = nbas[isym];
         }
     }
-    
+
     // Irrep labels
     {
         Attribute Att = Grp_main.openAttribute("IRREP_LABELS");
         DataSpace Space = Att.getSpace();
         size_t len = 3;
-        
+
         char labels[nsym][len];
-        
+
         StrType strtype = Att.getStrType();
         Att.read(strtype, labels);
         m_moldata->irrep_labels = std::vector<std::string>(nsym);
         for (size_t isym = 0; isym < nsym; isym++) {
             m_moldata->irrep_labels.at(isym) = std::string(labels[isym], len);
-            std::cout << m_moldata->irrep_labels.at(isym) << " " << std::endl;
         }
     }
 
@@ -454,13 +468,17 @@ void molcas_wf_analysis_data::initialize() {
 
     // Multipole matrices
     {
+        //m_moldata->desym.print("desym");
         m_moldata->mom.set(0, 0) = m_moldata->s;
+        //m_moldata->s.print("S");
         read_mltpl_mat("AO_MLTPL_X",  0, 1);
         read_mltpl_mat("AO_MLTPL_Y",  1, 1);
         read_mltpl_mat("AO_MLTPL_Z",  2, 1);
         read_mltpl_mat("AO_MLTPL_XX", 0, 2);
         read_mltpl_mat("AO_MLTPL_YY", 1, 2);
         read_mltpl_mat("AO_MLTPL_ZZ", 2, 2);
+        //m_moldata->mom.get(1,1).print("AO_MLTPL_Y");
+        //m_moldata->mom.get(0,2).print("AO_MLTPL_XX");
     }
 }
 
@@ -574,8 +592,14 @@ void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const 
     Set.read(&buf, PredType::NATIVE_DOUBLE);
 
     read_ao_mat(buf, dimt, m_moldata->mom.set(c, n), 1);
-    if (m_moldata->nbas.size() > 1)
-        m_moldata->mom.set(c, n) = m_moldata->desym * m_moldata->mom.set(c, n) * m_moldata->desym.t();
+    //std::cout << "*** " << c << ", " << n << std::endl;
+    //m_moldata->mom.get(c,n).print("symm");
+    // keep all matrices symmetrized
+    if (m_moldata->nbas.size() > 1) {
+        //arma::mat tmp = m_moldata->mom.get(c, n);
+        m_moldata->mom.set(c, n) = m_moldata->desym * m_moldata->mom.get(c, n) * m_moldata->desym.t();
+        //m_moldata->mom.get(c,n).print("desymm");
+    }
 }
 
 molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {

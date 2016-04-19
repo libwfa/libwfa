@@ -275,10 +275,10 @@ public:
      **/
     void energy_print(const double ener, std::ostream &out);
 
-    /** \brief Return the symmetry label
-        \return symmetry label
+    /** \brief Return a label for rasscf states
+        \return Symmetry and multiplicity label
      **/
-    std::string lsym_label();
+    std::string rasscf_label();
 
 private:
     void initialize();

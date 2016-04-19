@@ -28,7 +28,7 @@ public:
 
     virtual ~molcas_mom_builder() {}
 
-    /** \brief Set the desired operator matrix
+    /** \brief Return a handle to set the desired operator matrix
         \param c Coordinate direction
         \param n Exponent
         \return Operator matrix
