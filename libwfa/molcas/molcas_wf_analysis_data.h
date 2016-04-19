@@ -49,6 +49,7 @@ private:
         ab_matrix c_fb; //!< MO coefficients
         arma::mat s; //!< AO-Overlap matrix
         arma::uvec nbas; //!< Number of basis functions per irrep
+        std::vector<std::string> irrep_labels; //!< Irrep labels
         arma::mat desym; //!< Desymmetrization matrix
         molcas_mom_builder mom; //!< Moments builder
         std::string mo_types_a; //!< Alpha types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
@@ -273,7 +274,12 @@ public:
         \param out Output stream
      **/
     void energy_print(const double ener, std::ostream &out);
-    
+
+    /** \brief Return the symmetry label
+        \return symmetry label
+     **/
+    std::string lsym_label();
+
 private:
     void initialize();
     void cleanup();

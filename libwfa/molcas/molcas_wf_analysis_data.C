@@ -207,6 +207,19 @@ void molcas_wf_analysis_data::energy_print(const double ener, std::ostream &out)
         << " eV" << std::endl << std::endl;
 }
 
+std::string molcas_wf_analysis_data::lsym_label() {
+    int lsym;
+    
+    Group Grp_main = m_file.openGroup("/");
+    Attribute Att = Grp_main.openAttribute("LSYM");
+    Att.read(PredType::NATIVE_INT, &lsym);
+    
+    std::string str = m_moldata->irrep_labels.at(lsym-1);
+    std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+    
+    return str;
+}
+
 void molcas_wf_analysis_data::initialize() {
 
     static const char method[] = "initialize()";
@@ -259,6 +272,23 @@ void molcas_wf_analysis_data::initialize() {
         m_moldata->nbas = arma::uvec(nsym);
         for (size_t isym=0; isym<nsym; isym++) {
             m_moldata->nbas(isym) = nbas[isym];
+        }
+    }
+    
+    // Irrep labels
+    {
+        Attribute Att = Grp_main.openAttribute("IRREP_LABELS");
+        DataSpace Space = Att.getSpace();
+        size_t len = 3;
+        
+        char labels[nsym][len];
+        
+        StrType strtype = Att.getStrType();
+        Att.read(strtype, labels);
+        m_moldata->irrep_labels = std::vector<std::string>(nsym);
+        for (size_t isym = 0; isym < nsym; isym++) {
+            m_moldata->irrep_labels.at(isym) = std::string(labels[isym], len);
+            std::cout << m_moldata->irrep_labels.at(isym) << " " << std::endl;
         }
     }
 
