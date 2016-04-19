@@ -60,8 +60,8 @@ private:
             \param maxmm Maximum multipole moment available
             \param unr Unrestricted calculation
          **/
-        base_data(size_t nao, size_t nb2, size_t maxmm, bool unr) :
-            c_fb(unr), mom(nao, nb2, maxmm) { }
+        base_data(size_t nao, size_t maxmm, bool unr) :
+            c_fb(unr), mom(nao, maxmm) { }
     };
 
     /** \brief Export types
@@ -278,7 +278,8 @@ private:
     void initialize();
     void cleanup();
     void setup_h5core();
-    void read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat);
+    void read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, const size_t nsym);
+    void read_mltpl_mat(const H5std_string &setname, const size_t c, const size_t n);
     std::string get_mo_types(const H5std_string &setname);
     arma::mat get_mo_vectors(const H5std_string &setname);
 };

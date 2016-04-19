@@ -16,6 +16,9 @@ int main(int argc, char** argv)
             refstate = atoi(argv[2]) - 1;
         }
     }
+#ifdef LIBWFA_DEBUG
+    std::cout << "*** Debug mode activated ***" << std::endl << std::endl;
+#endif
     std::cout << "Starting analysis of Molcas HDF5 file " << file_name << std::endl;
 
     H5File file( file_name, H5F_ACC_RDWR );

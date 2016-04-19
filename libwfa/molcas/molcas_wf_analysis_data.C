@@ -158,9 +158,10 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbu
 ab_matrix molcas_wf_analysis_data::build_dm_ao(const double *buf, const size_t dim) {
     int nao = m_moldata->c_fb.nrows_a();
     bool aeqb = true; // at least for now ...
+    size_t nsym = m_moldata->nbas.size();
 
     ab_matrix dao(aeqb);
-    read_ao_mat(buf, dim, dao.alpha());
+    read_ao_mat(buf, dim, dao.alpha(), nsym);
     //dao.alpha().print();
     if (m_moldata->nbas.size() > 1)
         dao.alpha() = m_moldata->desym * dao.alpha() * m_moldata->desym.t();
@@ -218,7 +219,9 @@ void molcas_wf_analysis_data::initialize() {
 
     bool aeqb = true;
     bool found_mos = true;
-    //Exception::dontPrint(); // Do not print excessive error messages from HDF5
+#ifndef LIBWFA_DEBUG
+    Exception::dontPrint(); // Do not print excessive error messages from HDF5
+#endif
     try {
         DataSet Set = m_file.openDataSet("MO_VECTORS");
         std::cout << std::endl << "Found restricted MO-coefficients: MO_VECTORS" << std::endl;
@@ -251,7 +254,7 @@ void molcas_wf_analysis_data::initialize() {
         for (size_t isym=0; isym<nsym; isym++) {
             nbas_t += nbas[isym];
         }
-        m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 0, 0, aeqb));
+        m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 2, aeqb));
 
         m_moldata->nbas = arma::uvec(nsym);
         for (size_t isym=0; isym<nsym; isym++) {
@@ -380,11 +383,12 @@ void molcas_wf_analysis_data::initialize() {
         double buf[dim];
         Set.read(&buf, PredType::NATIVE_DOUBLE);
 
-        read_ao_mat(buf, dim, m_moldata->s);
+        read_ao_mat(buf, dim, m_moldata->s, nsym);
         if (nsym > 1)
             m_moldata->s = m_moldata->desym * m_moldata->s * m_moldata->desym.t();
     }
 
+    // MO-coefficients
     if (found_mos) {
         // MO types
         if (aeqb) {
@@ -415,8 +419,18 @@ void molcas_wf_analysis_data::initialize() {
         arma::vec e;
         eig_sym(e, u, m_moldata->s);
 
-        //m_moldata->c_fb.alpha() = arma::eye(nbas_t, nbas_t);
         m_moldata->c_fb.alpha() = u * arma::diagmat(1/sqrt(e)) * u.t();
+    }
+
+    // Multipole matrices
+    {
+        m_moldata->mom.set(0, 0) = m_moldata->s;
+        read_mltpl_mat("AO_MLTPL_X",  0, 1);
+        read_mltpl_mat("AO_MLTPL_Y",  1, 1);
+        read_mltpl_mat("AO_MLTPL_Z",  2, 1);
+        read_mltpl_mat("AO_MLTPL_XX", 0, 2);
+        read_mltpl_mat("AO_MLTPL_YY", 1, 2);
+        read_mltpl_mat("AO_MLTPL_ZZ", 2, 2);
     }
 }
 
@@ -452,7 +466,8 @@ arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5std_string &setname) {
     Set.read(&buf, PredType::NATIVE_DOUBLE);
 
     arma::mat retmat;
-    read_ao_mat(buf, dim, retmat);
+    size_t nsym = m_moldata->nbas.size();
+    read_ao_mat(buf, dim, retmat, nsym);
     if (m_moldata->nbas.size() > 1)
         retmat = m_moldata->desym * retmat;
 
@@ -481,9 +496,9 @@ void molcas_wf_analysis_data::setup_h5core() {
     m_h5core = std::auto_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file, m_moldata->nbas, m_moldata->desym));
 }
 
-void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat) {
+void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, size_t nsym) {
     size_t nbas_t = nbas_t = arma::accu(m_moldata->nbas);
-    size_t nsym = m_moldata->nbas.size();
+    //size_t nsym = m_moldata->nbas.size();
 
     if (nsym == 1) { // no symmetry
         if (nbas_t * nbas_t != dim)
@@ -513,6 +528,24 @@ void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, a
             buf_ptr += kbas*kbas;
         }
     }
+}
+
+void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const size_t c, const size_t n) {
+    DataSet Set = m_file.openDataSet(setname);
+    DataSpace Space = Set.getSpace();
+    int rank = Space.getSimpleExtentNdims();
+    if (rank != 2)
+        throw libwfa_exception(k_clazz, "read_mltpl_mat", __FILE__, __LINE__, "Inconsistent rank");
+
+    hsize_t dims[rank];
+    Space.getSimpleExtentDims(dims, NULL);
+    hsize_t dimt = dims[0] * dims[1];
+    double buf[dimt];
+    Set.read(&buf, PredType::NATIVE_DOUBLE);
+
+    read_ao_mat(buf, dimt, m_moldata->mom.set(c, n), 1);
+    if (m_moldata->nbas.size() > 1)
+        m_moldata->mom.set(c, n) = m_moldata->desym * m_moldata->mom.set(c, n) * m_moldata->desym.t();
 }
 
 molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
@@ -546,12 +579,12 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
     h->activate(molcas_wf_analysis_data::NDO);
     h->activate(molcas_wf_analysis_data::NTO);
     h->activate(molcas_wf_analysis_data::SA_NTO);
-    
+
     h->activate(molcas_wf_analysis_data::FORM_EH);
     h->activate(molcas_wf_analysis_data::FORM_AD);
-    
-    //h->activate(molcas_wf_analysis_data::EXCITON);
-    //h->activate(molcas_wf_analysis_data::EXCITON_AD);    
+
+    h->activate(molcas_wf_analysis_data::EXCITON);
+    h->activate(molcas_wf_analysis_data::EXCITON_AD);
     return h;
 }
 } // namespace libwfa

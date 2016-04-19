@@ -148,7 +148,7 @@ void molcas_wf_analysis::header1(std::string title) {
 }
 
 void molcas_wf_analysis::header2(std::string title) {
-    std::cout << "  " << title << std::endl;
+    std::cout << std::endl << "  " << title << std::endl;
     std::cout << "  " << std::string(title.size(), '-') << std::endl;
 }
 

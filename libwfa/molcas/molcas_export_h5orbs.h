@@ -15,7 +15,6 @@ namespace libwfa {
  **/
 class molcas_export_h5orbs: public libwfa::export_molden_i {
 private:
-    //H5::H5File m_file; //!< HDF5 file
     H5::Group  m_group; //!< Group on HDF5 file
     const arma::uvec m_nbas; //!< Number of basis functions per irrep
     const arma::mat  m_desym; //!< Desymmetrization matrix
