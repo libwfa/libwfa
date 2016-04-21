@@ -50,5 +50,6 @@ int main(int argc, char** argv)
         throw libwfa_exception("main", "main", __FILE__, __LINE__, errmsg.c_str());
     }
     
+    std::cout << "Module wfa finished." << std::endl;
     return 0;
 } // main
