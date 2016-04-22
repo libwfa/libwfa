@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(LIBWFA)
 
-option(MOLCAS "MOLCAS" OFF)
+option(WITH_MOLCAS "Compile Molcas support" OFF)
 
 get_filename_component(LIBTEST_DIR ${LIBWFA_SOURCE_DIR}/../libtest ABSOLUTE)
 if (IS_DIRECTORY ${LIBTEST_DIR})

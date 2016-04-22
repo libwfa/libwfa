@@ -121,10 +121,10 @@ if(QCHEM_SOURCE_DIR)
   add_subdirectory(qchem)
 endif(QCHEM_SOURCE_DIR)
 
-if(MOLCAS)
+if(WITH_MOLCAS)
   Message("Configuring Molcas interface ...")
   add_subdirectory(molcas)
-endif(MOLCAS)
+endif(WITH_MOLCAS)
 
 set_property(TARGET ${TARGETS} APPEND PROPERTY 
     COMPILE_DEFINITIONS_DEBUG LIBWFA_DEBUG)
