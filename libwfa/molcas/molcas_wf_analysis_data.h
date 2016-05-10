@@ -54,6 +54,7 @@ private:
         molcas_mom_builder mom; //!< Moments builder
         std::string mo_types_a; //!< Alpha types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
         std::string mo_types_b; //!< Beta types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
+        std::string molcas_module; //!< Molcas module
 
         /** \brief Constructor
             \param nao Number of atomic basis functions
@@ -65,6 +66,18 @@ private:
             c_fb(unr), mom(nao, maxmm) { }
     };
 
+    /** \brief Internal structure to hold input data
+     **/
+    struct input_data {
+        std::string file_name; //!< Name of the HDF5 file
+        size_t refstate; //!< Reference state in the analysis
+        bool mulliken, loewdin; //!< What kind of analysis to do
+        
+        /** \brief Constructor
+         **/
+        input_data() : file_name("wfa.h5"), refstate(0), mulliken(false), loewdin(true) {}
+    };
+    
     /** \brief Export types
      **/
     enum export_type {
@@ -91,11 +104,12 @@ private:
 
     std::auto_ptr<molcas_export_h5orbs> m_h5core; //!< Pointer to orbital export core
     std::auto_ptr<base_data> m_moldata; //!< Molecular data
+    std::auto_ptr<input_data> m_input; //!< Input data
 
 public:
     /** \brief Constructor
      **/
-    molcas_wf_analysis_data(H5::H5File &file);
+    molcas_wf_analysis_data();
 
     /** \brief Virtual destructor
      **/
@@ -279,9 +293,18 @@ public:
         \return Symmetry and multiplicity label
      **/
     std::string rasscf_label();
+    
+    std::string molcas_module() {
+        return m_moldata->molcas_module;
+    }
+    
+    const std::auto_ptr<input_data> &input() {
+        return m_input;
+    }
 
 private:
     void initialize();
+    void read_input();
     void cleanup();
     void setup_h5core();
     void read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, const size_t nsym);
@@ -289,6 +312,17 @@ private:
     std::string get_mo_types(const H5std_string &setname);
     arma::mat get_mo_vectors(const H5std_string &setname);
 };
+
+/** \brief Setup the wave function / density matrix analysis data for Molcas
+    \return Pointer to data object
+
+    This is a convenience wrapper to initialize the analysis data object. If
+    more fine-tuning is required, the function can serve as template on how
+    the object can be setup.
+
+    \ingroup libwfa_molcas
+ **/
+molcas_wf_analysis_data *molcas_setup_wf_analysis_data();
 
 /** \brief Setup the wave function / density matrix analysis data for Molcas
     \return Pointer to data object

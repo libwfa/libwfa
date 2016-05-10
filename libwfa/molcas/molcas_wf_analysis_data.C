@@ -1,3 +1,5 @@
+#include <fstream>
+#include <string>
 #include <libwfa/libwfa.h>
 #include <libwfa/core/constants.h>
 #include "molcas_wf_analysis_data.h"
@@ -7,8 +9,13 @@ using namespace H5;
 
 const char molcas_wf_analysis_data::k_clazz[] = "molcas_wf_analysis_data";
 
-molcas_wf_analysis_data::molcas_wf_analysis_data(H5File &file) :
-    m_file(file), m_export_dens(EXPORT_NONE), m_export_orbs(EXPORT_NONE) {
+molcas_wf_analysis_data::molcas_wf_analysis_data() :
+    m_export_dens(EXPORT_NONE), m_export_orbs(EXPORT_NONE) {
+    read_input();
+    
+    std::cout << "Opening Molcas HDF5 file " << m_input->file_name << std::endl;
+    m_file = H5File(m_input->file_name, H5F_ACC_RDWR);
+    
     initialize();
     std::cout << "Initialization finished." << std::endl;
 }
@@ -306,6 +313,13 @@ void molcas_wf_analysis_data::initialize() {
         }
     }
 
+    // Molcas module
+    {
+        Attribute Att = Grp_main.openAttribute("MOLCAS_MODULE");
+        StrType strtype(PredType::C_S1, 16);
+        Att.read(strtype, m_moldata->molcas_module);        
+    }
+    
     // Read atomic numbers/charges. Different in the case of ECPs(?)
     {
         H5std_string h5label = (nsym==1) ? "CENTER_CHARGES" : "DESYM_CENTER_CHARGES";
@@ -482,6 +496,43 @@ void molcas_wf_analysis_data::initialize() {
     }
 }
 
+void molcas_wf_analysis_data::read_input() {
+    m_input = std::auto_ptr<input_data>(new input_data());
+
+    std::ifstream infile("molcas.Wfa.Input");
+    
+    bool inwfa = false;
+    std::string str, str4;
+    while (infile >> str) {
+        str4 = str.substr(0,4);
+        std::transform(str4.begin(), str4.end(), str4.begin(), ::toupper);
+        
+        if (str4=="&WFA") {
+            inwfa = true;
+        }
+        else if (inwfa) {
+            if (str4=="H5FI") {
+                infile >> str;
+                m_input->file_name = str;
+            }
+            else if (str4=="REFS") {
+                infile >> str;
+                m_input->refstate = atoi(str.c_str()) - 1;
+            }
+            else if (str4=="MULL") {
+                m_input->mulliken = true;
+            }
+            else if (str4=="END") {
+                break;
+            }
+            else {
+                std::cout << std::endl << "Unknown keyword: " << str4 << std::endl << std::endl;
+                throw libwfa_exception(k_clazz, "read_input", __FILE__, __LINE__, "Unknown keyword");
+            }
+        }
+    }
+}
+
 std::string molcas_wf_analysis_data::get_mo_types(const H5std_string &setname) {
     DataSet Set = m_file.openDataSet(setname);
     int len = 1;
@@ -524,6 +575,7 @@ arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5std_string &setname) {
 
 void molcas_wf_analysis_data::cleanup() {
 
+    delete m_input.release();
     delete m_moldata.release();
 
     for (std::vector<pa_data *>::iterator i = m_pa.begin();
@@ -602,10 +654,8 @@ void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const 
     }
 }
 
-molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
-    std::cout << "Starting setup..." << std::endl;
-
-    molcas_wf_analysis_data *h = new molcas_wf_analysis_data(file);
+molcas_wf_analysis_data *molcas_setup_wf_analysis_data() {
+    molcas_wf_analysis_data *h = new molcas_wf_analysis_data();
 
     size_t norb = 3;
     double thresh = 1.e-5;
@@ -624,8 +674,12 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
     h->init_orbital_export("h5", ot);
 
     // Activate population analysis
-    h->init_pop_analysis("mulliken");
-    h->init_pop_analysis("loewdin");
+    if (h->input()->mulliken) {
+        h->init_pop_analysis("mulliken");
+    }
+    if (h->input()->loewdin) {
+        h->init_pop_analysis("loewdin");
+    }
 
     h->init_ctnum_analysis("atomic");
 
@@ -639,6 +693,8 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(H5::H5File file) {
 
     h->activate(molcas_wf_analysis_data::EXCITON);
     h->activate(molcas_wf_analysis_data::EXCITON_AD);
+
     return h;
 }
+
 } // namespace libwfa

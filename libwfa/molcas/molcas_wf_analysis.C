@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <stdlib.h>
+#include <libwfa/libwfa.h>
 #include <libwfa/molcas/molcas_wf_analysis.h>
 #include "H5Cpp.h"
 
@@ -8,6 +9,26 @@ namespace libwfa {
 using namespace H5;
 
 const char molcas_wf_analysis::k_clazz[] = "molcas_wf_analysis";
+
+void molcas_wf_analysis::run_analysis() {
+    std::string molcas_module = m_mdata->molcas_module();
+
+    if (molcas_module=="SCF") {
+        scf_analysis();
+    }
+    else if (molcas_module=="RASSCF") {
+        rasscf_analysis(m_mdata->input()->refstate);
+    }
+    else if (molcas_module=="RASSI") {
+        rassi_analysis(m_mdata->input()->refstate);
+    }
+    else {
+        std::ostringstream os;
+        os << std::endl << "Unsupported MOLCAS module: " << molcas_module;
+        const std::string errmsg = os.str();
+        throw libwfa_exception("main", "main", __FILE__, __LINE__, errmsg.c_str());
+    }
+}
 
 void molcas_wf_analysis::scf_analysis() {
     header1("SCF MO Analysis");
@@ -44,7 +65,7 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
 
     // Read the energies
     arma::vec ener = m_mdata->read_vec_h5("ROOT_ENERGIES");
-    ener -= ener(refstate);    
+    ener -= ener(refstate);
 
     // Loop over all states
     for (int istate = 0; istate < dens.n_slices; istate++) {
@@ -54,7 +75,7 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
             header << "RASSCF analysis for reference state " << name.str();
             header2(header.str());
             m_mdata->energy_print(ener(istate), std::cout);
-            
+
             analyse_opdm(std::cout, name.str(), name.str(), dm0);
         }
         else {
@@ -63,7 +84,7 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
             header << "RASSCF analysis for state " << name.str();
             header2(header.str());
             m_mdata->energy_print(ener(istate), std::cout);
-            
+
             ab_matrix ddm = m_mdata->build_dm(dens_buf + istate*dens_offs, sdens_buf + istate*dens_offs, aeqb_dens);
             ddm -= dm0;
             analyse_opdm(std::cout, name.str(), name.str(), ddm, dm0);
