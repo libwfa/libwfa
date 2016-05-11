@@ -92,7 +92,6 @@ set(EXPORT_SRC
     export/orbital_printer_molden.C
 )
 
-
 set(HEADERS
     ${CORE_HEADERS}
     ${EXPORT_HEADERS}
@@ -114,16 +113,33 @@ set(SRC
     wf_analysis.C
 )
 
-set(TARGETS wfa)
-add_library(wfa ${SRC} ${HEADERS})
 
-if(QCHEM_SOURCE_DIR)
-  add_subdirectory(qchem)
-endif(QCHEM_SOURCE_DIR)
+set(MOLCAS_HDR
+    molcas/molcas_wf_analysis.h
+    molcas/molcas_wf_analysis_data.h
+    molcas/molcas_mom_builder.h
+    molcas/molcas_export_h5orbs.h
+)
+
+set(MOLCAS_SRC
+    molcas/driver.C
+    molcas/molcas_wfa_interface.C
+    molcas/molcas_wf_analysis.C
+    molcas/molcas_wf_analysis_data.C
+    molcas/molcas_mom_builder.C
+    molcas/molcas_export_h5orbs.C
+)
 
 if(WITH_MOLCAS)
-  Message("Configuring Molcas interface ...")
-  add_subdirectory(molcas)
+  Message("Configuring libwfa Molcas interface ...")
+  add_library(wfa_molcas ${SRC} ${HEADERS} ${MOLCAS_HDR} ${MOLCAS_SRC})
+else()
+    set(TARGETS wfa)
+    add_library(wfa ${SRC} ${HEADERS})
+    
+    if(QCHEM_SOURCE_DIR)
+      add_subdirectory(qchem)
+    endif(QCHEM_SOURCE_DIR)
 endif(WITH_MOLCAS)
 
 set_property(TARGET ${TARGETS} APPEND PROPERTY 
