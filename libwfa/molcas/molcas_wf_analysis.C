@@ -100,8 +100,14 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
     if (refstate >= tden.n_slices)
         throw libwfa_exception(k_clazz, "rassi_analysis", __FILE__, __LINE__, "refstate > nstate");
 
-    const double *tden_buf = tden.memptr();
-    ab_matrix dm0 = m_mdata->build_dm_ao(tden_buf + (refstate + refstate * tden.n_cols)*tden.n_rows, tden.n_rows);
+    double *tden_buf = tden.memptr();
+
+    // Read the spin densities
+    arma::cube tsden = m_mdata->read_dens_raw("SFS_TRANSITION_SPIN_DENSITIES");
+    double *tsden_buf = tsden.memptr();
+
+    //ab_matrix dm0 = m_mdata->build_dm_ao(tden_buf + (refstate + refstate * tden.n_cols)*tden.n_rows, tsden_buf + (refstate + refstate * tden.n_cols)*tden.n_rows, tden.n_rows);
+    ab_matrix dm0 = m_mdata->build_dm_ao(tden_buf + (refstate + refstate * tden.n_cols)*tden.n_rows, NULL, tden.n_rows);
 
     // Read the energies
     arma::vec ener = m_mdata->read_vec_h5("SFS_ENERGIES");
@@ -112,7 +118,7 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
         if (istate == refstate) {
             std::ostringstream name, descr, header;
 
-            name << "A_" << refstate+1;
+            name << "R_" << refstate+1;
             descr << name.str() << " " << std::setprecision(5) << ener(istate);
 
             header << "RASSI analysis for reference state " << name.str();
@@ -125,15 +131,20 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
             { // State/difference density analysis
                 std::ostringstream name, descr, header;
 
-                name << "A_" << istate+1;
+                name << "R_" << istate+1;
                 descr << name.str() << " " << std::setprecision(5) << ener(istate);
 
                 header << "RASSI analysis for state " << name.str();
                 header2(header.str());
                 m_mdata->energy_print(ener(istate), std::cout);
 
-                const double *itden_buf = tden_buf + (istate + istate * tden.n_cols)*tden.n_rows;
-                ab_matrix ddm = m_mdata->build_dm_ao(itden_buf, tden.n_rows);
+                const double *itden_buf  = tden_buf + (istate + istate * tden.n_cols)*tden.n_rows;
+
+                // The state spin-densities are not understood consistently.
+                //   They are ignored here
+                const double *itsden_buf = NULL; //tsden_buf + (istate + istate * tden.n_cols)*tden.n_rows;
+
+                ab_matrix ddm = m_mdata->build_dm_ao(itden_buf, itsden_buf, tden.n_rows);
                 ddm -= dm0;
                 analyse_opdm(std::cout, name.str(), descr.str(), ddm, dm0);
             }
@@ -150,8 +161,9 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
                 int jstate = std::min(istate, (int)refstate);
                 int kstate = std::max(istate, (int)refstate);
 
-                const double *itden_buf = tden_buf + (kstate + jstate * tden.n_cols)*tden.n_rows;
-                ab_matrix tdm = m_mdata->build_dm_ao(itden_buf, tden.n_rows);
+                const double *itden_buf  = tden_buf + (kstate + jstate * tden.n_cols)*tden.n_rows;
+                const double *itsden_buf = tsden_buf + (kstate + jstate * tden.n_cols)*tden.n_rows;
+                ab_matrix tdm = m_mdata->build_dm_ao(itden_buf, itsden_buf, tden.n_rows);
                 if (istate > (int)refstate) // Transpose of the indices are switched
                     tdm.inplace_trans();
 

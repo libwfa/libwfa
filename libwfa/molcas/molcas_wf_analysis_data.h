@@ -268,7 +268,7 @@ public:
         \param buf Density matrix data (AO basis)
         \return Full density matrix in the AO basis
      **/
-    ab_matrix build_dm_ao(const double *buf, const size_t dim);
+    ab_matrix build_dm_ao(const double *buf, const double *sbuf, const size_t dim);
     
     
     /** \brief Read a vector from the HDF5 file

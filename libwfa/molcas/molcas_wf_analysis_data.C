@@ -12,10 +12,10 @@ const char molcas_wf_analysis_data::k_clazz[] = "molcas_wf_analysis_data";
 molcas_wf_analysis_data::molcas_wf_analysis_data() :
     m_export_dens(EXPORT_NONE), m_export_orbs(EXPORT_NONE) {
     read_input();
-    
+
     std::cout << "Opening Molcas HDF5 file " << m_input->file_name << std::endl;
     m_file = H5File(m_input->file_name, H5F_ACC_RDWR);
-    
+
     initialize();
     std::cout << "Initialization finished." << std::endl;
 }
@@ -162,18 +162,39 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbu
     return dao;
 }
 
-ab_matrix molcas_wf_analysis_data::build_dm_ao(const double *buf, const size_t dim) {
+ab_matrix molcas_wf_analysis_data::build_dm_ao(const double *buf, const double *sbuf, const size_t dim) {
     int nao = m_moldata->c_fb.nrows_a();
-    bool aeqb = true; // at least for now ...
     size_t nsym = m_moldata->nbas.size();
 
-    ab_matrix dao(aeqb);
-    read_ao_mat(buf, dim, dao.alpha(), nsym);
-    //dao.alpha().print();
-    if (m_moldata->nbas.size() > 1)
-        dao.alpha() = m_moldata->desym * dao.alpha() * m_moldata->desym.t();
+    arma::mat den, sden;
+    read_ao_mat(buf, dim, den, nsym);
 
-    dao *= 0.5;
+    if (sbuf == NULL)
+        sden = arma::zeros(nao, nao);
+    else
+        read_ao_mat(sbuf, dim, sden, nsym);
+
+    bool aeqb = true;
+    {
+        double dnorms = accu(den%den);
+        double sdnorms = accu(sden%sden);
+
+        if ((dnorms > 1.e-8) && (sdnorms > 1.e-8)) {
+            aeqb = false;
+        }
+    }
+
+    ab_matrix dao(aeqb);
+    dao.alpha() = 0.5 * (den + sden);
+    if (!aeqb)
+        dao.beta() = 0.5 * (den - sden);
+
+    if (nsym > 1) {
+        dao.alpha() = m_moldata->desym * dao.alpha() * m_moldata->desym.t();
+        if (!aeqb)
+            dao.beta() = m_moldata->desym * dao.beta() * m_moldata->desym.t();
+    }
+
     return dao;
 }
 
@@ -317,9 +338,9 @@ void molcas_wf_analysis_data::initialize() {
     {
         Attribute Att = Grp_main.openAttribute("MOLCAS_MODULE");
         StrType strtype(PredType::C_S1, 16);
-        Att.read(strtype, m_moldata->molcas_module);        
+        Att.read(strtype, m_moldata->molcas_module);
     }
-    
+
     // Read atomic numbers/charges. Different in the case of ECPs(?)
     {
         H5std_string h5label = (nsym==1) ? "CENTER_CHARGES" : "DESYM_CENTER_CHARGES";
@@ -500,13 +521,13 @@ void molcas_wf_analysis_data::read_input() {
     m_input = std::auto_ptr<input_data>(new input_data());
 
     std::ifstream infile("molcas.Wfa.Input");
-    
+
     bool inwfa = false;
     std::string str, str4;
     while (infile >> str) {
         str4 = str.substr(0,4);
         std::transform(str4.begin(), str4.end(), str4.begin(), ::toupper);
-        
+
         if (str4=="&WFA") {
             inwfa = true;
         }
