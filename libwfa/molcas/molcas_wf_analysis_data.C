@@ -520,7 +520,10 @@ void molcas_wf_analysis_data::initialize() {
 void molcas_wf_analysis_data::read_input() {
     m_input = std::auto_ptr<input_data>(new input_data());
 
-    std::ifstream infile("molcas.Wfa.Input");
+    const char* Project = std::getenv("Project");
+    std::string inpname(Project);
+    inpname.append(".Wfa.Input");
+    std::ifstream infile(inpname.c_str());
 
     bool inwfa = false;
     std::string str, str4;
