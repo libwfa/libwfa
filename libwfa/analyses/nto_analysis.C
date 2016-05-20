@@ -139,13 +139,17 @@ void nto_analysis::analysis(std::ostream &out,
     out << "  Participation ratio (PR_NTO):  "
         << std::setw(11) << total * total / dot(e, e);
     out << std::endl;
-    out << "  Entanglement entropy (S_HE):   "
-        << std::setw(11) << SHE << std::endl;
-    out << "  Nr of entangled states (Z_HE): "
-        << std::setw(11) << pow(2, SHE) << std::endl;
-    out << "  Renormalized S_HE/Z_HE:"
-        << std::setw(10) << rSHE << " /"
-        << std::setw(10) << pow(2, rSHE) << std::endl;
+
+    // Print entanglement values only for reasonable Omega
+    if (total < 1.5) {
+        out << "  Entanglement entropy (S_HE):   "
+            << std::setw(11) << SHE << std::endl;
+        out << "  Nr of entangled states (Z_HE): "
+            << std::setw(11) << pow(2, SHE) << std::endl;
+        out << "  Renormalized S_HE/Z_HE:"
+            << std::setw(10) << rSHE << " /"
+            << std::setw(10) << pow(2, rSHE) << std::endl;
+    }
 }
 
 
