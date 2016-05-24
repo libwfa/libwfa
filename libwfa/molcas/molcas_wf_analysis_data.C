@@ -275,9 +275,9 @@ void molcas_wf_analysis_data::initialize() {
 
     bool aeqb = true;
     bool found_mos = true;
-#ifndef LIBWFA_DEBUG
-    Exception::dontPrint(); // Do not print excessive error messages from HDF5
-#endif
+
+    if (! m_input->debug) Exception::dontPrint(); // Do not print excessive error messages from HDF5
+
     try {
         DataSet Set = m_file.openDataSet("MO_VECTORS");
         std::cout << std::endl << "Found restricted MO-coefficients: MO_VECTORS" << std::endl;
@@ -545,6 +545,12 @@ void molcas_wf_analysis_data::read_input() {
             }
             else if (str4=="MULL") {
                 m_input->mulliken = true;
+            }
+            else if (str4=="ADDI") {
+                m_input->add_info = true;
+            }
+            else if (str4=="DEBU") {
+                m_input->debug = true;
             }
             else if (str4=="END") {
                 break;

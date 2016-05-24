@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include <stdlib.h>
+#include <fstream>
 #include <libwfa/libwfa.h>
 #include <libwfa/molcas/molcas_wf_analysis.h>
 #include "H5Cpp.h"
@@ -11,6 +11,7 @@ using namespace H5;
 const char molcas_wf_analysis::k_clazz[] = "molcas_wf_analysis";
 
 void molcas_wf_analysis::run_analysis() {
+
     std::string molcas_module = m_mdata->molcas_module();
 
     if (molcas_module=="SCF") {
@@ -33,7 +34,7 @@ void molcas_wf_analysis::run_analysis() {
 void molcas_wf_analysis::scf_analysis() {
     header1("SCF MO Analysis");
     ab_matrix dm0 = m_mdata->build_dm(0, 0, true);
-    analyse_opdm(std::cout, "GS", "SCF ground state", dm0);
+    analyse_opdm_ai("GS", "SCF ground state", dm0);
 }
 
 void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
@@ -76,7 +77,7 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
             header2(header.str());
             m_mdata->energy_print(ener(istate), std::cout);
 
-            analyse_opdm(std::cout, name.str(), name.str(), dm0);
+            analyse_opdm_ai(name.str(), name.str(), dm0);
         }
         else {
             std::ostringstream name, header;
@@ -87,7 +88,7 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
 
             ab_matrix ddm = m_mdata->build_dm(dens_buf + istate*dens_offs, sdens_buf + istate*dens_offs, aeqb_dens);
             ddm -= dm0;
-            analyse_opdm(std::cout, name.str(), name.str(), ddm, dm0);
+            analyse_opdm_ai(name.str(), name.str(), ddm, dm0);
         }
     }
 }
@@ -125,7 +126,7 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
             header2(header.str());
             m_mdata->energy_print(ener(istate), std::cout);
 
-            analyse_opdm(std::cout, name.str(), descr.str(), dm0);
+            analyse_opdm_ai(name.str(), descr.str(), dm0);
         }
         else {
             { // State/difference density analysis
@@ -146,7 +147,8 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
 
                 ab_matrix ddm = m_mdata->build_dm_ao(itden_buf, itsden_buf, tden.n_rows);
                 ddm -= dm0;
-                analyse_opdm(std::cout, name.str(), descr.str(), ddm, dm0);
+
+                analyse_opdm_ai(name.str(), descr.str(), ddm, dm0);
             }
             { // Transition density analysis
                 std::ostringstream name, descr, header;
@@ -167,7 +169,7 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
                 if (istate > (int)refstate) // Transpose of the indices are switched
                     tdm.inplace_trans();
 
-                analyse_optdm(std::cout, name.str(), descr.str(), tdm);
+                analyse_optdm_ai(name.str(), descr.str(), tdm);
             }
         }
     }
@@ -186,4 +188,58 @@ void molcas_wf_analysis::header2(std::string title) {
     std::cout << "  " << std::string(title.size(), '-') << std::endl;
 }
 
+void molcas_wf_analysis::analyse_opdm_ai(const std::string &name, const std::string &desc,
+        const ab_matrix &ddm, const ab_matrix &dm0) {
+
+    std::stringstream out;
+    analyse_opdm(out, name, desc, ddm, dm0);
+    std::cout << out.str();
+
+    if (m_mdata->input()->add_info) add_molcas_info(out);
 }
+
+void molcas_wf_analysis::analyse_opdm_ai(const std::string &name, const std::string &desc,
+        const ab_matrix &sdm) {
+
+    std::stringstream out;
+    analyse_opdm(out, name, desc, sdm);
+    std::cout << out.str();
+
+    if (m_mdata->input()->add_info) add_molcas_info(out);
+}
+
+void molcas_wf_analysis::analyse_optdm_ai(const std::string &name, const std::string &desc,
+        const ab_matrix &tdm) {
+
+    std::stringstream out;
+    analyse_optdm(out, name, desc, tdm);
+    std::cout << out.str();
+
+    if (m_mdata->input()->add_info) add_molcas_info(out);
+}
+
+void molcas_wf_analysis::add_molcas_info(std::stringstream &out) {
+    size_t imax = 100;
+    size_t prec = 6;
+
+    std::ofstream finfo;
+    finfo.open("molcas_info", std::ofstream::app);
+
+    double x;
+    std::string str;
+
+    finfo << std::setw(6);
+    while (out >> str) {
+        if (std::stringstream(str) >> x) {
+            finfo <<    "LIBWFA[" << m_info << "]=\"" << std::setprecision(prec)
+                << std::fixed << x << "\"" << std::endl;
+            finfo << "#> LIBWFA[" << m_info << "]=\"" << std::setprecision(prec)
+                << std::fixed << x << "\"/" << prec << std::endl;
+            m_info += 1;
+        }
+    }
+    finfo << "export LIBWFA" << std::endl;
+
+}
+
+} // namespace libwfa

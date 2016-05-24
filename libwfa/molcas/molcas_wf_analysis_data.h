@@ -72,10 +72,13 @@ private:
         std::string file_name; //!< Name of the HDF5 file
         size_t refstate; //!< Reference state in the analysis
         bool mulliken, loewdin; //!< What kind of analysis to do
+        bool add_info; //!< Write to molcas_info file
+        bool debug; //!< Print debug info
         
         /** \brief Constructor
          **/
-        input_data() : file_name("wfa.h5"), refstate(0), mulliken(false), loewdin(true) {}
+        input_data() : file_name("wfa.h5"), refstate(0), mulliken(false), loewdin(true),
+            add_info(false), debug(false) {}
     };
     
     /** \brief Export types
