@@ -40,6 +40,8 @@ void molcas_wf_analysis::scf_analysis() {
 void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
     header1("RASSCF Density Matrix Analysis");
     std::string label = m_mdata->rasscf_label();
+    std::string labele = label;
+    labele.erase(std::remove(labele.begin(), labele.end(), ' '), labele.end());
 
     // Density matrix
     arma::cube dens = m_mdata->read_dens_raw("DENSITY_MATRIX");
@@ -70,25 +72,25 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
 
     // Loop over all states
     for (int istate = 0; istate < dens.n_slices; istate++) {
+        std::ostringstream name, descr, header;
+        descr << istate+1 << " " << label;
+        name << istate+1 << labele;
+
         if (istate == refstate) {
-            std::ostringstream name, header;
-            name << refstate+1 << " " << label;
-            header << "RASSCF analysis for reference state " << name.str();
+            header << "RASSCF analysis for reference state " << descr.str();
             header2(header.str());
             m_mdata->energy_print(ener(istate), std::cout);
 
-            analyse_opdm_ai(name.str(), name.str(), dm0);
+            analyse_opdm_ai(name.str(), descr.str(), dm0);
         }
         else {
-            std::ostringstream name, header;
-            name << istate+1 << " " << label;
-            header << "RASSCF analysis for state " << name.str();
+            header << "RASSCF analysis for state " << descr.str();
             header2(header.str());
             m_mdata->energy_print(ener(istate), std::cout);
 
             ab_matrix ddm = m_mdata->build_dm(dens_buf + istate*dens_offs, sdens_buf + istate*dens_offs, aeqb_dens);
             ddm -= dm0;
-            analyse_opdm_ai(name.str(), name.str(), ddm, dm0);
+            analyse_opdm_ai(name.str(), descr.str(), ddm, dm0);
         }
     }
 }
