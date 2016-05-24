@@ -123,24 +123,32 @@ void nto_analysis::analysis(std::ostream &out,
         out << std::setw(9) << e(j);
     out << std::endl;
 
-    double total = accu(e);
-    double SHE = 0.;
-    for (size_t i = 0; i < e.size(); i++) {
-        if (e(i) > 0.)
-    //        SHE -= e(i) * log2(e(i)/total);
-            SHE -= e(i) * log2(e(i));
-    }
-    //SHE /= total;
-    
+    double Om = accu(e);
+
     out << std::setprecision(6) << std::fixed;
-    out << "  Sum of SVs:  " << std::setw(11) << total << std::endl;
+    out << "  Sum of SVs (Omega):            "
+        << std::setw(11) << Om << std::endl;
     out << "  Participation ratio (PR_NTO):  "
-        << std::setw(11) << total * total / dot(e, e);
+        << std::setw(11) << Om * Om / dot(e, e);
     out << std::endl;
-    out << "  Entanglement entropy:          "
-        << std::setw(11) << SHE << std::endl;
-    out << "  Number of entangled states:    "
-        << std::setw(11) << pow(2, SHE) << std::endl;
+
+    // Entanglement values
+    // Compute and print only for reasonable Omega
+    if (Om < 1.5) {
+        double ln2 = 0.6931471805599453;
+        double SHE  = -arma::dot(e, arma::trunc_log(e));
+            SHE /= ln2;
+        double rSHE = -arma::dot(e/Om, arma::trunc_log(e/Om));
+            rSHE /= ln2;
+
+        out << "  Entanglement entropy (S_HE):   "
+            << std::setw(11) << SHE << std::endl;
+        out << "  Nr of entangled states (Z_HE): "
+            << std::setw(11) << pow(2, SHE) << std::endl;
+        out << "  Renormalized S_HE/Z_HE:"
+            << std::setw(10) << rSHE << " /"
+            << std::setw(10) << pow(2, rSHE) << std::endl;
+    }
 }
 
 
