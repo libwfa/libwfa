@@ -6,7 +6,6 @@ using namespace H5;
 
 void molcas_export_h5orbs::perform(const std::string &name,
     const arma::mat &c, const arma::vec &e, size_t nocc) {
-
     // Export coefficients
     h5_coeff(name, c);
 
@@ -18,17 +17,21 @@ void molcas_export_h5orbs::perform(const std::string &name,
     const arma::mat &c_a, const arma::vec &e_a, size_t nocc_a,
     const arma::mat &c_b, const arma::vec &e_b, size_t nocc_b) {
 
-    // Export alpha coefficients
-    h5_coeff(name + "_ALPHA", c_a);
+    if (c_a.size() > 0) {
+        // Export alpha coefficients
+        h5_coeff(name + "_ALPHA", c_a);
 
-    // Export eigenvalues - these are interpreted as occupations
-    h5_occs(name + "_ALPHA", e_a);
+        // Export eigenvalues - these are interpreted as occupations
+        h5_occs(name + "_ALPHA", e_a);
+    }
 
-    // Export beta coefficients
-    h5_coeff(name + "_BETA", c_b);
+    if (c_b.size() > 0) {
+        // Export beta coefficients
+        h5_coeff(name + "_BETA", c_b);
 
-    // Export eigenvalues - these are interpreted as occupations
-    h5_occs(name + "_BETA", e_b);
+        // Export eigenvalues - these are interpreted as occupations
+        h5_occs(name + "_BETA", e_b);
+    }
 }
 
 void molcas_export_h5orbs::setup(H5File &file) {
@@ -41,6 +44,7 @@ void molcas_export_h5orbs::setup(H5File &file) {
 
             Attribute Att = m_group.createAttribute("DESCRIPTION", strtype, Space);
             Att.write(strtype, descr);
+            std::cout << std::endl << "HDF5 data group WFA created." << std::endl;
         }
         catch( H5::FileIException error ) {
             std::cout << std::endl << "WARNING: Overwriting data in existing group WFA " << std::endl;
@@ -57,7 +61,6 @@ void molcas_export_h5orbs::h5_vec(H5std_string oname, const H5std_string descr, 
     DataSet Set;
 
     try {
-        Exception::dontPrint();
 
         {
             DataSpace Space(rank, &dim);
@@ -76,6 +79,7 @@ void molcas_export_h5orbs::h5_vec(H5std_string oname, const H5std_string descr, 
         //std::cout << "WARNING: Overwriting existing dataset " << oname << std::endl;
         Set = m_group.openDataSet(oname);
     }
+
     Set.write(dataptr, PredType::NATIVE_DOUBLE);
 }
 
