@@ -12,7 +12,7 @@ cd build
 make
 ~~~~
 
-Testing requires the libtest library, which is currently not included. Compile libtest, then type:
+Currently, testing is only possible via the libtest library, which is part of Q-Chem. Compile libtest, then type:
 ~~~~
 cd libwfa/tests
 ../build/tests/libwfa_tests
