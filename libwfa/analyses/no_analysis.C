@@ -103,8 +103,10 @@ void no_analysis::analysis_p2(std::ostream &out, const vec &ev) {
     out << ", n_u,nl = ";
     out << std::setw(8) << nunl << std::endl;
 
-    out << "  NO participation ratio (PR_NO): ";
-    out << std::setw(9) << std::setprecision(6) << (nu * nu) / nu2 << std::endl;
+    if (nu2 > 1.e-6) {
+        out << "  NO participation ratio (PR_NO): ";
+        out << std::setw(9) << std::setprecision(6) << (nu * nu) / nu2 << std::endl;
+    }
 }
 
 

@@ -128,9 +128,11 @@ void nto_analysis::analysis(std::ostream &out,
     out << std::setprecision(6) << std::fixed;
     out << "  Sum of SVs (Omega):            "
         << std::setw(11) << Om << std::endl;
-    out << "  Participation ratio (PR_NTO):  "
-        << std::setw(11) << Om * Om / dot(e, e);
-    out << std::endl;
+    if (dot(e,e)>1.e-6) {
+        out << "  Participation ratio (PR_NTO):  "
+            << std::setw(11) << Om * Om / dot(e, e);
+        out << std::endl;
+    }
 
     // Entanglement values
     // Compute and print only for reasonable Omega

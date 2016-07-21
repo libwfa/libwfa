@@ -140,10 +140,12 @@ void ndo_analysis::analysis(std::ostream &out, const vec &ev, size_t nndo) {
     out << std::setw(7) << nd;
     out << ", p_A = " << std::setw(7) << na << std::endl;
     out << std::setprecision(6);
-    out << "  Number of involved orbitals: PR_D = ";
-    out << std::setw(9) << (nd * nd) / nd2;
-    out << ", PR_A = ";
-    out << std::setw(9) << (na * na) / na2 << std::endl;
+    if (na2 + nd2 > 1.e-6) {
+        out << "  Number of involved orbitals: PR_D = ";
+        out << std::setw(9) << (nd * nd) / nd2;
+        out << ", PR_A = ";
+        out << std::setw(9) << (na * na) / na2 << std::endl;
+    }
 }
 
 

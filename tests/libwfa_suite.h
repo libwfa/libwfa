@@ -8,7 +8,7 @@
 #include "ctnum_export_test.h"
 #include "ctnumbers_test.h"
 #include "cube_writer_test.h"
-#include "density_type_test.h"
+// include "density_type_test.h"
 #include "exciton_analysis_ad_test.h"
 #include "exciton_analysis_test.h"
 #include "export_cube_base_test.h"
@@ -20,7 +20,7 @@
 #include "nto_analysis_test.h"
 #include "orbital_data_test.h"
 #include "orbital_selector_test.h"
-#include "orbital_type_test.h"
+// include "orbital_type_test.h"
 #include "pop_analysis_ad_test.h"
 #include "pop_analysis_dm_test.h"
 #include "pop_data_test.h"
@@ -48,7 +48,7 @@ namespace libwfa {
     - \c ctnum_export_test
     - \c ctnumbers_test
     - \c cube_writer_test
-    - \c density_type_test
+    - \c density_type_test (NIY)
     - \c exciton_analysis_ad_test
     - \c exciton_analysis_test
     - \c export_cube_base_test
@@ -61,7 +61,7 @@ namespace libwfa {
     - \c santo_analysis_test
     - \c orbital_data_test
     - \c orbital_selector_test
-    - \c orbital_type_test
+    - \c orbital_type_test (NIY)
     - \c pop_analysis_ad_test
     - \c pop_analysis_dm_test
     - \c pop_data_test
@@ -80,7 +80,7 @@ private:
     unit_test_factory<ctnum_export_test> m_utf_ctnum_export;
     unit_test_factory<ctnumbers_test> m_utf_ctnumbers;
     unit_test_factory<cube_writer_test> m_utf_cube_writer;
-    unit_test_factory<density_type_test> m_utf_density_type;
+    //unit_test_factory<density_type_test> m_utf_density_type;
     unit_test_factory<exciton_analysis_ad_test> m_utf_exciton_analysis_ad_test;
     unit_test_factory<exciton_analysis_test> m_utf_exciton_analysis_test;
     unit_test_factory<export_cube_base_test> m_utf_export_cube_base;
@@ -93,7 +93,7 @@ private:
     unit_test_factory<sa_nto_analysis_test> m_utf_sa_nto_analysis;
     unit_test_factory<orbital_data_test> m_utf_orbital_data;
     unit_test_factory<orbital_selector_test> m_utf_orbital_selector;
-    unit_test_factory<orbital_type_test> m_utf_orbital_type;
+    //unit_test_factory<orbital_type_test> m_utf_orbital_type;
     unit_test_factory<pop_analysis_ad_test> m_utf_pop_analysis_ad;
     unit_test_factory<pop_analysis_dm_test> m_utf_pop_analysis_dm;
     unit_test_factory<pop_data_test> m_utf_pop_data;
