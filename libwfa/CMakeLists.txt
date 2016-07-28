@@ -130,18 +130,26 @@ set(MOLCAS_SRC
     molcas/molcas_export_h5orbs.C
 )
 
-if(WITH_MOLCAS)
-  Message("Configuring libwfa Molcas interface ...")
+if(MOLCAS_LIB)
+  Message("Configuring libwfa with Molcas object ...")
+  project(libwfa CXX)
+  add_definitions ( -DARMA_DONT_USE_WRAPPER -DARMA_BLAS_LONG )
   add_library(wfa_molcas ${SRC} ${HEADERS} ${MOLCAS_HDR} ${MOLCAS_SRC})
 else()
     set(TARGETS wfa)
     add_library(wfa ${SRC} ${HEADERS})
-    
+
     if(QCHEM_SOURCE_DIR)
       add_subdirectory(qchem)
     endif(QCHEM_SOURCE_DIR)
-endif(WITH_MOLCAS)
 
-set_property(TARGET ${TARGETS} APPEND PROPERTY 
+    if(MOLCAS_EXE)
+      Message("Configuring standalone Molcas executable ...")
+      add_subdirectory(molcas)
+    endif(MOLCAS_EXE)
+
+endif(MOLCAS_LIB)
+
+set_property(TARGET ${TARGETS} APPEND PROPERTY
     COMPILE_DEFINITIONS_DEBUG LIBWFA_DEBUG)
 
