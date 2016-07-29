@@ -131,9 +131,9 @@ set(MOLCAS_SRC
 )
 
 if(MOLCAS_LIB)
-  Message("Configuring libwfa with Molcas object ...")
+  Message("Configuring libwfa with Molcas objects included ...")
   project(libwfa CXX)
-  add_definitions ( -DARMA_DONT_USE_WRAPPER -DARMA_BLAS_LONG )
+  add_definitions ( -DARMA_BLAS_LONG )
   add_library(wfa_molcas ${SRC} ${HEADERS} ${MOLCAS_HDR} ${MOLCAS_SRC})
 else()
     set(TARGETS wfa)

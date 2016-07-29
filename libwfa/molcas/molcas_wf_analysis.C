@@ -221,7 +221,6 @@ void molcas_wf_analysis::analyse_optdm_ai(const std::string &name, const std::st
 }
 
 void molcas_wf_analysis::add_molcas_info(std::stringstream &out) {
-    size_t imax = 100;
     size_t prec = 6;
 
     std::ofstream finfo;
@@ -232,13 +231,15 @@ void molcas_wf_analysis::add_molcas_info(std::stringstream &out) {
 
     finfo << std::setw(6);
     while (out >> str) {
-        if (std::stringstream(str) >> x) {
-            finfo <<    "LIBWFA[" << m_info << "]=\"" << std::setprecision(prec)
-                << std::fixed << x << "\"" << std::endl;
-            finfo << "#> LIBWFA[" << m_info << "]=\"" << std::setprecision(prec)
-                << std::fixed << x << "\"/" << prec << std::endl;
-            m_info += 1;
-        }
+        if (std::stringstream(str) >> x)
+            if (x*x > 2.e-12)
+            {
+                finfo <<    "LIBWFA[" << m_info << "]=\"" << std::setprecision(prec)
+                    << std::fixed << x << "\"" << std::endl;
+                finfo << "#> LIBWFA[" << m_info << "]=\"" << std::setprecision(prec)
+                    << std::fixed << x << "\"/" << prec << std::endl;
+                m_info += 1;
+            }
     }
     finfo << "export LIBWFA" << std::endl;
 

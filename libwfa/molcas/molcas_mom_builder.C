@@ -53,23 +53,4 @@ const mat &molcas_mom_builder::get(size_t c, size_t n) const{
     return *m_op[pos];
 }
 
-void molcas_mom_builder::initialize(size_t pos) const {
-    
-    if (m_op[pos] != 0) return;
-    
-    throw libwfa_exception("mom_builder", "init",
-                __FILE__, __LINE__, "not implemented");
-       // hier weiter
-/*        H5::H5std_string key;
-        switch (pos) {
-            case 1: key = "AO_MLTPL_X";
-            case 2: key = "AO_MLTPL_Y";
-            case 3: key = "AO_MLTPL_Z";
-            case 4: key = "AO_MLTPL_XX";
-            case 5: key = "AO_MLTPL_YY";
-            case 6: key = "AO_MLTPL_ZZ";
-        }*/
-     
-}
-
 }//end namespace libwfa

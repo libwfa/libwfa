@@ -674,13 +674,17 @@ void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const 
     Set.read(&buf, PredType::NATIVE_DOUBLE);
 
     read_ao_mat(buf, dimt, m_moldata->mom.set(c, n), 1);
-    //std::cout << "*** " << c << ", " << n << std::endl;
-    //m_moldata->mom.get(c,n).print("symm");
-    // keep all matrices symmetrized
+    if (m_input->debug) {
+        std::cout << "*** " << c << ", " << n << std::endl;
+        m_moldata->mom.get(c,n).print("symm");
+    }
+
     if (m_moldata->nbas.size() > 1) {
         //arma::mat tmp = m_moldata->mom.get(c, n);
         m_moldata->mom.set(c, n) = m_moldata->desym * m_moldata->mom.get(c, n) * m_moldata->desym.t();
-        //m_moldata->mom.get(c,n).print("desymm");
+        if (m_input->debug) {
+            m_moldata->mom.get(c,n).print("desymm");
+        }
     }
 }
 

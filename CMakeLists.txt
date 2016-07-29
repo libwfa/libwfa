@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
 project(LIBWFA)
 
-option(MOLCAS_LIB "Compile library for Molcas" OFF)
-option(MOLCAS_EXE "Compile standalone Molcas executable" OFF)
+option(MOLCAS_LIB  "Compile library for Molcas" OFF)
+option(MOLCAS_EXE  "Compile standalone Molcas executable" OFF)
+option(ARMA_HEADER "Directly use armadillo headers" OFF)
+
+if(MOLCAS_LIB)
+    set(ARMA_HEADER ON)
+endif(MOLCAS_LIB)
 
 get_filename_component(LIBTEST_DIR ${LIBWFA_SOURCE_DIR}/../libtest ABSOLUTE)
 if (IS_DIRECTORY ${LIBTEST_DIR})

@@ -65,8 +65,6 @@ private:
         if (n == 0) return 0;
         else return n * 3 - 2 + c;
     }
-
-    void initialize(size_t pos) const; // -> delete
 };
 
 
