@@ -40,7 +40,7 @@ void molcas_wf_analysis_data::init_pop_analysis(const std::string &name) {
                 atoms, new pop_mulliken(s, b2a), p0));
     }
     else if (name == "loewdin") {
-        m_pa.push_back(new pa_data("Loewdin Population Analysis",
+        m_pa.push_back(new pa_data("Lowdin Population Analysis",
                 atoms, new pop_loewdin(s, b2a), p0));
     }
 }
