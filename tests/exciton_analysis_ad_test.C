@@ -53,6 +53,22 @@ void exciton_analysis_ad_test::test_1(){
     if (norm(re2 - exciton_test_data_hhe::re2()) > 1e-6)
         fail_test(testname, __FILE__, __LINE__, "re2");
 
+    // Trivial test of the combine routine
+    exciton_moments combined(2);
+    exc.combine(exc.moment(false), exc.moment(true), combined);
+    vec rhc = combined.get(0,1);
+    vec rec = combined.get(1,0);
+    vec rh2c = combined.get(0,2);
+    vec re2c = combined.get(2,0);
+    if (norm(rhc - exciton_test_data_hhe::rh()) > 1e-4)
+        fail_test(testname, __FILE__, __LINE__, "rhc");
+    if (norm(rec - exciton_test_data_hhe::re()) > 1e-6)
+        fail_test(testname, __FILE__, __LINE__, "rec");
+    if (norm(rh2c - exciton_test_data_hhe::rh2()) > 1e-3)
+        fail_test(testname, __FILE__, __LINE__, "rh2c");
+    if (norm(re2c - exciton_test_data_hhe::re2()) > 1e-6)
+        fail_test(testname, __FILE__, __LINE__, "re2c");
+
     std::ofstream of("exciton_analysis_ad_test_1", std::ofstream::app);
     exc.analyse(of);
 

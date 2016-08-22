@@ -75,11 +75,11 @@ protected:
 
     /** \brief Form total exciton moments
         \param a Alpha exciton moment
-        \param b Alpha exciton moment
+        \param b Beta exciton moment
         \param res Total exciton moment
      **/
-    static void combine(const exciton_moments &a, const exciton_moments &b,
-        exciton_moments &res);
+    virtual void combine(const exciton_moments &a, const exciton_moments &b,
+        exciton_moments &res) const = 0;
 };
 
 } // namespace libwfa

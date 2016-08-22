@@ -70,23 +70,65 @@ void exciton_analysis_ad::analysis(std::ostream &out,
     }
 }
 
+void exciton_analysis_ad::combine(const exciton_moments &a,
+    const exciton_moments &b, exciton_moments &res) const {
+
+    size_t nmax = std::min(a.n_max(), b.n_max());
+    if (nmax != res.n_max()) {
+        throw libwfa_exception("exciton_analysis_base", "combine",
+                __FILE__, __LINE__, "nmax");
+    }
+
+    // Normalization factors: alpha/beta and attachment/detachment
+    vec m0a = a.get(0,0);
+    vec m0b = b.get(0,0);
+
+    double paa = m0a(1), pad = m0a(2); //temp!
+    double pba = m0b(1), pbd = m0b(2);
+
+    if (paa + pba == 0.0) {
+        throw libwfa_exception("exciton_analysis_base", "combine",
+                __FILE__, __LINE__, "paa+pba==0, attachment");
+    }
+
+    if (pad + pbd == 0.0) {
+        throw libwfa_exception("exciton_analysis_base", "combine",
+                __FILE__, __LINE__, "pad+pbd==0, detachment");
+    }
+
+    for (size_t i = 0; i <= nmax; i++) {
+        { // attachment
+            vec maa = a.get(i, 0), mba = b.get(i, 0);
+            vec mc = (paa * maa + pba * mba) / (paa + pba);
+            res.set(i, 0, mc);
+        }
+
+        { // detachment
+            vec mad = a.get(0, i), mbd = b.get(0, i);
+            vec mc = (pad * mad + pbd * mbd) / (pad + pbd);
+            res.set(0, i, mc);
+        }
+    }
+}
 
 void exciton_analysis_ad::calculate(const mom_builder_i &bld,
     const arma::mat &adm, const arma::mat &ddm, exciton_moments &mom) {
 
-    double n = bld.perform(adm, 'x', 0);
+    double pa = bld.perform(adm, 'x', 0);
+    double pd = bld.perform(ddm, 'x', 0);
     vec m0(3, fill::zeros);
-    m0(0) = n;
+    m0(1) = pa;
+    m0(2) = pd;
     mom.set(0, 0, m0);
 
     for (size_t i = 1; i <= mom.n_max(); i++) {
-        vec mh(3, fill::zeros), me(3, fill::zeros);
+        vec md(3, fill::zeros), ma(3, fill::zeros);
         for (size_t k = 0; k < 3; k++) {
-            me(k) = bld.perform(adm, k, i) / n;
-            mh(k) = bld.perform(ddm * -1., k, i) / n;
+            ma(k) = bld.perform(adm, k, i) / pa;
+            md(k) = bld.perform(ddm, k, i) / pd;
         }
-        mom.set(i, 0, me);
-        mom.set(0, i, mh);
+        mom.set(i, 0, ma);
+        mom.set(0, i, md);
     }
 }
 

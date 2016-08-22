@@ -36,6 +36,9 @@ private:
     virtual void analysis(std::ostream &out,
             const exciton_moments &mom, size_t off) const;
 
+    virtual void combine(const exciton_moments &a, const exciton_moments &b,
+        exciton_moments &res) const;
+
     static void calculate(const mom_builder_i &bld,
         const arma::mat &tdm, exciton_moments &mom);
 };

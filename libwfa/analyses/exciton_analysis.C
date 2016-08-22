@@ -48,7 +48,7 @@ void exciton_analysis::analysis(std::ostream &out,
         const exciton_moments &mom, size_t off) const {
 
     std::string os(off, ' ');
-    if (accu(mom.get(0,0))<1.e-6) {
+    if (accu(mom.get(0, 0))<1.e-6) {
         out << os << "... vanishing." << std::endl;
         return;
     }
@@ -107,6 +107,30 @@ void exciton_analysis::analysis(std::ostream &out,
     }
 }
 
+void exciton_analysis::combine(const exciton_moments &a,
+    const exciton_moments &b, exciton_moments &res) const {
+
+    size_t nmax = std::min(a.n_max(), b.n_max());
+    if (nmax != res.n_max()) {
+        throw libwfa_exception("exciton_analysis_base", "combine",
+                __FILE__, __LINE__, "nmax");
+    }
+
+    double sa = accu(a.get(0, 0)), sb = accu(b.get(0, 0));
+    if (sa + sb == 0.0) {
+        throw libwfa_exception("exciton_analysis_base", "combine",
+                __FILE__, __LINE__, "sa+sb");
+    }
+
+    for (size_t i = 0; i <= nmax; i++) {
+        for (size_t j = 0; j <= i; j++) {
+
+            vec ma = a.get(j, i - j), mb = b.get(j, i - j);
+            vec mc = (sa * ma + sb * mb) / (sa + sb);
+            res.set(j, i - j, mc);
+        }
+    }
+}
 
 }// end namespace libwfa
 
