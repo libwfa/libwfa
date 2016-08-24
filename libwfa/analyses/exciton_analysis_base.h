@@ -45,6 +45,10 @@ public:
     }
 
     /** \brief Perform analysis
+
+        Note: Only passing the spin-traced density will not yield the same
+            result as "Total".
+
         \param out Output stream
         \param offset Line offset
      **/

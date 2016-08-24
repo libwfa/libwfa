@@ -96,7 +96,7 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
 }
 
 void molcas_wf_analysis::rassi_analysis(size_t refstate) {
-    header1("RASSI Transition Density Matrix Analysis");
+    header1("RASSI (Transition) Density Matrix Analysis");
 
     // Read the densities
     arma::cube tden = m_mdata->read_dens_raw("SFS_TRANSITION_DENSITIES");
@@ -141,11 +141,15 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
                 header2(header.str());
                 m_mdata->energy_print(ener(istate), std::cout);
 
+                std::cout << "Using spin-traced density matrices ..." << std::endl << std::endl;
+
                 const double *itden_buf  = tden_buf + (istate + istate * tden.n_cols)*tden.n_rows;
 
                 // The state spin-densities are not understood consistently.
+                //   Probably because of the contributions from inactive orbitals.
                 //   They are ignored here
                 const double *itsden_buf = NULL; //tsden_buf + (istate + istate * tden.n_cols)*tden.n_rows;
+                //const double *itsden_buf = tsden_buf + (istate + istate * tden.n_cols)*tden.n_rows;
 
                 ab_matrix ddm = m_mdata->build_dm_ao(itden_buf, itsden_buf, tden.n_rows);
                 ddm -= dm0;

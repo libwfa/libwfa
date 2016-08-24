@@ -11,11 +11,12 @@ ndo_analysis::ndo_analysis(const mat &s,
 
     if (ddm.is_alpha_eq_beta()) {
         m_ndo[0] = new orbital_data(s, c.alpha(), ddm.alpha());
-        m_ndo[1] = 0;
+        m_ndo[1] = m_ndo[2] = 0;
     }
     else {
         m_ndo[0] = new orbital_data(s, c.alpha(), ddm.alpha());
         m_ndo[1] = new orbital_data(s, c.beta(), ddm.beta());
+        m_ndo[2] = new orbital_data(s, c.alpha(), ddm.alpha() + ddm.beta());
     }
 }
 
@@ -24,6 +25,7 @@ ndo_analysis::~ndo_analysis() {
 
     delete m_ndo[0]; m_ndo[0] = 0;
     if (m_ndo[1]) { delete m_ndo[1]; m_ndo[1] = 0; }
+    if (m_ndo[2]) { delete m_ndo[2]; m_ndo[2] = 0; }
 }
 
 
@@ -54,6 +56,9 @@ void ndo_analysis::analyse(std::ostream &out, size_t nndo) const {
         analysis(out, m_ndo[0]->get_occ(), nndo);
         out << "NDOs (beta)" << std::endl;
         analysis(out, m_ndo[1]->get_occ(), nndo);
+
+        out << "NDOs (spin-traced)" << std::endl;
+        analysis(out, m_ndo[2]->get_occ(), nndo);
     }
     else {
         out << "NDOs" << std::endl;
