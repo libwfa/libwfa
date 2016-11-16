@@ -521,7 +521,7 @@ void molcas_wf_analysis_data::initialize() {
         arma::vec dorig = mp_orig.col(1), qorig = mp_orig.col(2);
         if (norm(dorig)!=0.) {
             throw libwfa_exception(k_clazz,
-                method, __FILE__, __LINE__, "Dipole moments not centered at origin");
+                method, __FILE__, __LINE__, "Dipole moment integrals not centered at origin");
         }
 
         // Read the operator matrices
