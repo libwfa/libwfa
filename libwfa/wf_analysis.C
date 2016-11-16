@@ -1,4 +1,5 @@
 #include <libwfa/analyses/ctnumbers.h>
+#include <libwfa/analyses/dens_mom.h>
 #include <libwfa/analyses/exciton_analysis_ad.h>
 #include <libwfa/analyses/exciton_analysis.h>
 #include <libwfa/analyses/no_analysis.h>
@@ -72,6 +73,10 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
         out << std::endl;
     }
 
+    if (m_h->is_active(wf_analysis_data_i::DENS_MOM)) {
+        dens_mom(m_h->mom_builder(), sdm, m_h->coordinates(), m_h->atomic_charges()).analyse(out, 0);
+    }
+
     if (m_h->is_active(wf_analysis_data_i::EXCITON_AD)) {
         exciton_analysis_ad(m_h->mom_builder(), at, de).analyse(out, 0);
     }
@@ -118,6 +123,9 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
         out << std::endl;
     }
 
+    if (m_h->is_active(wf_analysis_data_i::DENS_MOM)) {
+        dens_mom(m_h->mom_builder(), sdm, m_h->coordinates(), m_h->atomic_charges()).analyse(out, 0);
+    }
 }
 
 

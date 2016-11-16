@@ -2,6 +2,7 @@ set(ANALYSES_HEADERS
     analyses/ctnum_analysis_i.h
     analyses/ctnum_analysis.h
     analyses/ctnumbers.h
+    analyses/dens_mom.h
     analyses/exciton_analysis_ad.h
     analyses/exciton_analysis_base.h
     analyses/exciton_analysis.h
@@ -21,6 +22,7 @@ set(ANALYSES_HEADERS
 set(ANALYSES_SRC
     analyses/ctnum_analysis.C
     analyses/ctnumbers.C
+    analyses/dens_mom.C
     analyses/exciton_analysis_ad.C
     analyses/exciton_analysis_base.C
     analyses/exciton_analysis.C

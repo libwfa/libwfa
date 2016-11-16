@@ -503,17 +503,45 @@ void molcas_wf_analysis_data::initialize() {
 
     // Multipole matrices
     {
-        //m_moldata->desym.print("desym");
+        // Read the origins used in the operator definitions
+        DataSet Set = m_file.openDataSet("MLTPL_ORIG");
+        DataSpace Space = Set.getSpace();
+        int rank = Space.getSimpleExtentNdims();
+        if (rank != 2) {
+            throw libwfa_exception(k_clazz,
+                method, __FILE__, __LINE__, "Inconsistent rank");
+        }
+
+        hsize_t dims[rank];
+        Space.getSimpleExtentDims(dims, NULL);
+        double buf[dims[0] * dims[1]];
+        Set.read(&buf, PredType::NATIVE_DOUBLE);
+        arma::mat mp_orig(buf, 3, 3);
+
+        arma::vec dorig = mp_orig.col(1), qorig = mp_orig.col(2);
+        if (norm(dorig)!=0.) {
+            throw libwfa_exception(k_clazz,
+                method, __FILE__, __LINE__, "Dipole moments not centered at origin");
+        }
+
+        // Read the operator matrices
         m_moldata->mom.set(0, 0) = m_moldata->s;
-        //m_moldata->s.print("S");
         read_mltpl_mat("AO_MLTPL_X",  0, 1);
         read_mltpl_mat("AO_MLTPL_Y",  1, 1);
         read_mltpl_mat("AO_MLTPL_Z",  2, 1);
         read_mltpl_mat("AO_MLTPL_XX", 0, 2);
         read_mltpl_mat("AO_MLTPL_YY", 1, 2);
         read_mltpl_mat("AO_MLTPL_ZZ", 2, 2);
-        //m_moldata->mom.get(1,1).print("AO_MLTPL_Y");
-        //m_moldata->mom.get(0,2).print("AO_MLTPL_XX");
+
+        // Shift the quadrupole operators to the origin of the coordinate system
+        if (accu(qorig%qorig)!=0.) {
+            std::cout << "Shifting the quadrupole operators to the origin ..." << std::endl;
+            for (size_t icart = 0; icart < 3; icart++) {
+                arma::mat shift = 2*qorig.at(icart)*m_moldata->mom.get(icart,1) -
+                    qorig.at(icart)*qorig.at(icart)*m_moldata->mom.get(0,0);
+                m_moldata->mom.set(icart,2) += shift;
+            }
+        }
     }
 }
 
@@ -725,6 +753,7 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data() {
     h->activate(molcas_wf_analysis_data::FORM_EH);
     h->activate(molcas_wf_analysis_data::FORM_AD);
 
+    h->activate(molcas_wf_analysis_data::DENS_MOM);
     h->activate(molcas_wf_analysis_data::EXCITON);
     h->activate(molcas_wf_analysis_data::EXCITON_AD);
 

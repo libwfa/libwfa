@@ -24,15 +24,17 @@ public:
      **/
     enum analysis_type {
         NO = 0,     //!< Natural orbital analysis
+        DENS_MOM,   //!< Multipole moments of the density
         NDO,        //!< Natural difference orbital analysis
         FORM_AD,    //!< Form attachment/detachment densities
         EXCITON_AD, //!< Exciton analysis on a/d densities
         NTO,        //!< Natural transition orbital analysis
+        TDEN_MOM,   //!< Multipole moments of the transition density
         FORM_EH,    //!< Form electron/hole densities
         EXCITON,    //!< Exciton analysis on transition density
         SA_NTO,     //!< State-averaged NTO analysis
     };
-    enum { WFA_TYPES = 8 }; //!< Number of analysis types
+    enum { WFA_TYPES = 10 }; //!< Number of analysis types
 
     /** \brief Orbital parameters
      **/
@@ -138,6 +140,14 @@ public:
     /** \brief Builder of exciton moments
      **/
     virtual const mom_builder_i &mom_builder() = 0;
+
+    /** \brief Return the atomic coordinates
+     **/
+    virtual const arma::mat &coordinates() = 0;
+
+    /** \brief Return the atomic numbers
+     **/
+    virtual const arma::vec &atomic_charges() = 0;
 };
 
 

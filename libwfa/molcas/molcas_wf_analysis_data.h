@@ -256,6 +256,14 @@ public:
         return m_moldata->mom;
     }
 
+    const arma::mat &coordinates() {
+        return m_moldata->coordinates;
+    }
+    
+    const arma::vec &atomic_charges() {
+        return m_moldata->atomic_charges;
+    }
+
     /** \brief Build the density matrix from MOs
         \param buf Density matrix data (MO basis)
         \param sbuf Spin-density matrix data (MO basis)

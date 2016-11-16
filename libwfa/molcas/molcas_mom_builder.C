@@ -30,7 +30,9 @@ mat &molcas_mom_builder::set(size_t c, size_t n) {
                 __FILE__, __LINE__, "n");
     }
 
-    m_op[pos] = new mat(m_nao, m_nao);
+    if (m_op[pos] == 0) {
+        m_op[pos] = new mat(m_nao, m_nao);
+    }
 
     return *m_op[pos];
 }
