@@ -13,7 +13,7 @@ const char export_cube_base::k_clazz[] = "export_cube_base";
 
 
 export_cube_base::export_cube_base(const grid3d &grid,
-    const Col<unsigned int> &atnum, const mat &coords,
+    const uvec &atnum, const mat &coords,
     const std::string &prefix, size_t batchsz, size_t nmax,
     const std::string &comment) :
     m_grid(grid), m_atnum(atnum), m_coords(coords), m_prefix(prefix),
