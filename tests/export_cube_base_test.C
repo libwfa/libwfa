@@ -21,7 +21,7 @@ class export_cube_test : public export_cube_base {
 private:
     struct system_data {
         grid3d grid;
-        Col<unsigned int> atnum;
+        uvec atnum;
         mat coord;
         vec ao_exp;
 

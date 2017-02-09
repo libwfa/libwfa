@@ -88,5 +88,5 @@ set_property(TARGET ${TARGETS} APPEND PROPERTY
     COMPILE_DEFINITIONS_DEBUG LIBWFA_DEBUG)
 
 foreach (TARGET ${TARGETS})
-    target_link_libraries(${TARGET} wfa ${LIBWFA_DEP_LIBS} test)
+    target_link_libraries(${TARGET} wfa ${LIBWFA_DEP_LIBS} libtest)
 endforeach(TARGET)
