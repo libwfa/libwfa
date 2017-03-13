@@ -552,6 +552,7 @@ void molcas_wf_analysis_data::read_input() {
     std::string inpname(Project);
     inpname.append(".Wfa.Input");
     std::ifstream infile(inpname.c_str());
+    // std::ifstream infile("WFAINP");
 
     bool inwfa = false;
     std::string str, str4;

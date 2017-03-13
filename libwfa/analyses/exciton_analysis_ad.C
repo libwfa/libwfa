@@ -30,6 +30,10 @@ void exciton_analysis_ad::analysis(std::ostream &out,
     const exciton_moments &mom, size_t off) const {
 
     std::string os(off, ' ');
+    if (accu(abs(mom.get(0, 0)))<1.e-6) {
+        out << os << "... vanishing." << std::endl;
+        return;
+    }
     out << std::setprecision(6) << std::fixed;
     { // Scope of rh, re, and tot
         vec rh = mom.get(0, 1) * constants::au2ang;
