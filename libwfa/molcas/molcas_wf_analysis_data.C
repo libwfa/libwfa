@@ -39,9 +39,12 @@ void molcas_wf_analysis_data::init_pop_analysis(const std::string &name) {
         m_pa.push_back(new pa_data("Mulliken Population Analysis",
                 atoms, new pop_mulliken(s, b2a), p0));
     }
-    else if (name == "loewdin") {
+    else if (name == "lowdin") {
         m_pa.push_back(new pa_data("Lowdin Population Analysis",
                 atoms, new pop_loewdin(s, b2a), p0));
+    }
+    else {
+        throw libwfa_exception(k_clazz, "build_dm", __FILE__, __LINE__, "Unknown population analysis type.");
     }
 }
 
@@ -493,7 +496,7 @@ void molcas_wf_analysis_data::initialize() {
         }
     }
     else {
-        // Do a Loewdin orthogonalization, since no MO-coefficients are available
+        // Do a Lowdin orthogonalization, since no MO-coefficients are available
         arma::mat u;
         arma::vec e;
         eig_sym(e, u, m_moldata->s);
@@ -548,7 +551,7 @@ void molcas_wf_analysis_data::initialize() {
 void molcas_wf_analysis_data::read_input(char *inp) {
     m_input = std::auto_ptr<input_data>(new input_data());
 
-/*    const char* Project = std::getenv("Project");
+/*  const char* Project = std::getenv("Project");
     std::string inpname(Project);
     inpname.append(".Wfa.Input");
     std::ifstream infile(inpname.c_str());*/
