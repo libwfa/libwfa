@@ -74,13 +74,13 @@ private:
         bool mulliken, loewdin; //!< What kind of analysis to do
         bool add_info; //!< Write to molcas_info file
         bool debug; //!< Print debug info
-        
+
         /** \brief Constructor
          **/
         input_data() : file_name("wfa.h5"), refstate(0), mulliken(false), loewdin(true),
             add_info(false), debug(false) {}
     };
-    
+
     /** \brief Export types
      **/
     enum export_type {
@@ -112,7 +112,7 @@ private:
 public:
     /** \brief Constructor
      **/
-    molcas_wf_analysis_data();
+    molcas_wf_analysis_data(char *inp);
 
     /** \brief Virtual destructor
      **/
@@ -259,7 +259,7 @@ public:
     const arma::mat &coordinates() {
         return m_moldata->coordinates;
     }
-    
+
     const arma::vec &atomic_charges() {
         return m_moldata->atomic_charges;
     }
@@ -274,20 +274,20 @@ public:
         and the density is transformed to the AO basis.
      **/
     ab_matrix build_dm(const double *buf, const double *sbuf, const bool aeqb_dens);
-    
+
     /** \brief Build the density matrix from AOs
         \param buf Density matrix data (AO basis)
         \return Full density matrix in the AO basis
      **/
     ab_matrix build_dm_ao(const double *buf, const double *sbuf, const size_t dim);
-    
-    
+
+
     /** \brief Read a vector from the HDF5 file
         \param key name of the data
         \return data as vector
     **/
     arma::vec read_vec_h5(H5std_string key);
-    
+
     /** \brief Read a density in raw format
         \param key name of the density
         \return raw density matrix as cube
@@ -304,18 +304,18 @@ public:
         \return Symmetry and multiplicity label
      **/
     std::string rasscf_label();
-    
+
     std::string molcas_module() {
         return m_moldata->molcas_module;
     }
-    
+
     const std::auto_ptr<input_data> &input() {
         return m_input;
     }
 
 private:
+    void read_input(char *inp);
     void initialize();
-    void read_input();
     void cleanup();
     void setup_h5core();
     void read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, const size_t nsym);
@@ -333,7 +333,7 @@ private:
 
     \ingroup libwfa_molcas
  **/
-molcas_wf_analysis_data *molcas_setup_wf_analysis_data();
+molcas_wf_analysis_data *molcas_setup_wf_analysis_data(char *inp);
 
 /** \brief Setup the wave function / density matrix analysis data for Molcas
     \return Pointer to data object

@@ -9,9 +9,9 @@ using namespace H5;
 
 const char molcas_wf_analysis_data::k_clazz[] = "molcas_wf_analysis_data";
 
-molcas_wf_analysis_data::molcas_wf_analysis_data() :
+molcas_wf_analysis_data::molcas_wf_analysis_data(char *inp) :
     m_export_dens(EXPORT_NONE), m_export_orbs(EXPORT_NONE) {
-    read_input();
+    read_input(inp);
 
     std::cout << "Opening Molcas HDF5 file " << m_input->file_name << std::endl;
     m_file = H5File(m_input->file_name, H5F_ACC_RDWR);
@@ -545,14 +545,15 @@ void molcas_wf_analysis_data::initialize() {
     }
 }
 
-void molcas_wf_analysis_data::read_input() {
+void molcas_wf_analysis_data::read_input(char *inp) {
     m_input = std::auto_ptr<input_data>(new input_data());
 
-    const char* Project = std::getenv("Project");
+/*    const char* Project = std::getenv("Project");
     std::string inpname(Project);
     inpname.append(".Wfa.Input");
-    std::ifstream infile(inpname.c_str());
-    // std::ifstream infile("WFAINP");
+    std::ifstream infile(inpname.c_str());*/
+
+    std::stringstream infile(inp);
 
     bool inwfa = false;
     std::string str, str4;
@@ -575,11 +576,11 @@ void molcas_wf_analysis_data::read_input() {
             else if (str4=="MULL") {
                 m_input->mulliken = true;
             }
-            else if (str4=="ADDI") {
-                m_input->add_info = true;
-            }
             else if (str4=="DEBU") {
                 m_input->debug = true;
+            }
+            else if (str4=="ADDI") {
+                m_input->add_info = true;
             }
             else if (str4=="END") {
                 break;
@@ -717,8 +718,8 @@ void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const 
     }
 }
 
-molcas_wf_analysis_data *molcas_setup_wf_analysis_data() {
-    molcas_wf_analysis_data *h = new molcas_wf_analysis_data();
+molcas_wf_analysis_data *molcas_setup_wf_analysis_data(char *inp) {
+    molcas_wf_analysis_data *h = new molcas_wf_analysis_data(inp);
 
     size_t norb = 3;
     double thresh = 1.e-5;
