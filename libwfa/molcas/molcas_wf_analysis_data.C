@@ -573,23 +573,43 @@ void molcas_wf_analysis_data::read_input(char *inp) {
                 infile >> str;
                 m_input->refstate = atoi(str.c_str()) - 1;
             }
-            else if (str4=="MULL") {
-                m_input->mulliken = true;
+            else if (str4=="WFAL") {
+                infile >> str;
+                m_input->wfalevel = atoi(str.c_str());
             }
-            else if (str4=="DEBU") {
-                m_input->debug = true;
-            }
-            else if (str4=="ADDI") {
-                m_input->add_info = true;
-            }
-            else if (str4=="END") {
-                break;
-            }
+            else if (str4=="MULL") m_input->mulliken = true;
+            else if (str4=="LOWD") m_input->lowdin = true;
+            else if (str4=="NXO")  m_input->nxo = true;
+            else if (str4=="EXCI") m_input->exciton = true;
+            else if (str4=="CTNU") m_input->ctnum = true;
+            else if (str4=="H5OR") m_input->h5orbs = true;
+
+            else if (str4=="DEBU") m_input->debug = true;
+            else if (str4=="ADDI") m_input->add_info = true;
+
+            else if (str4=="END") break;
+
             else {
                 std::cout << std::endl << "Unknown keyword: " << str4 << std::endl << std::endl;
                 throw libwfa_exception(k_clazz, "read_input", __FILE__, __LINE__, "Unknown keyword");
             }
         }
+    }
+
+    // Automatically activate options according to wfalevel
+    if (m_input->wfalevel >= 1) {
+        m_input->lowdin = true;
+        m_input->nxo = true;
+    }
+    if (m_input->wfalevel >= 2) {
+        m_input->exciton = true;
+    }
+    if (m_input->wfalevel >= 3) {
+        m_input->ctnum = true;
+        m_input->h5orbs = true;
+    }
+    if (m_input->wfalevel >= 4) {
+        m_input->mulliken = true;
     }
 }
 
@@ -721,43 +741,50 @@ void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const 
 molcas_wf_analysis_data *molcas_setup_wf_analysis_data(char *inp) {
     molcas_wf_analysis_data *h = new molcas_wf_analysis_data(inp);
 
-    size_t norb = 3;
-    double thresh = 1.e-5;
 
-    // Setup parameters for orbital print-out; currently use the same parameters
-    // for NOs, NDOs, and NTOs
-    h->set_orbital_params(orbital_type::NO,  norb, thresh);
-    h->set_orbital_params(orbital_type::NDO, norb, thresh);
-    h->set_orbital_params(orbital_type::NTO, norb, thresh);
-
-    // Initialize orbital export
-    orbital_type::flag_t ot;
-    ot.set(orbital_type::no);
-    ot.set(orbital_type::ndo);
-    ot.set(orbital_type::nto);
-    h->init_orbital_export("h5", ot);
-
-    // Activate population analysis
+    // Activate population analyses
     if (h->input()->mulliken) {
         h->init_pop_analysis("mulliken");
     }
-    if (h->input()->loewdin) {
-        h->init_pop_analysis("loewdin");
+    if (h->input()->lowdin) {
+        h->init_pop_analysis("lowdin");
+    }
+    if (h->input()->ctnum) {
+        h->init_ctnum_analysis("atomic");
     }
 
-    h->init_ctnum_analysis("atomic");
+    if (h->input()->nxo) {
+        h->activate(molcas_wf_analysis_data::NO);
+        h->activate(molcas_wf_analysis_data::NDO);
+        h->activate(molcas_wf_analysis_data::NTO);
+        h->activate(molcas_wf_analysis_data::SA_NTO);
 
-    h->activate(molcas_wf_analysis_data::NO);
-    h->activate(molcas_wf_analysis_data::NDO);
-    h->activate(molcas_wf_analysis_data::NTO);
-    h->activate(molcas_wf_analysis_data::SA_NTO);
+        size_t norb = 3;
+        double thresh = 1.e-5;
+
+        // Setup parameters for orbital print-out; currently use the same parameters
+        // for NOs, NDOs, and NTOs
+        h->set_orbital_params(orbital_type::NO,  norb, thresh);
+        h->set_orbital_params(orbital_type::NDO, norb, thresh);
+        h->set_orbital_params(orbital_type::NTO, norb, thresh);
+
+        // Initialize orbital export
+        orbital_type::flag_t ot;
+        ot.set(orbital_type::no);
+        ot.set(orbital_type::ndo);
+        ot.set(orbital_type::nto);
+        if (h->input()->h5orbs)
+            h->init_orbital_export("h5", ot);
+    }
 
     h->activate(molcas_wf_analysis_data::FORM_EH);
     h->activate(molcas_wf_analysis_data::FORM_AD);
 
-    h->activate(molcas_wf_analysis_data::DENS_MOM);
-    h->activate(molcas_wf_analysis_data::EXCITON);
-    h->activate(molcas_wf_analysis_data::EXCITON_AD);
+    if (h->input()->exciton) {
+        h->activate(molcas_wf_analysis_data::DENS_MOM);
+        h->activate(molcas_wf_analysis_data::EXCITON);
+        h->activate(molcas_wf_analysis_data::EXCITON_AD);
+    }
 
     return h;
 }

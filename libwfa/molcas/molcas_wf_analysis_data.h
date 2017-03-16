@@ -71,14 +71,16 @@ private:
     struct input_data {
         std::string file_name; //!< Name of the HDF5 file
         size_t refstate; //!< Reference state in the analysis
-        bool mulliken, loewdin; //!< What kind of analysis to do
+        size_t wfalevel; //!< Overall level of print out
+        bool mulliken, lowdin, nxo, exciton; //!< What kind of analysis to do
+        bool ctnum, h5orbs; //!< What kind of print out
         bool add_info; //!< Write to molcas_info file
         bool debug; //!< Print debug info
 
         /** \brief Constructor
          **/
-        input_data() : file_name("wfa.h5"), refstate(0), mulliken(false), loewdin(true),
-            add_info(false), debug(false) {}
+        input_data() : file_name("WFAH5"), refstate(0), wfalevel(3), mulliken(false), lowdin(false), nxo(false),
+            exciton(false), ctnum(false), h5orbs(false), add_info(false), debug(false) {}
     };
 
     /** \brief Export types
@@ -127,7 +129,7 @@ public:
 
     /** \brief Initialize population analysis
         \param name Name of population analysis (possible values: mulliken,
-            loewdin)
+            lowdin)
      **/
     void init_pop_analysis(const std::string &name);
 
