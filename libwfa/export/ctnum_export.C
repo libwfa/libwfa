@@ -11,7 +11,9 @@ void ctnum_export::perform(const ab_matrix &om) const {
     
     if (om.is_alpha_eq_beta()) {
         std::string fname(m_prefix + ".om");
-        do_export(fname, om.alpha() * 2.0);
+        mat om_exp;
+        om_exp = 2.0 * om.alpha();
+        do_export(fname, om_exp);
     }
     else {
         std::string fname_a(m_prefix + "_a.om");
