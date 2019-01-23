@@ -42,7 +42,8 @@ void no_analysis::analyse(std::ostream &out, size_t nno) const {
         analysis_p2(out, m_no[2]->get_occ());
     }
     else {
-        vec ev = m_no[0]->get_occ() * 2.0;
+        vec ev(m_no[0]->get_occ());
+        ev *= 2.0;
         out << "NOs" << std::endl;
         analysis_p1(out, ev, nno);
         analysis_p2(out, ev);

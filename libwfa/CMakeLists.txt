@@ -137,6 +137,11 @@ if(MOLCAS_LIB)
   project(libwfa CXX)
   add_definitions ( -DARMA_BLAS_LONG )
   add_library(wfa_molcas ${SRC} ${HEADERS} ${MOLCAS_HDR} ${MOLCAS_SRC})
+  install (TARGETS wfa_molcas
+           RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+           LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+           ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+  )
 else()
     set(TARGETS wfa)
     add_library(wfa ${SRC} ${HEADERS})
