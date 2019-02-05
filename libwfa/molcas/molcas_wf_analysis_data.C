@@ -56,6 +56,10 @@ void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
         m_cta.push_back(new cta_data("Atomic CT numbers", "atomic",
                 new libwfa::ctnum_analysis(s, b2a)));
     }
+    else if (name == "lowdin") {
+        m_cta.push_back(new cta_data("lowdin CT numbers", "lowdin",
+                new libwfa::ctnum_analysis(s, b2a)));
+    }
 }
 
 void molcas_wf_analysis_data::activate(enum analysis_type t) {
@@ -753,7 +757,7 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(char *inp) {
         h->init_pop_analysis("lowdin");
     }
     if (h->input()->ctnum) {
-        h->init_ctnum_analysis("atomic");
+        h->init_ctnum_analysis(h->input()->ctnum_methods);
     }
 
     if (h->input()->nxo) {
