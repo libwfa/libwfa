@@ -74,14 +74,14 @@ private:
         size_t wfalevel; //!< Overall level of print out
         bool mulliken, lowdin, nxo, exciton; //!< What kind of analysis to do
         bool ctnum, h5orbs; //!< What kind of print out
-        std::string ctnum_methods; //! methods or formular for ct num analysis: atomic or lowdin
+        std::string ctnum_method; //! methods or formular for ct num analysis: atomic or lowdin
         bool add_info; //!< Write to molcas_info file
         bool debug; //!< Print debug info
 
         /** \brief Constructor
          **/
         input_data() : file_name("/gpfs/home/lboro/fchen/projects/RSE_proj/libwfa/runs/WFAH5"), refstate(0), wfalevel(3), mulliken(false), lowdin(false), nxo(false),
-            exciton(false), ctnum(false), h5orbs(false), ctnum_methods("lowdin"), add_info(false), debug(false) {}
+            exciton(false), ctnum(false), h5orbs(false), ctnum_method("lowdin"), add_info(false), debug(false) {}
     };
 
     /** \brief Export types
