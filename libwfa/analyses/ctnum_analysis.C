@@ -5,8 +5,8 @@ namespace libwfa {
 using namespace arma;
 
 
-ctnum_analysis::ctnum_analysis(const mat &s, const uvec &b2p) :
-    m_nparts(0), m_s(s), m_b2p(b2p) {
+ctnum_analysis::ctnum_analysis(const mat &s, const uvec &b2p, const std::string &method) :
+    m_nparts(0), m_s(s), m_b2p(b2p), ctnum_method(method) {
 
     m_nparts = b2p.max() + 1;
 }
@@ -15,7 +15,7 @@ ctnum_analysis::ctnum_analysis(const mat &s, const uvec &b2p) :
 void ctnum_analysis::perform(const mat &tdm, mat &om) const {
 
     mat om_ao;
-    form_om(m_s, tdm, om_ao);
+    form_om(m_s, tdm, ctnum_method, om_ao);
 
     om.resize(m_nparts, m_nparts);
     om.fill(0.0);
@@ -33,9 +33,17 @@ void ctnum_analysis::perform(const mat &tdm, mat &om) const {
 
 
 void ctnum_analysis::form_om(const arma::mat &s,
-    const arma::mat &tdm, arma::mat &om) {
+    const arma::mat &tdm, const std::string &method, arma::mat &om) {
 
-    om = 0.5 * ((tdm * s) % (s * tdm) + tdm % (s * tdm * s));
+    std::cout << "test::::::::" << std::endl;
+    std::cout << method << std::endl;
+
+    if (method == "atomic") {
+        om = 0.5 * ((tdm * s) % (s * tdm) + tdm % (s * tdm * s));
+    }
+    else if (method == "lowdin") {
+        om = sqrt(s) * tdm * sqrt(s);
+    }
 }
 
 

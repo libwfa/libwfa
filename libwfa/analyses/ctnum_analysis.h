@@ -19,13 +19,14 @@ private:
     size_t m_nparts; //!< Number of parts
     const arma::mat &m_s; //!< Overlap matrix
     const arma::uvec &m_b2p; //!< Map of basis functions to fragments
+    const std::string ctnum_method;
 
 public:
     /** \brief Constructor
         \param s Overlap matrix
         \param b2p Map of basis functions to molecular parts or fragments
      **/
-    ctnum_analysis(const arma::mat &s, const arma::uvec &b2p);
+    ctnum_analysis(const arma::mat &s, const arma::uvec &b2p, const std::string &method);
 
     /** \brief Virtual destructor
      **/
@@ -61,7 +62,7 @@ public:
         The output matrices are reshaped and resized as required.
      **/
     static void form_om(const arma::mat &s,
-            const arma::mat &tdm, arma::mat &om);
+            const arma::mat &tdm, const std::string &method, arma::mat &om);
 };
 
 } // namespace libwfa
