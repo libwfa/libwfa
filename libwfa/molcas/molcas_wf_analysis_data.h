@@ -74,7 +74,7 @@ private:
         size_t wfalevel; //!< Overall level of print out
         bool mulliken, lowdin, nxo, exciton; //!< What kind of analysis to do
         bool ctnum, h5orbs; //!< What kind of print out
-        std::string ctnum_method; //! methods or formular for ct num analysis: atomic or lowdin
+        std::string ctnum_method; //! methods or formulas for ct num analysis: atomic-mulliken or atomic-lowdin
         bool add_info; //!< Write to molcas_info file
         bool debug; //!< Print debug info
 

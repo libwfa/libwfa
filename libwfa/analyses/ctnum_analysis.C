@@ -35,7 +35,7 @@ void ctnum_analysis::perform(const mat &tdm, mat &om) const {
 void ctnum_analysis::form_om(const arma::mat &s,
     const arma::mat &tdm, const std::string &method, arma::mat &om) {
 
-    if (method == "atomic") {
+    if (method == "mulliken") {
         om = 0.5 * ((tdm * s) % (s * tdm) + tdm % (s * tdm * s));
     }
     else if (method == "lowdin") {

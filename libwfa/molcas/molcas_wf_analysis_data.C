@@ -52,12 +52,12 @@ void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
 
     const arma::mat &s = m_moldata->s;
     const arma::uvec &b2a = m_moldata->bf2atoms;
-    if (name  == "atomic") {
-        m_cta.push_back(new cta_data("Atomic CT numbers", "atomic",
+    if (name  == "mulliken") {
+        m_cta.push_back(new cta_data("Atomic CT numbers", "atomic-mulliken",
                 new libwfa::ctnum_analysis(s, b2a, name)));
     }
     else if (name == "lowdin") {
-        m_cta.push_back(new cta_data("lowdin CT numbers", "lowdin",
+        m_cta.push_back(new cta_data("Atomic CT numbers", "atomic-lowdin",
                 new libwfa::ctnum_analysis(s, b2a, name)));
     }
 }
