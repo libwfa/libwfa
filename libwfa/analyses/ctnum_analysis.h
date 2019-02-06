@@ -18,8 +18,9 @@ class ctnum_analysis : public ctnum_analysis_i {
 private:
     size_t m_nparts; //!< Number of parts
     const arma::mat &m_s; //!< Overlap matrix
+    arma::mat m_s_sqrt; //!< square root of overlap matrix
     const arma::uvec &m_b2p; //!< Map of basis functions to fragments
-    const std::string ctnum_method;
+    const std::string ctnum_method; //!< Formula used to calculate CT number
 
 public:
     /** \brief Constructor
@@ -61,7 +62,7 @@ public:
 
         The output matrices are reshaped and resized as required.
      **/
-    static void form_om(const arma::mat &s,
+    static void form_om(const arma::mat &s, const arma::mat &s_sqrt,
             const arma::mat &tdm, const std::string &method, arma::mat &om);
 };
 
