@@ -36,14 +36,14 @@ void ctnum_analysis::form_om(const arma::mat &s,
     const arma::mat &tdm, const std::string &method, arma::mat &om) {
 
     std::cout << "test::::::::" << std::endl;
-    std::cout << method << std::endl;
 
     if (method == "atomic") {
         om = 0.5 * ((tdm * s) % (s * tdm) + tdm % (s * tdm * s));
     }
     else if (method == "lowdin") {
-        om = sqrt(s) * tdm * sqrt(s);
+        om = sqrtmat_sympd(s) * tdm * sqrtmat_sympd(s);
     }
+
 }
 
 
