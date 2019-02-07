@@ -26,6 +26,7 @@ public:
     /** \brief Constructor
         \param s Overlap matrix
         \param b2p Map of basis functions to molecular parts or fragments
+        \param method Formula used to calculate CT number
      **/
     ctnum_analysis(const arma::mat &s, const arma::uvec &b2p, const std::string &method);
 
@@ -43,7 +44,9 @@ public:
 
     /** \brief Forms omega matrix from a transition density matrix
         \param[in] s Overlap matrix
+        \param[in] s_sqrt Square root of overlap matrix
         \param[in] tdm Transition density matrix
+        \param[in] method Formula used to calculate CT number
         \param[out] om Omega matrix
 
         The function implements the transforms of the transition density
