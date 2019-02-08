@@ -17,7 +17,7 @@ set(ANALYSES_HEADERS
     analyses/pop_loewdin.h
     analyses/pop_mulliken.h
     analyses/sa_nto_analysis.h
-)
+        analyses/om_descriptor.h)
 
 set(ANALYSES_SRC
     analyses/ctnum_analysis.C
@@ -35,7 +35,7 @@ set(ANALYSES_SRC
     analyses/pop_loewdin.C
     analyses/pop_mulliken.C
     analyses/sa_nto_analysis.C
-)
+        analyses/om_descriptor.C)
 
 
 set(CORE_HEADERS
