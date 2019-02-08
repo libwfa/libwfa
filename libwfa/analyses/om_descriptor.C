@@ -1,3 +1,4 @@
+#include <exception>
 #include "om_descriptor.h"
 
 namespace libwfa {
@@ -10,8 +11,9 @@ namespace libwfa {
     }
 
     double OmDescriptor::ret_desc(std:: string desc) {
-        if ( descriptor.find(desc) == descriptor.end() )
-             compute_desc(desc);
+        if ( descriptor.find(desc) == descriptor.end() ) {
+            compute_desc(desc);
+        }
 
         return descriptor[desc];
 
@@ -35,7 +37,136 @@ namespace libwfa {
 
         }
 
-        std::cout << desc << " ===== " <<  descriptor[desc] << std::endl;
+        else if (desc == "POS") {
+
+            descriptor[desc] = 0.5 * (ret_desc("POSi") + ret_desc("POSf"));
+
+        }
+
+        else if (desc == "CT") {
+
+            descriptor[desc] = 0.0;
+            for ( size_t i = 0; i < num_frag; i++ ) {
+                for ( size_t j = i + 1; j < num_frag; j++ ) {
+                    descriptor[desc] += om_norm(i, j) + om_norm(j, i);
+                }
+            }
+        }
+
+        else if (desc == "CT2") {
+
+            descriptor[desc] = 0.0;
+            for ( size_t i = 0; i < num_frag; i++ ) {
+                for ( size_t j = i + 2; j < num_frag; j++ ) {
+                    descriptor[desc] += om_norm(i, j) + om_norm(j, i);
+                }
+            }
+        }
+
+        else if (desc == "CTnt") {
+
+            descriptor[desc] = ret_desc("POSf") - ret_desc("POSi");
+
+        }
+
+        else if (desc == "PRi") {
+
+            descriptor[desc] = 1. / accu( square( sum(om_norm, 1) ) );
+
+        }
+
+        else if (desc == "PRf" || desc == "EEDL") {
+
+            descriptor[desc] = 1. / accu( square( sum(om_norm, 0) ) );
+
+        }
+
+        else if (desc == "PR") {
+
+            descriptor[desc] = 0.5 * (ret_desc("PRi") + ret_desc("PRf"));
+
+        }
+
+        else if (desc == "PRh") {
+
+            descriptor[desc] = 2. / (1.0 / ret_desc("PRi") + 1.0 / ret_desc("PRf"));
+
+        }
+
+        else if (desc == "DEL") {
+
+            // method 1:: concise but more expensive
+            descriptor[desc] = 1. / accu( square( sum( (om_norm + om_norm.t()) / 2., 1) ) ); // note om_norm.t() makes a copy of data
+
+            // method 2:: looks ugly but efficient. Use method 2 if speed is a concern
+            /*
+            descriptor[desc] = 0.;
+            for ( size_t i = 0; i < num_frag; i++ ) {
+                double tmp = 0.0;
+
+                for ( size_t j = 0; j < num_frag; j++ ) {
+                    tmp += (om_norm(i, j) + om_norm(j, i)) / 2.;
+                }
+
+                descriptor[desc] += tmp * tmp;
+            }
+            descriptor[desc] = 1./ descriptor[desc]; */
+
+        }
+
+        else if (desc == "COH") {
+
+            descriptor[desc] = 1. / accu( sum(square(om_norm), 1) ) / ret_desc("PR");
+
+        }
+
+        else if (desc == "COHh") {
+
+            descriptor[desc] = 1. / accu( sum( square(om_norm), 1 ) ) /  ret_desc("PRh");
+
+        }
+
+        else if (desc == "MC" || desc == "LC" || desc == "MLCT" || desc == "LMCT" ||
+                desc == "LLCT" || desc == "SIEL") {
+
+            compute_trans_met();
+
+        }
+
+        else {
+
+            throw("Unknown descriptor!");
+        }
+
+        std::cout << "Descriptor " << desc << " = " <<  descriptor[desc] << std::endl;
+    }
+
+    void OmDescriptor::compute_trans_met() {
+
+        descriptor["MC"] = om_norm(0, 0);
+
+        descriptor["LC"]   = 0.;
+        descriptor["MLCT"] = 0.;
+        descriptor["LMCT"] = 0.;
+        descriptor["LLCT"] = 0.;
+
+        for ( size_t i = 1; i < num_frag; i++ ) {
+
+            descriptor["LC"]   += om_norm(i, i);
+            descriptor["MLCT"] += om_norm(0, i);
+            descriptor["LMCT"] += om_norm(i, 0);
+
+            for ( size_t j = i + 1; j < num_frag; j++ ) {
+
+                descriptor["LLCT"] += om_norm(i, j) + om_norm(j, i);
+
+            }
+
+        }
+
+        rowvec epop = sum(om_frag, 0);
+        descriptor["SIEL"] = -1 * epop(1) + 0.5 * sum( epop.tail(epop.n_elem - 2) );
+
     }
 
 }; //namespace

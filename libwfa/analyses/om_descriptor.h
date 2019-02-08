@@ -27,6 +27,8 @@ namespace libwfa {
 
         void compute_desc(std:: string desc);
 
+        void compute_trans_met();
+
     }; //OmDescriptor
 
 } //namespace
