@@ -23,9 +23,11 @@ namespace libwfa {
 
         virtual ~OmDescriptor() = default;
 
-        double ret_desc(std:: string desc);
+        double ret_desc(std::string desc);
 
-        void compute_desc(std:: string desc);
+        void ret_desc(std::vector<std::string> &descs);
+
+        void compute_desc(std::string desc);
 
         void compute_trans_met();
 

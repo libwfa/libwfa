@@ -19,6 +19,16 @@ namespace libwfa {
 
     }
 
+    void OmDescriptor::ret_desc(std::vector<std::string> &descs) {
+
+        for (auto const& desc: descs) {
+            if ( descriptor.find(desc) == descriptor.end() ) {
+                compute_desc(desc);
+            }
+        }
+
+    }
+
     void OmDescriptor::compute_desc(std::string desc) {
 
         if (desc == "POSi") {
