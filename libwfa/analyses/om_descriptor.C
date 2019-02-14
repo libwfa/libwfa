@@ -31,7 +31,13 @@ namespace libwfa {
 
     void OmDescriptor::compute_desc(std::string desc) {
 
-        if (desc == "POSi") {
+        if (desc == "Om") {
+
+            descriptor[desc] = om_tot;
+
+        }
+
+        else if (desc == "POSi") {
 
             colvec c1 = sum(om_norm, 1);
             colvec c2 = linspace<colvec>(1, num_frag, num_frag);
