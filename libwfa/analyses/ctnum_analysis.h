@@ -22,13 +22,18 @@ private:
     const arma::uvec &m_b2p; //!< Map of basis functions to fragments
     const std::string ctnum_method; //!< Formula used to calculate CT number
 
+    const std::vector<std::string> prop_list;
+    const std::vector<std::vector<int>> at_lists;
+
+
 public:
     /** \brief Constructor
         \param s Overlap matrix
         \param b2p Map of basis functions to molecular parts or fragments
         \param method Formula used to calculate CT number
      **/
-    ctnum_analysis(const arma::mat &s, const arma::uvec &b2p, const std::string &method);
+    ctnum_analysis(const arma::mat &s, const arma::uvec &b2p, const std::string &method,
+            const std::vector<std::string> &prop_list, const std::vector<std::vector<int>> &at_lists );
 
     /** \brief Virtual destructor
      **/
@@ -67,6 +72,14 @@ public:
      **/
     static void form_om(const arma::mat &s, const arma::mat &s_sqrt,
             const arma::mat &tdm, const std::string &method, arma::mat &om);
+
+    static auto compute_omAt(const arma::mat &om, const std::vector<std::vector<int>> &blocks, const int &natoms);
+
+    static auto bf_blocks(int &num_bas);
+
+    static auto compute_omFrag(const arma::mat &om_at, const std::vector<std::vector<int>> &at_lists);
+
+    static auto compute_desc(const double &om_tot, const arma::mat &om_frag, std::vector<std::string> &prop_list);
 };
 
 } // namespace libwfa
