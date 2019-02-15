@@ -1,6 +1,7 @@
 #ifndef LIBWFA_WF_ANALYSIS_H
 #define LIBWFA_WF_ANALYSIS_H
 
+#include <unordered_map>
 #include <libwfa/analyses/sa_nto_analysis.h>
 #include "wf_analysis_data_i.h"
 
@@ -24,6 +25,17 @@ private:
     ab_matrix m_edm_av; //!< Averaged electron density
     ab_matrix m_hdm_av; //!< Averaged hole density
     bool m_init_av; //!< Whether the above are initialized?
+
+    struct frag_data {
+        std::string state_name;
+        double om_tot, dE_eV, f;
+        mat om;
+        std::unordered_map<std::string, double> desceriptor;
+    };
+
+protected:
+    std::unordered_map<int, std::unordered_map<std::string, frag_data> > frag_data_all; //!< final output to be printed
+
 
 public:
     /** \brief Initializes the wave function analysis

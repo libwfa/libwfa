@@ -184,6 +184,22 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             ct.analyse(out);
             ct.do_export(*cpr);
             out << std::endl;
+
+            // store state name
+            frag_data_all[i][name].state_name = name;
+
+            //store om_tot and om
+            const ab_matrix &m_om = ct.omega();
+            bool spin = true;
+            if (m_om.is_alpha_eq_beta()) {
+                spin = false;
+            }
+            frag_data_all[i][name].om_tot = ct.omega_total(spin);
+            frag_data_all[i][name].om = m_om.alpha();
+
+            //store energy
+
+
         }
     }
 
