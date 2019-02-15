@@ -75,6 +75,8 @@ private:
         bool mulliken, lowdin, nxo, exciton; //!< What kind of analysis to do
         bool ctnum, h5orbs; //!< What kind of print out
         std::string ctnum_method; //! methods or formulas for ct num analysis: atomic-mulliken or atomic-lowdin
+        std::vector<std::string> prop_list = {"Om", "POS", "PR", "CT", "COH", "CTnt"};
+        std::vector<std::vector<int>> at_lists = {{1, 2}, {3}, {4}};
         bool add_info; //!< Write to molcas_info file
         bool debug; //!< Print debug info
 
