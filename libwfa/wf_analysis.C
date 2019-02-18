@@ -8,6 +8,8 @@
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
 #include "wf_analysis.h"
+#include <fstream>
+#include <iomanip>
 
 namespace libwfa {
 
@@ -185,9 +187,6 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             ct.do_export(*cpr);
             out << std::endl;
 
-            // store state name
-            frag_data_all[i][name].state_name = name;
-
             //store om_tot and om
             const ab_matrix &m_om = ct.omega();
             bool spin = true;
@@ -196,9 +195,6 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             }
             frag_data_all[i][name].om_tot = ct.omega_total(spin);
             frag_data_all[i][name].om = m_om.alpha();
-
-            //store energy
-
 
         }
     }
@@ -239,13 +235,88 @@ bool wf_analysis::setup_sa_ntos(std::ostream &out) {
     return true;
 }
 
-bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm) {
+bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm, const std::string &name, const double &ener) {
+
+    if (m_h->n_ctnum_analyses() != 0) {
+
+        for (size_t i = 0; i < m_h->n_ctnum_analyses(); i++) {
+
+            // store state name
+            frag_data_all[i][name].state_name = name;
+
+            //store energy
+            frag_data_all[i][name].dE_eV = ener;
+
+            //computer descriptor and store
+            const ctnum_analysis_i &ca = m_h->ctnum_analysis(i);
+            const double &om_tot = frag_data_all[i][name].om_tot;
+            const mat &om = frag_data_all[i][name].om;
+            frag_data_all[i][name].descriptor = ca.compute_desc(om_tot, om);
+
+        }
+    }
 
     if (m_sa.get() == 0) return false;
 
     out << "Decomposition into state-averaged NTOs" << std::endl;
     m_sa->analyse(out, tdm);
     return true;
+}
+
+
+void wf_analysis::export_optdm(int prec) {
+
+    if (m_h->n_ctnum_analyses() != 0 && !frag_data_all.empty()) {
+
+        for (const auto& i : frag_data_all) {
+
+            // file name
+            std::string fname = "tden_summ_" + std::to_string(i.first + 1) + ".txt";
+
+            // open file
+            std::ofstream out;
+            out.open(fname.c_str());
+
+            // set precision
+            out << std::setprecision(prec) << std::fixed;
+
+            // header
+            std::string header ("State          dE(eV)       f        ");
+            out << header;
+
+            // header: list of descriptor names
+            auto itr = frag_data_all[i.first].begin();
+            for (const auto& desc : itr->second.descriptor) {
+
+                out << desc.first << std::setw(7);
+
+            }
+            out << std::endl;
+
+            // dash line
+            out << std::string(header.size() + itr->second.descriptor.size() * 10, '-') << std::endl;
+
+            // data
+            for (const auto& state : i.second) {
+
+                out << state.second.state_name << std::setw(7);
+                out << state.second.dE_eV << std::setw(2);
+                out << state.second.f << std::setw(2);
+                out << state.second.om_tot << std::setw(2);
+
+                for (const auto& desc : state.second.descriptor) {
+
+                    out << desc.second << std::setw(2);
+
+                }
+                out << std::endl;
+
+            }
+
+            out.close();
+
+        }
+    }
 }
 
 

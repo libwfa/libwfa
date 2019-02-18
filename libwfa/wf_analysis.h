@@ -28,12 +28,10 @@ private:
 
     struct frag_data {
         std::string state_name;
-        double om_tot, dE_eV, f;
-        mat om;
-        std::unordered_map<std::string, double> desceriptor;
+        double om_tot, dE_eV, f = 0.0;
+        arma::mat om;
+        std::unordered_map<std::string, double> descriptor;
     };
-
-protected:
     std::unordered_map<int, std::unordered_map<std::string, frag_data> > frag_data_all; //!< final output to be printed
 
 
@@ -83,7 +81,7 @@ public:
         \param tdm Transition density matrix in AO
         \return True, if successful
      **/
-    bool post_process_optdm(std::ostream &out, const ab_matrix &tdm);
+    bool post_process_optdm(std::ostream &out, const ab_matrix &tdm, const std::string &name, const double &ener);
 
     /** \brief Reset to original state (at construction)
      **/
@@ -91,6 +89,8 @@ public:
         m_init_av = false;
         delete m_sa.release();
     }
+
+    void export_optdm(int prec=6);
 
 private:
     void add_to_average(const ab_matrix &edm, const ab_matrix &hdm);
