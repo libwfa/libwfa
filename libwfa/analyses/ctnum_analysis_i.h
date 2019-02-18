@@ -3,6 +3,7 @@
 
 #include <armadillo>
 #include <cstdlib>
+#include <unordered_map>
 
 namespace libwfa {
 
@@ -29,6 +30,8 @@ public:
         to the correct size.
      **/
     virtual void perform(const arma::mat &tdm, arma::mat &om) const = 0;
+
+    virtual std::unordered_map<std::string, double> compute_desc(const double &om_tot, const arma::mat &om) const = 0;
 };
 
 } // namespace libwfa

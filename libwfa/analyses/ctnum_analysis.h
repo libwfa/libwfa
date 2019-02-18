@@ -2,6 +2,7 @@
 #define LIBWFA_CTNUM_ANALYSIS_H
 
 #include <vector>
+#include <unordered_map>
 #include "ctnum_analysis_i.h"
 
 namespace libwfa {
@@ -24,6 +25,7 @@ private:
 
     const std::vector<std::string> prop_list;
     const std::vector<std::vector<int>> at_lists;
+    const int natoms;
 
 
 public:
@@ -33,7 +35,8 @@ public:
         \param method Formula used to calculate CT number
      **/
     ctnum_analysis(const arma::mat &s, const arma::uvec &b2p, const std::string &method,
-            const std::vector<std::string> &prop_list, const std::vector<std::vector<int>> &at_lists );
+            const std::vector<std::string> &prop_list, const std::vector<std::vector<int>> &at_lists,
+            const int &natoms);
 
     /** \brief Virtual destructor
      **/
@@ -70,16 +73,17 @@ public:
 
         The output matrices are reshaped and resized as required.
      **/
+
+    virtual std::unordered_map<std::string, double> compute_desc(const double &om_tot, const arma::mat &om) const;
+
     static void form_om(const arma::mat &s, const arma::mat &s_sqrt,
             const arma::mat &tdm, const std::string &method, arma::mat &om);
 
-    static auto compute_omAt(const arma::mat &om, const std::vector<std::vector<int>> &blocks, const int &natoms);
+    static arma::mat compute_omAt(const arma::mat &om, const std::vector<std::vector<int>> &blocks, const int &natoms);
 
-    static auto bf_blocks(int &num_bas);
+    static std::vector<std::vector<int>> bf_blocks();
 
-    static auto compute_omFrag(const arma::mat &om_at, const std::vector<std::vector<int>> &at_lists);
-
-    static auto compute_desc(const double &om_tot, const arma::mat &om_frag, std::vector<std::string> &prop_list);
+    static arma::mat compute_omFrag(const arma::mat &om_at, const std::vector<std::vector<int>> &at_lists);
 };
 
 } // namespace libwfa
