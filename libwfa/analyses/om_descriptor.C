@@ -10,7 +10,7 @@ namespace libwfa {
         num_frag = om_frag.n_rows;
     }
 
-    double OmDescriptor::ret_desc(std:: string desc) {
+    double OmDescriptor::ret_desc(const std::string &desc) {
         if ( descriptor.find(desc) == descriptor.end() ) {
             compute_desc(desc);
         }
@@ -19,7 +19,7 @@ namespace libwfa {
 
     }
 
-    void OmDescriptor::ret_desc(std::vector<std::string> &descs) {
+    void OmDescriptor::ret_desc(const std::vector<std::string> &descs) {
 
         for (auto const& desc: descs) {
             if ( descriptor.find(desc) == descriptor.end() ) {
@@ -29,7 +29,7 @@ namespace libwfa {
 
     }
 
-    void OmDescriptor::compute_desc(std::string desc) {
+    void OmDescriptor::compute_desc(const std::string &desc) {
 
         if (desc == "Om") {
 
