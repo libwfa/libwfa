@@ -3,6 +3,7 @@
 
 #include <libwfa/wf_analysis.h>
 #include <libwfa/molcas/molcas_wf_analysis_data.h>
+#include "libwfa/core/constants.h"
 
 namespace libwfa {
 
@@ -39,7 +40,7 @@ private:
     /** \brief Analysis of tdm and add_info
      **/
     void analyse_optdm_ai(const std::string &name, const std::string &desc,
-        const ab_matrix &tdm);
+        const ab_matrix &tdm, const double &energy);
 
     /** \brief Append to molcas_info file
 

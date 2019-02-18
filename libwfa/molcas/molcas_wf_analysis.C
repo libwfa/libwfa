@@ -175,10 +175,13 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
                 if (istate > (int)refstate) // Transpose of the indices are switched
                     tdm.inplace_trans();
 
-                analyse_optdm_ai(name.str(), descr.str(), tdm);
+                const double energy = constants::au2eV * ener(istate);
+                analyse_optdm_ai(name.str(), descr.str(), tdm, energy);
             }
         }
     }
+
+    export_optdm();
 }
 
 void molcas_wf_analysis::header1(std::string title) {
@@ -215,10 +218,11 @@ void molcas_wf_analysis::analyse_opdm_ai(const std::string &name, const std::str
 }
 
 void molcas_wf_analysis::analyse_optdm_ai(const std::string &name, const std::string &desc,
-        const ab_matrix &tdm) {
+        const ab_matrix &tdm, const double &energy) {
 
     std::stringstream out;
     analyse_optdm(out, name, desc, tdm);
+    post_process_optdm(out, tdm, name, energy);
     std::cout << out.str();
 
     if (m_mdata->input()->add_info) add_molcas_info(out);

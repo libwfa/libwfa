@@ -55,14 +55,16 @@ void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
 
     const std::vector<std::string> &prop_list = m_input->prop_list;
     const std::vector<std::vector<int>> &at_lists = m_input->at_lists;
+    const auto &atoms = m_moldata->atoms;
+    const int natoms = atoms.size();
 
     if (name  == "mulliken") {
         m_cta.push_back(new cta_data("Atomic CT numbers", "atomic-mulliken",
-                new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
+                new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists, natoms)));
     }
     else if (name == "lowdin") {
         m_cta.push_back(new cta_data("Atomic CT numbers", "atomic-lowdin",
-                new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
+                new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists, natoms)));
     }
 }
 
