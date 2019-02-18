@@ -8,7 +8,7 @@ namespace libwfa {
 
     ctnum_analysis::ctnum_analysis(const mat &s, const uvec &b2p, const std::string &method,
                                    const std::vector<std::string> &prop_list,
-                                   const std::vector<std::vector<int>> &at_lists,
+                                   const ivector &at_lists,
                                    const int &natoms):
                                    m_nparts(0), m_s(s), m_b2p(b2p), ctnum_method(method),
                                    prop_list(prop_list), at_lists(at_lists),
@@ -67,7 +67,7 @@ namespace libwfa {
     }
 
 
-    mat ctnum_analysis::compute_omAt(const arma::mat &om, const std::vector<std::vector<int>> &blocks,
+    mat ctnum_analysis::compute_omAt(const arma::mat &om, const ivector &blocks,
                                             const int &natoms) {
         mat om_at(natoms, natoms);
         om_at.fill(0.0);
@@ -82,15 +82,15 @@ namespace libwfa {
     }
 
 
-    std::vector<std::vector<int>> ctnum_analysis::bf_blocks() {
+    ctnum_analysis::ivector ctnum_analysis::bf_blocks() {
 
-        std::vector<std::vector<int>> blocks;
+        ivector blocks;
 
         return blocks;
     }
 
 
-    mat ctnum_analysis::compute_omFrag(const arma::mat &om_at, const std::vector<std::vector<int>> &at_lists) {
+    mat ctnum_analysis::compute_omFrag(const arma::mat &om_at, const ivector &at_lists) {
 
         mat om_frag(at_lists.size(), at_lists.size());
         om_frag.fill(0.0);

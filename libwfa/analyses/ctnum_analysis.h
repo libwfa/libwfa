@@ -17,6 +17,8 @@ namespace libwfa {
  **/
 class ctnum_analysis : public ctnum_analysis_i {
 private:
+    typedef std::vector<std::vector<int>> ivector;
+
     size_t m_nparts; //!< Number of parts
     const arma::mat &m_s; //!< Overlap matrix
     arma::mat m_s_sqrt; //!< square root of overlap matrix
@@ -24,7 +26,7 @@ private:
     const std::string ctnum_method; //!< Formula used to calculate CT number
 
     const std::vector<std::string> prop_list;
-    const std::vector<std::vector<int>> at_lists;
+    const ivector at_lists;
     const int natoms;
 
 
@@ -79,11 +81,11 @@ public:
     static void form_om(const arma::mat &s, const arma::mat &s_sqrt,
             const arma::mat &tdm, const std::string &method, arma::mat &om);
 
-    static arma::mat compute_omAt(const arma::mat &om, const std::vector<std::vector<int>> &blocks, const int &natoms);
+    static arma::mat compute_omAt(const arma::mat &om, const ivector &blocks, const int &natoms);
 
-    static std::vector<std::vector<int>> bf_blocks();
+    static ivector bf_blocks();
 
-    static arma::mat compute_omFrag(const arma::mat &om_at, const std::vector<std::vector<int>> &at_lists);
+    static arma::mat compute_omFrag(const arma::mat &om_at, const ivector &at_lists);
 };
 
 } // namespace libwfa
