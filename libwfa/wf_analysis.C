@@ -302,7 +302,6 @@ void wf_analysis::export_optdm(int prec) {
                 out << state.second.state_name << std::setw(7);
                 out << state.second.dE_eV << std::setw(2);
                 out << state.second.f << std::setw(2);
-                out << state.second.om_tot << std::setw(2);
 
                 for (const auto& desc : state.second.descriptor) {
 
