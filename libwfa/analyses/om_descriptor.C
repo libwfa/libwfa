@@ -5,8 +5,8 @@ namespace libwfa {
 
     using namespace arma;
 
-    OmDescriptor::OmDescriptor(const double &tot_om, const arma::mat &frag_om) : om_tot(tot_om), om_frag(frag_om) {
-        om_norm = om_frag / om_tot;
+    OmDescriptor::OmDescriptor(const std::vector<double> &tot_om, const arma::mat &frag_om) : om_tot(tot_om), om_frag(frag_om) {
+        om_norm = om_frag / om_tot[0];
         num_frag = om_frag.n_rows;
     }
 
@@ -33,7 +33,7 @@ namespace libwfa {
 
         if (desc == "Om") {
 
-            descriptor[desc] = om_tot;
+            descriptor[desc] = om_tot[0] + om_tot[1];
 
         }
 

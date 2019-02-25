@@ -9,17 +9,17 @@
 namespace libwfa {
 
     class OmDescriptor {
-        public:
+    public:
         std::unordered_map<std::string, double> descriptor; //!< Store descriptor data using Python dict style
 
-        private:
-        const double om_tot; //!< Total omega
+    private:
+        const std::vector<double> &om_tot; //!< Total omega
         const arma::mat &om_frag; //!< Omega matrix
         arma::mat om_norm; //!< norm matrix
         size_t num_frag; //!< Number of fragments
 
-        public:
-        OmDescriptor(const double &tot_om, const arma::mat &frag_om);
+    public:
+        OmDescriptor(const std::vector<double> &tot_om, const arma::mat &frag_om);
 
         virtual ~OmDescriptor() = default;
 
