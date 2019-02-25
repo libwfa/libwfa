@@ -8,11 +8,9 @@ namespace libwfa {
 
     ctnum_analysis::ctnum_analysis(const mat &s, const uvec &b2p, const std::string &method,
                                    const std::vector<std::string> &prop_list,
-                                   const ivector &at_lists,
-                                   const int &natoms):
+                                   const ivector &at_lists):
                                    m_nparts(0), m_s(s), m_b2p(b2p), ctnum_method(method),
-                                   prop_list(prop_list), at_lists(at_lists),
-                                   natoms(natoms) {
+                                   prop_list(prop_list), at_lists(at_lists) {
 
         m_nparts = b2p.max() + 1;
 
@@ -42,11 +40,10 @@ namespace libwfa {
     }
 
 
-    std::unordered_map<std::string, double> ctnum_analysis::compute_desc(const double &om_tot, const arma::mat &om) const {
+    std::unordered_map<std::string, double> ctnum_analysis::compute_desc(const std::vector<double> &om_tot,
+                                                                        const arma::mat &om) const {
 
-        auto blocks = bf_blocks();
-        auto om_at = compute_omAt(om, blocks, natoms);
-        auto om_frag = compute_omFrag(om_at, at_lists);
+        auto om_frag = compute_omFrag(om, at_lists);
 
         OmDescriptor desc(om_tot, om_frag);
         desc.ret_desc(prop_list);
@@ -64,29 +61,6 @@ namespace libwfa {
             om = square(s_sqrt * tdm * s_sqrt);
         }
 
-    }
-
-
-    mat ctnum_analysis::compute_omAt(const arma::mat &om, const ivector &blocks,
-                                            const int &natoms) {
-        mat om_at(natoms, natoms);
-        om_at.fill(0.0);
-
-        for (auto const& iblock: blocks) {
-            for (auto const& jblock: blocks) {
-                om_at(iblock[0], jblock[0]) = accu( om(span(iblock[1], iblock[2]), span(jblock[1], jblock[2])) );
-            }
-        }
-
-        return om_at;
-    }
-
-
-    ctnum_analysis::ivector ctnum_analysis::bf_blocks() {
-
-        ivector blocks;
-
-        return blocks;
     }
 
 

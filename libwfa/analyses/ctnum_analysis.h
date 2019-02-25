@@ -27,7 +27,6 @@ private:
 
     const std::vector<std::string> prop_list;
     const ivector at_lists;
-    const int natoms;
 
 
 public:
@@ -37,8 +36,7 @@ public:
         \param method Formula used to calculate CT number
      **/
     ctnum_analysis(const arma::mat &s, const arma::uvec &b2p, const std::string &method,
-            const std::vector<std::string> &prop_list, const std::vector<std::vector<int>> &at_lists,
-            const int &natoms);
+            const std::vector<std::string> &prop_list, const std::vector<std::vector<int>> &at_lists);
 
     /** \brief Virtual destructor
      **/
@@ -76,14 +74,11 @@ public:
         The output matrices are reshaped and resized as required.
      **/
 
-    virtual std::unordered_map<std::string, double> compute_desc(const double &om_tot, const arma::mat &om) const;
+    virtual std::unordered_map<std::string, double> compute_desc(const std::vector<double> &om_tot,
+                                                                const arma::mat &om) const;
 
     static void form_om(const arma::mat &s, const arma::mat &s_sqrt,
             const arma::mat &tdm, const std::string &method, arma::mat &om);
-
-    static arma::mat compute_omAt(const arma::mat &om, const ivector &blocks, const int &natoms);
-
-    static ivector bf_blocks();
 
     static arma::mat compute_omFrag(const arma::mat &om_at, const ivector &at_lists);
 };

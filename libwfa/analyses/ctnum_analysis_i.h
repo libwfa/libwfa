@@ -31,7 +31,8 @@ public:
      **/
     virtual void perform(const arma::mat &tdm, arma::mat &om) const = 0;
 
-    virtual std::unordered_map<std::string, double> compute_desc(const double &om_tot, const arma::mat &om) const = 0;
+    virtual std::unordered_map<std::string, double> compute_desc(const std::vector<double> &om_tot,
+                                                                const arma::mat &om) const = 0;
 };
 
 } // namespace libwfa
