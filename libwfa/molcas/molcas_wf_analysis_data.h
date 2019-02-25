@@ -253,6 +253,8 @@ public:
     std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
             const std::string &name, const std::string &desc);
 
+    const std::vector<std::string> &prop_list() { return m_input->prop_list; }
+
     //@}
 
     /** \brief Builder of exciton moments
