@@ -2,6 +2,7 @@
 #define LIBWFA_WF_ANALYSIS_H
 
 #include <unordered_map>
+#include <map>
 #include <libwfa/analyses/sa_nto_analysis.h>
 #include "wf_analysis_data_i.h"
 
@@ -28,11 +29,12 @@ private:
 
     struct frag_data {
         std::string state_name;
-        double om_tot, dE_eV, f = 0.0;
+        std::vector<double> om_tot;
+        double dE_eV, f = 0.0;
         arma::mat om;
         std::unordered_map<std::string, double> descriptor;
     };
-    std::unordered_map<int, std::unordered_map<std::string, frag_data> > frag_data_all; //!< final output to be printed
+    std::unordered_map<int, std::map<std::string, frag_data> > frag_data_all; //!< final output to be printed
 
 
 public:
@@ -90,7 +92,7 @@ public:
         delete m_sa.release();
     }
 
-    void export_optdm(int prec=6);
+    void export_optdm(const int &prec=6, const int &width=10);
 
 private:
     void add_to_average(const ab_matrix &edm, const ab_matrix &hdm);

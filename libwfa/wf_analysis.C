@@ -189,11 +189,8 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 
             //store om_tot and om
             const ab_matrix &m_om = ct.omega();
-            bool spin = true;
-            if (m_om.is_alpha_eq_beta()) {
-                spin = false;
-            }
-            frag_data_all[i][name].om_tot = ct.omega_total(spin);
+            frag_data_all[i][name].om_tot.push_back(ct.omega_total(false));
+            frag_data_all[i][name].om_tot.push_back(ct.omega_total(true));
             frag_data_all[i][name].om = m_om.alpha();
 
         }
@@ -249,7 +246,7 @@ bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm, co
 
             //computer descriptor and store
             const ctnum_analysis_i &ca = m_h->ctnum_analysis(i);
-            const double &om_tot = frag_data_all[i][name].om_tot;
+            const auto &om_tot = frag_data_all[i][name].om_tot;
             const mat &om = frag_data_all[i][name].om;
             frag_data_all[i][name].descriptor = ca.compute_desc(om_tot, om);
 
@@ -264,7 +261,7 @@ bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm, co
 }
 
 
-void wf_analysis::export_optdm(int prec) {
+void wf_analysis::export_optdm(const int &prec, const int &width) {
 
     if (m_h->n_ctnum_analyses() != 0 && !frag_data_all.empty()) {
 
@@ -281,31 +278,32 @@ void wf_analysis::export_optdm(int prec) {
             out << std::setprecision(prec) << std::fixed;
 
             // header
-            std::string header ("State          dE(eV)       f        ");
+            std::string header ("State            dE(eV)      f         ");
             out << header;
 
             // header: list of descriptor names
-            auto itr = frag_data_all[i.first].begin();
-            for (const auto& desc : itr->second.descriptor) {
+            auto descs = m_h->prop_list();
+            for (const auto& desc : descs) {
 
-                out << desc.first << std::setw(7);
+                out << std::left << std::setw(width) << desc;
 
             }
             out << std::endl;
 
             // dash line
-            out << std::string(header.size() + itr->second.descriptor.size() * 10, '-') << std::endl;
+            out << std::string(header.size() + descs.size() * width, '-') << std::endl;
 
             // data
             for (const auto& state : i.second) {
 
-                out << state.second.state_name << std::setw(7);
-                out << state.second.dE_eV << std::setw(2);
-                out << state.second.f << std::setw(2);
+                out << std::left << std::setw(14)     << state.second.state_name;
+                out << std::right << std::setw(width) << state.second.dE_eV;
+                out << std::right << std::setw(width) << state.second.f;
 
-                for (const auto& desc : state.second.descriptor) {
+                auto descriptors = state.second.descriptor;
+                for (const auto& desc : descs) {
 
-                    out << desc.second << std::setw(2);
+                    out << std::right << std::setw(width) << descriptors[desc];
 
                 }
                 out << std::endl;
