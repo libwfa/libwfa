@@ -55,8 +55,7 @@ void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
 
     const std::vector<std::string> &prop_list = m_input->prop_list;
     const std::vector<std::vector<int>> &at_lists = m_input->at_lists;
-    const auto &atoms = m_moldata->atoms;
-    const int natoms = atoms.size();
+
 
     if (name  == "mulliken") {
         m_cta.push_back(new cta_data("Atomic CT numbers", "atomic-mulliken",
