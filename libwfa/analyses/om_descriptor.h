@@ -1,3 +1,16 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (C) 2019, Loughborough University                          *
+//************************************************************************
+
 #ifndef LIBWFA_OM_DESCRIPTOR_H
 #define LIBWFA_OM_DESCRIPTOR_H
 
