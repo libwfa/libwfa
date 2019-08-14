@@ -1,3 +1,18 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #ifndef LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 #define LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 
@@ -74,13 +89,16 @@ private:
         size_t wfalevel; //!< Overall level of print out
         bool mulliken, lowdin, nxo, exciton; //!< What kind of analysis to do
         bool ctnum, h5orbs; //!< What kind of print out
+        std::string ctnum_method; //! methods or formulas for ct num analysis: atomic-mulliken or atomic-lowdin
+        std::vector<std::string> prop_list = {"Om", "POS", "PR", "CT", "COH", "CTnt"};
+        std::vector<std::vector<int>> at_lists = {{1, 2}, {3}, {4}};
         bool add_info; //!< Write to molcas_info file
         bool debug; //!< Print debug info
 
         /** \brief Constructor
          **/
-        input_data() : file_name("WFAH5"), refstate(0), wfalevel(3), mulliken(false), lowdin(false), nxo(false),
-            exciton(false), ctnum(false), h5orbs(false), add_info(false), debug(false) {}
+        input_data() : file_name("/gpfs/home/lboro/fchen/projects/RSE_proj/libwfa/runs/WFAH5"), refstate(0), wfalevel(3), mulliken(false), lowdin(false), nxo(false),
+            exciton(false), ctnum(false), h5orbs(false), ctnum_method("lowdin"), add_info(false), debug(false) {}
     };
 
     /** \brief Export types
@@ -249,6 +267,8 @@ public:
      **/
     std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
             const std::string &name, const std::string &desc);
+
+    const std::vector<std::string> &prop_list() { return m_input->prop_list; }
 
     //@}
 

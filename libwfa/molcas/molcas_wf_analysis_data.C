@@ -1,3 +1,18 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #include <fstream>
 #include <string>
 #include <libwfa/libwfa.h>
@@ -52,9 +67,18 @@ void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
 
     const arma::mat &s = m_moldata->s;
     const arma::uvec &b2a = m_moldata->bf2atoms;
-    if (name  == "atomic") {
-        m_cta.push_back(new cta_data("Atomic CT numbers", "atomic",
-                new libwfa::ctnum_analysis(s, b2a)));
+
+    const std::vector<std::string> &prop_list = m_input->prop_list;
+    const std::vector<std::vector<int>> &at_lists = m_input->at_lists;
+
+
+    if (name  == "mulliken") {
+        m_cta.push_back(new cta_data("Atomic CT numbers", "atomic-mulliken",
+                new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
+    }
+    else if (name == "lowdin") {
+        m_cta.push_back(new cta_data("Atomic CT numbers", "atomic-lowdin",
+                new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
     }
 }
 
@@ -753,7 +777,7 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(char *inp) {
         h->init_pop_analysis("lowdin");
     }
     if (h->input()->ctnum) {
-        h->init_ctnum_analysis("atomic");
+        h->init_ctnum_analysis(h->input()->ctnum_method);
     }
 
     if (h->input()->nxo) {

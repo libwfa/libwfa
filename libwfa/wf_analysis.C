@@ -1,3 +1,18 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #include <libwfa/analyses/ctnumbers.h>
 #include <libwfa/analyses/dens_mom.h>
 #include <libwfa/analyses/exciton_analysis_ad.h>
@@ -8,6 +23,8 @@
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
 #include "wf_analysis.h"
+#include <fstream>
+#include <iomanip>
 
 namespace libwfa {
 
@@ -184,6 +201,13 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             ct.analyse(out);
             ct.do_export(*cpr);
             out << std::endl;
+
+            //store om_tot and om
+            const ab_matrix &m_om = ct.omega();
+            frag_data_all[i][name].om_tot.push_back(ct.omega_total(false));
+            frag_data_all[i][name].om_tot.push_back(ct.omega_total(true));
+            frag_data_all[i][name].om = m_om.alpha();
+
         }
     }
 
@@ -223,13 +247,88 @@ bool wf_analysis::setup_sa_ntos(std::ostream &out) {
     return true;
 }
 
-bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm) {
+bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm, const std::string &name, const double &ener) {
+
+    if (m_h->n_ctnum_analyses() != 0) {
+
+        for (size_t i = 0; i < m_h->n_ctnum_analyses(); i++) {
+
+            // store state name
+            frag_data_all[i][name].state_name = name;
+
+            //store energy
+            frag_data_all[i][name].dE_eV = ener;
+
+            //computer descriptor and store
+            const ctnum_analysis_i &ca = m_h->ctnum_analysis(i);
+            const auto &om_tot = frag_data_all[i][name].om_tot;
+            const mat &om = frag_data_all[i][name].om;
+            frag_data_all[i][name].descriptor = ca.compute_desc(om_tot, om);
+
+        }
+    }
 
     if (m_sa.get() == 0) return false;
 
     out << "Decomposition into state-averaged NTOs" << std::endl;
     m_sa->analyse(out, tdm);
     return true;
+}
+
+
+void wf_analysis::export_optdm(const int &prec, const int &width) {
+
+    if (m_h->n_ctnum_analyses() != 0 && !frag_data_all.empty()) {
+
+        for (const auto& i : frag_data_all) {
+
+            // file name
+            std::string fname = "tden_summ_" + std::to_string(i.first + 1) + ".txt";
+
+            // open file
+            std::ofstream out;
+            out.open(fname.c_str());
+
+            // set precision
+            out << std::setprecision(prec) << std::fixed;
+
+            // header
+            std::string header ("State            dE(eV)      f         ");
+            out << header;
+
+            // header: list of descriptor names
+            auto descs = m_h->prop_list();
+            for (const auto& desc : descs) {
+
+                out << std::left << std::setw(width) << desc;
+
+            }
+            out << std::endl;
+
+            // dash line
+            out << std::string(header.size() + descs.size() * width, '-') << std::endl;
+
+            // data
+            for (const auto& state : i.second) {
+
+                out << std::left << std::setw(14)     << state.second.state_name;
+                out << std::right << std::setw(width) << state.second.dE_eV;
+                out << std::right << std::setw(width) << state.second.f;
+
+                auto descriptors = state.second.descriptor;
+                for (const auto& desc : descs) {
+
+                    out << std::right << std::setw(width) << descriptors[desc];
+
+                }
+                out << std::endl;
+
+            }
+
+            out.close();
+
+        }
+    }
 }
 
 

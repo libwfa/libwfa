@@ -1,6 +1,23 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #ifndef LIBWFA_WF_ANALYSIS_H
 #define LIBWFA_WF_ANALYSIS_H
 
+#include <unordered_map>
+#include <map>
 #include <libwfa/analyses/sa_nto_analysis.h>
 #include "wf_analysis_data_i.h"
 
@@ -24,6 +41,16 @@ private:
     ab_matrix m_edm_av; //!< Averaged electron density
     ab_matrix m_hdm_av; //!< Averaged hole density
     bool m_init_av; //!< Whether the above are initialized?
+
+    struct frag_data {
+        std::string state_name;
+        std::vector<double> om_tot;
+        double dE_eV, f = 0.0;
+        arma::mat om;
+        std::unordered_map<std::string, double> descriptor;
+    };
+    std::unordered_map<int, std::map<std::string, frag_data> > frag_data_all; //!< final output to be printed
+
 
 public:
     /** \brief Initializes the wave function analysis
@@ -71,7 +98,7 @@ public:
         \param tdm Transition density matrix in AO
         \return True, if successful
      **/
-    bool post_process_optdm(std::ostream &out, const ab_matrix &tdm);
+    bool post_process_optdm(std::ostream &out, const ab_matrix &tdm, const std::string &name, const double &ener);
 
     /** \brief Reset to original state (at construction)
      **/
@@ -79,6 +106,8 @@ public:
         m_init_av = false;
         delete m_sa.release();
     }
+
+    void export_optdm(const int &prec=6, const int &width=10);
 
 private:
     void add_to_average(const ab_matrix &edm, const ab_matrix &hdm);

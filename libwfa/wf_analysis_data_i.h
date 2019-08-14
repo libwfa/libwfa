@@ -135,6 +135,10 @@ public:
     virtual std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
             const std::string &name, const std::string &desc) = 0;
 
+    /** \brief Name of i-th CT number analysis
+     **/
+    virtual const std::vector<std::string> &prop_list() = 0;
+
     //@}
 
     /** \brief Builder of exciton moments

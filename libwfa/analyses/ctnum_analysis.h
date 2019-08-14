@@ -1,7 +1,23 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #ifndef LIBWFA_CTNUM_ANALYSIS_H
 #define LIBWFA_CTNUM_ANALYSIS_H
 
 #include <vector>
+#include <unordered_map>
 #include "ctnum_analysis_i.h"
 
 namespace libwfa {
@@ -16,16 +32,26 @@ namespace libwfa {
  **/
 class ctnum_analysis : public ctnum_analysis_i {
 private:
+    typedef std::vector<std::vector<int>> ivector;
+
     size_t m_nparts; //!< Number of parts
     const arma::mat &m_s; //!< Overlap matrix
+    arma::mat m_s_sqrt; //!< square root of overlap matrix
     const arma::uvec &m_b2p; //!< Map of basis functions to fragments
+    const std::string ctnum_method; //!< Formula used to calculate CT number
+
+    const std::vector<std::string> prop_list;
+    const ivector at_lists;
+
 
 public:
     /** \brief Constructor
         \param s Overlap matrix
         \param b2p Map of basis functions to molecular parts or fragments
+        \param method Formula used to calculate CT number
      **/
-    ctnum_analysis(const arma::mat &s, const arma::uvec &b2p);
+    ctnum_analysis(const arma::mat &s, const arma::uvec &b2p, const std::string &method,
+            const std::vector<std::string> &prop_list, const std::vector<std::vector<int>> &at_lists);
 
     /** \brief Virtual destructor
      **/
@@ -41,7 +67,9 @@ public:
 
     /** \brief Forms omega matrix from a transition density matrix
         \param[in] s Overlap matrix
+        \param[in] s_sqrt Square root of overlap matrix
         \param[in] tdm Transition density matrix
+        \param[in] method Formula used to calculate CT number
         \param[out] om Omega matrix
 
         The function implements the transforms of the transition density
@@ -60,8 +88,14 @@ public:
 
         The output matrices are reshaped and resized as required.
      **/
-    static void form_om(const arma::mat &s,
-            const arma::mat &tdm, arma::mat &om);
+
+    virtual std::unordered_map<std::string, double> compute_desc(const std::vector<double> &om_tot,
+                                                                const arma::mat &om) const;
+
+    static void form_om(const arma::mat &s, const arma::mat &s_sqrt,
+            const arma::mat &tdm, const std::string &method, arma::mat &om);
+
+    static arma::mat compute_omFrag(const arma::mat &om_at, const ivector &at_lists);
 };
 
 } // namespace libwfa
