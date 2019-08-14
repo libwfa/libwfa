@@ -88,7 +88,9 @@ void post_process_optdm(double *tdm_a, size_t nao) {
 
     ab_matrix tdm(true);
     tdm.acquire(true, new arma::mat(tdm_a, nao, nao, false));
-    wf_analysis_static::analysis->post_process_optdm(std::cout, tdm);
+    // This does not work since wf_analysis.C was changed
+    throw libwfa_exception("libwfa_interface", "post_process_optdm", __FILE__, __LINE__, "Temporarily disabled");
+    //wf_analysis_static::analysis->post_process_optdm(std::cout, tdm);
 }
 
 
@@ -100,7 +102,8 @@ void post_process_optdm(double *tdm_a, double *tdm_b, size_t nao) {
     ab_matrix tdm(false);
     tdm.acquire(true,  new arma::mat(tdm_a, nao, nao, false));
     tdm.acquire(false, new arma::mat(tdm_b, nao, nao, false));
-    wf_analysis_static::analysis->post_process_optdm(std::cout, tdm);
+    throw libwfa_exception("libwfa_interface", "post_process_optdm", __FILE__, __LINE__, "Temporarily disabled");
+    //wf_analysis_static::analysis->post_process_optdm(std::cout, tdm);
 }
 
 

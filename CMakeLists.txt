@@ -5,6 +5,8 @@ option(MOLCAS_LIB  "Compile library for Molcas" OFF)
 option(MOLCAS_EXE  "Compile standalone Molcas executable" OFF)
 option(ARMA_HEADER "Directly use armadillo headers" OFF)
 
+set (CMAKE_CXX_STANDARD 11)
+
 if(MOLCAS_LIB)
     set(ARMA_HEADER ON)
 endif(MOLCAS_LIB)

@@ -259,7 +259,7 @@ bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm, co
             //store energy
             frag_data_all[i][name].dE_eV = ener;
 
-            //computer descriptor and store
+            //compute descriptor and store
             const ctnum_analysis_i &ca = m_h->ctnum_analysis(i);
             const auto &om_tot = frag_data_all[i][name].om_tot;
             const mat &om = frag_data_all[i][name].om;
