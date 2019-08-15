@@ -281,8 +281,9 @@ void wf_analysis::print_summary(std::ostream &out, const int &prec, const int &w
             hwidth = header.size() + descs.size() * width;
 
             out  << std::endl;
-            out << std::string(5, '=') << " TheoDORE-style Summary ";
-            out  << std::string(hwidth - 27, '=') << std::endl;
+            out << std::string(5, '=') << " TheoDORE analysis of ";
+            out << m_h->ctnum_name(i.first);
+            out  << std::string(hwidth - 25 - m_h->ctnum_name(i.first).size(), '=') << std::endl;
             out << "| " << header;
             for (const auto& desc : descs) {
                 out << std::left << std::setw(width) << desc;
@@ -305,8 +306,8 @@ void wf_analysis::print_summary(std::ostream &out, const int &prec, const int &w
                 }
                 out << std::endl;
             }
+            out << std::string(hwidth + 2, '=') << std::endl << std::endl;
         }
-        out << std::string(hwidth + 2, '=') << std::endl << std::endl;
     }
 }
 

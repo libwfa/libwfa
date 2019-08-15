@@ -51,7 +51,7 @@ private:
         arma::mat om_frag;
         std::unordered_map<std::string, double> descriptor;
     };
-    std::unordered_map<int, std::map<std::string, frag_data> > frag_data_all; //!< final output to be printed
+    std::map<int, std::map<std::string, frag_data> > frag_data_all; //!< final output to be printed
 
 
 public:

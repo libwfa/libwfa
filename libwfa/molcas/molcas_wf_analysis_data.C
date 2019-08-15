@@ -73,11 +73,11 @@ void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
 
 
     if (name  == "mulliken") {
-        m_cta.push_back(new cta_data("Atomic CT numbers", "atomic-mulliken",
+        m_cta.push_back(new cta_data("CT numbers (Mulliken)", "atomic-lowdin",
                 new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
     }
     else if (name == "lowdin") {
-        m_cta.push_back(new cta_data("Atomic CT numbers", "atomic-lowdin",
+        m_cta.push_back(new cta_data("CT numbers (Lowdin)", "atomic-mulliken",
                 new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
     }
 }
@@ -826,8 +826,14 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(char *inp) {
     if (h->input()->lowdin) {
         h->init_pop_analysis("lowdin");
     }
+
     if (h->input()->ctnum) {
-        h->init_ctnum_analysis(h->input()->ctnum_method);
+        if (h->input()->mulliken) {
+            h->init_ctnum_analysis("mulliken");
+        }
+        if (h->input()->lowdin) {
+            h->init_ctnum_analysis("lowdin");
+        }
     }
 
     if (h->input()->nxo) {
