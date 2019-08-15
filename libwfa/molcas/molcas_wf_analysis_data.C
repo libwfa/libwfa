@@ -582,8 +582,12 @@ void molcas_wf_analysis_data::read_input(char *inp) {
 
     std::stringstream infile(inp);
 
+    std::cout << "Parsing input file ..." << std::endl;
+
     bool inwfa = false;
+    bool fread;
     std::string str, str4;
+    int nread;
     while (infile >> str) {
         str4 = str.substr(0,4);
         std::transform(str4.begin(), str4.end(), str4.begin(), ::toupper);
@@ -603,6 +607,52 @@ void molcas_wf_analysis_data::read_input(char *inp) {
             else if (str4=="WFAL") {
                 infile >> str;
                 m_input->wfalevel = atoi(str.c_str());
+            }
+            else if (str4=="PROP") {
+                m_input->prop_list.clear();
+
+                fread = false;
+                while(infile >> str) {
+                    str4 = str;
+                    std::transform(str4.begin(), str4.end(), str4.begin(), ::toupper);
+                    if (str4=="IEND") {
+                        fread = true;
+                        break;
+                    }
+                    m_input->prop_list.push_back(str);
+                }
+                if (!fread)
+                    throw libwfa_exception(k_clazz, "read_input (PROPLIST)",
+                    __FILE__, __LINE__, "IEND statement missing");
+            }
+            else if (str4=="ATLI") {
+                infile >> str;
+                nread = atoi(str.c_str());
+                m_input->at_lists = std::vector<std::vector<int>>(nread);
+
+                for (size_t i = 0; i < nread; i++) {
+                    while(infile >> str) {
+                        str4 = str;
+                        std::transform(str4.begin(), str4.end(), str4.begin(), ::toupper);
+                        if (str4=="IEND") {
+                            fread = true;
+                            break;
+                        }
+                        m_input->at_lists[i].push_back(atoi(str.c_str()));
+                    }
+                    if (!fread)
+                        throw libwfa_exception(k_clazz, "read_input (ATLISTS)",
+                        __FILE__, __LINE__, "IEND statement missing");
+                }
+                std::cout << "ATLISTS parsed:" << std::endl;
+                for (size_t i = 0; i < nread; i++) {
+                    std::cout << "[ ";
+                    for (size_t j = 0; j < m_input->at_lists[i].size(); j++) {
+                        std::cout << m_input->at_lists[i][j] << " ";
+                    }
+                    std::cout << "], ";
+                }
+                std::cout << std::endl;
             }
             else if (str4=="MULL") m_input->mulliken = true;
             else if (str4=="LOWD") m_input->lowdin = true;

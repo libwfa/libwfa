@@ -107,7 +107,7 @@ public:
         delete m_sa.release();
     }
 
-    void export_optdm(const int &prec=6, const int &width=10);
+    void export_summary(std::ostream &out, const int &prec=6, const int &width=10);
 
 private:
     void add_to_average(const ab_matrix &edm, const ab_matrix &hdm);

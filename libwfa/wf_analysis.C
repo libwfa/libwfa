@@ -276,58 +276,47 @@ bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm, co
 }
 
 
-void wf_analysis::export_optdm(const int &prec, const int &width) {
+void wf_analysis::export_summary(std::ostream &out, const int &prec, const int &width) {
 
     if (m_h->n_ctnum_analyses() != 0 && !frag_data_all.empty()) {
-
+        int hwidth;
         for (const auto& i : frag_data_all) {
-
-            // file name
-            std::string fname = "tden_summ_" + std::to_string(i.first + 1) + ".txt";
-
-            // open file
-            std::ofstream out;
-            out.open(fname.c_str());
 
             // set precision
             out << std::setprecision(prec) << std::fixed;
 
-            // header
+            // header with list of descriptor names
             std::string header ("State            dE(eV)      f         ");
-            out << header;
-
-            // header: list of descriptor names
             auto descs = m_h->prop_list();
+            hwidth = header.size() + descs.size() * width;
+
+            out  << std::endl;
+            out << std::string(5, '=') << " TheoDORE-style Summary ";
+            out  << std::string(hwidth - 27, '=') << std::endl;
+            out << "| " << header;
             for (const auto& desc : descs) {
-
                 out << std::left << std::setw(width) << desc;
-
             }
             out << std::endl;
 
             // dash line
-            out << std::string(header.size() + descs.size() * width, '-') << std::endl;
+            out << "| " << std::string(hwidth, '-') << std::endl;
 
             // data
             for (const auto& state : i.second) {
-
+                out << "| ";
                 out << std::left << std::setw(14)     << state.second.state_name;
                 out << std::right << std::setw(width) << state.second.dE_eV;
                 out << std::right << std::setw(width) << state.second.f;
 
                 auto descriptors = state.second.descriptor;
                 for (const auto& desc : descs) {
-
                     out << std::right << std::setw(width) << descriptors[desc];
-
                 }
                 out << std::endl;
-
             }
-
-            out.close();
-
         }
+        out << std::string(hwidth + 2, '=') << std::endl << std::endl;
     }
 }
 

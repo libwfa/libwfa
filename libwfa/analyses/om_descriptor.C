@@ -168,7 +168,7 @@ namespace libwfa {
             throw("Unknown descriptor!");
         }
 
-        std::cout << "Descriptor " << desc << " = " <<  descriptor[desc] << std::endl;
+        //std::cout << "Descriptor " << desc << " = " <<  descriptor[desc] << std::endl;
     }
 
     void OmDescriptor::compute_trans_met() {
@@ -200,4 +200,3 @@ namespace libwfa {
     }
 
 }; //namespace
-

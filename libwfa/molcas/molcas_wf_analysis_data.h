@@ -91,13 +91,13 @@ private:
         bool ctnum, h5orbs; //!< What kind of print out
         std::string ctnum_method; //! methods or formulas for ct num analysis: atomic-mulliken or atomic-lowdin
         std::vector<std::string> prop_list = {"Om", "POS", "PR", "CT", "COH", "CTnt"};
-        std::vector<std::vector<int>> at_lists = {{1, 2}, {3}, {4}};
+        std::vector<std::vector<int>> at_lists;
         bool add_info; //!< Write to molcas_info file
         bool debug; //!< Print debug info
 
         /** \brief Constructor
          **/
-        input_data() : file_name("/gpfs/home/lboro/fchen/projects/RSE_proj/libwfa/runs/WFAH5"), refstate(0), wfalevel(3), mulliken(false), lowdin(false), nxo(false),
+        input_data() : file_name("WFAH5"), refstate(0), wfalevel(3), mulliken(false), lowdin(false), nxo(false),
             exciton(false), ctnum(false), h5orbs(false), ctnum_method("lowdin"), add_info(false), debug(false) {}
     };
 

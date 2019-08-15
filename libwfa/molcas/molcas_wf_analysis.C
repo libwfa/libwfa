@@ -196,7 +196,7 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
         }
     }
 
-    export_optdm();
+    export_summary(std::cout);
 }
 
 void molcas_wf_analysis::header1(std::string title) {
