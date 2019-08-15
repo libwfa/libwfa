@@ -147,7 +147,7 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
 
 
 void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
-    const std::string &desc, const ab_matrix &tdm) {
+    const std::string &desc, const ab_matrix &tdm, double energy) {
 
     // Create printer for orbitals and densities
     std::auto_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
@@ -202,12 +202,21 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             ct.do_export(*cpr);
             out << std::endl;
 
-            //store om_tot and om
+            //Compute spin-traced Omega matrices
             const ab_matrix &m_om = ct.omega();
-            frag_data_all[i][name].om_tot.push_back(ct.omega_total(false));
-            frag_data_all[i][name].om_tot.push_back(ct.omega_total(true));
-            frag_data_all[i][name].om = m_om.alpha();
+            frag_data_all[i][name].om_tot = ct.omega_total(false) + ct.omega_total(true);
+            const mat om_at = m_om.alpha() + m_om.beta();
 
+            // Transform to fragments, compute descriptors and store
+            frag_data_all[i][name].om_frag = ca.compute_omFrag(om_at);
+            frag_data_all[i][name].descriptor = ca.compute_descriptors(frag_data_all[i][name].om_tot,
+                frag_data_all[i][name].om_frag);
+
+            // store state name
+            frag_data_all[i][name].state_name = name;
+
+            //store energy
+            frag_data_all[i][name].dE_eV = energy;
         }
     }
 
@@ -247,26 +256,7 @@ bool wf_analysis::setup_sa_ntos(std::ostream &out) {
     return true;
 }
 
-bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm, const std::string &name, const double &ener) {
-
-    if (m_h->n_ctnum_analyses() != 0) {
-
-        for (size_t i = 0; i < m_h->n_ctnum_analyses(); i++) {
-
-            // store state name
-            frag_data_all[i][name].state_name = name;
-
-            //store energy
-            frag_data_all[i][name].dE_eV = ener;
-
-            //compute descriptor and store
-            const ctnum_analysis_i &ca = m_h->ctnum_analysis(i);
-            const auto &om_tot = frag_data_all[i][name].om_tot;
-            const mat &om = frag_data_all[i][name].om;
-            frag_data_all[i][name].descriptor = ca.compute_desc(om_tot, om);
-
-        }
-    }
+bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm) {
 
     if (m_sa.get() == 0) return false;
 
@@ -276,7 +266,7 @@ bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm, co
 }
 
 
-void wf_analysis::export_summary(std::ostream &out, const int &prec, const int &width) {
+void wf_analysis::print_summary(std::ostream &out, const int &prec, const int &width) {
 
     if (m_h->n_ctnum_analyses() != 0 && !frag_data_all.empty()) {
         int hwidth;
@@ -320,6 +310,40 @@ void wf_analysis::export_summary(std::ostream &out, const int &prec, const int &
     }
 }
 
+void wf_analysis::print_om_frag(std::ostream &out, const std::string ofile) {
+    if (m_h->n_ctnum_analyses() == 0 || frag_data_all.empty())
+        return;
+
+    std::cout << " Writing fragment Omega matrix to " << ofile << std::endl;
+    std::ofstream fout;
+    fout.open(ofile.c_str());
+
+    //fout << at_lists.size();
+    bool header = false;
+    for (const auto& i : frag_data_all) {
+        for (const auto& state : i.second) {
+            int nfrag = size(state.second.om_frag)[0];
+
+            if (!header) {
+                fout << nfrag << std::endl;
+                header = true;
+            }
+
+            fout << state.second.state_name << " ";
+            fout << " " << state.second.om_tot;
+
+            for (size_t ifrag = 0; ifrag < nfrag; ifrag++) {
+                for (size_t jfrag = 0; jfrag < nfrag; jfrag++) {
+                    fout << " " << state.second.om_frag(ifrag, jfrag);
+                }
+            }
+
+            fout << std::endl;
+        }
+    }
+
+    fout.close();
+}
 
 void wf_analysis::add_to_average(const ab_matrix &edm, const ab_matrix &hdm) {
 

@@ -42,11 +42,13 @@ private:
     ab_matrix m_hdm_av; //!< Averaged hole density
     bool m_init_av; //!< Whether the above are initialized?
 
+    /** \brief Data relating to OmFrag analysis
+     **/
     struct frag_data {
         std::string state_name;
-        std::vector<double> om_tot;
         double dE_eV, f = 0.0;
-        arma::mat om;
+        double om_tot;
+        arma::mat om_frag;
         std::unordered_map<std::string, double> descriptor;
     };
     std::unordered_map<int, std::map<std::string, frag_data> > frag_data_all; //!< final output to be printed
@@ -83,9 +85,10 @@ public:
         \param name Name of state (useable as filename)
         \param desc Description of state (one-line comment)
         \param tdm Transition density matrix in AO
+        \param energy Excitation energy (eV)
      **/
     void analyse_optdm(std::ostream &out, const std::string &name,
-        const std::string &desc, const ab_matrix &tdm);
+        const std::string &desc, const ab_matrix &tdm, double energy=0.);
 
     /** \brief Constructs state-averaged NTOs and sets up the analysis
         \param out Output stream
@@ -98,7 +101,7 @@ public:
         \param tdm Transition density matrix in AO
         \return True, if successful
      **/
-    bool post_process_optdm(std::ostream &out, const ab_matrix &tdm, const std::string &name, const double &ener);
+    bool post_process_optdm(std::ostream &out, const ab_matrix &tdm);
 
     /** \brief Reset to original state (at construction)
      **/
@@ -107,7 +110,13 @@ public:
         delete m_sa.release();
     }
 
-    void export_summary(std::ostream &out, const int &prec=6, const int &width=10);
+    /** \brief Print a TheoDORE-style summary of the CT number analysis
+     **/
+     void print_summary(std::ostream &out, const int &prec=6, const int &width=10);
+
+     /** \brief Print an OmFrag.txt file as understood by TheoDORE
+      **/
+      void print_om_frag(std::ostream &out, const std::string ofile="OmFrag.txt");
 
 private:
     void add_to_average(const ab_matrix &edm, const ab_matrix &hdm);

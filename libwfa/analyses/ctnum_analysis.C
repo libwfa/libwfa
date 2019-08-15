@@ -58,11 +58,8 @@ namespace libwfa {
         }
     }
 
-
-    std::unordered_map<std::string, double> ctnum_analysis::compute_desc(const std::vector<double> &om_tot,
-                                                                        const arma::mat &om) const {
-
-        auto om_frag = compute_omFrag(om, at_lists);
+    std::unordered_map<std::string, double> ctnum_analysis::compute_descriptors
+        (const double om_tot, const arma::mat &om_frag) const {
 
         OmDescriptor desc(om_tot, om_frag);
         desc.ret_desc(prop_list);
@@ -83,7 +80,7 @@ namespace libwfa {
     }
 
 
-    mat ctnum_analysis::compute_omFrag(const arma::mat &om_at, const ivector &at_lists) {
+    mat ctnum_analysis::compute_omFrag(const arma::mat &om_at) const {
 
         mat om_frag(at_lists.size(), at_lists.size());
         om_frag.fill(0.0);
@@ -92,16 +89,13 @@ namespace libwfa {
             for (size_t j = 0; j < at_lists.size(); j++) {
                 for (auto const& iatom: at_lists[i]) {
                     for (auto const& jatom: at_lists[j]) {
-
                         om_frag(i, j) += om_at(iatom-1, jatom-1);
-
                     }
                 }
             }
         }
 
         return om_frag;
-
     }
 
 

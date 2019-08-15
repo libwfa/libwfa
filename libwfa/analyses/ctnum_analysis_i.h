@@ -31,7 +31,7 @@ public:
     /** \brief Virtual destructor
      **/
     virtual ~ctnum_analysis_i() { }
-    
+
     /** \brief Return the dimension of the CT number matrix (e.g. # atoms)
      **/
     virtual size_t size() const = 0;
@@ -46,7 +46,14 @@ public:
      **/
     virtual void perform(const arma::mat &tdm, arma::mat &om) const = 0;
 
-    virtual std::unordered_map<std::string, double> compute_desc(const std::vector<double> &om_tot,
+    /** \brief Summation of the Omega matrix over fragments
+        \param[in] om_at Omega matrix over atoms
+     **/
+    virtual arma::mat compute_omFrag(const arma::mat &om_at) const = 0;
+
+    /** \brief Compute the TheoDORE-style descriptors
+     **/
+    virtual std::unordered_map<std::string, double> compute_descriptors(const double om_tot,
                                                                 const arma::mat &om) const = 0;
 };
 

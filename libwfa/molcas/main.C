@@ -11,7 +11,8 @@ int main(int argc, char** argv)
     std::cout << "*** Debug mode activated ***" << std::endl << std::endl;
 #endif
 
-    molcas_wf_analysis_data *wfdata = libwfa::molcas_setup_wf_analysis_data();
+    char *inp = "";
+    molcas_wf_analysis_data *wfdata = libwfa::molcas_setup_wf_analysis_data(inp);
     molcas_wf_analysis wf(wfdata);
     wf.run_analysis();
 

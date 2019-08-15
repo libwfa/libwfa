@@ -65,6 +65,17 @@ public:
      **/
     virtual void perform(const arma::mat& tdm, arma::mat &om) const;
 
+    /** \brief Summation of the Omega matrix over fragments
+        \param[in] om_at Omega matrix over atoms
+     **/
+    virtual arma::mat compute_omFrag(const arma::mat &om_at) const;
+
+    /** \brief Compute the TheoDORE-style descriptors
+     **/
+   virtual std::unordered_map<std::string, double> compute_descriptors(const double om_tot,
+                                                               const arma::mat &om_frag) const;
+
+private:
     /** \brief Forms omega matrix from a transition density matrix
         \param[in] s Overlap matrix
         \param[in] s_sqrt Square root of overlap matrix
@@ -86,16 +97,12 @@ public:
          from [JCP(2014), DOI: 10.1063/1.4885819] rather than the original
          formula from [JCTC(2012), 8, 2777].
 
+         In addition a Lowdin orthogonalization is implemented.
+
         The output matrices are reshaped and resized as required.
      **/
-
-    virtual std::unordered_map<std::string, double> compute_desc(const std::vector<double> &om_tot,
-                                                                const arma::mat &om) const;
-
     static void form_om(const arma::mat &s, const arma::mat &s_sqrt,
             const arma::mat &tdm, const std::string &method, arma::mat &om);
-
-    static arma::mat compute_omFrag(const arma::mat &om_at, const ivector &at_lists);
 };
 
 } // namespace libwfa
