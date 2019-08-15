@@ -6,7 +6,7 @@ namespace libwfa {
 const char *version::k_status = "trunk";
 const char *version::k_authors[] = {
         "Felix Plasser",
-        "Stefanie Baeppler",
+        "Stefanie Mewes (Baeppler)",
         "Benjamin Thomitzni",
         "Michael Wormit"
 };
@@ -37,6 +37,7 @@ std::string version::get_license() {
     std::ostringstream ss;
     ss << "Copyright (c) 2014, F. Plasser and M. Wormit" << std::endl;
     ss << "All rights reserved." << std::endl << std::endl;
+    ss << "Modifications copyright (C) 2019, Loughborough University." << std::endl << std::endl;
     ss << "Redistribution and use in source and binary forms, with or without"
             << std::endl;
     ss << "modification, are permitted provided that the following conditions"
@@ -81,4 +82,3 @@ std::string version::get_license() {
 }
 
 } // namespace libwfa
-

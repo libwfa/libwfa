@@ -9,6 +9,7 @@
 
     The methods which have been implemented are described in detail
     in Ref. [1] and examples are provided in Ref. [2].
+    Further developments are covered in Refs [4] and [5].
     Briefly, the implemented methods consist of the following parts:
 
     1. Analysis of state density matrices for
@@ -29,11 +30,14 @@
        - attachment/detachment population analysis, and
        - natural difference orbitals.
 
+    4. Real-space analysis of properties within an exciton picture,
+       see Refs [4], [5].
+
     The required input from the quantum chemical program consists of the
     density matrices of interest, the AO-overlap matrix, the MO coefficients
     (used for orthogonalization), and information for population analysis.
-
-    Current developments: multipole analysis.
+    For the exciton analysis routines also the dipole and quadrupole integrals
+    are needed.
 
     \par Literature
     -# Plasser, F.; Wormit, M.; Dreuw, A. \a JCP, \b 2014, \a 141, 024106
@@ -41,16 +45,22 @@
     -# Plasser, F.; Baeppler, S.A.; Wormit, M.; Dreuw, A. \a JCP, \b 2014,
         \a 141, 024107 (DOI: 10.1063/1.4885820).
     -# Plasser, F.; Lischka, H. \a JCTC, \b 2012, \a 8, 2777.
+    -# S. Baeppler, F. Plasser, M. Wormit, A. Dreuw \a PRA, \b 2014, \a 90, 052521
+        (DOI: 10.1103/PhysRevA.90.052521).
+    -# F. Plasser, B. Thomitzni, S. Baeppler, J. Wenzel, D. Rehn, M. Wormit, A. Dreuw
+        \a JCC, \b 2015, \a 36, 1609-1620 (DOI: 10.1002/jcc.23975).
 
     \author Felix Plasser
     \author Michael Wormit
-    \author Stefanie Baeppler
+    \author Stefanie Mewes (Baeppler)
     \author Benjamin Thomitzni
+    \author Feng Chen
 
-    \date 2014
+    \date 2014-2019
 
     \copyright (c) 2014, F. Plasser and M. Wormit
     \copyright All rights reserved.
+    \copyright Modifications copyright (C) 2019, Loughborough University.
     \copyright Redistribution and use in source and binary forms, with or
         without modification, are permitted provided that the following
         conditions are met:
