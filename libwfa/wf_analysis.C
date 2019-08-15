@@ -202,21 +202,22 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             ct.do_export(*cpr);
             out << std::endl;
 
-            //Compute spin-traced Omega matrices
-            const ab_matrix &m_om = ct.omega();
-            frag_data_all[i][name].om_tot = ct.omega_total(false) + ct.omega_total(true);
-            const mat om_at = m_om.alpha() + m_om.beta();
+            // Do the TheoDORE-style fragment based analysis
+            if (ca.n_frags() !=0 ) {
+                //Compute spin-traced Omega matrices
+                const ab_matrix &m_om = ct.omega();
+                frag_data_all[i][name].om_tot = ct.omega_total(false) + ct.omega_total(true);
+                const mat om_at = m_om.alpha() + m_om.beta();
 
-            // Transform to fragments, compute descriptors and store
-            frag_data_all[i][name].om_frag = ca.compute_omFrag(om_at);
-            frag_data_all[i][name].descriptor = ca.compute_descriptors(frag_data_all[i][name].om_tot,
-                frag_data_all[i][name].om_frag);
+                // Transform to fragments, compute descriptors and store
+                frag_data_all[i][name].om_frag = ca.compute_omFrag(om_at);
+                frag_data_all[i][name].descriptor = ca.compute_descriptors(frag_data_all[i][name].om_tot,
+                    frag_data_all[i][name].om_frag);
 
-            // store state name
-            frag_data_all[i][name].state_name = name;
-
-            //store energy
-            frag_data_all[i][name].dE_eV = energy;
+                // store state name and energy
+                frag_data_all[i][name].state_name = name;
+                frag_data_all[i][name].dE_eV = energy;
+            }
         }
     }
 

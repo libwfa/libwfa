@@ -73,11 +73,11 @@ void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
 
 
     if (name  == "mulliken") {
-        m_cta.push_back(new cta_data("CT numbers (Mulliken)", "atomic-lowdin",
+        m_cta.push_back(new cta_data("CT numbers (Mulliken)", "mulliken",
                 new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
     }
     else if (name == "lowdin") {
-        m_cta.push_back(new cta_data("CT numbers (Lowdin)", "atomic-mulliken",
+        m_cta.push_back(new cta_data("CT numbers (Lowdin)", "lowdin",
                 new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
     }
 }
@@ -613,9 +613,7 @@ void molcas_wf_analysis_data::read_input(char *inp) {
 
                 fread = false;
                 while(infile >> str) {
-                    str4 = str;
-                    std::transform(str4.begin(), str4.end(), str4.begin(), ::toupper);
-                    if (str4=="IEND") {
+                    if (str=="*") {
                         fread = true;
                         break;
                     }
@@ -623,7 +621,8 @@ void molcas_wf_analysis_data::read_input(char *inp) {
                 }
                 if (!fread)
                     throw libwfa_exception(k_clazz, "read_input (PROPLIST)",
-                    __FILE__, __LINE__, "IEND statement missing");
+                    __FILE__, __LINE__, "Use * to finish input!");
+                 m_input->ctnum = true;
             }
             else if (str4=="ATLI") {
                 infile >> str;
@@ -632,9 +631,7 @@ void molcas_wf_analysis_data::read_input(char *inp) {
 
                 for (size_t i = 0; i < nread; i++) {
                     while(infile >> str) {
-                        str4 = str;
-                        std::transform(str4.begin(), str4.end(), str4.begin(), ::toupper);
-                        if (str4=="IEND") {
+                        if (str=="*") {
                             fread = true;
                             break;
                         }
@@ -642,7 +639,8 @@ void molcas_wf_analysis_data::read_input(char *inp) {
                     }
                     if (!fread)
                         throw libwfa_exception(k_clazz, "read_input (ATLISTS)",
-                        __FILE__, __LINE__, "IEND statement missing");
+                        __FILE__, __LINE__, "Use * to finish input!");
+                     m_input->ctnum = true;
                 }
                 std::cout << "ATLISTS parsed:" << std::endl;
                 for (size_t i = 0; i < nread; i++) {

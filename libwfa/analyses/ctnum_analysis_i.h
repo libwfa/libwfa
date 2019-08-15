@@ -51,6 +51,10 @@ public:
      **/
     virtual arma::mat compute_omFrag(const arma::mat &om_at) const = 0;
 
+    /** \brief Number of fragments
+     **/
+    virtual size_t n_frags() const = 0;
+
     /** \brief Compute the TheoDORE-style descriptors
      **/
     virtual std::unordered_map<std::string, double> compute_descriptors(const double om_tot,
