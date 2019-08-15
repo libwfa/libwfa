@@ -34,7 +34,7 @@ private:
         std::string name;
         const std::vector<std::string> &labels;
         const arma::vec &p0;
-        std::auto_ptr<libwfa::pop_analysis_i> analysis;
+        std::unique_ptr<libwfa::pop_analysis_i> analysis;
 
         pa_data(const std::string &n, const std::vector<std::string> &l,
             libwfa::pop_analysis_i *a, const arma::vec &p) :
@@ -46,7 +46,7 @@ private:
     struct cta_data {
         std::string name;
         std::string suffix;
-        std::auto_ptr<libwfa::ctnum_analysis_i> analysis;
+        std::unique_ptr<libwfa::ctnum_analysis_i> analysis;
 
         cta_data(const std::string &n, const std::string &s,
             libwfa::ctnum_analysis_i *a) :
@@ -125,9 +125,9 @@ private:
     enum export_type m_export_dens; //!< How to export densities
     enum export_type m_export_orbs; //!< How to export orbitals
 
-    std::auto_ptr<molcas_export_h5orbs> m_h5core; //!< Pointer to orbital export core
-    std::auto_ptr<base_data> m_moldata; //!< Molecular data
-    std::auto_ptr<input_data> m_input; //!< Input data
+    std::unique_ptr<molcas_export_h5orbs> m_h5core; //!< Pointer to orbital export core
+    std::unique_ptr<base_data> m_moldata; //!< Molecular data
+    std::unique_ptr<input_data> m_input; //!< Input data
 
 public:
     /** \brief Constructor
@@ -265,7 +265,7 @@ public:
 
     /** \brief Printer of i-th CT number data
      **/
-    std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
+    std::unique_ptr<ctnum_printer_i> ctnum_printer(size_t i,
             const std::string &name, const std::string &desc);
 
     const std::vector<std::string> &prop_list() { return m_input->prop_list; }
@@ -331,7 +331,7 @@ public:
         return m_moldata->molcas_module;
     }
 
-    const std::auto_ptr<input_data> &input() {
+    const std::unique_ptr<input_data> &input() {
         return m_input;
     }
 

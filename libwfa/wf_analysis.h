@@ -36,8 +36,8 @@ private:
     typedef wf_analysis_data_i::orbital_params orbital_params;
 
 private:
-    std::auto_ptr<wf_analysis_data_i> m_h; //!< Analysis data
-    std::auto_ptr<sa_nto_analysis> m_sa; //!< State-averaged NTO analysis
+    std::unique_ptr<wf_analysis_data_i> m_h; //!< Analysis data
+    std::unique_ptr<sa_nto_analysis> m_sa; //!< State-averaged NTO analysis
     ab_matrix m_edm_av; //!< Averaged electron density
     ab_matrix m_hdm_av; //!< Averaged hole density
     bool m_init_av; //!< Whether the above are initialized?
@@ -58,7 +58,7 @@ public:
     /** \brief Initializes the wave function analysis
         \param h Analysis data object
      **/
-    wf_analysis(wf_analysis_data_i *h) : m_h(h), m_sa(0), m_init_av(false) { }
+    wf_analysis(wf_analysis_data_i *h) : m_h(h), m_sa(), m_init_av(false) { }
 
     /** \brief Perform analysis of state and difference density matrix
         \param out Output stream
@@ -129,7 +129,7 @@ private:
     work properly.
  **/
 struct wf_analysis_static {
-    static std::auto_ptr<wf_analysis> analysis; //!< Static analysis object
+    static std::unique_ptr<wf_analysis> analysis; //!< Static analysis object
 };
 
 

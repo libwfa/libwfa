@@ -38,8 +38,8 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     sdm += dm0;
 
     // Create printer for orbitals and densities
-    std::auto_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
-    std::auto_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
+    std::unique_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
+    std::unique_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
 
     // Export density matrices first
     pr1->perform(density_type::state, sdm);
@@ -106,8 +106,8 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     wf_analysis_data_i &h = *wf_analysis::m_h;
 
     // Create printer for orbitals and densities
-    std::auto_ptr<density_printer_i> pr1(h.density_printer(name, desc));
-    std::auto_ptr<orbital_printer_i> pr2(h.orbital_printer(name, desc));
+    std::unique_ptr<density_printer_i> pr1(h.density_printer(name, desc));
+    std::unique_ptr<orbital_printer_i> pr2(h.orbital_printer(name, desc));
 
     // Export density matrices first
     pr1->perform(density_type::state, sdm);
@@ -150,8 +150,8 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     const std::string &desc, const ab_matrix &tdm, double energy) {
 
     // Create printer for orbitals and densities
-    std::auto_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
-    std::auto_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
+    std::unique_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
+    std::unique_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
 
     // Export density matrices first
     pr1->perform(density_type::transition, tdm);
@@ -194,7 +194,7 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 
             const ctnum_analysis_i &ca = m_h->ctnum_analysis(i);
             const std::string &cname = m_h->ctnum_name(i);
-            std::auto_ptr<ctnum_printer_i> cpr(m_h->ctnum_printer(i, name, desc));
+            std::unique_ptr<ctnum_printer_i> cpr(m_h->ctnum_printer(i, name, desc));
 
             out << cname << std::endl;
             ctnumbers ct(ca, tdm);
@@ -245,13 +245,13 @@ bool wf_analysis::setup_sa_ntos(std::ostream &out) {
         // Do not print out analysis of NTO spectrum here
         std::ostringstream dout;
 
-        std::auto_ptr<orbital_printer_i> pr(m_h->orbital_printer("sa_nto",
+        std::unique_ptr<orbital_printer_i> pr(m_h->orbital_printer("sa_nto",
                 "State-averaged NTOs"));
         orbital_params pnto = m_h->get_orbital_params(orbital_type::NTO);
         sa_ntos.analyse(dout, pnto.norb);
         sa_ntos.export_orbitals(*pr, pnto.thresh);
     }
-    m_sa = std::auto_ptr<sa_nto_analysis>(new sa_nto_analysis(s, sa_ntos));
+    m_sa = std::unique_ptr<sa_nto_analysis>(new sa_nto_analysis(s, sa_ntos));
 
     return true;
 }
@@ -359,6 +359,6 @@ void wf_analysis::add_to_average(const ab_matrix &edm, const ab_matrix &hdm) {
 }
 
 
-std::auto_ptr<wf_analysis> wf_analysis_static::analysis(0);
+std::unique_ptr<wf_analysis> wf_analysis_static::analysis(nullptr);
 
 } // namespace libwfa

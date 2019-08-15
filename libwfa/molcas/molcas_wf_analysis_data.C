@@ -125,11 +125,11 @@ orbital_printer_i *molcas_wf_analysis_data::orbital_printer(
         return new orbital_printer_nil();
 }
 
-std::auto_ptr<ctnum_printer_i> molcas_wf_analysis_data::ctnum_printer(size_t i,
+std::unique_ptr<ctnum_printer_i> molcas_wf_analysis_data::ctnum_printer(size_t i,
             const std::string &name, const std::string &desc) {
     ctnum_printer_i *pr = new ctnum_export(name + "_ctnum_" +
             m_cta[i]->suffix, desc);
-    return std::auto_ptr<ctnum_printer_i>(pr);
+    return std::unique_ptr <ctnum_printer_i>(pr);
 }
 
 ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbuf, const bool aeqb_dens) {
@@ -337,7 +337,7 @@ void molcas_wf_analysis_data::initialize() {
         for (size_t isym=0; isym<nsym; isym++) {
             nbas_t += nbas[isym];
         }
-        m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 2, aeqb));
+        m_moldata = std::unique_ptr<base_data>(new base_data(nbas_t, 2, aeqb));
 
         m_moldata->nbas = arma::uvec(nsym);
         for (size_t isym=0; isym<nsym; isym++) {
@@ -573,7 +573,7 @@ void molcas_wf_analysis_data::initialize() {
 }
 
 void molcas_wf_analysis_data::read_input(char *inp) {
-    m_input = std::auto_ptr<input_data>(new input_data());
+    m_input = std::unique_ptr<input_data>(new input_data());
 
 /*  const char* Project = std::getenv("Project");
     std::string inpname(Project);
@@ -750,7 +750,7 @@ void molcas_wf_analysis_data::cleanup() {
 void molcas_wf_analysis_data::setup_h5core() {
     if (m_h5core.get() != 0) return;
 
-    m_h5core = std::auto_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file, m_moldata->nbas, m_moldata->desym));
+    m_h5core = std::unique_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file, m_moldata->nbas, m_moldata->desym));
 }
 
 void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, size_t nsym) {

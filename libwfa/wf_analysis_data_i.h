@@ -132,7 +132,7 @@ public:
 
     /** \brief Printer of i-th CT number data
      **/
-    virtual std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
+    virtual std::unique_ptr<ctnum_printer_i> ctnum_printer(size_t i,
             const std::string &name, const std::string &desc) = 0;
 
     /** \brief Name of i-th CT number analysis
