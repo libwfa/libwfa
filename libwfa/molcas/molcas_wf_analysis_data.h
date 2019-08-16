@@ -310,11 +310,11 @@ public:
     **/
     arma::vec read_vec_h5(H5std_string key);
 
-    /** \brief Read a density in raw format
+    /** \brief Read a cube from the HDF5 file
         \param key name of the density
         \return raw density matrix as cube
     **/
-    arma::cube read_dens_raw(H5std_string key);
+    arma::cube read_cube_h5(H5std_string key);
 
     /** \brief Print a string with the energy
         \param Energy (a.u.)
@@ -322,10 +322,17 @@ public:
      **/
     void energy_print(const double ener, std::ostream &out);
 
-    /** \brief Return a label for rasscf states
+    /** \brief Return a label for RASSCF states
+
+        This is the same label for all the states.
+
         \return Symmetry and multiplicity label
      **/
     std::string rasscf_label();
+
+    /** \brief Return a vector of labels for RASSI states
+    **/
+    std::vector<std::string> rassi_labels(int *mult, int nstate);
 
     std::string molcas_module() {
         return m_moldata->molcas_module;

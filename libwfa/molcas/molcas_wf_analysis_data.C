@@ -241,11 +241,11 @@ arma::vec molcas_wf_analysis_data::read_vec_h5(H5std_string key) {
     return retvec;
 }
 
-arma::cube molcas_wf_analysis_data::read_dens_raw(H5std_string key) {
+arma::cube molcas_wf_analysis_data::read_cube_h5(H5std_string key) {
     DataSet Set = m_file.openDataSet(key);
     DataSpace Space = Set.getSpace();
     if (Space.getSimpleExtentNdims() != 3)
-        throw libwfa_exception(k_clazz, "read_dens_raw", __FILE__, __LINE__, "Inconsistent rank");
+        throw libwfa_exception(k_clazz, "read_cube_h5", __FILE__, __LINE__, "Inconsistent rank");
 
     hsize_t dims[3];
     Space.getSimpleExtentDims(dims, NULL);
@@ -263,8 +263,6 @@ void molcas_wf_analysis_data::energy_print(const double ener, std::ostream &out)
 }
 
 std::string molcas_wf_analysis_data::rasscf_label() {
-
-
 
     Group Grp_main = m_file.openGroup("/");
 
@@ -288,6 +286,27 @@ std::string molcas_wf_analysis_data::rasscf_label() {
     ostream << str;
 
     return ostream.str();
+}
+
+std::vector<std::string> molcas_wf_analysis_data::rassi_labels(int *mult, int nstate) {
+    std::vector<std::string> state_labels;
+
+    int offset;
+    char lab [] = {'S', 'D', 'T', 'Q', 'Q', 'H', 'H'};
+    int  ind [] = { 0 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 };
+
+    Group Grp_main = m_file.openGroup("/");
+    Attribute Att = Grp_main.openAttribute("STATE_SPINMULT");
+    Att.read(PredType::NATIVE_INT, mult);
+
+    for (int istate = 0; istate < nstate; istate++) {
+        offset = mult[istate] - 1;
+        std::ostringstream name;
+        name << lab[offset] << ind[offset]++;
+        state_labels.push_back(name.str());
+    }
+
+    return state_labels;
 }
 
 void molcas_wf_analysis_data::initialize() {
@@ -685,6 +704,11 @@ void molcas_wf_analysis_data::read_input(char *inp) {
     }
     if (m_input->wfalevel >= 4) {
         m_input->mulliken = true;
+    }
+
+    // Deactivate fragment-based analysis if no fragments are defined
+    if (m_input->at_lists.size() == 0) {
+        m_input->prop_list = {"Om"};
     }
 }
 

@@ -59,7 +59,7 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
     labele.erase(std::remove(labele.begin(), labele.end(), ' '), labele.end());
 
     // Density matrix
-    arma::cube dens = m_mdata->read_dens_raw("DENSITY_MATRIX");
+    arma::cube dens = m_mdata->read_cube_h5("DENSITY_MATRIX");
     if (refstate >= dens.n_slices)
         throw libwfa_exception(k_clazz, "rasscf_analysis", __FILE__, __LINE__, "refstate > nstate");
 
@@ -68,7 +68,7 @@ void molcas_wf_analysis::rasscf_analysis(size_t refstate) {
     size_t dens_offs = dens.n_rows * dens.n_cols;
 
     // Spin-density matrix
-    arma::cube sdens = m_mdata->read_dens_raw("SPINDENSITY_MATRIX");
+    arma::cube sdens = m_mdata->read_cube_h5("SPINDENSITY_MATRIX");
     double *sdens_buf = sdens.memptr();
 
     double *smin = std::min_element(sdens_buf, sdens_buf + sdens.size());
@@ -114,14 +114,14 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
     header1("RASSI (Transition) Density Matrix Analysis");
 
     // Read the densities
-    arma::cube tden = m_mdata->read_dens_raw("SFS_TRANSITION_DENSITIES");
+    arma::cube tden = m_mdata->read_cube_h5("SFS_TRANSITION_DENSITIES");
     if (refstate >= tden.n_slices)
         throw libwfa_exception(k_clazz, "rassi_analysis", __FILE__, __LINE__, "refstate > nstate");
 
     double *tden_buf = tden.memptr();
 
     // Read the spin densities
-    arma::cube tsden = m_mdata->read_dens_raw("SFS_TRANSITION_SPIN_DENSITIES");
+    arma::cube tsden = m_mdata->read_cube_h5("SFS_TRANSITION_SPIN_DENSITIES");
     double *tsden_buf = tsden.memptr();
 
     //ab_matrix dm0 = m_mdata->build_dm_ao(tden_buf + (refstate + refstate * tden.n_cols)*tden.n_rows, tsden_buf + (refstate + refstate * tden.n_cols)*tden.n_rows, tden.n_rows);
@@ -131,28 +131,33 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
     arma::vec ener = m_mdata->read_vec_h5("SFS_ENERGIES");
     ener -= ener(refstate);
 
+    // Read multiplicities and assign labels to the states
+    int mult [tden.n_slices];
+    std::vector<std::string> state_labels = m_mdata->rassi_labels(mult, tden.n_slices);
+
+    // Read the transition moments
+    arma::cube edip = m_mdata->read_cube_h5("SFS_EDIPMOM");
+
     // Loop over all transition densities
     for (int istate = 0; istate < tden.n_slices; istate++) {
         if (istate == refstate) {
-            std::ostringstream name, descr, header;
+            std::ostringstream descr, header;
 
-            name << "R_" << refstate+1;
-            descr << name.str() << " " << std::setprecision(5) << ener(istate);
+            descr << state_labels[istate] << " " << std::setprecision(5) << ener(istate);
 
-            header << "RASSI analysis for reference state " << name.str();
+            header << "RASSI analysis for reference state " << state_labels[istate];
             header2(header.str());
             m_mdata->energy_print(ener(istate), std::cout);
 
-            analyse_opdm_ai(name.str(), descr.str(), dm0);
+            analyse_opdm_ai(state_labels[istate], descr.str(), dm0);
         }
         else {
             { // State/difference density analysis
-                std::ostringstream name, descr, header;
+                std::ostringstream descr, header;
 
-                name << "R_" << istate+1;
-                descr << name.str() << " " << std::setprecision(5) << ener(istate);
+                descr << state_labels[istate] << " " << std::setprecision(5) << ener(istate);
 
-                header << "RASSI analysis for state " << name.str();
+                header << "RASSI analysis for state " << state_labels[istate];
                 header2(header.str());
                 m_mdata->energy_print(ener(istate), std::cout);
 
@@ -169,12 +174,12 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
                 ab_matrix ddm = m_mdata->build_dm_ao(itden_buf, itsden_buf, tden.n_rows);
                 ddm -= dm0;
 
-                analyse_opdm_ai(name.str(), descr.str(), ddm, dm0);
+                analyse_opdm_ai(state_labels[istate], descr.str(), ddm, dm0);
             }
             { // Transition density analysis
                 std::ostringstream name, descr, header;
 
-                name << "Tr_" << refstate+1 << "-" << istate+1;
+                name << state_labels[refstate] << "-" << state_labels[istate];
                 descr << name.str() << " " << std::setprecision(5) << ener(istate);
 
                 header << "RASSI analysis for transiton from state " << refstate+1 << " to " << istate+1 << " (" << name.str() << ")";
@@ -187,11 +192,20 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
                 const double *itden_buf  = tden_buf + (kstate + jstate * tden.n_cols)*tden.n_rows;
                 const double *itsden_buf = tsden_buf + (kstate + jstate * tden.n_cols)*tden.n_rows;
                 ab_matrix tdm = m_mdata->build_dm_ao(itden_buf, itsden_buf, tden.n_rows);
-                if (istate > (int)refstate) // Transpose of the indices are switched
+                if (istate > (int)refstate) // Transpose if the indices are switched
                     tdm.inplace_trans();
 
                 const double energy = constants::au2eV * ener(istate);
-                analyse_optdm_ai(name.str(), descr.str(), tdm, energy);
+                double osc = 0.;
+                if (mult[kstate] == mult[jstate]) {
+                    const double edip2 =
+                        edip(jstate, kstate, 0) * edip(jstate, kstate, 0) +
+                        edip(jstate, kstate, 1) * edip(jstate, kstate, 1) +
+                        edip(jstate, kstate, 2) * edip(jstate, kstate, 2);
+                    osc = 2./3. * ener(istate) * edip2;
+                }
+
+                analyse_optdm_ai(name.str(), descr.str(), tdm, energy, osc);
             }
         }
     }
@@ -234,10 +248,10 @@ void molcas_wf_analysis::analyse_opdm_ai(const std::string &name, const std::str
 }
 
 void molcas_wf_analysis::analyse_optdm_ai(const std::string &name, const std::string &desc,
-        const ab_matrix &tdm, const double energy) {
+        const ab_matrix &tdm, const double energy, const double osc) {
 
     std::stringstream out;
-    analyse_optdm(out, name, desc, tdm, energy);
+    analyse_optdm(out, name, desc, tdm, energy, osc);
     post_process_optdm(out, tdm);
     std::cout << out.str();
 

@@ -46,7 +46,7 @@ private:
      **/
     struct frag_data {
         std::string state_name;
-        double dE_eV, f = 0.0;
+        double dE_eV, f;
         double om_tot;
         arma::mat om_frag;
         std::unordered_map<std::string, double> descriptor;
@@ -86,9 +86,10 @@ public:
         \param desc Description of state (one-line comment)
         \param tdm Transition density matrix in AO
         \param energy Excitation energy (eV)
+        \param oscillator strength
      **/
     void analyse_optdm(std::ostream &out, const std::string &name,
-        const std::string &desc, const ab_matrix &tdm, double energy=0.);
+        const std::string &desc, const ab_matrix &tdm, double energy=0., double osc=-1.);
 
     /** \brief Constructs state-averaged NTOs and sets up the analysis
         \param out Output stream

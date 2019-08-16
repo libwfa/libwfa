@@ -40,7 +40,7 @@ private:
     /** \brief Analysis of tdm and add_info
      **/
     void analyse_optdm_ai(const std::string &name, const std::string &desc,
-        const ab_matrix &tdm, const double energy);
+        const ab_matrix &tdm, const double energy, const double osc);
 
     /** \brief Append to molcas_info file
 

@@ -147,7 +147,7 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
 
 
 void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
-    const std::string &desc, const ab_matrix &tdm, double energy) {
+    const std::string &desc, const ab_matrix &tdm, double energy, double osc) {
 
     // Create printer for orbitals and densities
     std::unique_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
@@ -202,22 +202,23 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             ct.do_export(*cpr);
             out << std::endl;
 
+            // store some info about the state
+            frag_data_all[i][name].state_name = name;
+            frag_data_all[i][name].dE_eV = energy;
+            frag_data_all[i][name].f = osc;
+            frag_data_all[i][name].om_tot = ct.omega_total(false) + ct.omega_total(true);
+
             // Do the TheoDORE-style fragment based analysis
-            if (ca.n_frags() !=0 ) {
+            //if (ca.n_frags() !=0 ) {
                 //Compute spin-traced Omega matrices
-                const ab_matrix &m_om = ct.omega();
-                frag_data_all[i][name].om_tot = ct.omega_total(false) + ct.omega_total(true);
-                const mat om_at = m_om.alpha() + m_om.beta();
+                const ab_matrix &om_at_ab = ct.omega();
+                const mat om_at = om_at_ab.alpha() + om_at_ab.beta();
 
                 // Transform to fragments, compute descriptors and store
                 frag_data_all[i][name].om_frag = ca.compute_omFrag(om_at);
                 frag_data_all[i][name].descriptor = ca.compute_descriptors(frag_data_all[i][name].om_tot,
                     frag_data_all[i][name].om_frag);
-
-                // store state name and energy
-                frag_data_all[i][name].state_name = name;
-                frag_data_all[i][name].dE_eV = energy;
-            }
+            //}
         }
     }
 
