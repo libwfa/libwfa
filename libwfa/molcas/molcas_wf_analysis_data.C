@@ -692,7 +692,8 @@ void molcas_wf_analysis_data::read_input(char *inp) {
 
     // Automatically activate options according to wfalevel
     if (m_input->wfalevel >= 1) {
-        m_input->lowdin = true;
+        if (!m_input->mulliken)
+            m_input->lowdin = true;
         m_input->nxo = true;
     }
     if (m_input->wfalevel >= 2) {
@@ -703,6 +704,7 @@ void molcas_wf_analysis_data::read_input(char *inp) {
         m_input->h5orbs = true;
     }
     if (m_input->wfalevel >= 4) {
+        m_input->lowdin = true;
         m_input->mulliken = true;
     }
 
