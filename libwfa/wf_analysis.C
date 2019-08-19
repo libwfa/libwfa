@@ -203,22 +203,20 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             out << std::endl;
 
             // store some info about the state
-            frag_data_all[i][name].state_name = name;
-            frag_data_all[i][name].dE_eV = energy;
-            frag_data_all[i][name].f = osc;
-            frag_data_all[i][name].om_tot = ct.omega_total(false) + ct.omega_total(true);
+            frag_data fd_new = frag_data();
+            fd_new.state_name = name;
+            fd_new.dE_eV = energy;
+            fd_new.f = osc;
+            fd_new.om_tot = ct.omega_total(false) + ct.omega_total(true);
 
-            // Do the TheoDORE-style fragment based analysis
-            //if (ca.n_frags() !=0 ) {
-                //Compute spin-traced Omega matrices
-                const ab_matrix &om_at_ab = ct.omega();
-                const mat om_at = om_at_ab.alpha() + om_at_ab.beta();
+            const ab_matrix &om_at_ab = ct.omega();
+            const mat om_at = om_at_ab.alpha() + om_at_ab.beta();
 
-                // Transform to fragments, compute descriptors and store
-                frag_data_all[i][name].om_frag = ca.compute_omFrag(om_at);
-                frag_data_all[i][name].descriptor = ca.compute_descriptors(frag_data_all[i][name].om_tot,
-                    frag_data_all[i][name].om_frag);
-            //}
+            // Transform to fragments, compute descriptors and store
+            fd_new.om_frag = ca.compute_omFrag(om_at);
+            fd_new.descriptor = ca.compute_descriptors(fd_new.om_tot, fd_new.om_frag);
+
+            frag_data_all[i].push_back(fd_new);
         }
     }
 
@@ -298,11 +296,11 @@ void wf_analysis::print_summary(std::ostream &out, const int &prec, const int &w
             // data
             for (const auto& state : i.second) {
                 out << "| ";
-                out << std::left << std::setw(14)     << state.second.state_name;
-                out << std::right << std::setw(width) << state.second.dE_eV;
-                out << std::right << std::setw(width) << state.second.f;
+                out << std::left << std::setw(14)     << state.state_name;
+                out << std::right << std::setw(width) << state.dE_eV;
+                out << std::right << std::setw(width) << state.f;
 
-                auto descriptors = state.second.descriptor;
+                auto descriptors = state.descriptor;
                 for (const auto& desc : descs) {
                     out << std::right << std::setw(width) << descriptors[desc];
                 }
@@ -321,23 +319,22 @@ void wf_analysis::print_om_frag(std::ostream &out, const std::string ofile) {
     std::ofstream fout;
     fout.open(ofile.c_str());
 
-    //fout << at_lists.size();
     bool header = false;
     for (const auto& i : frag_data_all) {
         for (const auto& state : i.second) {
-            int nfrag = size(state.second.om_frag)[0];
+            int nfrag = size(state.om_frag)[0];
 
             if (!header) {
                 fout << nfrag << std::endl;
                 header = true;
             }
 
-            fout << state.second.state_name << " ";
-            fout << " " << state.second.om_tot;
+            fout << state.state_name << " ";
+            fout << " " << state.om_tot;
 
             for (size_t ifrag = 0; ifrag < nfrag; ifrag++) {
                 for (size_t jfrag = 0; jfrag < nfrag; jfrag++) {
-                    fout << " " << state.second.om_frag(ifrag, jfrag);
+                    fout << " " << state.om_frag(ifrag, jfrag);
                 }
             }
 

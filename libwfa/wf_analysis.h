@@ -51,7 +51,10 @@ private:
         arma::mat om_frag;
         std::unordered_map<std::string, double> descriptor;
     };
-    std::map<int, std::map<std::string, frag_data> > frag_data_all; //!< final output to be printed
+    /** final output to be printed
+     int - type of CT number analysis
+     **/
+    std::map<int, std::vector<frag_data> > frag_data_all;
 
 
 public:
