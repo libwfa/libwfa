@@ -49,9 +49,18 @@ public:
         \param s Overlap matrix
         \param b2p Map of basis functions to molecular parts or fragments
         \param method Formula used to calculate CT number
+        \param prop_list Properties to be computed
+        \param at_lists Fragment definitions
      **/
     ctnum_analysis(const arma::mat &s, const arma::uvec &b2p, const std::string &method,
             const std::vector<std::string> &prop_list, const std::vector<std::vector<int>> &at_lists);
+
+    /** \brief Constructor
+        \param s Overlap matrix
+        \param b2p Map of basis functions to molecular parts or fragments
+        \param method Formula used to calculate CT number
+     **/
+    ctnum_analysis(const arma::mat &s, const arma::uvec &b2p, const std::string &method);
 
     /** \brief Virtual destructor
      **/
@@ -79,7 +88,7 @@ public:
    virtual std::unordered_map<std::string, double> compute_descriptors(const double om_tot,
                                                                const arma::mat &om_frag) const;
 
-private:
+//private:
     /** \brief Forms omega matrix from a transition density matrix
         \param[in] s Overlap matrix
         \param[in] s_sqrt Square root of overlap matrix

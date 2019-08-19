@@ -77,6 +77,10 @@ set(SRC
     version_test.C
 )
 
+find_package(BLAS REQUIRED)
+find_package(LAPACK REQUIRED)
+list (APPEND LIBWFA_DEP_LIBS ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
+
 set(TARGETS libwfa_tests)
 add_executable(libwfa_tests ${SRC} ${SRC_HEADER})
 

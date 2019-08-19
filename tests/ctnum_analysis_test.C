@@ -57,7 +57,7 @@ void ctnum_analysis_test::test_form_om_1() throw(libtest::test_exception) {
 
     // Perform operation
 
-    ctnum_analysis::form_om(s, tdm, om);
+    ctnum_analysis::form_om(s, s, tdm, "mulliken", om);
 
     // Check result
     if (om.n_rows != nao || om.n_cols != nao) {
@@ -98,7 +98,7 @@ void ctnum_analysis_test::test_1() throw(libtest::test_exception) {
 
     mat om_ref(na, na), om_ao;
     om_ref.fill(0.0);
-    ctnum_analysis::form_om(s, tdm, om_ao);
+    ctnum_analysis::form_om(s, s, tdm, "mulliken", om_ao);
     for (size_t i = 0; i < nao1; i++) {
         for (size_t j = 0; j < nao1; j++) {
             om_ref(0, 0) += om_ao(i, j);
@@ -120,22 +120,31 @@ void ctnum_analysis_test::test_1() throw(libtest::test_exception) {
         }
     }
 
-    mat om_at;
-    ctnum_analysis(s, b2c).perform(tdm, om_at);
+    {
+        mat om_at;
+        ctnum_analysis(s, b2c, "mulliken").perform(tdm, om_at);
 
-    if (om_at.n_rows != na || om_at.n_cols != na) {
-        fail_test(testname, __FILE__, __LINE__, "Size of CT number data");
-    }
-    for (size_t i = 0; i < na * na; i++) {
-        if (fabs(om_at[i] - om_ref[i]) > 1e-14) {
-            std::ostringstream oss;
-            oss << "CT number of atom " << i / na << " and atom " << i % na <<
-                    "(diff: " << std::setprecision(6) << std::scientific <<
-                    om_at[i] - om_ref[i] << ")";
-            fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
+        if (om_at.n_rows != na || om_at.n_cols != na) {
+            fail_test(testname, __FILE__, __LINE__, "Size of CT number data (Mulliken)");
+        }
+        for (size_t i = 0; i < na * na; i++) {
+            if (fabs(om_at[i] - om_ref[i]) > 1e-14) {
+                std::ostringstream oss;
+                oss << "CT number of atom " << i / na << " and atom " << i % na <<
+                        "(diff: " << std::setprecision(6) << std::scientific <<
+                        om_at[i] - om_ref[i] << ")";
+                fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
+            }
         }
     }
+    {
+        mat om_at;
+        ctnum_analysis(s, b2c, "lowdin").perform(tdm, om_at);
 
+        if (om_at.n_rows != na || om_at.n_cols != na) {
+            fail_test(testname, __FILE__, __LINE__, "Size of CT number data (Lowdin)");
+        }
+    }
     } catch(std::exception &e) {
         fail_test(testname, __FILE__, __LINE__, e.what());
     }

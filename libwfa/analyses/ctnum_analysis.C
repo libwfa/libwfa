@@ -34,10 +34,24 @@ namespace libwfa {
             vec e;
             eig_sym(e, u, s);
             m_s_sqrt = u * diagmat(sqrt(e)) * u.t();
-            //m_s_sqrt = sqrtmat_sympd(m_s);
         }
     }
 
+    ctnum_analysis::ctnum_analysis(const mat &s, const uvec &b2p, const std::string &method) :
+    m_nparts(0), m_s(s), m_b2p(b2p), ctnum_method(method)
+    {
+        const std::vector<std::string> prop_list;
+        const ivector at_lists;
+
+        m_nparts = b2p.max() + 1;
+
+        if (ctnum_method == "lowdin") {
+            mat u;
+            vec e;
+            eig_sym(e, u, s);
+            m_s_sqrt = u * diagmat(sqrt(e)) * u.t();
+        }
+    }
 
     void ctnum_analysis::perform(const mat &tdm, mat &om) const {
 
