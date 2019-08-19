@@ -607,6 +607,8 @@ void molcas_wf_analysis_data::read_input(char *inp) {
     bool fread;
     std::string str, str4;
     int nread;
+    int ctnum_mode = -1;
+
     while (infile >> str) {
         str4 = str.substr(0,4);
         std::transform(str4.begin(), str4.end(), str4.begin(), ::toupper);
@@ -626,6 +628,10 @@ void molcas_wf_analysis_data::read_input(char *inp) {
             else if (str4=="WFAL") {
                 infile >> str;
                 m_input->wfalevel = atoi(str.c_str());
+            }
+            else if (str4=="CTNU") {
+                infile >> str;
+                ctnum_mode = atoi(str.c_str());
             }
             else if (str4=="PROP") {
                 m_input->prop_list.clear();
@@ -708,9 +714,20 @@ void molcas_wf_analysis_data::read_input(char *inp) {
         m_input->mulliken = true;
     }
 
-    // Deactivate fragment-based analysis if no fragments are defined
-    if (m_input->at_lists.size() == 0) {
+    // Activate fragment-based analysis if fragments are defined and ctnum_mode is given
+    if (m_input->at_lists.size() == 0 || ctnum_mode==0) {
         m_input->prop_list = {"Om"};
+    }
+    else if (ctnum_mode==1) {
+        m_input->prop_list = {"Om", "POS", "PR", "DEL", "CT", "CTnt"};
+    }
+    else if (ctnum_mode==2)  {
+        m_input->prop_list = {"Om", "POS", "POSi", "POSf", "PR", "PRi", "PRf",
+        "DEL", "COH", "CT", "CTnt"};
+    }
+    else if (ctnum_mode==3) {
+        m_input->prop_list = {"Om", "POSi", "POSf", "PR", "CT",
+        "MC", "LC", "MLCT", "LMCT", "LLCT"};
     }
 }
 

@@ -25,6 +25,8 @@ namespace libwfa {
     public:
         std::unordered_map<std::string, double> descriptor; //!< Store descriptor data using Python dict style
 
+        static const char k_clazz[]; //!< Class name
+
     private:
         const double om_tot; //!< Total omega
         const arma::mat &om_frag; //!< Omega matrix

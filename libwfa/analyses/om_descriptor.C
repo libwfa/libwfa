@@ -13,11 +13,14 @@
 
 
 #include <exception>
+#include <libwfa/libwfa.h>
 #include "om_descriptor.h"
 
 namespace libwfa {
 
     using namespace arma;
+
+    const char OmDescriptor::k_clazz[] = "om_descriptor";
 
     OmDescriptor::OmDescriptor(const double tot_om, const arma::mat &frag_om) :
             om_tot(tot_om), om_frag(frag_om) {
@@ -165,8 +168,8 @@ namespace libwfa {
         }
 
         else {
-
-            throw("Unknown descriptor!");
+            throw libwfa_exception(k_clazz, "compute_desc",
+            __FILE__, __LINE__, "Unknown descriptor");
         }
 
         //std::cout << "Descriptor " << desc << " = " <<  descriptor[desc] << std::endl;
