@@ -211,6 +211,7 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
     }
 
     print_summary(std::cout);
+    if (m_mdata->input()->add_info) add_molcas_info_fda();
     print_om_frag(std::cout);
 }
 
@@ -258,7 +259,7 @@ void molcas_wf_analysis::analyse_optdm_ai(const std::string &name, const std::st
     if (m_mdata->input()->add_info) add_molcas_info(out);
 }
 
-void molcas_wf_analysis::add_molcas_info(std::stringstream &out) {
+void molcas_wf_analysis::add_molcas_info(std::stringstream &in) {
     size_t prec = 6;
 
     std::ofstream finfo;
@@ -268,7 +269,7 @@ void molcas_wf_analysis::add_molcas_info(std::stringstream &out) {
     std::string str;
 
     finfo << std::setw(6);
-    while (out >> str) {
+    while (in >> str) {
         if (std::stringstream(str) >> x)
             if (x*x > 2.e-12)
             {
@@ -280,7 +281,32 @@ void molcas_wf_analysis::add_molcas_info(std::stringstream &out) {
             }
     }
     finfo << "export LIBWFA" << std::endl;
+}
 
+void molcas_wf_analysis::add_molcas_info_fda() {
+    size_t prec = 8;
+    size_t i_info;
+
+    std::ofstream finfo;
+    finfo.open("molcas_info", std::ofstream::app);
+    auto descs = m_mdata->prop_list();
+
+    if (!frag_data_all.empty()) {
+        for (const auto& desc : descs) {
+            i_info = 0;
+            for (const auto& i : frag_data_all) {
+                for (const auto& state : i.second) {
+                    auto descriptor = state.descriptor;
+                    finfo <<          desc << "[" << i_info << "]=\"" << std::setprecision(prec)
+                        << std::fixed << descriptor[desc] << "\"" << std::endl;
+                    finfo << "#> " << desc << "[" << i_info << "]=\"" << std::setprecision(prec)
+                        << std::fixed << descriptor[desc] << "\"/" << prec << std::endl;
+                    i_info += 1;
+                }
+            }
+            finfo << "export " << desc << std::endl;
+        }
+    }
 }
 
 } // namespace libwfa

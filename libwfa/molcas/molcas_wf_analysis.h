@@ -45,9 +45,14 @@ private:
     /** \brief Append to molcas_info file
 
         Add information to the molcas_info file in the form expected
-        by the molcas verify code.
+        by the molcas verify code. Note that the molcas_info file is
+        subsequently deleted by pymolcas.
      **/
-    void add_molcas_info(std::stringstream &out);
+    void add_molcas_info(std::stringstream &in);
+
+    /** \brief Append info from frag_data_all to molcas_info file
+     **/
+    void add_molcas_info_fda();
 };
 
 } // namespace libwfa

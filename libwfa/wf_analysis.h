@@ -42,6 +42,7 @@ private:
     ab_matrix m_hdm_av; //!< Averaged hole density
     bool m_init_av; //!< Whether the above are initialized?
 
+protected:
     /** \brief Data relating to OmFrag analysis
      **/
     struct frag_data {
