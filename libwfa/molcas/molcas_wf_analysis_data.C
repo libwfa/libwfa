@@ -1,3 +1,18 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #include <fstream>
 #include <string>
 #include <libwfa/libwfa.h>
@@ -52,9 +67,18 @@ void molcas_wf_analysis_data::init_ctnum_analysis(const std::string &name) {
 
     const arma::mat &s = m_moldata->s;
     const arma::uvec &b2a = m_moldata->bf2atoms;
-    if (name  == "atomic") {
-        m_cta.push_back(new cta_data("Atomic CT numbers", "atomic",
-                new libwfa::ctnum_analysis(s, b2a)));
+
+    const std::vector<std::string> &prop_list = m_input->prop_list;
+    const std::vector<std::vector<int>> &at_lists = m_input->at_lists;
+
+
+    if (name  == "mulliken") {
+        m_cta.push_back(new cta_data("CT numbers (Mulliken)", "mulliken",
+                new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
+    }
+    else if (name == "lowdin") {
+        m_cta.push_back(new cta_data("CT numbers (Lowdin)", "lowdin",
+                new libwfa::ctnum_analysis(s, b2a, name, prop_list, at_lists)));
     }
 }
 
@@ -101,11 +125,11 @@ orbital_printer_i *molcas_wf_analysis_data::orbital_printer(
         return new orbital_printer_nil();
 }
 
-std::auto_ptr<ctnum_printer_i> molcas_wf_analysis_data::ctnum_printer(size_t i,
+std::unique_ptr<ctnum_printer_i> molcas_wf_analysis_data::ctnum_printer(size_t i,
             const std::string &name, const std::string &desc) {
     ctnum_printer_i *pr = new ctnum_export(name + "_ctnum_" +
             m_cta[i]->suffix, desc);
-    return std::auto_ptr<ctnum_printer_i>(pr);
+    return std::unique_ptr <ctnum_printer_i>(pr);
 }
 
 ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbuf, const bool aeqb_dens) {
@@ -217,11 +241,11 @@ arma::vec molcas_wf_analysis_data::read_vec_h5(H5std_string key) {
     return retvec;
 }
 
-arma::cube molcas_wf_analysis_data::read_dens_raw(H5std_string key) {
+arma::cube molcas_wf_analysis_data::read_cube_h5(H5std_string key) {
     DataSet Set = m_file.openDataSet(key);
     DataSpace Space = Set.getSpace();
     if (Space.getSimpleExtentNdims() != 3)
-        throw libwfa_exception(k_clazz, "read_dens_raw", __FILE__, __LINE__, "Inconsistent rank");
+        throw libwfa_exception(k_clazz, "read_cube_h5", __FILE__, __LINE__, "Inconsistent rank");
 
     hsize_t dims[3];
     Space.getSimpleExtentDims(dims, NULL);
@@ -239,8 +263,6 @@ void molcas_wf_analysis_data::energy_print(const double ener, std::ostream &out)
 }
 
 std::string molcas_wf_analysis_data::rasscf_label() {
-
-
 
     Group Grp_main = m_file.openGroup("/");
 
@@ -264,6 +286,27 @@ std::string molcas_wf_analysis_data::rasscf_label() {
     ostream << str;
 
     return ostream.str();
+}
+
+std::vector<std::string> molcas_wf_analysis_data::rassi_labels(int *mult, int nstate) {
+    std::vector<std::string> state_labels;
+
+    int offset;
+    char lab [] = {'S', 'D', 'T', 'Q', 'Q', 'H', 'H'};
+    int  ind [] = { 0 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 };
+
+    Group Grp_main = m_file.openGroup("/");
+    Attribute Att = Grp_main.openAttribute("STATE_SPINMULT");
+    Att.read(PredType::NATIVE_INT, mult);
+
+    for (int istate = 0; istate < nstate; istate++) {
+        offset = mult[istate] - 1;
+        std::ostringstream name;
+        name << lab[offset] << ind[offset]++;
+        state_labels.push_back(name.str());
+    }
+
+    return state_labels;
 }
 
 void molcas_wf_analysis_data::initialize() {
@@ -313,7 +356,7 @@ void molcas_wf_analysis_data::initialize() {
         for (size_t isym=0; isym<nsym; isym++) {
             nbas_t += nbas[isym];
         }
-        m_moldata = std::auto_ptr<base_data>(new base_data(nbas_t, 2, aeqb));
+        m_moldata = std::unique_ptr<base_data>(new base_data(nbas_t, 2, aeqb));
 
         m_moldata->nbas = arma::uvec(nsym);
         for (size_t isym=0; isym<nsym; isym++) {
@@ -549,7 +592,7 @@ void molcas_wf_analysis_data::initialize() {
 }
 
 void molcas_wf_analysis_data::read_input(char *inp) {
-    m_input = std::auto_ptr<input_data>(new input_data());
+    m_input = std::unique_ptr<input_data>(new input_data());
 
 /*  const char* Project = std::getenv("Project");
     std::string inpname(Project);
@@ -558,8 +601,14 @@ void molcas_wf_analysis_data::read_input(char *inp) {
 
     std::stringstream infile(inp);
 
+    std::cout << "Parsing input file ..." << std::endl;
+
     bool inwfa = false;
+    bool fread;
     std::string str, str4;
+    int nread;
+    int ctnum_mode = -1;
+
     while (infile >> str) {
         str4 = str.substr(0,4);
         std::transform(str4.begin(), str4.end(), str4.begin(), ::toupper);
@@ -579,6 +628,54 @@ void molcas_wf_analysis_data::read_input(char *inp) {
             else if (str4=="WFAL") {
                 infile >> str;
                 m_input->wfalevel = atoi(str.c_str());
+            }
+            else if (str4=="CTNU") {
+                infile >> str;
+                ctnum_mode = atoi(str.c_str());
+            }
+            else if (str4=="PROP") {
+                m_input->prop_list.clear();
+
+                fread = false;
+                while(infile >> str) {
+                    if (str=="*") {
+                        fread = true;
+                        break;
+                    }
+                    m_input->prop_list.push_back(str);
+                }
+                if (!fread)
+                    throw libwfa_exception(k_clazz, "read_input (PROPLIST)",
+                    __FILE__, __LINE__, "Use * to finish input!");
+                 m_input->ctnum = true;
+            }
+            else if (str4=="ATLI") {
+                infile >> str;
+                nread = atoi(str.c_str());
+                m_input->at_lists = std::vector<std::vector<int>>(nread);
+
+                for (size_t i = 0; i < nread; i++) {
+                    while(infile >> str) {
+                        if (str=="*") {
+                            fread = true;
+                            break;
+                        }
+                        m_input->at_lists[i].push_back(atoi(str.c_str()));
+                    }
+                    if (!fread)
+                        throw libwfa_exception(k_clazz, "read_input (ATLISTS)",
+                        __FILE__, __LINE__, "Use * to finish input!");
+                     m_input->ctnum = true;
+                }
+                std::cout << "ATLISTS parsed:" << std::endl;
+                for (size_t i = 0; i < nread; i++) {
+                    std::cout << "[ ";
+                    for (size_t j = 0; j < m_input->at_lists[i].size(); j++) {
+                        std::cout << m_input->at_lists[i][j] << " ";
+                    }
+                    std::cout << "], ";
+                }
+                std::cout << std::endl;
             }
             else if (str4=="MULL") m_input->mulliken = true;
             else if (str4=="LOWD") m_input->lowdin = true;
@@ -601,7 +698,8 @@ void molcas_wf_analysis_data::read_input(char *inp) {
 
     // Automatically activate options according to wfalevel
     if (m_input->wfalevel >= 1) {
-        m_input->lowdin = true;
+        if (!m_input->mulliken)
+            m_input->lowdin = true;
         m_input->nxo = true;
     }
     if (m_input->wfalevel >= 2) {
@@ -612,7 +710,24 @@ void molcas_wf_analysis_data::read_input(char *inp) {
         m_input->h5orbs = true;
     }
     if (m_input->wfalevel >= 4) {
+        m_input->lowdin = true;
         m_input->mulliken = true;
+    }
+
+    // Activate fragment-based analysis if fragments are defined and ctnum_mode is given
+    if (m_input->at_lists.size() == 0 || ctnum_mode==0) {
+        m_input->prop_list = {"Om"};
+    }
+    else if (ctnum_mode==1) {
+        m_input->prop_list = {"Om", "POS", "PR", "DEL", "CT", "CTnt"};
+    }
+    else if (ctnum_mode==2)  {
+        m_input->prop_list = {"Om", "POS", "POSi", "POSf", "PR", "PRi", "PRf",
+        "DEL", "COH", "CT", "CTnt"};
+    }
+    else if (ctnum_mode==3) {
+        m_input->prop_list = {"Om", "POSi", "POSf", "PR", "CT",
+        "MC", "LC", "MLCT", "LMCT", "LLCT"};
     }
 }
 
@@ -676,7 +791,7 @@ void molcas_wf_analysis_data::cleanup() {
 void molcas_wf_analysis_data::setup_h5core() {
     if (m_h5core.get() != 0) return;
 
-    m_h5core = std::auto_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file, m_moldata->nbas, m_moldata->desym));
+    m_h5core = std::unique_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file, m_moldata->nbas, m_moldata->desym));
 }
 
 void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, size_t nsym) {
@@ -752,8 +867,14 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(char *inp) {
     if (h->input()->lowdin) {
         h->init_pop_analysis("lowdin");
     }
+
     if (h->input()->ctnum) {
-        h->init_ctnum_analysis("atomic");
+        if (h->input()->mulliken) {
+            h->init_ctnum_analysis("mulliken");
+        }
+        if (h->input()->lowdin) {
+            h->init_ctnum_analysis("lowdin");
+        }
     }
 
     if (h->input()->nxo) {

@@ -38,10 +38,10 @@ unset(SAVED_CMAKE_PREFIX_PATH)
 
 
 # TODO: check which min version is required
-if("${ARMADILLO_VERSION_STRING}" VERSION_LESS "3.6.2") 
-	message(FATAL_ERROR 
+if("${ARMADILLO_VERSION_STRING}" VERSION_LESS "3.6.2")
+	message(FATAL_ERROR
 		"Armadillo library is too old. Please upgrade to >= 3.6.2")
-endif()	 
+endif()
 
 #
 #	libwfa dependencies
@@ -58,18 +58,34 @@ else()
 endif(ARMA_HEADER)
 
 #
-#   Find HDF5 if MOLCAS_EXE option is requested
+#   Find HDF5 if MOLCAS_LIB or MOLCAS_EXE option is requested
 #
+if(MOLCAS_LIB)
+     find_package (HDF5 COMPONENTS C CXX)
+     include_directories(${HDF5_INCLUDE_DIRS})
+     list (APPEND LIBWFA_DEP_LIBS ${HDF5_C_LIBRARIES})
+     list (APPEND LIBWFA_DEP_LIBS ${HDF5_CXX_LIBRARIES})
+endif(MOLCAS_LIB)
+
 if(MOLCAS_EXE)
-    FIND_PACKAGE(HDF5 NAMES hdf5)
-    if(NOT HDF5_FOUND)
-        FIND_PACKAGE(HDF5) # Find non-cmake built HDF5
-    endif(NOT HDF5_FOUND)
-    if(HDF5_FOUND)
-        INCLUDE_DIRECTORIES(${HDF5_INCLUDE_DIR})
-        message(STATUS "HDF5 libraries found: ${HDF5_LIBRARIES}")
-        message(STATUS "HDF5 include directory: ${HDF5_INCLUDE_DIR}")
-    else(HDF5_FOUND)
-        message(FATAL_ERROR "HDF5 library not found but is required for MOLCAS interface of LibWFA.")
-    endif(HDF5_FOUND)
+     find_package (HDF5 COMPONENTS C CXX)
+     include_directories(${HDF5_INCLUDE_DIRS})
+     list (APPEND LIBWFA_DEP_LIBS ${HDF5_C_LIBRARIES} ${HDF5_CXX_LIBRARIES})
+
+     find_package(BLAS REQUIRED)
+     find_package(LAPACK REQUIRED)
+     list (APPEND LIBWFA_DEP_LIBS ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 endif(MOLCAS_EXE)
+#if(MOLCAS_EXE)
+#    FIND_PACKAGE(HDF5 NAMES hdf5)
+#    if(NOT HDF5_FOUND)
+#        FIND_PACKAGE(HDF5) # Find non-cmake built HDF5
+#    endif(NOT HDF5_FOUND)
+#    if(HDF5_FOUND)
+#        INCLUDE_DIRECTORIES(${HDF5_INCLUDE_DIR})
+#        message(STATUS "HDF5 libraries found: ${HDF5_LIBRARIES}")
+#        message(STATUS "HDF5 include directory: ${HDF5_INCLUDE_DIR}")
+#    else(HDF5_FOUND)
+#        message(FATAL_ERROR "HDF5 library not found but is required for MOLCAS interface of LibWFA.")
+#    endif(HDF5_FOUND)
+#endif(MOLCAS_EXE)

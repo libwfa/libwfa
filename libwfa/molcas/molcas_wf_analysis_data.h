@@ -1,3 +1,18 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #ifndef LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 #define LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 
@@ -19,7 +34,7 @@ private:
         std::string name;
         const std::vector<std::string> &labels;
         const arma::vec &p0;
-        std::auto_ptr<libwfa::pop_analysis_i> analysis;
+        std::unique_ptr<libwfa::pop_analysis_i> analysis;
 
         pa_data(const std::string &n, const std::vector<std::string> &l,
             libwfa::pop_analysis_i *a, const arma::vec &p) :
@@ -31,7 +46,7 @@ private:
     struct cta_data {
         std::string name;
         std::string suffix;
-        std::auto_ptr<libwfa::ctnum_analysis_i> analysis;
+        std::unique_ptr<libwfa::ctnum_analysis_i> analysis;
 
         cta_data(const std::string &n, const std::string &s,
             libwfa::ctnum_analysis_i *a) :
@@ -74,6 +89,8 @@ private:
         size_t wfalevel; //!< Overall level of print out
         bool mulliken, lowdin, nxo, exciton; //!< What kind of analysis to do
         bool ctnum, h5orbs; //!< What kind of print out
+        std::vector<std::string> prop_list = {"Om", "POS", "PR", "CT", "COH", "CTnt"};
+        std::vector<std::vector<int>> at_lists;
         bool add_info; //!< Write to molcas_info file
         bool debug; //!< Print debug info
 
@@ -107,9 +124,9 @@ private:
     enum export_type m_export_dens; //!< How to export densities
     enum export_type m_export_orbs; //!< How to export orbitals
 
-    std::auto_ptr<molcas_export_h5orbs> m_h5core; //!< Pointer to orbital export core
-    std::auto_ptr<base_data> m_moldata; //!< Molecular data
-    std::auto_ptr<input_data> m_input; //!< Input data
+    std::unique_ptr<molcas_export_h5orbs> m_h5core; //!< Pointer to orbital export core
+    std::unique_ptr<base_data> m_moldata; //!< Molecular data
+    std::unique_ptr<input_data> m_input; //!< Input data
 
 public:
     /** \brief Constructor
@@ -247,8 +264,10 @@ public:
 
     /** \brief Printer of i-th CT number data
      **/
-    std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
+    std::unique_ptr<ctnum_printer_i> ctnum_printer(size_t i,
             const std::string &name, const std::string &desc);
+
+    const std::vector<std::string> &prop_list() { return m_input->prop_list; }
 
     //@}
 
@@ -290,11 +309,11 @@ public:
     **/
     arma::vec read_vec_h5(H5std_string key);
 
-    /** \brief Read a density in raw format
+    /** \brief Read a cube from the HDF5 file
         \param key name of the density
         \return raw density matrix as cube
     **/
-    arma::cube read_dens_raw(H5std_string key);
+    arma::cube read_cube_h5(H5std_string key);
 
     /** \brief Print a string with the energy
         \param Energy (a.u.)
@@ -302,16 +321,23 @@ public:
      **/
     void energy_print(const double ener, std::ostream &out);
 
-    /** \brief Return a label for rasscf states
+    /** \brief Return a label for RASSCF states
+
+        This is the same label for all the states.
+
         \return Symmetry and multiplicity label
      **/
     std::string rasscf_label();
+
+    /** \brief Return a vector of labels for RASSI states
+    **/
+    std::vector<std::string> rassi_labels(int *mult, int nstate);
 
     std::string molcas_module() {
         return m_moldata->molcas_module;
     }
 
-    const std::auto_ptr<input_data> &input() {
+    const std::unique_ptr<input_data> &input() {
         return m_input;
     }
 

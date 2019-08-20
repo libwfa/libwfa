@@ -55,9 +55,9 @@ public:
           precision. A line break is inserted after ncols numbers have been
           written.
 
-        The exported data can be analysed further using the python script
-        \c run_dens_ana.py available at
-        http://www.iwr.uni-heidelberg.de/groups/compchem/personal/felix_plasser/download.html
+        The exported data can be analysed further using TheoDORE
+        available at
+        http://theodore-qc.sourceforge.net/
      **/
     virtual void perform(const ab_matrix &om) const;
 

@@ -3,6 +3,7 @@
 
 #include <libwfa/wf_analysis.h>
 #include <libwfa/molcas/molcas_wf_analysis_data.h>
+#include "libwfa/core/constants.h"
 
 namespace libwfa {
 
@@ -39,14 +40,19 @@ private:
     /** \brief Analysis of tdm and add_info
      **/
     void analyse_optdm_ai(const std::string &name, const std::string &desc,
-        const ab_matrix &tdm);
+        const ab_matrix &tdm, const double energy, const double osc);
 
     /** \brief Append to molcas_info file
 
         Add information to the molcas_info file in the form expected
-        by the molcas verify code.
+        by the molcas verify code. Note that the molcas_info file is
+        subsequently deleted by pymolcas.
      **/
-    void add_molcas_info(std::stringstream &out);
+    void add_molcas_info(std::stringstream &in);
+
+    /** \brief Append info from frag_data_all to molcas_info file
+     **/
+    void add_molcas_info_fda();
 };
 
 } // namespace libwfa

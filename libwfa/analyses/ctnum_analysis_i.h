@@ -1,8 +1,24 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #ifndef LIBWFA_CTNUM_ANALYSIS_I_H
 #define LIBWFA_CTNUM_ANALYSIS_I_H
 
 #include <armadillo>
 #include <cstdlib>
+#include <unordered_map>
 
 namespace libwfa {
 
@@ -15,7 +31,7 @@ public:
     /** \brief Virtual destructor
      **/
     virtual ~ctnum_analysis_i() { }
-    
+
     /** \brief Return the dimension of the CT number matrix (e.g. # atoms)
      **/
     virtual size_t size() const = 0;
@@ -29,6 +45,20 @@ public:
         to the correct size.
      **/
     virtual void perform(const arma::mat &tdm, arma::mat &om) const = 0;
+
+    /** \brief Summation of the Omega matrix over fragments
+        \param[in] om_at Omega matrix over atoms
+     **/
+    virtual arma::mat compute_omFrag(const arma::mat &om_at) const = 0;
+
+    /** \brief Number of fragments
+     **/
+    virtual size_t n_frags() const = 0;
+
+    /** \brief Compute the TheoDORE-style descriptors
+     **/
+    virtual std::unordered_map<std::string, double> compute_descriptors(const double om_tot,
+                                                                const arma::mat &om) const = 0;
 };
 
 } // namespace libwfa

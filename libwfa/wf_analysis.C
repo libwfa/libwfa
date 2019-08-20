@@ -1,3 +1,18 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #include <libwfa/analyses/ctnumbers.h>
 #include <libwfa/analyses/dens_mom.h>
 #include <libwfa/analyses/exciton_analysis_ad.h>
@@ -8,6 +23,8 @@
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
 #include "wf_analysis.h"
+#include <fstream>
+#include <iomanip>
 
 namespace libwfa {
 
@@ -21,8 +38,8 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     sdm += dm0;
 
     // Create printer for orbitals and densities
-    std::auto_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
-    std::auto_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
+    std::unique_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
+    std::unique_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
 
     // Export density matrices first
     pr1->perform(density_type::state, sdm);
@@ -89,8 +106,8 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     wf_analysis_data_i &h = *wf_analysis::m_h;
 
     // Create printer for orbitals and densities
-    std::auto_ptr<density_printer_i> pr1(h.density_printer(name, desc));
-    std::auto_ptr<orbital_printer_i> pr2(h.orbital_printer(name, desc));
+    std::unique_ptr<density_printer_i> pr1(h.density_printer(name, desc));
+    std::unique_ptr<orbital_printer_i> pr2(h.orbital_printer(name, desc));
 
     // Export density matrices first
     pr1->perform(density_type::state, sdm);
@@ -130,11 +147,11 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
 
 
 void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
-    const std::string &desc, const ab_matrix &tdm) {
+    const std::string &desc, const ab_matrix &tdm, double energy, double osc) {
 
     // Create printer for orbitals and densities
-    std::auto_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
-    std::auto_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
+    std::unique_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
+    std::unique_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
 
     // Export density matrices first
     pr1->perform(density_type::transition, tdm);
@@ -177,13 +194,29 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 
             const ctnum_analysis_i &ca = m_h->ctnum_analysis(i);
             const std::string &cname = m_h->ctnum_name(i);
-            std::auto_ptr<ctnum_printer_i> cpr(m_h->ctnum_printer(i, name, desc));
+            std::unique_ptr<ctnum_printer_i> cpr(m_h->ctnum_printer(i, name, desc));
 
             out << cname << std::endl;
             ctnumbers ct(ca, tdm);
             ct.analyse(out);
             ct.do_export(*cpr);
             out << std::endl;
+
+            // store some info about the state
+            frag_data fd_new = frag_data();
+            fd_new.state_name = name;
+            fd_new.dE_eV = energy;
+            fd_new.f = osc;
+            fd_new.om_tot = ct.omega_total(false) + ct.omega_total(true);
+
+            const ab_matrix &om_at_ab = ct.omega();
+            const mat om_at = om_at_ab.alpha() + om_at_ab.beta();
+
+            // Transform to fragments, compute descriptors and store
+            fd_new.om_frag = ca.compute_omFrag(om_at);
+            fd_new.descriptor = ca.compute_descriptors(fd_new.om_tot, fd_new.om_frag);
+
+            frag_data_all[i].push_back(fd_new);
         }
     }
 
@@ -212,13 +245,13 @@ bool wf_analysis::setup_sa_ntos(std::ostream &out) {
         // Do not print out analysis of NTO spectrum here
         std::ostringstream dout;
 
-        std::auto_ptr<orbital_printer_i> pr(m_h->orbital_printer("sa_nto",
+        std::unique_ptr<orbital_printer_i> pr(m_h->orbital_printer("sa_nto",
                 "State-averaged NTOs"));
         orbital_params pnto = m_h->get_orbital_params(orbital_type::NTO);
         sa_ntos.analyse(dout, pnto.norb);
         sa_ntos.export_orbitals(*pr, pnto.thresh);
     }
-    m_sa = std::auto_ptr<sa_nto_analysis>(new sa_nto_analysis(s, sa_ntos));
+    m_sa = std::unique_ptr<sa_nto_analysis>(new sa_nto_analysis(s, sa_ntos));
 
     return true;
 }
@@ -232,6 +265,85 @@ bool wf_analysis::post_process_optdm(std::ostream &out, const ab_matrix &tdm) {
     return true;
 }
 
+
+void wf_analysis::print_summary(std::ostream &out, const int &prec, const int &width) {
+
+    if (m_h->n_ctnum_analyses() != 0 && !frag_data_all.empty()) {
+        int hwidth;
+        for (const auto& i : frag_data_all) {
+
+            // set precision
+            out << std::setprecision(prec) << std::fixed;
+
+            // header with list of descriptor names
+            std::string header ("State            dE(eV)      f         ");
+            auto descs = m_h->prop_list();
+            hwidth = header.size() + descs.size() * width;
+
+            out  << std::endl;
+            out << std::string(5, '=') << " TheoDORE analysis of ";
+            out << m_h->ctnum_name(i.first);
+            out  << std::string(hwidth - 25 - m_h->ctnum_name(i.first).size(), '=') << std::endl;
+            out << "| " << header;
+            for (const auto& desc : descs) {
+                out << std::left << std::setw(width) << desc;
+            }
+            out << std::endl;
+
+            // dash line
+            out << "| " << std::string(hwidth, '-') << std::endl;
+
+            // data
+            for (const auto& state : i.second) {
+                out << "| ";
+                out << std::left << std::setw(14)     << state.state_name;
+                out << std::right << std::setw(width) << state.dE_eV;
+                out << std::right << std::setw(width) << state.f;
+
+                auto descriptors = state.descriptor;
+                for (const auto& desc : descs) {
+                    out << std::right << std::setw(width) << descriptors[desc];
+                }
+                out << std::endl;
+            }
+            out << std::string(hwidth + 2, '=') << std::endl << std::endl;
+        }
+    }
+}
+
+void wf_analysis::print_om_frag(std::ostream &out, const std::string ofile) {
+    if (m_h->n_ctnum_analyses() == 0 || frag_data_all.empty())
+        return;
+
+    std::cout << " Writing fragment Omega matrix to " << ofile << std::endl;
+    std::ofstream fout;
+    fout.open(ofile.c_str());
+
+    bool header = false;
+    for (const auto& i : frag_data_all) {
+        for (const auto& state : i.second) {
+            int nfrag = size(state.om_frag)[0];
+
+            if (!header) {
+                fout << nfrag << std::endl;
+                header = true;
+            }
+
+            fout << state.state_name << " ";
+            fout << " " << state.om_tot;
+
+            for (size_t ifrag = 0; ifrag < nfrag; ifrag++) {
+                for (size_t jfrag = 0; jfrag < nfrag; jfrag++) {
+                    fout << " " << state.om_frag(ifrag, jfrag);
+                }
+            }
+
+            fout << std::endl;
+        }
+    }
+
+    fout.close();
+}
 
 void wf_analysis::add_to_average(const ab_matrix &edm, const ab_matrix &hdm) {
 
@@ -247,6 +359,6 @@ void wf_analysis::add_to_average(const ab_matrix &edm, const ab_matrix &hdm) {
 }
 
 
-std::auto_ptr<wf_analysis> wf_analysis_static::analysis(0);
+std::unique_ptr<wf_analysis> wf_analysis_static::analysis(nullptr);
 
 } // namespace libwfa
