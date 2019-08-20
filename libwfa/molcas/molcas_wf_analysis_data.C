@@ -681,7 +681,7 @@ void molcas_wf_analysis_data::read_input(char *inp) {
             else if (str4=="LOWD") m_input->lowdin = true;
             else if (str4=="NXO")  m_input->nxo = true;
             else if (str4=="EXCI") m_input->exciton = true;
-            else if (str4=="CTNU") m_input->ctnum = true;
+            else if (str4=="DOCT") m_input->ctnum = true;
             else if (str4=="H5OR") m_input->h5orbs = true;
 
             else if (str4=="DEBU") m_input->debug = true;
@@ -901,8 +901,10 @@ molcas_wf_analysis_data *molcas_setup_wf_analysis_data(char *inp) {
             h->init_orbital_export("h5", ot);
     }
 
-    h->activate(molcas_wf_analysis_data::FORM_EH);
-    h->activate(molcas_wf_analysis_data::FORM_AD);
+    if (h->is_active(wf_analysis_data_i::NTO))
+        h->activate(molcas_wf_analysis_data::FORM_EH);
+    if (h->is_active(wf_analysis_data_i::NDO))
+        h->activate(molcas_wf_analysis_data::FORM_AD);
 
     if (h->input()->exciton) {
         h->activate(molcas_wf_analysis_data::DENS_MOM);
