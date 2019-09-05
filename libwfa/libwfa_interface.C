@@ -49,8 +49,8 @@ void analyse_opsdm(const char *name, const char *desc,
     if (wf_analysis_static::analysis.get() == 0) return;
 
     ab_matrix dm(false);
-    dm.acquire(true,  new arma::mat(dm_a, nao, nao, false));
-    dm.acquire(false, new arma::mat(dm_b, nao, nao, false));
+    dm.acquire(true,  new arma::mat(dm_a, nao, nao, false, true));
+    dm.acquire(false, new arma::mat(dm_b, nao, nao, false, true));
     wf_analysis_static::analysis->analyse_opdm(std::cout,
             std::string(name), std::string(desc), dm);
 }
@@ -62,7 +62,7 @@ void analyse_optdm(const char *name, const char *desc,
     if (wf_analysis_static::analysis.get() == 0) return;
 
     ab_matrix tdm(true);
-    tdm.acquire(true, new arma::mat(tdm_a, nao, nao, false));
+    tdm.acquire(true, new arma::mat(tdm_a, nao, nao, false, true));
     wf_analysis_static::analysis->analyse_optdm(std::cout,
             std::string(name), std::string(desc), tdm);
 }
@@ -74,8 +74,8 @@ void analyse_optdm(const char *name, const char *desc,
     if (wf_analysis_static::analysis.get() == 0) return;
 
     ab_matrix tdm(false);
-    tdm.acquire(true,  new arma::mat(tdm_a, nao, nao, false));
-    tdm.acquire(false, new arma::mat(tdm_b, nao, nao, false));
+    tdm.acquire(true,  new arma::mat(tdm_a, nao, nao, false, true));
+    tdm.acquire(false, new arma::mat(tdm_b, nao, nao, false, true));
     wf_analysis_static::analysis->analyse_optdm(std::cout,
             std::string(name), std::string(desc), tdm);
 }
@@ -87,7 +87,7 @@ void post_process_optdm(double *tdm_a, size_t nao) {
     if (! wf_analysis_static::analysis->setup_sa_ntos(std::cout)) return;
 
     ab_matrix tdm(true);
-    tdm.acquire(true, new arma::mat(tdm_a, nao, nao, false));
+    tdm.acquire(true, new arma::mat(tdm_a, nao, nao, false, true));
     wf_analysis_static::analysis->post_process_optdm(std::cout, tdm);
 }
 
@@ -98,8 +98,8 @@ void post_process_optdm(double *tdm_a, double *tdm_b, size_t nao) {
     if (! wf_analysis_static::analysis->setup_sa_ntos(std::cout)) return;
 
     ab_matrix tdm(false);
-    tdm.acquire(true,  new arma::mat(tdm_a, nao, nao, false));
-    tdm.acquire(false, new arma::mat(tdm_b, nao, nao, false));
+    tdm.acquire(true,  new arma::mat(tdm_a, nao, nao, false, true));
+    tdm.acquire(false, new arma::mat(tdm_b, nao, nao, false, true));
     wf_analysis_static::analysis->post_process_optdm(std::cout, tdm);
 }
 

@@ -80,6 +80,24 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
 }
 
 
+void wf_analysis::analyse_dyson(std::ostream &out, const std::string &name,
+    const std::string &desc, const orbital_data &odata) {
+
+    if (! m_h->is_active(wf_analysis_data_i::DYSON)) {
+        return;
+    }
+
+    wf_analysis_data_i &h = *wf_analysis::m_h;
+
+    // Create printer for orbitals
+    std::auto_ptr<orbital_printer_i> pr(h.orbital_printer(name, desc));
+
+    orbital_params pdo = m_h->get_orbital_params(orbital_type::DYSON);
+    dyson_analysis da(odata);
+    da.export_orbitals(*pr, pdo.thresh);
+}
+
+
 void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
     const std::string &desc, const ab_matrix &sdm) {
 
@@ -137,6 +155,9 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     const arma::mat &s = m_h->overlap();
     const ab_matrix &c = m_h->coefficients();
 
+    const ab_matrix &fock = m_h->fock();
+    bool use_fock=m_h->is_active(wf_analysis_data_i::NTO_ENE);
+      
     // If NTO formatter exists, do NTO analysis
     if (m_h->is_active(wf_analysis_data_i::FORM_EH)) {
 
@@ -145,9 +166,13 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 
         if (m_h->is_active(wf_analysis_data_i::NTO)) {
             orbital_params pnto = m_h->get_orbital_params(orbital_type::NTO);
-            nto_analysis nto(s, c, edm, hdm);
-            nto.analyse(out, pnto.norb);
-            nto.export_orbitals(*pr2, pnto.thresh);
+	    //AIK: need this  to do SVD-proper
+	    //nto_analysis nto(s, c, edm, hdm);
+	    nto_analysis nto(s, c, fock, tdm, use_fock);
+	    //nto.analyse(out, pnto.norb);
+	    nto.analyse(out, pnto.norb); 
+ 
+	    nto.export_orbitals(*pr2, pnto.thresh);
             out << std::endl;
         }
         pr1->perform(density_type::particle, edm);
@@ -158,7 +183,7 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     else if (m_h->is_active(wf_analysis_data_i::NTO)) {
 
         orbital_params pnto = m_h->get_orbital_params(orbital_type::NTO);
-        nto_analysis nto(s, c, tdm);
+        nto_analysis nto(s, c, fock, tdm, use_fock);
         nto.analyse(out, pnto.norb);
         nto.export_orbitals(*pr2, pnto.thresh);
         out << std::endl;
@@ -186,6 +211,33 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     }
 }
 
+void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
+    const std::string &desc, const arma::mat &tdm) {
+
+    // Create printer for orbitals and densities
+    std::auto_ptr<density_printer_i> pr1(m_h->density_printer(name, desc));
+    std::auto_ptr<orbital_printer_i> pr2(m_h->orbital_printer(name, desc));
+
+    // Export density matrices first
+    // TODO temporary disable export densitis
+    //pr1->perform(density_type::transition, tdm);
+
+    // Get prerequisites of further analyses
+    const arma::mat &s = m_h->overlap();
+    const ab_matrix &c = m_h->coefficients();
+    const h_so h_so1e = m_h->so1e();
+    const h_so h_somf = m_h->somf();
+
+    if (m_h->is_active(wf_analysis_data_i::NTO_SOC)) {
+
+        orbital_params pnto = m_h->get_orbital_params(orbital_type::NTO);
+        nto_analysis nto(s, c, h_so1e, h_somf, tdm);
+        nto.analyse(out, pnto.norb);
+        nto.export_orbitals(*pr2, pnto.thresh);
+        out << std::endl;
+    }
+
+}
 
 bool wf_analysis::setup_sa_ntos(std::ostream &out) {
 

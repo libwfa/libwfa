@@ -117,9 +117,9 @@ set(SRC
 )
 
 set(TARGETS wfa)
-add_library(wfa ${SRC} ${HEADERS})
-
+add_library(wfa STATIC ${SRC} ${HEADERS})
 if(QCHEM_SOURCE_DIR)
+  target_link_libraries(wfa armadillo)
   add_subdirectory(qchem)
 endif(QCHEM_SOURCE_DIR)
 
