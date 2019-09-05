@@ -2,6 +2,8 @@
 #define LIBWFA_ORBITAL_DATA_H
 
 #include <armadillo>
+#include <vector>
+#include <libwfa/soc.h>
 
 namespace libwfa {
 
@@ -10,10 +12,14 @@ namespace libwfa {
 
     \ingroup libwfa
  **/
+
 class orbital_data {
 private:
     arma::vec m_ev; //!< Occupation numbers
     arma::mat m_coeff; //!< Orbital coefficents
+    arma::vec m_ene; //!< Orbital "energies" (optional feature)
+    std::vector<soc> m_so1e;  //!< Orbital 1e SO integrals (optional feature)
+    std::vector<soc> m_somf;  //!< Orbital mean-field SO integrals (optional feature)
 
 public:
     /** \brief Basic constructor
@@ -22,6 +28,18 @@ public:
      **/
     orbital_data(const arma::vec &ev, const arma::mat &coeff) :
         m_ev(ev), m_coeff(coeff) {}
+	
+    /** \brief Basic constructor
+        \param ev Orbital occupation numbers
+        \param coeff Orbital coefficients
+        \param coeff Orbital energies
+     **/
+     orbital_data(const arma::vec &ev, const arma::mat &coeff, const arma::vec &ene) :
+        m_ev(ev), m_coeff(coeff), m_ene(ene) {}
+
+    orbital_data(const arma::vec &ev, const arma::mat &coeff, std::vector<soc>& so1e, std::vector<soc>& somf) :
+        m_ev(ev), m_coeff(coeff), m_so1e(so1e), m_somf(somf) {}
+	
 
     /** \brief Constructor
         \param s Overlap matrix
@@ -65,6 +83,26 @@ public:
     /** \brief Return orbital coefficients
      **/
     const arma::mat &get_coeff() const { return m_coeff; }
+    
+    /** \brief Tells whether energies were initialized
+     **/
+    bool got_ene() { return m_ene.size(); }
+
+    /** \brief Tells whether SOC integrals were initialized
+     **/
+    bool got_soc() { return m_so1e.size(); }
+
+    /** \brief Return orbital energies
+     **/
+    arma::vec &get_ene() { return m_ene; }
+
+    /** \brief Return 1e SOC integrals on NTOs
+     **/
+    std::vector<soc> &get_so1e() { return m_so1e; }
+
+    /** \brief Return mean-field SOC integrals on NTOs
+     **/
+    std::vector<soc> &get_somf() { return m_somf; }
 };
 
 

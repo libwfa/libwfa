@@ -9,8 +9,8 @@ void analyse_opdm(const char *name, const char *desc,
     if (wf_analysis_static::analysis.get() == 0) return;
 
     ab_matrix ddm(true), dm0(true);
-    ddm.acquire(true, new arma::mat(ddm_a, nao, nao, false));
-    dm0.acquire(true, new arma::mat(dm0_a, nao, nao, false));
+    ddm.acquire(true, new arma::mat(ddm_a, nao, nao, false, true));
+    dm0.acquire(true, new arma::mat(dm0_a, nao, nao, false, true));
     wf_analysis_static::analysis->analyse_opdm(std::cout,
             std::string(name), std::string(desc), ddm, dm0);
 }
@@ -22,10 +22,10 @@ void analyse_opdm(const char *name, const char *desc,
     if (wf_analysis_static::analysis.get() == 0) return;
 
     ab_matrix ddm(false), dm0(false);
-    ddm.acquire(true,  new arma::mat(ddm_a, nao, nao, false));
-    ddm.acquire(false, new arma::mat(ddm_b, nao, nao, false));
-    dm0.acquire(true,  new arma::mat(dm0_a, nao, nao, false));
-    dm0.acquire(false, new arma::mat(dm0_b, nao, nao, false));
+    ddm.acquire(true,  new arma::mat(ddm_a, nao, nao, false, true));
+    ddm.acquire(false, new arma::mat(ddm_b, nao, nao, false, true));
+    dm0.acquire(true,  new arma::mat(dm0_a, nao, nao, false, true));
+    dm0.acquire(false, new arma::mat(dm0_b, nao, nao, false, true));
     wf_analysis_static::analysis->analyse_opdm(std::cout,
             std::string(name), std::string(desc), ddm, dm0);
 }
@@ -37,7 +37,7 @@ void analyse_opsdm(const char *name, const char *desc,
     if (wf_analysis_static::analysis.get() == 0) return;
 
     ab_matrix dm(true);
-    dm.acquire(true, new arma::mat(dm_a, nao, nao, false));
+    dm.acquire(true, new arma::mat(dm_a, nao, nao, false, true));
     wf_analysis_static::analysis->analyse_opdm(std::cout,
             std::string(name), std::string(desc), dm);
 }

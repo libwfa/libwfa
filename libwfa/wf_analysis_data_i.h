@@ -7,6 +7,7 @@
 #include <libwfa/export/ctnum_printer_i.h>
 #include <libwfa/export/density_printer_i.h>
 #include <libwfa/export/orbital_printer_i.h>
+#include <libwfa/soc.h>
 
 namespace libwfa {
 
@@ -22,6 +23,16 @@ class wf_analysis_data_i {
 public:
     /** Types of wave function / density analyses to be performed
      **/
+    // PP: Dear developers,
+    // If you want to add a new analysis_type, 
+    // please check that the number of analysis types corresponds 
+    // to all the available types. Otherwise, this will happen:
+    // terminate called after throwing an instance of 'std::out_of_range'
+    //   what():  bitset::set: __position (which is 10) >= _Nb (which is 10)
+    // Exception will be thrown in 
+    // qchem/qchem_wf_analysis_data.C
+    // See #1797 ticket on trac as an example of how it looks like
+    // Thank you.
     enum analysis_type {
         NO = 0,     //!< Natural orbital analysis
         NDO,        //!< Natural difference orbital analysis
@@ -31,8 +42,12 @@ public:
         FORM_EH,    //!< Form electron/hole densities
         EXCITON,    //!< Exciton analysis on transition density
         SA_NTO,     //!< State-averaged NTO analysis
+        NTO_ENE,    //!< Compute "energies" of hole and particle NTOs
+        DYSON,      //!< Dyson orbital analysis
+	NTO_SOC     //!< Compute SOC integrals of hole and particle NTOs 
+                    //!<  of the universal triplet optdm
     };
-    enum { WFA_TYPES = 8 }; //!< Number of analysis types
+    enum { WFA_TYPES = 11 }; //!< Number of analysis types
 
     /** \brief Orbital parameters
      **/
@@ -69,6 +84,18 @@ public:
     /** \brief Retrieve the MO coefficient matrices
      **/
     virtual const ab_matrix &coefficients() = 0;
+
+    /** \brief Fock matrix in AO
+     **/
+    virtual const ab_matrix &fock() = 0;
+
+    /** \brief 1e SOC operators in AO
+     **/
+    virtual const h_so &so1e() = 0;
+
+    /** \brief mean-field SOC operators in AO
+     **/
+    virtual const h_so &somf() = 0;
 
     /** \brief Construct a printer of density matrices
         \param name Name of state to which the density matrices belong

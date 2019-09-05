@@ -6,7 +6,9 @@
 #include <libwfa/analyses/nto_analysis.h>
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
+#include <libwfa/analyses/dyson_analysis.h>
 #include "wf_analysis.h"
+#include <libwfa/soc.h>
 
 namespace libwfa {
 

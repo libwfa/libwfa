@@ -31,6 +31,16 @@ public:
      **/
     wf_analysis(wf_analysis_data_i *h) : m_h(h), m_sa(0), m_init_av(false) { }
 
+    /** brief print out Dyson orbitals
+        \param out Output stream
+        \param name Name of state (useable as filename)
+        \param desc Description of state (one-line comment)
+        \param odata Orbital data
+    **/
+    void analyse_dyson(std::ostream &out,
+        const std::string &name, const std::string &desc,
+        const orbital_data &odata);
+
     /** \brief Perform analysis of state and difference density matrix
         \param out Output stream
         \param name Name of state (useable as filename)
@@ -59,6 +69,9 @@ public:
      **/
     void analyse_optdm(std::ostream &out, const std::string &name,
         const std::string &desc, const ab_matrix &tdm);
+
+    void analyse_optdm(std::ostream &out, const std::string &name,
+        const std::string &desc, const arma::mat &tdm);
 
     /** \brief Constructs state-averaged NTOs and sets up the analysis
         \param out Output stream

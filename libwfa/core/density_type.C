@@ -25,6 +25,31 @@ std::string density_type::convert() const {
     }
 }
 
+std::string density_type::convert2() const {
+    switch (m_type) {
+    case 0: return "State Density";
+    case 1: return "Trans. Density";
+    case 2: return "Diff. Density";
+    case 3: return "Att. Density";
+    case 4: return "Det. Density";
+    case 5: return "Elec. Density";
+    case 6: return "Hole Density";
+    default: return "unknown";
+    }
+}
+
+bool density_type::is_symm() const {
+    switch (m_type) {
+    case 0: return true;
+    case 1: return false;
+    case 2: return true;
+    case 3: return true;
+    case 4: return true;
+    case 5: return true;
+    case 6: return true;
+    default: return false;
+    }
+}
 
 std::ostream &operator<<(std::ostream &out, density_type type) {
 

@@ -64,6 +64,14 @@ public:
      **/
     std::string convert() const;
 
+    /** \brief Convert density_type into a longer string
+     **/
+    std::string convert2() const;
+
+    /** \brief Return whether density_type corresponds to a symmetric matrix
+     **/
+    bool is_symm() const;
+
     /** \brief Conversion to integer
      **/
     operator size_t() const { return m_type; }

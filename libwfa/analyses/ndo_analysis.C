@@ -119,7 +119,7 @@ void ndo_analysis::analysis(std::ostream &out, const vec &ev, size_t nndo) {
         double cur = ev(i);
         na += cur; na2 += cur * cur;
     }
-    nndo0 = std::min(nndo0, static_cast<size_t>(ev.n_elem - nndo0));
+    nndo0 = std::min(nndo0, (size_t) (ev.n_elem - nndo0));
     nndo = std::min(nndo, nndo0);
 
     std::string offset(2, ' ');
