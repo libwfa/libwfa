@@ -126,15 +126,8 @@ void export_cube_base::do_export() {
                 i != m_dms.end(); i++, id++) {
 
             vec data(npts);
-
-            //for (size_t k = 0; k < npts; k++) {
-        //        mat tmp = b2g.row(k) * i->second->data * b2g.row(k).t();
-    //            data(k) = tmp(0, 0);
-    //        }
-            // alternative:
             data = sum((b2g * i->second->data) % b2g, 1);
             (*id)->write(data);
-
         }
 
         // 4) Loop over orbital data
