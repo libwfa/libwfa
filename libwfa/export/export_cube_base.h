@@ -43,7 +43,7 @@ public:
 private:
     struct dm_data {
         std::string desc; //!< Description
-        arma::mat data; //!< Density matrix data
+        const arma::mat data; //!< Density matrix data
 
         dm_data(const std::string &d, const arma::mat &dm) :
             desc(d), data(dm) { }
@@ -110,7 +110,7 @@ public:
     /** \copydoc export_cube_i::perform
      **/
     virtual void perform(const std::string &name, const std::string &desc,
-        const arma::mat &mat);
+        const arma::mat &mat, bool do_esp=false);
 
     /** \copydoc export_cube_i::perform(const std::string&, const std::string&,
             const std::vector<size_t>&, const arma::mat&)
@@ -121,6 +121,14 @@ public:
     /** \brief Export the stored data as cube files
      **/
     void do_export();
+
+    /** \brief Compute the ESP
+
+        This requires an actual integral engine and is separate from the
+        evaluations on a grid.
+     **/
+    void export_esp(const std::string &name, const std::string &desc,
+        const arma::mat &dens);
 
 protected:
     /** \brief Evaluate basis functions on a number of grid points
@@ -133,9 +141,29 @@ protected:
         basis functions and NPT is the number of grid points. Each column
         should contain the respective basis function evaluated at the grid
         points provided.
+
+        In other words
+        \f[
+        \chi_\mu(x_k) = B_{k\mu}
+        \f]
+        and the density can be computed as
+        \f[
+        \rho(x_k) = \sum_{\mu\nu} B_{k\mu}D_{\mu\nu}B_{k\nu}
+        \f]
      **/
     virtual void evaluate_on_grid(const arma::mat &pts,
             size_t npts, arma::mat &b2g) = 0;
+
+    /** \brief Evaluate ESP on grid points
+        \param[in] pts Grid points (batch size columns of length 3)
+        \param[in] npts Number of grid points
+        \param[in] dens Density matrix
+        \param[out] esp Values of esp on grid
+
+        Note: this requires the density matrix as opposed to evaluate_on_grid
+     **/
+    virtual void evaluate_esp(const arma::mat &pts,
+            size_t npts, const arma::mat &dens, arma::mat &esp) = 0;
 
 private:
     void clear_data();

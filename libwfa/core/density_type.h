@@ -72,6 +72,10 @@ public:
      **/
     bool is_symm() const;
 
+    /** \brief Multiply wit this factor during export as cube file
+     **/
+    double export_factor() const;
+
     /** \brief Conversion to integer
      **/
     operator size_t() const { return m_type; }

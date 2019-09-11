@@ -3,7 +3,6 @@
 #include "cube_writer.h"
 #include "export_cube_base.h"
 
-
 using namespace arma;
 
 namespace libwfa {
@@ -25,7 +24,7 @@ export_cube_base::export_cube_base(const grid3d &grid,
 
 
 void export_cube_base::perform(const std::string &name,
-    const std::string &desc, const mat &data) {
+    const std::string &desc, const mat &data, bool do_esp) {
 
     static const char method[] = "add(const std::string &, "
             "const std::string &, const mat &)";
@@ -41,6 +40,10 @@ void export_cube_base::perform(const std::string &name,
     m_dms.insert(dm_list::value_type(name, ptr));
 
     if (m_nmax != 0 && m_dms.size() + m_orbs.size() > m_nmax) do_export();
+
+    if (do_esp) {
+        export_esp(name, desc, data);
+    }
 }
 
 
@@ -112,20 +115,26 @@ void export_cube_base::do_export() {
         // 1) Build grid points
         size_t npts = m_grid.build_pts(ipts, pts);
 
-        // 2) Evaluate basis functions on grid points
+        // 2) Precompute the basis functions on grid points
+        //    FP: This is independent from the density matrices
         evaluate_on_grid(pts, npts, b2g);
 
         // 3) Loop over density matrix data
+        //    FP: This is a simple matrix multiplication
         cube_writer_list::iterator id = dm_writers.begin();
         for (dm_list::iterator i = m_dms.begin();
                 i != m_dms.end(); i++, id++) {
 
             vec data(npts);
-            for (size_t k = 0; k < npts; k++) {
-                mat tmp = b2g.row(k) * i->second->data * b2g.row(k).t();
-                data(k) = tmp(0, 0);
-            }
+
+            //for (size_t k = 0; k < npts; k++) {
+        //        mat tmp = b2g.row(k) * i->second->data * b2g.row(k).t();
+    //            data(k) = tmp(0, 0);
+    //        }
+            // alternative:
+            data = sum((b2g * i->second->data) % b2g, 1);
             (*id)->write(data);
+
         }
 
         // 4) Loop over orbital data
@@ -158,6 +167,25 @@ void export_cube_base::do_export() {
     clear_data();
 }
 
+void export_cube_base::export_esp(const std::string &name, const std::string &desc,
+        const arma::mat &dens) {
+
+    mat pts(3, m_batchsz, fill::zeros);
+
+    std::string fname(m_prefix + name + "_esp.cube");
+    cube_writer espw(fname, desc, m_comment, m_grid, m_atnum, m_coords);
+
+    size_t ipts = 0;
+    while (ipts < m_grid.size()) {
+        size_t npts = m_grid.build_pts(ipts, pts);
+
+        vec esp(npts);
+        evaluate_esp(pts, npts, dens, esp);
+        espw.write(esp);
+
+        ipts += npts;
+    }
+}
 
 void export_cube_base::clear_data() {
 
@@ -174,6 +202,3 @@ void export_cube_base::clear_data() {
 
 
 } // namespace libwfa
-
-
-

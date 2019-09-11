@@ -22,9 +22,10 @@ public:
         \param name Name associated with the matrix (use as filename)
         \param desc Description of the matrix (use as comment line)
         \param mat Density matrix in terms of basis functions
+        \param do_esp Switch for computing the ESP rather than just the density
      **/
     virtual void perform(const std::string &name, const std::string &desc,
-        const arma::mat &mat) = 0;
+        const arma::mat &mat, bool do_esp=false) = 0;
 
     /** \brief Schedule set of vectors for evaluation on a grid
         \param name Name associated with the vectors (use as filename)

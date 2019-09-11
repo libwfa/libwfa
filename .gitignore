@@ -3,3 +3,5 @@ build
 .project
 .settings
 .DS_Store
+*.om
+*.cube

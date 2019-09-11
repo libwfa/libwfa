@@ -51,6 +51,13 @@ bool density_type::is_symm() const {
     }
 }
 
+double density_type::export_factor() const {
+    switch (m_type) {
+    case 6: return -1.;
+    default: return 1.;
+    }
+}
+
 std::ostream &operator<<(std::ostream &out, density_type type) {
 
     if (type == density_type::state)
@@ -74,4 +81,3 @@ std::ostream &operator<<(std::ostream &out, density_type type) {
 
 
 } // namespace libwfa
-

@@ -19,42 +19,26 @@ void density_printer_cube::perform(density_type type, const ab_matrix &dm) {
     std::ostringstream ss; ss << m_desc << " " << type;
     desc = ss.str();
     }
+    double ef = type.export_factor();
+    bool do_esp = m_dt_esp.test(type);
 
     if (dm.is_alpha_eq_beta()) {
-        if (type == density_type::hole)
-            m_core.perform(name, desc, dm.alpha() * -2.0);
-        else
-            m_core.perform(name, desc, dm.alpha() * 2.0);
+        m_core.perform(name, desc, dm.alpha() * 2.0 * ef, do_esp);
     }
     else {
         const mat &dm_a = dm.alpha(),  &dm_b = dm.beta();
         if (m_dt_tot.test(type)) {
-            if (type == density_type::hole) {
-                m_core.perform(name + "_tot",
-                        desc + " (total)", (dm.alpha() + dm.beta()) * -1.);
-                m_core.perform(name + "_sd",
-                        desc + " (spin)", dm.alpha() - dm.beta());
-            }
-            else {
-                m_core.perform(name + "_tot",
-                        desc + " (total)", dm.alpha() + dm.beta());
-                m_core.perform(name + "_sd",
-                        desc + " (spin)", dm.alpha() - dm.beta());
-            }
+            m_core.perform(name + "_tot",
+                    desc + " (total)", (dm.alpha() + dm.beta()) * ef, do_esp);
+            m_core.perform(name + "_sd",
+                    desc + " (spin)", dm.alpha() - dm.beta());
         }
         else {
-            if (type == density_type::hole) {
-                m_core.perform(name + "_a", desc + " (alpha part)", dm_a * -1.);
-                m_core.perform(name + "_b", desc + " (beta part)", dm_b * -1.);
-            }
-            else {
-                m_core.perform(name + "_a", desc + " (alpha part)", dm_a);
-                m_core.perform(name + "_b", desc + " (beta part)", dm_b);
-            }
+            m_core.perform(name + "_a", desc + " (alpha part)", dm_a * ef, do_esp);
+            m_core.perform(name + "_b", desc + " (beta part)", dm_b * ef, do_esp);
         }
     }
 }
 
 
 } // namespace libwfa
-
