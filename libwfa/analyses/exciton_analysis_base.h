@@ -45,6 +45,10 @@ public:
     }
 
     /** \brief Perform analysis
+
+        Note: Only passing the spin-traced density will not yield the same
+            result as "Total".
+
         \param out Output stream
         \param offset Line offset
      **/
@@ -75,11 +79,11 @@ protected:
 
     /** \brief Form total exciton moments
         \param a Alpha exciton moment
-        \param b Alpha exciton moment
+        \param b Beta exciton moment
         \param res Total exciton moment
      **/
-    static void combine(const exciton_moments &a, const exciton_moments &b,
-        exciton_moments &res);
+    virtual void combine(const exciton_moments &a, const exciton_moments &b,
+        exciton_moments &res) const = 0;
 };
 
 } // namespace libwfa

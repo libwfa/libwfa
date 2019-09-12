@@ -35,6 +35,9 @@ public:
 
     using exciton_analysis_base::analyse;
 
+    virtual void combine(const exciton_moments &a, const exciton_moments &b,
+        exciton_moments &res) const;
+
 private:
     virtual void print_header(std::ostream &out, size_t off) const;
 

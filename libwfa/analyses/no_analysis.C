@@ -42,7 +42,8 @@ void no_analysis::analyse(std::ostream &out, size_t nno) const {
         analysis_p2(out, m_no[2]->get_occ());
     }
     else {
-        vec ev = m_no[0]->get_occ() * 2.0;
+        vec ev(m_no[0]->get_occ());
+        ev *= 2.0;
         out << "NOs" << std::endl;
         analysis_p1(out, ev, nno);
         analysis_p2(out, ev);
@@ -103,8 +104,10 @@ void no_analysis::analysis_p2(std::ostream &out, const vec &ev) {
     out << ", n_u,nl = ";
     out << std::setw(8) << nunl << std::endl;
 
-    out << "  NO participation ratio (PR_NO): ";
-    out << std::setw(9) << std::setprecision(6) << (nu * nu) / nu2 << std::endl;
+    if (nu2 > 1.e-6) {
+        out << "  NO participation ratio (PR_NO): ";
+        out << std::setw(9) << std::setprecision(6) << (nu * nu) / nu2 << std::endl;
+    }
 }
 
 

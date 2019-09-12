@@ -12,9 +12,14 @@ cd build
 make
 ~~~~
 
-Currently, testing is only possible via the libtest library, which is part of Q-Chem. Compile libtest, then type:
+Testing of the standalone library is only possible via the libtest library, which is part of Q-Chem. Compile libtest, then type:
 ~~~~
 cd libwfa/tests
 ../build/tests/libwfa_tests
 ~~~~
 
+If you are using libwfa as part of OpenMolcas, you can use
+~~~~
+pymolcas verify 835
+~~~~
+for verification of the OpenMolcas/WFA interface.

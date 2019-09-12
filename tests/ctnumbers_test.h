@@ -16,10 +16,10 @@ namespace libwfa {
 class ctnumbers_test : public test_base {
 public:
     virtual void perform() throw(libtest::test_exception);
-    
+
 private:
     template<typename TestData>
-    void test_1() throw(libtest::test_exception);   
+    void test_1(std::string ctnum_type) throw(libtest::test_exception);
 };
 
 

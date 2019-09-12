@@ -35,10 +35,12 @@ public:
     // Thank you.
     enum analysis_type {
         NO = 0,     //!< Natural orbital analysis
+        DENS_MOM,   //!< Multipole moments of the density
         NDO,        //!< Natural difference orbital analysis
         FORM_AD,    //!< Form attachment/detachment densities
         EXCITON_AD, //!< Exciton analysis on a/d densities
         NTO,        //!< Natural transition orbital analysis
+        TDEN_MOM,   //!< Multipole moments of the transition density
         FORM_EH,    //!< Form electron/hole densities
         EXCITON,    //!< Exciton analysis on transition density
         SA_NTO,     //!< State-averaged NTO analysis
@@ -47,7 +49,7 @@ public:
 	NTO_SOC     //!< Compute SOC integrals of hole and particle NTOs 
                     //!<  of the universal triplet optdm
     };
-    enum { WFA_TYPES = 11 }; //!< Number of analysis types
+    enum { WFA_TYPES = 13 }; //!< Number of analysis types
 
     /** \brief Orbital parameters
      **/
@@ -157,14 +159,26 @@ public:
 
     /** \brief Printer of i-th CT number data
      **/
-    virtual std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
+    virtual std::unique_ptr<ctnum_printer_i> ctnum_printer(size_t i,
             const std::string &name, const std::string &desc) = 0;
+
+    /** \brief Name of i-th CT number analysis
+     **/
+    virtual const std::vector<std::string> &prop_list() = 0;
 
     //@}
 
     /** \brief Builder of exciton moments
      **/
     virtual const mom_builder_i &mom_builder() = 0;
+
+    /** \brief Return the atomic coordinates
+     **/
+    virtual const arma::mat &coordinates() = 0;
+
+    /** \brief Return the atomic numbers
+     **/
+    virtual const arma::vec &atomic_charges() = 0;
 };
 
 

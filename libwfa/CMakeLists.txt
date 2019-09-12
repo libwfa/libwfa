@@ -3,6 +3,7 @@ set(ANALYSES_HEADERS
     analyses/ctnum_analysis.h
     analyses/ctnumbers.h
     analyses/dyson_analysis.h
+    analyses/dens_mom.h
     analyses/exciton_analysis_ad.h
     analyses/exciton_analysis_base.h
     analyses/exciton_analysis.h
@@ -17,12 +18,14 @@ set(ANALYSES_HEADERS
     analyses/pop_loewdin.h
     analyses/pop_mulliken.h
     analyses/sa_nto_analysis.h
-)
+    analyses/om_descriptor.h
+        )
 
 set(ANALYSES_SRC
     analyses/ctnum_analysis.C
     analyses/ctnumbers.C
     analyses/dyson_analysis.C
+    analyses/dens_mom.C
     analyses/exciton_analysis_ad.C
     analyses/exciton_analysis_base.C
     analyses/exciton_analysis.C
@@ -35,7 +38,8 @@ set(ANALYSES_SRC
     analyses/pop_loewdin.C
     analyses/pop_mulliken.C
     analyses/sa_nto_analysis.C
-)
+    analyses/om_descriptor.C
+        )
 
 
 set(CORE_HEADERS
@@ -94,7 +98,6 @@ set(EXPORT_SRC
     export/orbital_printer_molden.C
 )
 
-
 set(HEADERS
     ${CORE_HEADERS}
     ${EXPORT_HEADERS}
@@ -116,18 +119,48 @@ set(SRC
     wf_analysis.C
 )
 
-set(TARGETS wfa)
-add_library(wfa STATIC ${SRC} ${HEADERS})
-if(QCHEM_SOURCE_DIR)
-  target_link_libraries(wfa armadillo)
-  add_subdirectory(qchem)
-endif(QCHEM_SOURCE_DIR)
+set(MOLCAS_HDR
+    molcas/molcas_wf_analysis.h
+    molcas/molcas_wf_analysis_data.h
+    molcas/molcas_mom_builder.h
+    molcas/molcas_export_h5orbs.h
+)
 
-if(MOLCAS)
-  Message("Configuring Molcas interface ...")
-  add_subdirectory(molcas)
-endif(MOLCAS)
+set(MOLCAS_SRC
+    molcas/driver.C
+    molcas/molcas_wfa_interface.C
+    molcas/molcas_wf_analysis.C
+    molcas/molcas_wf_analysis_data.C
+    molcas/molcas_mom_builder.C
+    molcas/molcas_export_h5orbs.C
+)
 
-set_property(TARGET ${TARGETS} APPEND PROPERTY 
+if(MOLCAS_LIB)
+  Message("Configuring libwfa with Molcas objects included ...")
+  project(libwfa CXX)
+  add_definitions ( -DARMA_BLAS_LONG )
+  add_library(wfa_molcas ${SRC} ${HEADERS} ${MOLCAS_HDR} ${MOLCAS_SRC})
+  install (TARGETS wfa_molcas
+           RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+           LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+           ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+  )
+else()
+    set(TARGETS wfa)
+    add_library(wfa STATIC ${SRC} ${HEADERS})
+
+    if(QCHEM_SOURCE_DIR)
+      target_link_libraries(wfa armadillo)
+      add_subdirectory(qchem)
+    endif(QCHEM_SOURCE_DIR)
+
+    if(MOLCAS_EXE)
+      Message("Configuring standalone Molcas executable ...")
+      add_subdirectory(molcas)
+    endif(MOLCAS_EXE)
+
+endif(MOLCAS_LIB)
+
+set_property(TARGET ${TARGETS} APPEND PROPERTY
     COMPILE_DEFINITIONS_DEBUG LIBWFA_DEBUG)
 

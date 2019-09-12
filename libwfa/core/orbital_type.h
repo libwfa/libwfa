@@ -57,6 +57,10 @@ public:
     /** \brief Convert orbital_type into string
      **/
     std::string convert() const;
+    
+    /** \brief Convert orbital_type into upper case string
+     **/
+    std::string convert_upper() const;
 
     /** \brief Conversion to integer
      **/

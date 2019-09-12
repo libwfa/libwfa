@@ -1,6 +1,23 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #ifndef LIBWFA_WF_ANALYSIS_H
 #define LIBWFA_WF_ANALYSIS_H
 
+#include <unordered_map>
+#include <map>
 #include <libwfa/analyses/sa_nto_analysis.h>
 #include "wf_analysis_data_i.h"
 
@@ -19,17 +36,33 @@ private:
     typedef wf_analysis_data_i::orbital_params orbital_params;
 
 private:
-    std::auto_ptr<wf_analysis_data_i> m_h; //!< Analysis data
-    std::auto_ptr<sa_nto_analysis> m_sa; //!< State-averaged NTO analysis
+    std::unique_ptr<wf_analysis_data_i> m_h; //!< Analysis data
+    std::unique_ptr<sa_nto_analysis> m_sa; //!< State-averaged NTO analysis
     ab_matrix m_edm_av; //!< Averaged electron density
     ab_matrix m_hdm_av; //!< Averaged hole density
     bool m_init_av; //!< Whether the above are initialized?
+
+protected:
+    /** \brief Data relating to OmFrag analysis
+     **/
+    struct frag_data {
+        std::string state_name;
+        double dE_eV, f;
+        double om_tot;
+        arma::mat om_frag;
+        std::unordered_map<std::string, double> descriptor;
+    };
+    /** final output to be printed
+     int - type of CT number analysis
+     **/
+    std::map<int, std::vector<frag_data> > frag_data_all;
+
 
 public:
     /** \brief Initializes the wave function analysis
         \param h Analysis data object
      **/
-    wf_analysis(wf_analysis_data_i *h) : m_h(h), m_sa(0), m_init_av(false) { }
+    wf_analysis(wf_analysis_data_i *h) : m_h(h), m_sa(), m_init_av(false) { }
 
     /** brief print out Dyson orbitals
         \param out Output stream
@@ -66,9 +99,11 @@ public:
         \param name Name of state (useable as filename)
         \param desc Description of state (one-line comment)
         \param tdm Transition density matrix in AO
+        \param energy Excitation energy (eV)
+        \param oscillator strength
      **/
     void analyse_optdm(std::ostream &out, const std::string &name,
-        const std::string &desc, const ab_matrix &tdm);
+        const std::string &desc, const ab_matrix &tdm, double energy=0., double osc=-1.);
 
     void analyse_optdm(std::ostream &out, const std::string &name,
         const std::string &desc, const arma::mat &tdm);
@@ -93,6 +128,14 @@ public:
         delete m_sa.release();
     }
 
+    /** \brief Print a TheoDORE-style summary of the CT number analysis
+     **/
+     void print_summary(std::ostream &out, const int &prec=6, const int &width=10);
+
+     /** \brief Print an OmFrag.txt file as understood by TheoDORE
+      **/
+      void print_om_frag(std::ostream &out, const std::string ofile="OmFrag.txt");
+
 private:
     void add_to_average(const ab_matrix &edm, const ab_matrix &hdm);
 };
@@ -104,7 +147,7 @@ private:
     work properly.
  **/
 struct wf_analysis_static {
-    static std::auto_ptr<wf_analysis> analysis; //!< Static analysis object
+    static std::unique_ptr<wf_analysis> analysis; //!< Static analysis object
 };
 
 

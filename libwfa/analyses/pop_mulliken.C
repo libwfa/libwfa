@@ -23,5 +23,3 @@ void pop_mulliken::perform(const mat &d_bb, vec &p) const {
 
 
 } // namespace libwfa
-
-

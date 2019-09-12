@@ -22,6 +22,21 @@ double molcas_mom_builder::perform (const mat &dm, size_t c, size_t n) const{
     return trace(dm * m);
 }
 
+mat &molcas_mom_builder::set(size_t c, size_t n) {
+
+    size_t pos = get_index(c, n);
+    if (pos > m_op.size()) {
+        throw libwfa_exception("mom_builder", "get(size_t, size_t)",
+                __FILE__, __LINE__, "n");
+    }
+
+    if (m_op[pos] == 0) {
+        m_op[pos] = new mat(m_nao, m_nao);
+    }
+
+    return *m_op[pos];
+}
+
 const mat &molcas_mom_builder::get(size_t c, size_t n) const{
 
     size_t pos = get_index(c, n);
@@ -30,15 +45,14 @@ const mat &molcas_mom_builder::get(size_t c, size_t n) const{
                 __FILE__, __LINE__, "n");
     }
 
-    initialize(pos);
+    if (m_op[pos] == 0)
+    {
+        std::cout << "Matrix not set, c = " << c << ", n = " << n;
+        throw libwfa_exception("mom_builder", "get",
+                __FILE__, __LINE__, "Matrix not set");
+    }
 
     return *m_op[pos];
-}
-
-void molcas_mom_builder::initialize(size_t pos) const {
-    
-    if (m_op[pos] != 0) return;
-    
 }
 
 }//end namespace libwfa

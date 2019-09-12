@@ -15,7 +15,7 @@ namespace libwfa {
  **/
 class ndo_analysis {
 private:
-    orbital_data *m_ndo[2]; //!< NDO coefficients and occupation numbers
+    orbital_data *m_ndo[3]; //!< NDO coefficients and occupation numbers
 
 public:
     /** \brief Constructor

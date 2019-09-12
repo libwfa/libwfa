@@ -1,5 +1,6 @@
 #include <iomanip>
 #include "exciton_analysis_base.h"
+#include <libwfa/libwfa_exception.h>
 
 namespace libwfa {
 
@@ -56,30 +57,6 @@ void exciton_analysis_base::print(std::ostream &out,
         out << ", " << std::setw(width) << vec(i);
     }
     out << "]";
-}
-
-
-void exciton_analysis_base::combine(const exciton_moments &a,
-    const exciton_moments &b, exciton_moments &res) {
-
-    size_t nmax = std::min(a.n_max(), b.n_max());
-    if (nmax != res.n_max()) {
-        throw 1;
-    }
-
-    double sa = accu(a.get(0, 0)), sb = accu(b.get(0, 0));
-    if (sa + sb == 0.0) {
-        throw 1;
-    }
-
-    for (size_t i = 0; i <= nmax; i++) {
-        for (size_t j = 0; j <= i; j++) {
-
-            vec ma = a.get(j, i - j), mb = b.get(j, i - j);
-            vec mc = (sa * ma + sb * mb) / (sa + sb);
-            res.set(j, i - j, mc);
-        }
-    }
 }
 
 }// end namespace libwfa

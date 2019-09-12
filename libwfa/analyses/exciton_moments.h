@@ -38,6 +38,9 @@ public:
     }
 
     /** \brief Retrieve a specific moment vector
+
+        The 0-element is (Om, pa, pd) where applicable
+
         \param ne ne-th moment of electron
         \param nh nh-th moment of hole
         \return 3D column vector with moment data

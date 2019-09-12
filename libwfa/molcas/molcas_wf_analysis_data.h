@@ -1,12 +1,31 @@
+//************************************************************************
+//* This file is part of libwfa.                                         *
+//*                                                                      *
+//* libwfa is free software; you can redistribute and/or modify          *
+//* it under the terms of the BSD 3-Clause license.                      *
+//* libwfa is distributed in the hope that it will be useful, but it     *
+//* is provided "as is" and without any express or implied warranties.   *
+//* For more details see the full text of the license in the file        *
+//* LICENSE.                                                             *
+//*                                                                      *
+//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *
+//* Modifications copyright (C) 2019, Loughborough University.           *
+//************************************************************************
+
+
 #ifndef LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 #define LIBWFA_MOLCAS_WF_ANALYSIS_DATA_H
 
+#include <iostream>
+#include <iomanip>
+#include <stdlib.h>
 #include "H5Cpp.h"
 #include <libwfa/wf_analysis_data_i.h>
 #include "molcas_mom_builder.h"
+#include "molcas_export_h5orbs.h"
 
 namespace libwfa {
-    
+
 class molcas_wf_analysis_data : public libwfa::wf_analysis_data_i {
 private:
     /** \brief Internal structure to hold population analyses
@@ -15,7 +34,7 @@ private:
         std::string name;
         const std::vector<std::string> &labels;
         const arma::vec &p0;
-        std::auto_ptr<libwfa::pop_analysis_i> analysis;
+        std::unique_ptr<libwfa::pop_analysis_i> analysis;
 
         pa_data(const std::string &n, const std::vector<std::string> &l,
             libwfa::pop_analysis_i *a, const arma::vec &p) :
@@ -27,7 +46,7 @@ private:
     struct cta_data {
         std::string name;
         std::string suffix;
-        std::auto_ptr<libwfa::ctnum_analysis_i> analysis;
+        std::unique_ptr<libwfa::ctnum_analysis_i> analysis;
 
         cta_data(const std::string &n, const std::string &s,
             libwfa::ctnum_analysis_i *a) :
@@ -44,9 +63,13 @@ private:
         arma::uvec bf2atoms; //!< Map of basis functions to atoms
         ab_matrix c_fb; //!< MO coefficients
         arma::mat s; //!< AO-Overlap matrix
+        arma::uvec nbas; //!< Number of basis functions per irrep
+        std::vector<std::string> irrep_labels; //!< Irrep labels
+        arma::mat desym; //!< Desymmetrization matrix
         molcas_mom_builder mom; //!< Moments builder
         std::string mo_types_a; //!< Alpha types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
         std::string mo_types_b; //!< Beta types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
+        std::string molcas_module; //!< Molcas module
 
         /** \brief Constructor
             \param nao Number of atomic basis functions
@@ -54,24 +77,43 @@ private:
             \param maxmm Maximum multipole moment available
             \param unr Unrestricted calculation
          **/
-        base_data(size_t nao, size_t nb2, size_t maxmm, bool unr) :
-            c_fb(unr), mom(nao, nb2, maxmm) { }
+        base_data(size_t nao, size_t maxmm, bool unr) :
+            c_fb(unr), mom(nao, maxmm) { }
+    };
+
+    /** \brief Internal structure to hold input data
+     **/
+    struct input_data {
+        std::string file_name; //!< Name of the HDF5 file
+        size_t refstate; //!< Reference state in the analysis
+        size_t wfalevel; //!< Overall level of print out
+        bool mulliken, lowdin, nxo, exciton; //!< What kind of analysis to do
+        bool ctnum, h5orbs; //!< What kind of print out
+        std::vector<std::string> prop_list = {"Om", "POS", "PR", "CT", "COH", "CTnt"};
+        std::vector<std::vector<int>> at_lists;
+        bool add_info; //!< Write to molcas_info file
+        bool debug; //!< Print debug info
+
+        /** \brief Constructor
+         **/
+        input_data() : file_name("WFAH5"), refstate(0), wfalevel(3), mulliken(false), lowdin(false), nxo(false),
+            exciton(false), ctnum(false), h5orbs(false), add_info(false), debug(false) {}
     };
 
     /** \brief Export types
      **/
     enum export_type {
         EXPORT_NONE = 0,//!< EXPORT_NONE
-        EXPORT_MOLDEN,  //!< EXPORT_MOLDEN
+        EXPORT_H5,  //!< EXPORT_H5
     };
 
 public:
     static const char k_clazz[]; //!< Class name
 
 private:
-    H5::H5File m_file;
+    H5::H5File m_file; //!< HDF5 file
     std::vector<pa_data *> m_pa; //!< Population analyses
-//    std::vector<cta_data *> m_cta; //!< CT number analyses
+    std::vector<cta_data *> m_cta; //!< CT number analyses
 
     std::bitset<WFA_TYPES> m_analyses; //!< Activated analyses
     std::map<unsigned, orbital_params> m_oparams;
@@ -82,22 +124,29 @@ private:
     enum export_type m_export_dens; //!< How to export densities
     enum export_type m_export_orbs; //!< How to export orbitals
 
-//    std::auto_ptr<qchem_export_cube> m_ccore; //!< Pointer to cube export core
-//    std::auto_ptr<qchem_export_molden> m_mcore; //!< Pointer to molden export core
-    std::auto_ptr<base_data> m_moldata; //!< Molecular data
-    
+    std::unique_ptr<molcas_export_h5orbs> m_h5core; //!< Pointer to orbital export core
+    std::unique_ptr<base_data> m_moldata; //!< Molecular data
+    std::unique_ptr<input_data> m_input; //!< Input data
+
 public:
     /** \brief Constructor
      **/
-    molcas_wf_analysis_data(H5::H5File &file);
+    molcas_wf_analysis_data(char *inp);
 
     /** \brief Virtual destructor
      **/
-    //virtual ~molcas_wf_analysis_data() { cleanup(); }
+    virtual ~molcas_wf_analysis_data() { cleanup(); }
+
+    /** \brief Initialize orbital export
+        \param oe How to export orbitals (possible values: cube, molden)
+        \param ot Types of orbitals to export
+     **/
+    void init_orbital_export(const std::string &oe,
+            const orbital_type::flag_t &ot);
 
     /** \brief Initialize population analysis
         \param name Name of population analysis (possible values: mulliken,
-            loewdin)
+            lowdin)
      **/
     void init_pop_analysis(const std::string &name);
 
@@ -109,7 +158,7 @@ public:
     /** \brief Activate certain analysis
      **/
     void activate(enum analysis_type t);
-    
+
     /** \brief Set orbital parameters for one orbital type
         \param t Orbital type
         \param nno Number of leading orbitals
@@ -117,17 +166,23 @@ public:
      **/
     void set_orbital_params(enum orbital_type::ot t,
             size_t nno, double thresh);
-    
+
     /** \brief Return if a certain analysis should be performed
      **/
     bool is_active(enum analysis_type t);
-    
+
     /** \brief Return parameters for orbital analyses
         \return Pair comprising the number of leading orbitals to print and
             an threshold for important orbitals (see e.g. \ref no_analysis
             for details)
      **/
     orbital_params get_orbital_params(enum orbital_type::ot t);
+
+    /** \brief Retrieve the HDF5 file
+     **/
+    const H5::H5File &h5file() {
+        return m_file;
+    }
 
     /** \brief Retrieve the AO overlap matrix
      **/
@@ -197,20 +252,22 @@ public:
 
     /** \brief Number of CT number analyses available
      **/
-    size_t n_ctnum_analyses() {}
+    size_t n_ctnum_analyses() { return m_cta.size(); }
 
     /** \brief Name of i-th CT number analysis
      **/
-    const std::string &ctnum_name(size_t i) {}
+    const std::string &ctnum_name(size_t i) { return m_cta[i]->name; }
 
     /** \brief i-th CT number analysis
      **/
-    const ctnum_analysis_i &ctnum_analysis(size_t i) {}
+    const ctnum_analysis_i &ctnum_analysis(size_t i) { return *m_cta[i]->analysis; }
 
     /** \brief Printer of i-th CT number data
      **/
-    std::auto_ptr<ctnum_printer_i> ctnum_printer(size_t i,
-            const std::string &name, const std::string &desc) {}
+    std::unique_ptr<ctnum_printer_i> ctnum_printer(size_t i,
+            const std::string &name, const std::string &desc);
+
+    const std::vector<std::string> &prop_list() { return m_input->prop_list; }
 
     //@}
 
@@ -220,21 +277,91 @@ public:
         return m_moldata->mom;
     }
 
-    /** \brief Build the density matrix
-        \param buf Buffer with density matrix data
+    const arma::mat &coordinates() {
+        return m_moldata->coordinates;
+    }
+
+    const arma::vec &atomic_charges() {
+        return m_moldata->atomic_charges;
+    }
+
+    /** \brief Build the density matrix from MOs
+        \param buf Density matrix data (MO basis)
+        \param sbuf Spin-density matrix data (MO basis)
+        \param aeqb_dens Is alpha equal to beta
         \return Full density matrix in the AO basis
-        
+
         The appropriate number of doubly occupied orbitals are added
         and the density is transformed to the AO basis.
      **/
     ab_matrix build_dm(const double *buf, const double *sbuf, const bool aeqb_dens);
-    
+
+    /** \brief Build the density matrix from AOs
+        \param buf Density matrix data (AO basis)
+        \return Full density matrix in the AO basis
+     **/
+    ab_matrix build_dm_ao(const double *buf, const double *sbuf, const size_t dim);
+
+
+    /** \brief Read a vector from the HDF5 file
+        \param key name of the data
+        \return data as vector
+    **/
+    arma::vec read_vec_h5(H5std_string key);
+
+    /** \brief Read a cube from the HDF5 file
+        \param key name of the density
+        \return raw density matrix as cube
+    **/
+    arma::cube read_cube_h5(H5std_string key);
+
+    /** \brief Print a string with the energy
+        \param Energy (a.u.)
+        \param out Output stream
+     **/
+    void energy_print(const double ener, std::ostream &out);
+
+    /** \brief Return a label for RASSCF states
+
+        This is the same label for all the states.
+
+        \return Symmetry and multiplicity label
+     **/
+    std::string rasscf_label();
+
+    /** \brief Return a vector of labels for RASSI states
+    **/
+    std::vector<std::string> rassi_labels(int *mult, int nstate);
+
+    std::string molcas_module() {
+        return m_moldata->molcas_module;
+    }
+
+    const std::unique_ptr<input_data> &input() {
+        return m_input;
+    }
+
 private:
+    void read_input(char *inp);
     void initialize();
     void cleanup();
-    std::string get_mo_types(const H5::DataSet &Set);
-    arma::mat get_mo_vectors(const H5::DataSet &Set, const size_t nsym, const int *nbas);
+    void setup_h5core();
+    void read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, const size_t nsym);
+    void read_mltpl_mat(const H5std_string &setname, const size_t c, const size_t n);
+    std::string get_mo_types(const H5std_string &setname);
+    arma::mat get_mo_vectors(const H5std_string &setname);
 };
+
+/** \brief Setup the wave function / density matrix analysis data for Molcas
+    \return Pointer to data object
+
+    This is a convenience wrapper to initialize the analysis data object. If
+    more fine-tuning is required, the function can serve as template on how
+    the object can be setup.
+
+    \ingroup libwfa_molcas
+ **/
+molcas_wf_analysis_data *molcas_setup_wf_analysis_data(char *inp);
 
 /** \brief Setup the wave function / density matrix analysis data for Molcas
     \return Pointer to data object
