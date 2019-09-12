@@ -110,7 +110,7 @@ public:
     /** \copydoc export_cube_i::perform
      **/
     virtual void perform(const std::string &name, const std::string &desc,
-        const arma::mat &mat, bool do_esp=false);
+        const arma::mat &mat, int do_esp=0);
 
     /** \copydoc export_cube_i::perform(const std::string&, const std::string&,
             const std::vector<size_t>&, const arma::mat&)
@@ -128,7 +128,7 @@ public:
         evaluations on a grid.
      **/
     void export_esp(const std::string &name, const std::string &desc,
-        const arma::mat &dens);
+        const arma::mat &dens, int do_esp);
 
 protected:
     /** \brief Evaluate basis functions on a number of grid points
@@ -163,7 +163,15 @@ protected:
         Note: this requires the density matrix as opposed to evaluate_on_grid
      **/
     virtual void evaluate_esp(const arma::mat &pts,
-            size_t npts, const arma::mat &dens, arma::mat &esp) = 0;
+            size_t npts, const arma::mat &dens, arma::vec &esp) = 0;
+
+    /** \brief Evaluate the nuclear contribution to the ESP on grid points
+        \param[in] pts Grid points (batch size columns of length 3)
+        \param[in] npts Number of grid points
+        \param[out] esp Values of esp on grid
+     **/
+    virtual void nuc_esp(const arma::mat &pts, size_t npts, arma::vec &esp);
+
 
 private:
     void clear_data();

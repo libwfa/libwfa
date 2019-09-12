@@ -72,7 +72,7 @@ public:
      **/
     bool is_symm() const;
 
-    /** \brief Multiply wit this factor during export as cube file
+    /** \brief Multiply with this factor during export as cube file
      **/
     double export_factor() const;
 

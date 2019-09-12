@@ -5,3 +5,5 @@ build*
 .DS_Store
 *.om
 *.cube
+tests/*_test
+tests/*_test_?

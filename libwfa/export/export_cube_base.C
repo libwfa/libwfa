@@ -24,7 +24,7 @@ export_cube_base::export_cube_base(const grid3d &grid,
 
 
 void export_cube_base::perform(const std::string &name,
-    const std::string &desc, const mat &data, bool do_esp) {
+    const std::string &desc, const mat &data, int do_esp) {
 
     static const char method[] = "add(const std::string &, "
             "const std::string &, const mat &)";
@@ -41,8 +41,8 @@ void export_cube_base::perform(const std::string &name,
 
     if (m_nmax != 0 && m_dms.size() + m_orbs.size() > m_nmax) do_export();
 
-    if (do_esp) {
-        export_esp(name, desc, data);
+    if (do_esp>0) {
+        export_esp(name, desc, data, do_esp);
     }
 }
 
@@ -161,7 +161,7 @@ void export_cube_base::do_export() {
 }
 
 void export_cube_base::export_esp(const std::string &name, const std::string &desc,
-        const arma::mat &dens) {
+        const arma::mat &dens, int do_esp) {
 
     mat pts(3, m_batchsz, fill::zeros);
 
@@ -174,9 +174,27 @@ void export_cube_base::export_esp(const std::string &name, const std::string &de
 
         vec esp(npts);
         evaluate_esp(pts, npts, dens, esp);
+        if (do_esp==2) {
+            esp = -esp;
+            nuc_esp(pts, npts, esp);
+        }
         espw.write(esp);
 
         ipts += npts;
+    }
+}
+
+void export_cube_base::nuc_esp(const arma::mat &pts, size_t npts, arma::vec &esp) {
+    // The nuclear contribution to the ESP.
+    // This could be stored somewhere. But it probably does not hurt to recompute
+    //  it for every density.
+
+    // Loop over grid points
+    for (size_t k = 0; k < npts; k++) {
+        // Loop over atoms
+        for (size_t iat = 0; iat < m_atnum.size(); iat++) {
+            esp(k) += m_atnum(iat) / arma::norm(pts.col(k) - m_coords.col(iat));
+        }
     }
 }
 
