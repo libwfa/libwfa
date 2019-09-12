@@ -55,6 +55,8 @@
     \author Stefanie Mewes (Baeppler)
     \author Benjamin Thomitzni
     \author Feng Chen
+    \author Anna I. Krylov
+    \author Pavel Pokhilko
 
     \date 2014-2019
 

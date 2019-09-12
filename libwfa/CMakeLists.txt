@@ -135,6 +135,8 @@ set(MOLCAS_SRC
     molcas/molcas_export_h5orbs.C
 )
 
+set (CMAKE_CXX_STANDARD 11)
+
 if(MOLCAS_LIB)
   Message("Configuring libwfa with Molcas objects included ...")
   project(libwfa CXX)
@@ -160,6 +162,7 @@ else()
     endif(MOLCAS_EXE)
 
 endif(MOLCAS_LIB)
+
 
 set_property(TARGET ${TARGETS} APPEND PROPERTY
     COMPILE_DEFINITIONS_DEBUG LIBWFA_DEBUG)

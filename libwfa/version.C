@@ -9,7 +9,9 @@ const char *version::k_authors[] = {
         "Stefanie Mewes (Baeppler)",
         "Benjamin Thomitzni",
         "Michael Wormit",
-        "Feng Chen"
+        "Feng Chen",
+        "Anna I. Krylov",
+        "Pavel Pokhilko"
 };
 
 

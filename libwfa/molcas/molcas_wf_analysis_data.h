@@ -196,6 +196,22 @@ public:
         return m_moldata->c_fb;
     }
 
+    const ab_matrix &fock() {
+        // Just a dummy routine, so C++ does not complain
+        static ab_matrix f;
+        return f;
+    }
+
+    const h_so &so1e() {
+        static h_so s;
+        return s;
+    }
+
+    const h_so &somf() {
+        static h_so s;
+        return s;
+    }
+
     /** \brief Construct a printer of density matrices
         \param name Name of state to which the density matrices belong
             (should be usable as file name)
