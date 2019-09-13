@@ -158,7 +158,8 @@ protected:
         \param[in] pts Grid points (batch size columns of length 3)
         \param[in] npts Number of grid points
         \param[in] dens Density matrix
-        \param[out] esp Values of esp on grid
+        \param[out] esp Values of esp on grid.
+        Convention: the electron density shall yield a negative ESP.
 
         Note: this requires the density matrix as opposed to evaluate_on_grid
      **/

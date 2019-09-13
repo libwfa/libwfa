@@ -175,7 +175,6 @@ void export_cube_base::export_esp(const std::string &name, const std::string &de
         vec esp(npts);
         evaluate_esp(pts, npts, dens, esp);
         if (do_esp==2) {
-            esp = -esp;
             nuc_esp(pts, npts, esp);
         }
         espw.write(esp);
