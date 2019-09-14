@@ -16,7 +16,7 @@ namespace libwfa {
  **/
 class nto_analysis {
 private:
-    orbital_data *m_nto[4]; //!< NTOs
+    orbital_data *m_nto[4]; //!< NTOs, arranged as a-elec, a-hole, b-elec, b-hole
 
 public:
     /** \brief Constructor
@@ -52,9 +52,9 @@ public:
 
 
     nto_analysis(const arma::mat &s, const ab_matrix &c,
-                           const h_so& h_so1e, const h_so& h_somf, 
+                           const h_so& h_so1e, const h_so& h_somf,
                            const arma::mat &tdm);
-    
+
     /** \brief Is alpha == beta
      **/
     bool is_alpha_eq_beta() const { return m_nto[2] == 0; }
@@ -115,13 +115,13 @@ private:
     static void analysis(std::ostream &out,
 			 const arma::vec &e, size_t nnto = 3);
 
-    static void analysis(std::ostream &out, 
+    static void analysis(std::ostream &out,
 			 const arma::vec &e,
 			 const arma::vec &hole_e,
 			 const arma::vec &e_e,
 			 size_t nnto = 3);
 
-    static void analysis(std::ostream &out, 
+    static void analysis(std::ostream &out,
         std::vector<soc>& vec_so1e, std::vector<soc>& vec_somf,
         const arma::vec &e, size_t nnto = 3);
 

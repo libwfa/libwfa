@@ -7,7 +7,7 @@ namespace libwfa {
 using namespace arma;
 
 nto_analysis::nto_analysis(const mat &s, const ab_matrix &c,
-                           const h_so& h_so1e, const h_so& h_somf, 
+                           const h_so& h_so1e, const h_so& h_somf,
                            const arma::mat &tdm) {
     initialize_proper(s, c, tdm);
     //std::cout << "SOC will be soon.." << std::endl;
@@ -64,7 +64,7 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c,
 
 nto_analysis::nto_analysis(const mat &s, const ab_matrix &c,
     const ab_matrix &tdm) {
-  
+
 #if 0
   //Leave the old code just in case someone wants to revert
   ab_matrix edm, hdm;
@@ -78,7 +78,7 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c,
 
 nto_analysis::nto_analysis(const mat &s, const ab_matrix &c, const ab_matrix &fock,
 			   const ab_matrix &tdm, bool use_fock) {
-  
+
   initialize_proper(s, c, tdm);
 
   if (use_fock) {  //Now intitalize energies
@@ -107,14 +107,14 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c, const ab_matrix &fo
     tmp_mat=m_nto[0]->get_coeff().t()*fock.alpha()*m_nto[0]->get_coeff();
     ene=tmp_mat.diag();
     m_nto[0]->get_ene()=ene;
-    
+
     //Now same for holes...
     tmp_mat=m_nto[1]->get_coeff().t()*fock.alpha()*m_nto[1]->get_coeff();
     ene=tmp_mat.diag();
     m_nto[1]->get_ene()=ene;
-    
+
     if (m_nto[2]) {
-      
+
       //do the same for beta
       tmp_mat=m_nto[2]->get_coeff().t()*fock.alpha()*m_nto[2]->get_coeff();
       ene=tmp_mat.diag();
@@ -134,7 +134,7 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c, const ab_matrix &fo
     bool got_soc=m_nto[0]->got_soc();
 
     std::vector<soc>& vec_so1e = m_nto[0]->get_so1e();
-    
+
     if(!got_soc) {
         if (m_nto[2]) {
           out << "NTOs (alpha)" << std::endl;
@@ -142,7 +142,7 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c, const ab_matrix &fo
             analysis(out, m_nto[0]->get_occ(), m_nto[1]->get_ene(), m_nto[0]->get_ene(), nnto);
           else
             analysis(out, m_nto[0]->get_occ(), nnto);
-            
+
           out << "NTOs (beta)" << std::endl;
           if (got_ene)
             analysis(out, m_nto[2]->get_occ(), m_nto[3]->get_ene(), m_nto[2]->get_ene(), nnto);
@@ -169,8 +169,8 @@ void nto_analysis::export_orbitals(orbital_printer_i &pr, double thresh) const {
 
         const vec &ee_a = m_nto[0]->get_occ(),   &eh_a = m_nto[1]->get_occ();
         const mat &ce_a = m_nto[0]->get_coeff(), &ch_a = m_nto[1]->get_coeff();
-        const vec &ee_b = m_nto[2]->get_occ(),   &eh_b = m_nto[2]->get_occ();
-        const mat &ce_b = m_nto[3]->get_coeff(), &ch_b = m_nto[3]->get_coeff();
+        const vec &ee_b = m_nto[2]->get_occ(),   &eh_b = m_nto[3]->get_occ();
+        const mat &ce_b = m_nto[2]->get_coeff(), &ch_b = m_nto[3]->get_coeff();
         orbital_data nto_a(join_cols(eh_a * -1., flipud(ee_a)),
                 join_rows(ch_a, fliplr(ce_a)));
         orbital_data nto_b(join_cols(eh_b * -1., flipud(ee_b)),
@@ -239,7 +239,7 @@ void nto_analysis::initialize_proper(const arma::mat &s, const ab_matrix &c,
   arma::mat cs=s*c.alpha();
   arma::mat tdm_mo=cs.t()*tdm.alpha()*cs;
   //arma::mat tdm_mo=c.alpha().t()*s*tdm.alpha()*s*c.alpha();
-  
+
   arma::mat alpha, beta;
   arma::vec sigma;
   //tdm_mo=alpha x sigma x beta_t
@@ -249,20 +249,20 @@ void nto_analysis::initialize_proper(const arma::mat &s, const ab_matrix &c,
   //libwfa wants sigma^2 and it wants them in ascending order
   size_t nsigmas=sigma.n_elem;
   arma::vec sigma_reorder(nsigmas);
-  for(size_t i=0; i<nsigmas; i++) 
-    sigma_reorder[i]=sigma[nsigmas-1-i]*sigma[nsigmas-1-i]; 
+  for(size_t i=0; i<nsigmas; i++)
+    sigma_reorder[i]=sigma[nsigmas-1-i]*sigma[nsigmas-1-i];
 
 #if 0
   //Loss of precision occur here...
   double nrm1=arma::norm(tdm_mo);
-  nrm1=nrm1*nrm1*2.0; 
+  nrm1=nrm1*nrm1*2.0;
   std::cout << std::endl <<
     "Omega_g= " << nrm1 << "  ||gamma_g||=" << sqrt(nrm1) << std::endl;
   double nrm2=arma::norm(sigma);
-  nrm2=nrm2*nrm2*2.0; 
+  nrm2=nrm2*nrm2*2.0;
   std::cout << "Omega_s= " << nrm2 << "  ||gamma_s||=" << sqrt(nrm2) << std::endl;
-#endif  
-    
+#endif
+
   //This now contains particle NTOs in AO basis
   tdm_mo=c.alpha()*beta;
   beta.resize(tdm_mo.n_rows,tdm_mo.n_cols);
@@ -280,32 +280,32 @@ void nto_analysis::initialize_proper(const arma::mat &s, const ab_matrix &c,
 
   m_nto[1] = new orbital_data(sigma_reorder,alpha);
 
-  if (tdm.is_alpha_eq_beta()) { 
+  if (tdm.is_alpha_eq_beta()) {
     //we are done
     m_nto[2] = m_nto[3] = 0;
   }
   else {
-    
+
     //repeat the procedure for beta part
     cs=s*c.beta();
     tdm_mo=cs.t()*tdm.beta()*cs;
     //tdm_mo=c.beta().t()*s*tdm.beta()*s*c.beta();
-    
+
     //tdm_mo=alpha x sigma x beta_t
     arma::svd(alpha,sigma,beta,tdm_mo,"dc");
-    
-    //libwfa wants sigma^2 
+
+    //libwfa wants sigma^2
     //libwfa wants sigma^2 and it wants them in ascending order
-    for(size_t i=0; i<nsigmas; i++) 
-      sigma_reorder[i]=sigma[nsigmas-1-i]*sigma[nsigmas-1-i]; 
-    
+    for(size_t i=0; i<nsigmas; i++)
+      sigma_reorder[i]=sigma[nsigmas-1-i]*sigma[nsigmas-1-i];
+
     //This now contains particle NTOs in AO basis
     tdm_mo=c.beta()*beta;
     beta.resize(tdm_mo.n_rows,tdm_mo.n_cols);
     for(size_t i=0; i<nsigmas; i++)
       beta.col(i)=tdm_mo.col(nsigmas-1-i);
     m_nto[2] = new orbital_data(sigma_reorder, beta);
-    
+
     //This now contains hole NTOs in AO basis
     tdm_mo=c.beta()*alpha;
     alpha.resize(tdm_mo.n_rows,tdm_mo.n_cols);
@@ -313,7 +313,7 @@ void nto_analysis::initialize_proper(const arma::mat &s, const ab_matrix &c,
       alpha.col(i)=tdm_mo.col(nsigmas-1-i);
     m_nto[3] = new orbital_data(sigma_reorder,alpha);
   }
-  
+
 }
 
 
@@ -325,7 +325,7 @@ void nto_analysis::initialize_proper(const arma::mat &s, const ab_matrix &c,
   //gamma_mo=C'xSx gamma_aox SxC
   arma::mat cs=s*c.alpha();
   arma::mat tdm_mo=cs.t()*tdm*cs;
-  
+
   arma::mat alpha, beta; // PP: this notation is super-confusing. Alpha is the left vectors, beta - the right vectors
   arma::vec sigma;
   //tdm_mo=alpha x sigma x beta_t
@@ -335,8 +335,8 @@ void nto_analysis::initialize_proper(const arma::mat &s, const ab_matrix &c,
   //libwfa wants sigma^2 and it wants them in ascending order
   size_t nsigmas=sigma.n_elem;
   arma::vec sigma_reorder(nsigmas);
-  for(size_t i=0; i<nsigmas; i++) 
-    sigma_reorder[i]=sigma[nsigmas-1-i]*sigma[nsigmas-1-i]; 
+  for(size_t i=0; i<nsigmas; i++)
+    sigma_reorder[i]=sigma[nsigmas-1-i]*sigma[nsigmas-1-i];
 
   //This now contains particle NTOs in AO basis
   tdm_mo=c.alpha()*beta;
@@ -357,7 +357,7 @@ void nto_analysis::initialize_proper(const arma::mat &s, const ab_matrix &c,
     //we are done
   m_nto[2] = m_nto[3] = 0;
 }
-  
+
 void nto_analysis::analysis(std::ostream &out,
     const arma::vec &e, size_t nnto) {
 
@@ -399,7 +399,7 @@ void nto_analysis::analysis(std::ostream &out,
     }
 }
 
-void nto_analysis::analysis(std::ostream &out, 
+void nto_analysis::analysis(std::ostream &out,
     std::vector<soc>& vec_so1e, std::vector<soc>& vec_somf,
     const arma::vec &e, size_t nnto) {
 
@@ -493,7 +493,7 @@ void nto_analysis::analysis(std::ostream &out,
 			      const arma::vec &e_e,
 			      size_t nnto) {
 
-    
+
     out << "  Leading SVs and ENEs:" << std::endl;
     out << std::setprecision(4) << std::fixed;
     out << "    ";
@@ -553,5 +553,3 @@ void nto_analysis::build_selector(const arma::vec &e, const arma::vec &h,
 
 
 } // namespace libwfa
-
-
