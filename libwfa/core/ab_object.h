@@ -34,7 +34,7 @@ public:
 
     /** \brief Copy constructor
         \param other Object to copy
-        
+
         Performs deep copy
      **/
     ab_object(const ab_object &other);
@@ -119,6 +119,17 @@ public:
     /** \brief Return beta-spin matrix (const version
      **/
     const T &beta() const { return *m_data_b; }
+
+    /** \brief Return spin-traced matrix
+     **/
+    T sp_trace() const {
+        if (m_aeqb) {
+            return *m_data_a * 2.0;
+        }
+        else {
+            return *m_data_a + *m_data_b;
+        }
+    }
 };
 
 
@@ -153,4 +164,3 @@ ab_object<T> &ab_object<T>::operator=(const ab_object<T> &other) {
 } // namespace libwfa
 
 #endif // LIBWFA_AB_MATRIX_H
-

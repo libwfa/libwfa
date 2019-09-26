@@ -182,7 +182,7 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 
     const ab_matrix &fock = m_h->fock();
     bool use_fock=m_h->is_active(wf_analysis_data_i::NTO_ENE);
-      
+
     // If NTO formatter exists, do NTO analysis
     if (m_h->is_active(wf_analysis_data_i::FORM_EH)) {
 
@@ -195,8 +195,8 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 	    //nto_analysis nto(s, c, edm, hdm);
 	    nto_analysis nto(s, c, fock, tdm, use_fock);
 	    //nto.analyse(out, pnto.norb);
-	    nto.analyse(out, pnto.norb); 
- 
+	    nto.analyse(out, pnto.norb);
+
 	    nto.export_orbitals(*pr2, pnto.thresh);
             out << std::endl;
         }
@@ -237,10 +237,9 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
             fd_new.om_tot = ct.omega_total(false) + ct.omega_total(true);
 
             const ab_matrix &om_at_ab = ct.omega();
-            const mat om_at = om_at_ab.alpha() + om_at_ab.beta();
 
             // Transform to fragments, compute descriptors and store
-            fd_new.om_frag = ca.compute_omFrag(om_at);
+            fd_new.om_frag = ca.compute_omFrag(om_at_ab.sp_trace());
             fd_new.descriptor = ca.compute_descriptors(fd_new.om_tot, fd_new.om_frag);
 
             frag_data_all[i].push_back(fd_new);

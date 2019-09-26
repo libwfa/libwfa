@@ -40,12 +40,9 @@ public:
     /** \brief Export the CT number data
         \param om CT number data (omega matrix)
 
-        The CT number data which is passed as argument ct is exported into one
-        or two files. If ct contains one matrix (alpha == beta), one file is
-        created with the name \<prefix\>.om. Otherwise the data is exported
-        as two files named \<prefix\>(_a|_b).om. To avoid overwriting files
-        the user should ensure that the prefix is changed after every call of
-        perform. The format of the text files is as follows:
+        The CT number data which is passed as argument ct is appended to the file
+        \<prefix\>.om . This file is produced only as the spin-traced version.
+         The format of the text files is as follows:
         - the first line contains the description which should be composed of
           name, energy, and oscillator strength of the state
         - the second line contains the dimensions of the data (always 2) and

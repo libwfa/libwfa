@@ -8,20 +8,11 @@ using namespace arma;
 
 
 void ctnum_export::perform(const ab_matrix &om) const {
-    
-    if (om.is_alpha_eq_beta()) {
-        std::string fname(m_prefix + ".om");
-        mat om_exp;
-        om_exp = 2.0 * om.alpha();
-        do_export(fname, om_exp);
-    }
-    else {
-        std::string fname_a(m_prefix + "_a.om");
-        do_export(fname_a, om.alpha());
 
-        std::string fname_b(m_prefix + "_b.om");
-        do_export(fname_b, om.beta());
-    }
+    std::string fname(m_prefix + ".om");
+    mat om_trace = om.sp_trace();
+    do_export(fname, om_trace);
+
 }
 
 
@@ -29,7 +20,7 @@ void ctnum_export::do_export(const std::string &fname,
     const mat &ct) const {
 
     std::ofstream out;
-    out.open(fname.c_str());
+    out.open(fname.c_str(), std::ios_base::app);
 
     // Set precision and format for doubles
     out << std::setprecision(m_prec) << std::fixed;

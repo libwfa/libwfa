@@ -67,7 +67,7 @@ private:
     }
 
     virtual void evaluate_esp(const arma::mat &pts,
-        size_t npts, const arma::mat &dens, arma::mat &esp) {}
+            size_t npts, const arma::mat &dens, arma::vec &esp) {}
 };
 export_cube_test::system_data export_cube_test::sys;
 
