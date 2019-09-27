@@ -4,6 +4,7 @@
 #include <iostream>
 #include <libwfa/core/ab_matrix.h>
 #include <libwfa/core/orbital_data.h>
+#include <libwfa/core/constants.h>
 #include <libwfa/export/orbital_printer_i.h>
 
 namespace libwfa {

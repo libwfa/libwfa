@@ -13,12 +13,10 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c,
     //std::cout << "SOC will be soon.." << std::endl;
     std::vector<soc> vec_so1e;
     std::vector<soc> vec_somf;
-    const double cm1 = 219474.63;
+    const double cm1 = constants::au2rcm;
 
-    //  Reciprocal speed of light in a.u.
-    const double rc = 2.1876912633e6/299792458.0;
-    //  Breit-Pauli equation prefactor: 1/(2c^2)
-    const double prefac = 0.5 * rc * rc;
+    //  Breit-Pauli equation prefactor: 1/(2c^2) = 0.5*alpha^2
+    const double prefac = 0.5 * constants::alpha * constants::alpha;
 
     arma::Col<std::complex<double> > so1e_int_lm1_sp1;
     arma::Col<std::complex<double> > so1e_int_l0_s0;
@@ -106,22 +104,22 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c, const ab_matrix &fo
     //First particles, then holes
     tmp_mat=m_nto[0]->get_coeff().t()*fock.alpha()*m_nto[0]->get_coeff();
     ene=tmp_mat.diag();
-    m_nto[0]->get_ene()=ene;
+    m_nto[0]->set_ene()=ene;
 
     //Now same for holes...
     tmp_mat=m_nto[1]->get_coeff().t()*fock.alpha()*m_nto[1]->get_coeff();
     ene=tmp_mat.diag();
-    m_nto[1]->get_ene()=ene;
+    m_nto[1]->set_ene()=ene;
 
     if (m_nto[2]) {
 
       //do the same for beta
       tmp_mat=m_nto[2]->get_coeff().t()*fock.alpha()*m_nto[2]->get_coeff();
       ene=tmp_mat.diag();
-      m_nto[2]->get_ene()=ene;
+      m_nto[2]->set_ene()=ene;
       tmp_mat=m_nto[3]->get_coeff().t()*fock.alpha()*m_nto[3]->get_coeff();
       ene=tmp_mat.diag();
-      m_nto[3]->get_ene()=ene;
+      m_nto[3]->set_ene()=ene;
     }
   }
 }
@@ -403,12 +401,10 @@ void nto_analysis::analysis(std::ostream &out,
     std::vector<soc>& vec_so1e, std::vector<soc>& vec_somf,
     const arma::vec &e, size_t nnto) {
 
-    const double cm1 = 219474.63;
+    const double cm1 = constants::au2rcm;
 
-    //  Reciprocal speed of light in a.u.
-    const double rc = 2.1876912633e6/299792458.0;
-    //  Breit-Pauli equation prefactor: 1/(2c^2)
-    const double prefac = 0.5 * rc * rc;
+    //  Breit-Pauli equation prefactor: 1/(2c^2) = 0.5*alpha^2
+    const double prefac = 0.5 * constants::alpha * constants::alpha;
 
     out << "  Leading SVs:" << std::endl;
     out << std::setprecision(4) << std::fixed;
@@ -494,7 +490,7 @@ void nto_analysis::analysis(std::ostream &out,
 			      size_t nnto) {
 
 
-    out << "  Leading SVs and ENEs:" << std::endl;
+    out << "  Leading SVs and energies:" << std::endl;
     out << std::setprecision(4) << std::fixed;
     out << "    ";
     for (size_t i = 0, j = e.n_rows - 1; i < nnto; i++, j--)

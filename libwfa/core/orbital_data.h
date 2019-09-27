@@ -28,7 +28,7 @@ public:
      **/
     orbital_data(const arma::vec &ev, const arma::mat &coeff) :
         m_ev(ev), m_coeff(coeff) {}
-	
+
     /** \brief Basic constructor
         \param ev Orbital occupation numbers
         \param coeff Orbital coefficients
@@ -39,7 +39,7 @@ public:
 
     orbital_data(const arma::vec &ev, const arma::mat &coeff, std::vector<soc>& so1e, std::vector<soc>& somf) :
         m_ev(ev), m_coeff(coeff), m_so1e(so1e), m_somf(somf) {}
-	
+
 
     /** \brief Constructor
         \param s Overlap matrix
@@ -83,7 +83,7 @@ public:
     /** \brief Return orbital coefficients
      **/
     const arma::mat &get_coeff() const { return m_coeff; }
-    
+
     /** \brief Tells whether energies were initialized
      **/
     bool got_ene() { return m_ene.size(); }
@@ -94,7 +94,11 @@ public:
 
     /** \brief Return orbital energies
      **/
-    arma::vec &get_ene() { return m_ene; }
+    const arma::vec &get_ene() const { return m_ene; }
+
+    /** \brief Set orbital energies
+     **/
+    arma::vec &set_ene() { return m_ene; }
 
     /** \brief Return 1e SOC integrals on NTOs
      **/
