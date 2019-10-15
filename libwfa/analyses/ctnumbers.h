@@ -21,6 +21,7 @@ namespace libwfa {
 class ctnumbers {
 private:
     double m_tot[2]; //!< Total omega
+    double m_Phe[2]; //!< Electron-hole permutation
     ab_matrix m_om; //!< Omega matrix
 
 public:

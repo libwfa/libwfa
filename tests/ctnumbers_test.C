@@ -60,6 +60,9 @@ void ctnumbers_test::test_1(std::string ctnum_type) throw(libtest::test_exceptio
         ctnumbers ctnum(cta, tdm);
         const ab_matrix &om = ctnum.omega();
 
+        std::ofstream of("ctnumbers_test", std::ofstream::app);
+        ctnum.analyse(of);
+
         //std::cout << std::setprecision(16);
         //om.alpha().raw_print(ctnum_type);
         //om.beta().raw_print(ctnum_type);
