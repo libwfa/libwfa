@@ -367,6 +367,10 @@ void nto_analysis::analysis(std::ostream &out,
     }
     out << std::endl;
 
+    nto_stats(out, e);
+}
+
+void nto_analysis::nto_stats(std::ostream &out, const arma::vec &e) {
     double Om = accu(e);
 
     out << std::setprecision(6) << std::fixed;
@@ -453,33 +457,7 @@ void nto_analysis::analysis(std::ostream &out,
     }
     out << std::endl;
 
-
-    double Om = accu(e);
-
-    out << std::setprecision(6) << std::fixed;
-    out << "  Sum of SVs (Omega):            "
-        << std::setw(11) << Om << std::endl;
-    out << "  Participation ratio (PR_NTO):  "
-        << std::setw(11) << Om * Om / dot(e, e);
-    out << std::endl;
-
-    // Entanglement values
-    // Compute and print only for reasonable Omega
-    if (Om < 1.5) {
-        double ln2 = 0.6931471805599453;
-        double SHE  = -arma::dot(e, arma::trunc_log(e));
-            SHE /= ln2;
-        double rSHE = -arma::dot(e/Om, arma::trunc_log(e/Om));
-            rSHE /= ln2;
-
-        out << "  Entanglement entropy (S_HE):   "
-            << std::setw(11) << SHE << std::endl;
-        out << "  Nr of entangled states (Z_HE): "
-            << std::setw(11) << pow(2, SHE) << std::endl;
-        out << "  Renormalized S_HE/Z_HE:"
-            << std::setw(10) << rSHE << " /"
-            << std::setw(10) << pow(2, rSHE) << std::endl;
-    }
+    nto_stats(out, e);
 }
 
 
@@ -489,48 +467,34 @@ void nto_analysis::analysis(std::ostream &out,
 			      const arma::vec &e_e,
 			      size_t nnto) {
 
+    double Om = accu(e);
 
-    out << "  Leading SVs and energies:" << std::endl;
+    out << "  Leading SVs and energies [a.u.]:" << std::endl;
     out << std::setprecision(4) << std::fixed;
     out << "    ";
     for (size_t i = 0, j = e.n_rows - 1; i < nnto; i++, j--)
         out << std::setw(9) << e(j);
     out << std::endl;
+
+    double eh = accu(e % hole_e) / Om;
     out << "E(h)";
-    for (size_t i = 0, j = hole_e.n_rows - 1; i < nnto; i++, j--)
-      out << std::setw(9) << hole_e(j);
+    for (size_t i = 0, j = hole_e.n_rows - 1; i < nnto; i++, j--) {
+        out << std::setw(9) << hole_e(j);
+    }
+    out << " |" << std::setw(9) << eh;
     out << std::endl;
+
+    double ee = accu(e % e_e) / Om;;
     out << "E(e)";
-    for (size_t i = 0, j = e_e.n_rows - 1; i < nnto; i++, j--)
-      out << std::setw(9) << e_e(j);
+    for (size_t i = 0, j = e_e.n_rows - 1; i < nnto; i++, j--) {
+        out << std::setw(9) << e_e(j);
+    }
+    out << " |" << std::setw(9) << ee;
     out << std::endl << std::endl;
 
-    double Om = accu(e);
-
-    out << std::setprecision(6) << std::fixed;
-    out << "  Sum of SVs (Omega):            "
-        << std::setw(11) << Om << std::endl;
-    out << "  Participation ratio (PR_NTO):  "
-        << std::setw(11) << Om * Om / dot(e, e);
-    out << std::endl;
-
-    // Entanglement values
-    // Compute and print only for reasonable Omega
-    if (Om < 1.5) {
-        double ln2 = 0.6931471805599453;
-        double SHE  = -arma::dot(e, arma::trunc_log(e));
-            SHE /= ln2;
-        double rSHE = -arma::dot(e/Om, arma::trunc_log(e/Om));
-            rSHE /= ln2;
-
-        out << "  Entanglement entropy (S_HE):   "
-            << std::setw(11) << SHE << std::endl;
-        out << "  Nr of entangled states (Z_HE): "
-            << std::setw(11) << pow(2, SHE) << std::endl;
-        out << "  Renormalized S_HE/Z_HE:"
-            << std::setw(10) << rSHE << " /"
-            << std::setw(10) << pow(2, rSHE) << std::endl;
-    }
+    nto_stats(out, e);
+    out << "  SV-weighted gap [eV]:          "
+        << std::setw(11) << (ee-eh) * constants::au2eV << std::endl;
 }
 
 void nto_analysis::build_selector(const arma::vec &e, const arma::vec &h,

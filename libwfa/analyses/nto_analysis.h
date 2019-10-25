@@ -116,6 +116,8 @@ private:
     static void analysis(std::ostream &out,
 			 const arma::vec &e, size_t nnto = 3);
 
+    static void nto_stats(std::ostream &out, const arma::vec &e);
+
     static void analysis(std::ostream &out,
 			 const arma::vec &e,
 			 const arma::vec &hole_e,
