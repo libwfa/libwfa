@@ -10,16 +10,16 @@ using namespace arma;
 ctnumbers::ctnumbers(const ctnum_analysis_i &a, const ab_matrix &tdm) :
     m_om(tdm.is_alpha_eq_beta()) {
 
-    a.perform(tdm.alpha(), m_om.alpha());
+    double Phe;
+
+    a.perform(tdm.alpha(), m_om.alpha(), Phe);
     m_tot[0] = m_tot[1] = accu(m_om.alpha());
-    m_Phe[0] = m_Phe[1] = accu(tdm.alpha() % tdm.alpha().t());
-//    std::cout << "tmp: " << trace(tdm.alpha() * tdm.alpha())  << std::endl;
-//    std::cout << "tmp2: " <<  accu(tdm.alpha() % tdm.alpha().t()) << std::endl;
+    m_Phe[0] = m_Phe[1] = Phe;
 
     if (! m_om.is_alpha_eq_beta()) {
-        a.perform(tdm.beta(), m_om.beta());
+        a.perform(tdm.beta(), m_om.beta(), Phe);
         m_tot[1] = accu(m_om.beta());
-        m_Phe[1] = accu(tdm.beta() % tdm.beta().t());
+        m_Phe[1] = Phe;
     }
 }
 
