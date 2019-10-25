@@ -122,7 +122,8 @@ void ctnum_analysis_test::test_1() throw(libtest::test_exception) {
 
     {
         mat om_at;
-        ctnum_analysis(s, b2c, "mulliken").perform(tdm, om_at);
+        double Phe;
+        ctnum_analysis(s, b2c, "mulliken").perform(tdm, om_at, Phe);
 
         if (om_at.n_rows != na || om_at.n_cols != na) {
             fail_test(testname, __FILE__, __LINE__, "Size of CT number data (Mulliken)");
@@ -136,13 +137,22 @@ void ctnum_analysis_test::test_1() throw(libtest::test_exception) {
                 fail_test(testname, __FILE__, __LINE__, oss.str().c_str());
             }
         }
+        double Phe_ref = trace(tdm * s * tdm * s.t());
+        if (abs(Phe - Phe_ref) > 1e-14) {
+            fail_test(testname, __FILE__, __LINE__, "Value of Phe");
+        }
     }
     {
         mat om_at;
-        ctnum_analysis(s, b2c, "lowdin").perform(tdm, om_at);
+        double Phe;
+        ctnum_analysis(s, b2c, "lowdin").perform(tdm, om_at, Phe);
 
         if (om_at.n_rows != na || om_at.n_cols != na) {
             fail_test(testname, __FILE__, __LINE__, "Size of CT number data (Lowdin)");
+        }
+        double Phe_ref = trace(tdm * s * tdm * s.t());
+        if (abs(Phe - Phe_ref) > 1e-14) {
+            fail_test(testname, __FILE__, __LINE__, "Value of Phe");
         }
     }
     } catch(std::exception &e) {

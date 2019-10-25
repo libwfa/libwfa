@@ -53,7 +53,7 @@ namespace libwfa {
         }
     }
 
-    void ctnum_analysis::perform(const mat &tdm, mat &om) const {
+    void ctnum_analysis::perform(const mat &tdm, mat &om, double &Phe) const {
 
         mat om_ao;
         form_om(m_s, m_s_sqrt, tdm, ctnum_method, om_ao);
@@ -70,6 +70,8 @@ namespace libwfa {
                 om(iat, jat) += om_ao(i, j);
             }
         }
+
+        Phe = accu( (tdm * m_s * tdm) % m_s);
     }
 
     std::unordered_map<std::string, double> ctnum_analysis::compute_descriptors
