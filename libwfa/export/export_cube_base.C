@@ -84,7 +84,7 @@ void export_cube_base::do_export() {
     }
 
     // Prepare list of output files for orbitals
-    size_t norbs = 0, ndigits = 0, nao = 0;
+    size_t ndigits = 0, nao = 0;
     if (m_orbs.size() != 0) nao = m_orbs.begin()->second->data.n_rows;
     else nao = m_dms.begin()->second->data.n_rows;
     for (size_t nn = nao; nn > 0; nn /= 10, ndigits++) { ; }
