@@ -10,11 +10,16 @@ using namespace arma;
 exciton_analysis::exciton_analysis(const mom_builder_i &bld,
     const ab_matrix &tdm, size_t maxmm) :
     exciton_analysis_base(tdm.is_alpha_eq_beta(),
-            std::min(bld.max_moment(), maxmm)) {
+            std::min(bld.max_moment(), maxmm)),
+            m_tdip(3) {
 
     calculate(bld, tdm.alpha(), moment(false));
     if (!tdm.is_alpha_eq_beta()) {
         calculate(bld, tdm.beta(), moment(true));
+    }
+
+    for (size_t k = 0; k < 3; k++) {
+        m_tdip(k)  = bld.perform(tdm.sp_trace(), k, 1);
     }
 }
 
@@ -54,6 +59,12 @@ void exciton_analysis::analysis(std::ostream &out,
     }
     out << std::setprecision(6) << std::fixed;
     { // Scope of linear quantities
+        double tdip = norm(m_tdip) * constants::au2D;
+        out << os << "Trans. dipole moment [D]:" << std::string(11, ' ')
+                << std::setw(10) << tdip << std::endl;
+        out << os << "  Cartesian components [D]:" << std::string(9, ' ');
+        print(out, m_tdip  * constants::au2D);
+        out << std::endl;
         vec rh = mom.get(0, 1) * constants::au2ang;
         vec re = mom.get(1, 0) * constants::au2ang;
         double tot = norm(rh - re);
@@ -133,4 +144,3 @@ void exciton_analysis::combine(const exciton_moments &a,
 }
 
 }// end namespace libwfa
-
