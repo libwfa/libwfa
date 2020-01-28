@@ -135,7 +135,13 @@ set(MOLCAS_SRC
     molcas/molcas_export_h5orbs.C
 )
 
-set (CMAKE_CXX_STANDARD 11)
+if (CMAKE_VERSION VERSION_LESS "3.1")
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+  endif ()
+else ()
+  set (CMAKE_CXX_STANDARD 11)
+endif ()
 
 if(MOLCAS_LIB)
   Message("Configuring libwfa with Molcas objects included ...")
@@ -166,4 +172,3 @@ endif(MOLCAS_LIB)
 
 set_property(TARGET ${TARGETS} APPEND PROPERTY
     COMPILE_DEFINITIONS_DEBUG LIBWFA_DEBUG)
-
