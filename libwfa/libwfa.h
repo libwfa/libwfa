@@ -21,7 +21,8 @@
     2. Analysis of transition density matrices for
        - plotting of the \a hole and \a electron densities,
        - plotting the transition density,
-       - natural transition orbitals (with a possibility for state-averaging)
+       - natural transition orbitals (NTOs) with a possibility for state-averaging,
+       - entanglement analysis based on NTOs [6],
        - \a electron-hole correlation analysis using the charge transfer
            numbers (see also Ref. [3]).
 
@@ -32,6 +33,8 @@
 
     4. Real-space analysis of properties within an exciton picture,
        see Refs [4], [5].
+
+    5. Electrostatic potentials of various effective densities.
 
     The required input from the quantum chemical program consists of the
     density matrices of interest, the AO-overlap matrix, the MO coefficients
@@ -49,6 +52,7 @@
         (DOI: 10.1103/PhysRevA.90.052521).
     -# F. Plasser, B. Thomitzni, S. Baeppler, J. Wenzel, D. Rehn, M. Wormit, A. Dreuw
         \a JCC, \b 2015, \a 36, 1609-1620 (DOI: 10.1002/jcc.23975).
+    -# F. Plasser \a JCP, \b 2016, \a 144, 194107 (DOI: 10.1063/1.4949535).
 
     \author Felix Plasser
     \author Michael Wormit
