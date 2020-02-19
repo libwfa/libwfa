@@ -19,7 +19,7 @@ exciton_analysis::exciton_analysis(const mom_builder_i &bld,
     }
 
     for (size_t k = 0; k < 3; k++) {
-        m_tdip(k)  = bld.perform(tdm.sp_trace(), k, 1);
+        m_tdip(k)  = -bld.perform(tdm.sp_trace(), k, 1);
     }
 }
 
