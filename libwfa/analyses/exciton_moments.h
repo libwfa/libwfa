@@ -18,6 +18,7 @@ class exciton_moments {
 private:
     size_t m_nmax; //!< Highest moment
     arma::mat m_mom; //!< Computed moments
+    arma::mat m_smom; //!< Simple moments (usual multipole moments)
 
 public:
     /** \brief Default constructor
@@ -28,6 +29,14 @@ public:
      **/
     size_t n_max() const { return m_nmax; }
 
+    /** \brief Set data for specific simple moment
+        \param n n-th moment
+        \param m Moment data
+     **/
+    void set(size_t n, const arma::vec &m) {
+        m_smom.col(n) = m;
+    }
+
     /** \brief Set data for specific moment
         \param ne ne-th moment of electron
         \param nh nh-th moment of hole
@@ -35,6 +44,17 @@ public:
      **/
     void set(size_t ne, size_t nh, const arma::vec &m) {
         m_mom.col(determine_loc(ne, nh)) = m;
+    }
+
+    /** \brief Retrieve a specific moment vector (simple)
+
+        The 0-element is tr(PS) where applicable
+
+        \param ne n-th moment
+        \return 3D column vector with moment data
+     **/
+    arma::subview_col<double> get(size_t n) const {
+        return m_smom.col(n);
     }
 
     /** \brief Retrieve a specific moment vector
@@ -55,9 +75,8 @@ private:
 
 
 inline exciton_moments::exciton_moments(size_t nmax) : m_nmax(nmax),
-    m_mom(3, ((nmax + 1) * (nmax + 2)) / 2, arma::fill::zeros) {
-
-}
+    m_mom(3, ((nmax + 1) * (nmax + 2)) / 2, arma::fill::zeros),
+    m_smom(3, nmax + 1, arma::fill::zeros) { }
 
 
 inline size_t exciton_moments::determine_loc(size_t ne, size_t nh) const {

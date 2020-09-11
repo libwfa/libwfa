@@ -10,16 +10,11 @@ using namespace arma;
 exciton_analysis::exciton_analysis(const mom_builder_i &bld,
     const ab_matrix &tdm, size_t maxmm) :
     exciton_analysis_base(tdm.is_alpha_eq_beta(),
-            std::min(bld.max_moment(), maxmm)),
-            m_tdip(3) {
+            std::min(bld.max_moment(), maxmm)) {
 
     calculate(bld, tdm.alpha(), moment(false));
     if (!tdm.is_alpha_eq_beta()) {
         calculate(bld, tdm.beta(), moment(true));
-    }
-
-    for (size_t k = 0; k < 3; k++) {
-        m_tdip(k)  = -bld.perform(tdm.sp_trace(), k, 1);
     }
 }
 
@@ -39,12 +34,18 @@ void exciton_analysis::calculate(const mom_builder_i &bld,
     m0(0) = n;
     mom.set(0, 0, m0);
 
-    for (size_t i = 1; i <= mom.n_max(); i++)
-    for (size_t j = 0; j <= i; j++) {
-        vec mj(3, fill::zeros);
-        for (size_t k = 0; k < 3; k++)
-            mj(k) = bld.perform(tdm, k, j, k, i - j) / n;
-        mom.set(j, i - j, mj);
+    for (size_t i = 1; i <= mom.n_max(); i++) {
+      vec mj(3, fill::zeros);
+      for (size_t k = 0; k < 3; k++)
+          mj(k)  = -bld.perform(tdm, k, i);
+      mom.set(i, mj);
+
+      for (size_t j = 0; j <= i; j++) {
+          vec mj(3, fill::zeros);
+          for (size_t k = 0; k < 3; k++)
+              mj(k) = bld.perform(tdm, k, j, k, i - j) / n;
+          mom.set(j, i - j, mj);
+      }
     }
 }
 
@@ -59,11 +60,12 @@ void exciton_analysis::analysis(std::ostream &out,
     }
     out << std::setprecision(6) << std::fixed;
     { // Scope of linear quantities
-        double tdip = norm(m_tdip) * constants::au2D;
+        vec tdipv = mom.get(1) * constants::au2D;
+        double tdip = norm(tdipv);
         out << os << "Trans. dipole moment [D]:" << std::string(11, ' ')
                 << std::setw(10) << tdip << std::endl;
         out << os << "  Cartesian components [D]:" << std::string(9, ' ');
-        print(out, m_tdip  * constants::au2D);
+        print(out, tdipv);
         out << std::endl;
         vec rh = mom.get(0, 1) * constants::au2ang;
         vec re = mom.get(1, 0) * constants::au2ang;
@@ -134,6 +136,7 @@ void exciton_analysis::combine(const exciton_moments &a,
     }
 
     for (size_t i = 0; i <= nmax; i++) {
+        res.set(i, a.get(i) + b.get(i));
         for (size_t j = 0; j <= i; j++) {
 
             vec ma = a.get(j, i - j), mb = b.get(j, i - j);

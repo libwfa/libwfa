@@ -15,8 +15,6 @@ namespace libwfa {
     \ingroup libwfa
  **/
 class exciton_analysis : public exciton_analysis_base {
-private:
-    arma::vec m_tdip;  //!< Transition dipole moment
 
 public:
     /** \brief Constructor

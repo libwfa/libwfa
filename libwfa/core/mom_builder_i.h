@@ -51,8 +51,6 @@ public:
         and \f$ n \f$ where \f$ n \f$ is the exponent and \f$ c \f$ is
         the cartesian direction, e.g. \f$ (c, n) = (1,1) \f$ refers to the
         operator \f$ y \f$ .
-
-        TODO: extend to mixed direction moments
      **/
     virtual double perform(const arma::mat &dm, size_t c, size_t n) const = 0;
 };
