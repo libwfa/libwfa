@@ -17,6 +17,7 @@ set(SRC_HEADER
     mom_builder_test.h
     ndo_analysis_test.h
     no_analysis_test.h
+    non_orth_test.h
     nto_analysis_test.h
     sa_nto_analysis_test.h
     orbital_data_test.h
@@ -57,6 +58,7 @@ set(SRC
     mom_builder_test.C
     ndo_analysis_test.C
     no_analysis_test.C
+    non_orth_test.C
     nto_analysis_test.C
     sa_nto_analysis_test.C
     orbital_data_test.C

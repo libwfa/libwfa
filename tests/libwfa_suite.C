@@ -20,6 +20,7 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     add_test("mom_builder", m_utf_mom_builder);
     add_test("ndo_analysis", m_utf_ndo_analysis);
     add_test("no_analysis", m_utf_no_analysis);
+    add_test("non_orth_test", m_utf_non_orth);
     add_test("nto_analysis", m_utf_nto_analysis);
     add_test("orbital_data", m_utf_orbital_data);
     add_test("orbital_selector", m_utf_orbital_selector);

@@ -17,6 +17,7 @@
 #include "mom_builder_test.h"
 #include "ndo_analysis_test.h"
 #include "no_analysis_test.h"
+#include "non_orth_test.h"
 #include "nto_analysis_test.h"
 #include "orbital_data_test.h"
 #include "orbital_selector_test.h"
@@ -57,6 +58,7 @@ namespace libwfa {
     - \c mom_builder_test
     - \c ndo_analysis_test
     - \c no_analysis_test
+    - \c non_orth_test
     - \c nto_analysis_test
     - \c santo_analysis_test
     - \c orbital_data_test
@@ -89,6 +91,7 @@ private:
     unit_test_factory<mom_builder_test> m_utf_mom_builder;
     unit_test_factory<ndo_analysis_test> m_utf_ndo_analysis;
     unit_test_factory<no_analysis_test> m_utf_no_analysis;
+    unit_test_factory<non_orth_test> m_utf_non_orth;
     unit_test_factory<nto_analysis_test> m_utf_nto_analysis;
     unit_test_factory<sa_nto_analysis_test> m_utf_sa_nto_analysis;
     unit_test_factory<orbital_data_test> m_utf_orbital_data;
