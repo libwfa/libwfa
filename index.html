@@ -67,7 +67,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p ><code>libwfa</code> provides a C++ library for the analysis of wavefunctions. This analysis is based on density matrices, which provide a unified formalism independent of the underlying wavefunction model.</p>
-<p >The methods which have been implemented are described in detail in Ref. [1] and examples are provided in Ref. [2]. Further developments are covered in Refs [4] and [5]. Briefly, the implemented methods consist of the following parts:</p>
+<p >The methods which have been implemented are described in detail in Ref. [1] and examples are provided in Ref. [2]. Further developments are covered in Refs [4-7]. Briefly, the implemented methods consist of the following parts:</p>
 <ol type="1">
 <li>Analysis of state density matrices for<ul>
 <li>population analysis,</li>
@@ -81,7 +81,8 @@ $(function() {
 <li>plotting the transition density,</li>
 <li>natural transition orbitals (NTOs) with a possibility for state-averaging,</li>
 <li>entanglement analysis based on NTOs [6],</li>
-<li><em>electron-hole</em> correlation analysis using the charge transfer numbers (see also Ref. [3]).</li>
+<li><em>electron-hole</em> correlation analysis using the charge transfer numbers (see also Ref. [3]),</li>
+<li>de-excitation measure.</li>
 </ul>
 </li>
 <li>Analysis of difference density matrices for<ul>
@@ -90,17 +91,21 @@ $(function() {
 <li>natural difference orbitals.</li>
 </ul>
 </li>
-<li>Real-space analysis of properties within an exciton picture, see Refs [4], [5].</li>
-<li>Electrostatic potentials of various effective densities.</li>
+<li>Real-space analysis of properties within an exciton picture,<ul>
+<li>available for 1TDM and 1DDM see Refs [4], [5].</li>
+</ul>
+</li>
+<li>Electrostatic potentials (ESP) of various effective densities [7].</li>
 </ol>
-<p >The required input from the quantum chemical program consists of the density matrices of interest, the AO-overlap matrix, the MO coefficients (used for orthogonalization), and information for population analysis. For the exciton analysis routines also the dipole and quadrupole integrals are needed.</p>
+<p >The required input from the quantum chemical program consists of the density matrices of interest, the AO-overlap matrix, the MO coefficients (used for orthogonalization), and information for population analysis. For the exciton analysis routines also the dipole and quadrupole integrals are needed. ESP computation needs access to the two-electron integral engine.</p>
 <dl class="section user"><dt>Literature</dt><dd><ol type="1">
-<li>Plasser, F.; Wormit, M.; Dreuw, A. <em>JCP</em>, <b>2014</b>, <em>141</em>, 024106 (DOI: 10.1063/1.4885819).</li>
-<li>Plasser, F.; Baeppler, S.A.; Wormit, M.; Dreuw, A. <em>JCP</em>, <b>2014</b>, <em>141</em>, 024107 (DOI: 10.1063/1.4885820).</li>
-<li>Plasser, F.; Lischka, H. <em>JCTC</em>, <b>2012</b>, <em>8</em>, 2777.</li>
+<li>F. Plasser, M. Wormit, A. Dreuw <em>JCP</em>, <b>2014</b>, <em>141</em>, 024106 (DOI: 10.1063/1.4885819).</li>
+<li>F. Plasser, S.A. Baeppler, M. Wormit, A. Dreuw <em>JCP</em>, <b>2014</b>, <em>141</em>, 024107 (DOI: 10.1063/1.4885820).</li>
+<li>F. Plasser, H. Lischka <em>JCTC</em>, <b>2012</b>, <em>8</em>, 2777 (DOI: 10.1021/ct300307c).</li>
 <li>S. Baeppler, F. Plasser, M. Wormit, A. Dreuw <em>PRA</em>, <b>2014</b>, <em>90</em>, 052521 (DOI: 10.1103/PhysRevA.90.052521).</li>
 <li>F. Plasser, B. Thomitzni, S. Baeppler, J. Wenzel, D. Rehn, M. Wormit, A. Dreuw <em>JCC</em>, <b>2015</b>, <em>36</em>, 1609-1620 (DOI: 10.1002/jcc.23975).</li>
 <li>F. Plasser <em>JCP</em>, <b>2016</b>, <em>144</em>, 194107 (DOI: 10.1063/1.4949535).</li>
+<li>P. Kimber, F. Plasser, <em>PCCP</em> <b>2020</b>, <em>22</em>, 6058–6080 (DOI: 10.1039/D0CP00369G).</li>
 </ol>
 </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Felix Plasser </dd>
@@ -116,12 +121,12 @@ Feng Chen </dd>
 Anna I. Krylov </dd>
 <dd>
 Pavel Pokhilko</dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2014-2019</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2014-2021</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>(c) 2014, F. Plasser and M. Wormit </dd>
 <dd>
 All rights reserved. </dd>
 <dd>
-Modifications copyright (C) 2019, Loughborough University. </dd>
+Modifications copyright (c) 2019, Loughborough University. </dd>
 <dd>
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: </dd>
 <dd>
@@ -137,7 +142,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 26 2021 09:17:45 for libwfa by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Fri Nov 26 2021 09:31:53 for libwfa by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
