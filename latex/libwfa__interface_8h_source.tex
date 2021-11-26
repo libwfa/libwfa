@@ -1,0 +1,39 @@
+\hypertarget{libwfa__interface_8h_source}{}\doxysection{libwfa\+\_\+interface.\+h}
+\label{libwfa__interface_8h_source}\index{libwfa\_interface.h@{libwfa\_interface.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_INTERFACE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_INTERFACE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <stddef.h>}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 }
+\DoxyCodeLine{16 \textcolor{keywordtype}{void} analyse\_opdm(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *name, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *desc,}
+\DoxyCodeLine{17     \textcolor{keywordtype}{double} *ddm, \textcolor{keywordtype}{double} *dm0, \textcolor{keywordtype}{size\_t} nao);}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{29 \textcolor{keywordtype}{void} analyse\_opdm(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *name, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *desc,}
+\DoxyCodeLine{30     \textcolor{keywordtype}{double} *ddm\_a, \textcolor{keywordtype}{double} *ddm\_b, \textcolor{keywordtype}{double} *dm0\_a, \textcolor{keywordtype}{double} *dm0\_b, \textcolor{keywordtype}{size\_t} nao);}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{38 \textcolor{keywordtype}{void} analyse\_opsdm(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *name, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *desc, \textcolor{keywordtype}{double} *dm, \textcolor{keywordtype}{size\_t} nao);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{47 \textcolor{keywordtype}{void} analyse\_opsdm(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *name, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *desc,}
+\DoxyCodeLine{48     \textcolor{keywordtype}{double} *dm\_a, \textcolor{keywordtype}{double} *dm\_b, \textcolor{keywordtype}{size\_t} nao);}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{56 \textcolor{keywordtype}{void} analyse\_optdm(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *name, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *desc, \textcolor{keywordtype}{double} *tdm, \textcolor{keywordtype}{size\_t} nao);}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{65 \textcolor{keywordtype}{void} analyse\_optdm(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *name, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *desc,}
+\DoxyCodeLine{66     \textcolor{keywordtype}{double} *tdm\_a, \textcolor{keywordtype}{double} *tdm\_b, \textcolor{keywordtype}{size\_t} nao);}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{72 \textcolor{keywordtype}{void} post\_process\_optdm(\textcolor{keywordtype}{double} *tdm, \textcolor{keywordtype}{size\_t} nao);}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{79 \textcolor{keywordtype}{void} post\_process\_optdm(\textcolor{keywordtype}{double} *tdm\_a, \textcolor{keywordtype}{double} *tdm\_b, \textcolor{keywordtype}{size\_t} nao);}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{83 \textcolor{keywordtype}{void} reset\_wf\_analysis();}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{87 \textcolor{keywordtype}{void} shutdown\_wf\_analysis();}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_INTERFACE\_H}}
+
+\end{DoxyCode}

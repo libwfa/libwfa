@@ -1,0 +1,90 @@
+\hypertarget{classlibwfa_1_1no__analysis}{}\doxysection{libwfa\+::no\+\_\+analysis Class Reference}
+\label{classlibwfa_1_1no__analysis}\index{libwfa::no\_analysis@{libwfa::no\_analysis}}
+
+
+Perform NO analysis of a state density matrix.  
+
+
+
+
+{\ttfamily \#include $<$no\+\_\+analysis.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1no__analysis_afd832802ede19175dfa917a54205d0f8}{no\+\_\+analysis}} (const arma\+::mat \&s, const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&c, const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&sdm)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1no__analysis_abec72f233b54b3ae5c7b27700271e73d}\label{classlibwfa_1_1no__analysis_abec72f233b54b3ae5c7b27700271e73d}} 
+{\bfseries $\sim$no\+\_\+analysis} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1no__analysis_ac2da419cd5d9e4eb8f574f063c7ce51f}{analyse}} (std\+::ostream \&out, size\+\_\+t nno=3) const
+\begin{DoxyCompactList}\small\item\em Perform NO analysis. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1no__analysis_a02e04359c71d6f96b42853463f56423a}{export\+\_\+orbitals}} (\mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\+\_\+printer\+\_\+i}} \&pr, double thresh) const
+\begin{DoxyCompactList}\small\item\em Export NOs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Perform NO analysis of a state density matrix. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1no__analysis_afd832802ede19175dfa917a54205d0f8}\label{classlibwfa_1_1no__analysis_afd832802ede19175dfa917a54205d0f8}} 
+\index{libwfa::no\_analysis@{libwfa::no\_analysis}!no\_analysis@{no\_analysis}}
+\index{no\_analysis@{no\_analysis}!libwfa::no\_analysis@{libwfa::no\_analysis}}
+\doxysubsubsection{\texorpdfstring{no\_analysis()}{no\_analysis()}}
+{\footnotesize\ttfamily libwfa\+::no\+\_\+analysis\+::no\+\_\+analysis (\begin{DoxyParamCaption}\item[{const arma\+::mat \&}]{s,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{c,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{sdm }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Overlap matrix \\
+\hline
+{\em c} & Arbitrary coefficient matrix to transform in orthogonal basis \\
+\hline
+{\em sdm} & State density matrix \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1no__analysis_ac2da419cd5d9e4eb8f574f063c7ce51f}\label{classlibwfa_1_1no__analysis_ac2da419cd5d9e4eb8f574f063c7ce51f}} 
+\index{libwfa::no\_analysis@{libwfa::no\_analysis}!analyse@{analyse}}
+\index{analyse@{analyse}!libwfa::no\_analysis@{libwfa::no\_analysis}}
+\doxysubsubsection{\texorpdfstring{analyse()}{analyse()}}
+{\footnotesize\ttfamily void libwfa\+::no\+\_\+analysis\+::analyse (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{size\+\_\+t}]{nno = {\ttfamily 3} }\end{DoxyParamCaption}) const}
+
+
+
+Perform NO analysis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+{\em nno} & \# of leading occupation numbers to print (default\+: 3) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1no__analysis_a02e04359c71d6f96b42853463f56423a}\label{classlibwfa_1_1no__analysis_a02e04359c71d6f96b42853463f56423a}} 
+\index{libwfa::no\_analysis@{libwfa::no\_analysis}!export\_orbitals@{export\_orbitals}}
+\index{export\_orbitals@{export\_orbitals}!libwfa::no\_analysis@{libwfa::no\_analysis}}
+\doxysubsubsection{\texorpdfstring{export\_orbitals()}{export\_orbitals()}}
+{\footnotesize\ttfamily void libwfa\+::no\+\_\+analysis\+::export\+\_\+orbitals (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\+\_\+printer\+\_\+i}} \&}]{pr,  }\item[{double}]{thresh }\end{DoxyParamCaption}) const}
+
+
+
+Export NOs. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pr} & Orbital printer \\
+\hline
+{\em thresh} & Threshold to determine important orbitals\\
+\hline
+\end{DoxyParams}
+Only NOs with occupation number larger than the threshold are exported 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+no\+\_\+analysis.\+h\end{DoxyCompactItemize}

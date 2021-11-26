@@ -1,0 +1,65 @@
+\hypertarget{selector_8h_source}{}\doxysection{selector.\+h}
+\label{selector_8h_source}\index{selector.h@{selector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_SELECTOR\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_SELECTOR\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <armadillo>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <cstdlib>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <libwfa/libwfa\_exception.h>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1selector}{selector}} \{}
+\DoxyCodeLine{16 \textcolor{keyword}{private}:}
+\DoxyCodeLine{17     std::map<size\_t, size\_t> m\_indexes; }
+\DoxyCodeLine{18     \textcolor{keywordtype}{size\_t} m\_ntotal; }
+\DoxyCodeLine{19     \textcolor{keywordtype}{size\_t} m\_cur; }
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{27     \mbox{\hyperlink{classlibwfa_1_1selector_ab6956d63e9aa3b8207eccb2b0081e492}{selector}}(\textcolor{keywordtype}{size\_t} ntotal = 0) : m\_ntotal(ntotal), m\_cur(0) \{ \}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1selector_a3390ce4192e65c5fa6e0e0c196aabc44}{select}}(\textcolor{keywordtype}{size\_t} i);}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{39     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1selector_a6a0b0d1b6e9d02ac005edab2dfc3f179}{select}}(\textcolor{keywordtype}{size\_t} begin, \textcolor{keywordtype}{size\_t} end, \textcolor{keywordtype}{size\_t} inc = 1, \textcolor{keywordtype}{bool} reverse = \textcolor{keyword}{false});}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1selector_ad8ff6e461ced42c184eda3ac8b62bdab}{select\_all}}();}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{47     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1selector_a168c13853f66e00d715da6580ba149b0}{deselect}}(\textcolor{keywordtype}{size\_t} i);}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{51     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1selector_ad0206e207662fb90dfa319c9bbf4e0da}{deselect\_all}}();}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{55     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1selector_a73c242cc2d15e6328fbd7896180c1b4d}{n\_indexes}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_ntotal; \}}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{59     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1selector_ab0f8f561605e7284a81b7de249c1595a}{n\_selected}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_indexes.size(); \}}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{63     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1selector_a197800dddc837b088455d08c7622f47a}{all\_selected}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_ntotal == m\_indexes.size(); \}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{67     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1selector_aca6b04623c1d64a31e9716826eebf3d9}{none\_selected}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_indexes.size() == 0; \}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{71     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1selector_acb256e6e813fdedd3f92b91c786dab31}{is\_selected}}(\textcolor{keywordtype}{size\_t} i) \textcolor{keyword}{const};}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{75     std::vector<size\_t> \mbox{\hyperlink{classlibwfa_1_1selector_a5e89b5f224fea0c0aebedbe1c7ed216d}{get\_selected}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{79     arma::Col<arma::uword> \mbox{\hyperlink{classlibwfa_1_1selector_a9a52c7dfc1df5458fd5c299c355a970c}{get\_selected\_arma}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{80 \};}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83 \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1selector_acb256e6e813fdedd3f92b91c786dab31}{selector::is\_selected}}(\textcolor{keywordtype}{size\_t} i)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{84 \textcolor{preprocessor}{\#ifdef LIBWFA\_DEBUG}}
+\DoxyCodeLine{85     \textcolor{keywordflow}{if} (i >= m\_ntotal) \{}
+\DoxyCodeLine{86         \textcolor{keywordflow}{throw} \mbox{\hyperlink{classlibwfa_1_1libwfa__exception}{libwfa\_exception}}(\textcolor{stringliteral}{"{}selector"{}}, \textcolor{stringliteral}{"{}check(size\_t \&) const"{}},}
+\DoxyCodeLine{87                 \_\_FILE\_\_, \_\_LINE\_\_, \textcolor{stringliteral}{"{}i"{}});}
+\DoxyCodeLine{88     \}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{90     \textcolor{keywordflow}{return} m\_indexes.count(i) != 0;}
+\DoxyCodeLine{91 \}}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_SELECTOR\_H}}
+
+\end{DoxyCode}

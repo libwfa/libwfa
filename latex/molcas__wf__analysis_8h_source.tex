@@ -1,0 +1,52 @@
+\hypertarget{molcas__wf__analysis_8h_source}{}\doxysection{molcas\+\_\+wf\+\_\+analysis.\+h}
+\label{molcas__wf__analysis_8h_source}\index{molcas\_wf\_analysis.h@{molcas\_wf\_analysis.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_MOLCAS\_WF\_ANALYSIS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_MOLCAS\_WF\_ANALYSIS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <libwfa/wf\_analysis.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <libwfa/molcas/molcas\_wf\_analysis\_data.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}libwfa/core/constants.h"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis}{molcas\_wf\_analysis}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1wf__analysis}{wf\_analysis}} \{}
+\DoxyCodeLine{11 \textcolor{keyword}{private}:}
+\DoxyCodeLine{12     \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data}{molcas\_wf\_analysis\_data}} *m\_mdata;}
+\DoxyCodeLine{13     \textcolor{keywordtype}{size\_t} m\_info; }
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{public}:}
+\DoxyCodeLine{16     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis_a2f0c93b4fafff2a6c37993572de8b2bf}{k\_clazz}}[]; }
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{public}:}
+\DoxyCodeLine{19     \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis}{molcas\_wf\_analysis}}(\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data}{molcas\_wf\_analysis\_data}} *h) : \mbox{\hyperlink{classlibwfa_1_1wf__analysis}{wf\_analysis}}(h), m\_mdata(h), m\_info(0) \{ \}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21     \textcolor{keywordtype}{void} run\_analysis();}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{private}:}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} scf\_analysis();}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} rasscf\_analysis(\textcolor{keywordtype}{size\_t} refstate);}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} rassi\_analysis(\textcolor{keywordtype}{size\_t} refstate);}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} header1(std::string title);}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} header2(std::string title);}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{32     \textcolor{keywordtype}{void} analyse\_opdm\_ai(\textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::string \&desc,}
+\DoxyCodeLine{33         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&ddm, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&dm0);}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{37     \textcolor{keywordtype}{void} analyse\_opdm\_ai(\textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::string \&desc,}
+\DoxyCodeLine{38         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&sdm);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{42     \textcolor{keywordtype}{void} analyse\_optdm\_ai(\textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::string \&desc,}
+\DoxyCodeLine{43         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&tdm, \textcolor{keyword}{const} \textcolor{keywordtype}{double} energy, \textcolor{keyword}{const} \textcolor{keywordtype}{double} osc);}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{51     \textcolor{keywordtype}{void} add\_molcas\_info(std::stringstream \&in);}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{55     \textcolor{keywordtype}{void} add\_molcas\_info\_fda();}
+\DoxyCodeLine{56 \};}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_MOLCAS\_WF\_ANALYSIS\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,43 @@
+\hypertarget{orbital__printer__h5_8h_source}{}\doxysection{orbital\+\_\+printer\+\_\+h5.\+h}
+\label{orbital__printer__h5_8h_source}\index{orbital\_printer\_h5.h@{orbital\_printer\_h5.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_ORBITAL\_PRINTER\_H5\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_ORBITAL\_PRINTER\_H5\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}H5Cpp.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <libwfa/export/orbital\_printer\_i.h>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5}{orbital\_printer\_h5}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\_printer\_i}} \{}
+\DoxyCodeLine{10 \textcolor{keyword}{public}:}
+\DoxyCodeLine{11     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5_a02e7ebe21118984b240148ef62846ce9}{k\_clazz}}[]; }
+\DoxyCodeLine{12     }
+\DoxyCodeLine{13 \textcolor{keyword}{public}:}
+\DoxyCodeLine{14     \textcolor{keyword}{typedef} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a306849ee636eceeae4b4cfc712407c1f}{orbital\_type::flag\_t}} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5_a2e1655bf3fe74ede3cf80ca30eddc66d}{ot\_flag}}; }
+\DoxyCodeLine{15     }
+\DoxyCodeLine{16 \textcolor{keyword}{private}:}
+\DoxyCodeLine{17     H5::H5File m\_file; }
+\DoxyCodeLine{18     std::string m\_id; }
+\DoxyCodeLine{19     \mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5_a2e1655bf3fe74ede3cf80ca30eddc66d}{ot\_flag}} m\_ot; }
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{27     \mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5_a2cb5fab694471690701d5e5b95f63f27}{orbital\_printer\_h5}}(H5::H5File \&file, \textcolor{keyword}{const} std::string \&\textcolor{keywordtype}{id}, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5_a2e1655bf3fe74ede3cf80ca30eddc66d}{ot\_flag}} \&ot = \mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5_a2e1655bf3fe74ede3cf80ca30eddc66d}{ot\_flag}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceebaeed567c6b3fb087034fb3f59f83fb9dd}{orbital\_type::ALL}})) :}
+\DoxyCodeLine{28         m\_file(file), m\_id(id), m\_ot(ot) \{\}}
+\DoxyCodeLine{29     }
+\DoxyCodeLine{32     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5_a94d3385950a8875856bbadad943626a3}{\string~orbital\_printer\_h5}}() \{ \}    }
+\DoxyCodeLine{33 }
+\DoxyCodeLine{37     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5_a8024fded12e6913f23a5e3c3b0710ce5}{perform}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} type,}
+\DoxyCodeLine{38             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&orb, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{44     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__h5_afcc7b74b5d59e7abffe85edd98edc03a}{perform}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} type,}
+\DoxyCodeLine{45             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&orb\_a, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s\_a,}
+\DoxyCodeLine{46             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&orb\_b, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s\_b);}
+\DoxyCodeLine{47 \};}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_ORBITAL\_PRINTER\_H5\_H    }}
+
+\end{DoxyCode}

@@ -1,0 +1,56 @@
+\hypertarget{test02__data_8h_source}{}\doxysection{test02\+\_\+data.\+h}
+\label{test02__data_8h_source}\index{test02\_data.h@{test02\_data.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_TEST02\_DATA\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_TEST02\_DATA\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}test\_data\_base.h"{}}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 }
+\DoxyCodeLine{53 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1test02__data}{test02\_data}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1test__data__base}{test\_data\_base}} \{}
+\DoxyCodeLine{54 \textcolor{keyword}{public}:}
+\DoxyCodeLine{55     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1test02__data_aa6486c8eaa1d85bacbde2d0eda532099}{k\_nao}}; }
+\DoxyCodeLine{56     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1test02__data_a777e8b26f2176aa66a7aba10f34995cb}{k\_nmo}}; }
+\DoxyCodeLine{57     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1test02__data_a11a3892a107569bd5995d22fddf13342}{k\_natoms}}; }
+\DoxyCodeLine{58     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1test02__data_a0ae40d84fd8598ec60c124af16b86a0d}{k\_nstat}}; }
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{keyword}{private}:}
+\DoxyCodeLine{61     arma::uvec m\_atnum; }
+\DoxyCodeLine{62     arma::vec m\_nch; }
+\DoxyCodeLine{63     arma::uvec m\_bf2nuc; }
+\DoxyCodeLine{64     }
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     arma::mat m\_pop\_mulliken; }
+\DoxyCodeLine{67     arma::mat m\_pop\_loewdin; }
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{keyword}{public}:}
+\DoxyCodeLine{70     \mbox{\hyperlink{classlibwfa_1_1test02__data}{test02\_data}}();}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72     \textcolor{keywordtype}{bool} aeqb() \{ \textcolor{keywordflow}{return} \textcolor{keyword}{true}; \}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74     \textcolor{keywordtype}{size\_t} nstates() \{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classlibwfa_1_1test02__data_a0ae40d84fd8598ec60c124af16b86a0d}{k\_nstat}}; \}}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76     arma::uvec atomic\_numbers() \{ \textcolor{keywordflow}{return} m\_atnum; \}}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78     arma::vec nuclear\_charges() \{ \textcolor{keywordflow}{return} m\_nch; \}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80     arma::uvec bf2nuclei() \{ \textcolor{keywordflow}{return} m\_bf2nuc; \}}
+\DoxyCodeLine{81     }
+\DoxyCodeLine{82     arma::vec pop\_mulliken(\textcolor{keywordtype}{size\_t} istate, \textcolor{keywordtype}{bool} alpha) \{}
+\DoxyCodeLine{83         \textcolor{keywordflow}{return} m\_pop\_mulliken.col(istate);}
+\DoxyCodeLine{84     \}}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86     arma::vec pop\_loewdin(\textcolor{keywordtype}{size\_t} istate, \textcolor{keywordtype}{bool} alpha) \{}
+\DoxyCodeLine{87         \textcolor{keywordflow}{return} m\_pop\_loewdin.col(istate);}
+\DoxyCodeLine{88     \}}
+\DoxyCodeLine{89 \};}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_TEST02\_DATA\_H}}
+
+\end{DoxyCode}

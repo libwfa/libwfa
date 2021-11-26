@@ -1,0 +1,82 @@
+\hypertarget{classlibwfa_1_1exciton__analysis}{}\doxysection{libwfa\+::exciton\+\_\+analysis Class Reference}
+\label{classlibwfa_1_1exciton__analysis}\index{libwfa::exciton\_analysis@{libwfa::exciton\_analysis}}
+
+
+Computes the exciton moments based on a TDM.  
+
+
+
+
+{\ttfamily \#include $<$exciton\+\_\+analysis.\+h$>$}
+
+Inheritance diagram for libwfa\+::exciton\+\_\+analysis\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1exciton__analysis}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1exciton__analysis_a100fa58af95cd9bef75cbdf5945e2046}{exciton\+\_\+analysis}} (const \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\+\_\+builder\+\_\+i}} \&bld, const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&tdm, size\+\_\+t maxmm=2)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis_ac52c63e90a701ce380d0d32fe0705b21}\label{classlibwfa_1_1exciton__analysis_ac52c63e90a701ce380d0d32fe0705b21}} 
+virtual {\bfseries $\sim$exciton\+\_\+analysis} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1exciton__analysis_aace4416619d59b73eb0abbd8db17d475}{analyse}} (std\+::ostream \&out, size\+\_\+t offset=2) const
+\begin{DoxyCompactList}\small\item\em Perform analysis. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Computes the exciton moments based on a TDM. 
+
+Computes the exciton moments using the transition density matrix. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis_a100fa58af95cd9bef75cbdf5945e2046}\label{classlibwfa_1_1exciton__analysis_a100fa58af95cd9bef75cbdf5945e2046}} 
+\index{libwfa::exciton\_analysis@{libwfa::exciton\_analysis}!exciton\_analysis@{exciton\_analysis}}
+\index{exciton\_analysis@{exciton\_analysis}!libwfa::exciton\_analysis@{libwfa::exciton\_analysis}}
+\doxysubsubsection{\texorpdfstring{exciton\_analysis()}{exciton\_analysis()}}
+{\footnotesize\ttfamily libwfa\+::exciton\+\_\+analysis\+::exciton\+\_\+analysis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\+\_\+builder\+\_\+i}} \&}]{bld,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{tdm,  }\item[{size\+\_\+t}]{maxmm = {\ttfamily 2} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bld} & Moment builder \\
+\hline
+{\em tdm} & Transition density matrix \\
+\hline
+{\em maxmm} & Maximum moment (default\+: 2) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis_aace4416619d59b73eb0abbd8db17d475}\label{classlibwfa_1_1exciton__analysis_aace4416619d59b73eb0abbd8db17d475}} 
+\index{libwfa::exciton\_analysis@{libwfa::exciton\_analysis}!analyse@{analyse}}
+\index{analyse@{analyse}!libwfa::exciton\_analysis@{libwfa::exciton\_analysis}}
+\doxysubsubsection{\texorpdfstring{analyse()}{analyse()}}
+{\footnotesize\ttfamily void libwfa\+::exciton\+\_\+analysis\+\_\+base\+::analyse (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{size\+\_\+t}]{offset = {\ttfamily 2} }\end{DoxyParamCaption}) const}
+
+
+
+Perform analysis. 
+
+Note\+: Only passing the spin-\/traced density will not yield the same result as \char`\"{}\+Total\char`\"{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+{\em offset} & Line offset \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+exciton\+\_\+analysis.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,89 @@
+\hypertarget{classlibwfa_1_1ctnum__export}{}\doxysection{libwfa\+::ctnum\+\_\+export Class Reference}
+\label{classlibwfa_1_1ctnum__export}\index{libwfa::ctnum\_export@{libwfa::ctnum\_export}}
+
+
+Printer for CT number data (export to file)  
+
+
+
+
+{\ttfamily \#include $<$ctnum\+\_\+export.\+h$>$}
+
+Inheritance diagram for libwfa\+::ctnum\+\_\+export\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1ctnum__export}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1ctnum__export_afbbce30fb564745f55e170bd05c2d317}{ctnum\+\_\+export}} (const std\+::string \&prefix, const std\+::string \&desc, size\+\_\+t ncols=3, size\+\_\+t colwidth=15, size\+\_\+t prec=6)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1ctnum__export_a50f2a2dd76f1734ccc47da5e456c3f80}{perform}} (const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&om) const
+\begin{DoxyCompactList}\small\item\em Export the CT number data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Printer for CT number data (export to file) 
+
+This printer exports the CT number data obtained from one transition density to one or two files in the current directory. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1ctnum__export_afbbce30fb564745f55e170bd05c2d317}\label{classlibwfa_1_1ctnum__export_afbbce30fb564745f55e170bd05c2d317}} 
+\index{libwfa::ctnum\_export@{libwfa::ctnum\_export}!ctnum\_export@{ctnum\_export}}
+\index{ctnum\_export@{ctnum\_export}!libwfa::ctnum\_export@{libwfa::ctnum\_export}}
+\doxysubsubsection{\texorpdfstring{ctnum\_export()}{ctnum\_export()}}
+{\footnotesize\ttfamily libwfa\+::ctnum\+\_\+export\+::ctnum\+\_\+export (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{prefix,  }\item[{const std\+::string \&}]{desc,  }\item[{size\+\_\+t}]{ncols = {\ttfamily 3},  }\item[{size\+\_\+t}]{colwidth = {\ttfamily 15},  }\item[{size\+\_\+t}]{prec = {\ttfamily 6} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prefix} & File prefix \\
+\hline
+{\em desc} & Description \\
+\hline
+{\em ncols} & Max number of columns \\
+\hline
+{\em colwidth} & Max column width \\
+\hline
+{\em prec} & Precision the data columns \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1ctnum__export_a50f2a2dd76f1734ccc47da5e456c3f80}\label{classlibwfa_1_1ctnum__export_a50f2a2dd76f1734ccc47da5e456c3f80}} 
+\index{libwfa::ctnum\_export@{libwfa::ctnum\_export}!perform@{perform}}
+\index{perform@{perform}!libwfa::ctnum\_export@{libwfa::ctnum\_export}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}}
+{\footnotesize\ttfamily virtual void libwfa\+::ctnum\+\_\+export\+::perform (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{om }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Export the CT number data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em om} & CT number data (omega matrix)\\
+\hline
+\end{DoxyParams}
+The CT number data which is passed as argument ct is appended to the file \texorpdfstring{$<$}{<}prefix\texorpdfstring{$>$}{>}.om . This file is produced only as the spin-\/traced version. The format of the text files is as follows\+:
+\begin{DoxyItemize}
+\item the first line contains the description which should be composed of name, energy, and oscillator strength of the state
+\item the second line contains the dimensions of the data (always 2) and the number of rows and columns of the data
+\item in the remaining lines the CT number data is printed as linear array with fixed precision numbers using the provided width and precision. A line break is inserted after ncols numbers have been written.
+\end{DoxyItemize}
+
+The exported data can be analysed further using Theo\+DORE available at \href{http://theodore-qc.sourceforge.net/}{\texttt{ http\+://theodore-\/qc.\+sourceforge.\+net/}} 
+
+Implements \mbox{\hyperlink{classlibwfa_1_1ctnum__printer__i_ae898a85f5467b14f5090c393484b98a6}{libwfa\+::ctnum\+\_\+printer\+\_\+i}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ctnum\+\_\+export.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,56 @@
+\hypertarget{classlibwfa_1_1dens__mom}{}\doxysection{libwfa\+::dens\+\_\+mom Class Reference}
+\label{classlibwfa_1_1dens__mom}\index{libwfa::dens\_mom@{libwfa::dens\_mom}}
+
+
+Simple multipole analysis of the wavefunctions.  
+
+
+
+
+{\ttfamily \#include $<$dens\+\_\+mom.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1dens__mom_a24766f839d93a45f8ac7e1327b5afcca}{dens\+\_\+mom}} (const \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\+\_\+builder\+\_\+i}} \&bld, const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&sdm, const arma\+::mat \&coordinates, const arma\+::vec \&atomic\+\_\+charges, size\+\_\+t maxmm=2)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1dens__mom_ab2d6f1929584edb7c6901808b0e24b0d}\label{classlibwfa_1_1dens__mom_ab2d6f1929584edb7c6901808b0e24b0d}} 
+virtual {\bfseries $\sim$dens\+\_\+mom} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1dens__mom_a8c7d631e39fbb3bbc002af1f9d032be8}\label{classlibwfa_1_1dens__mom_a8c7d631e39fbb3bbc002af1f9d032be8}} 
+void {\bfseries analyse} (std\+::ostream \&out, size\+\_\+t offset=2) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Simple multipole analysis of the wavefunctions. 
+
+Computes the usual dipole and quadrupole moments. The information is combined to compute the size of the electron distribution.
+
+TODO\+: Analysis of spin, quadrupole moments, ellipticity, ... 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1dens__mom_a24766f839d93a45f8ac7e1327b5afcca}\label{classlibwfa_1_1dens__mom_a24766f839d93a45f8ac7e1327b5afcca}} 
+\index{libwfa::dens\_mom@{libwfa::dens\_mom}!dens\_mom@{dens\_mom}}
+\index{dens\_mom@{dens\_mom}!libwfa::dens\_mom@{libwfa::dens\_mom}}
+\doxysubsubsection{\texorpdfstring{dens\_mom()}{dens\_mom()}}
+{\footnotesize\ttfamily libwfa\+::dens\+\_\+mom\+::dens\+\_\+mom (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\+\_\+builder\+\_\+i}} \&}]{bld,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{sdm,  }\item[{const arma\+::mat \&}]{coordinates,  }\item[{const arma\+::vec \&}]{atomic\+\_\+charges,  }\item[{size\+\_\+t}]{maxmm = {\ttfamily 2} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bld} & Moment builder \\
+\hline
+{\em sdm} & Density matrix \\
+\hline
+{\em maxmm} & Highest moment to perform analysis \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+dens\+\_\+mom.\+h\end{DoxyCompactItemize}

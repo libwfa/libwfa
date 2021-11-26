@@ -1,0 +1,111 @@
+\hypertarget{classlibwfa_1_1mom__builder__i}{}\doxysection{libwfa\+::mom\+\_\+builder\+\_\+i Class Reference}
+\label{classlibwfa_1_1mom__builder__i}\index{libwfa::mom\_builder\_i@{libwfa::mom\_builder\_i}}
+
+
+Interface for builders of spatial moments of a density matrix.  
+
+
+
+
+{\ttfamily \#include $<$mom\+\_\+builder\+\_\+i.\+h$>$}
+
+Inheritance diagram for libwfa\+::mom\+\_\+builder\+\_\+i\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1mom__builder__i}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual size\+\_\+t \mbox{\hyperlink{classlibwfa_1_1mom__builder__i_a92aa31157309d91ea55ec879d31964e9}{max\+\_\+moment}} () const =0
+\begin{DoxyCompactList}\small\item\em Return the maximum moment that can be constructed. \end{DoxyCompactList}\item 
+virtual double \mbox{\hyperlink{classlibwfa_1_1mom__builder__i_a6bca49afb79efcd4901667bdf3d4dd47}{perform}} (const arma\+::mat \&dm, size\+\_\+t c1, size\+\_\+t n1, size\+\_\+t c2, size\+\_\+t n2) const =0
+\begin{DoxyCompactList}\small\item\em Performs the computation $ \mathrm{Tr}\!\left[\gamma O_1 \gamma O_2 \right] $. \end{DoxyCompactList}\item 
+virtual double \mbox{\hyperlink{classlibwfa_1_1mom__builder__i_acbd4b378d08f70422ac49475a57e69fa}{perform}} (const arma\+::mat \&dm, size\+\_\+t c, size\+\_\+t n) const =0
+\begin{DoxyCompactList}\small\item\em Performs the computation $ \mathrm{Tr}\!\left[\gamma O\right] $. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Interface for builders of spatial moments of a density matrix. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1mom__builder__i_a92aa31157309d91ea55ec879d31964e9}\label{classlibwfa_1_1mom__builder__i_a92aa31157309d91ea55ec879d31964e9}} 
+\index{libwfa::mom\_builder\_i@{libwfa::mom\_builder\_i}!max\_moment@{max\_moment}}
+\index{max\_moment@{max\_moment}!libwfa::mom\_builder\_i@{libwfa::mom\_builder\_i}}
+\doxysubsubsection{\texorpdfstring{max\_moment()}{max\_moment()}}
+{\footnotesize\ttfamily virtual size\+\_\+t libwfa\+::mom\+\_\+builder\+\_\+i\+::max\+\_\+moment (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Return the maximum moment that can be constructed. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1mom__builder_adb1ec845e637e500a7fcbe819fce60ad}{libwfa\+::mom\+\_\+builder}}, and \mbox{\hyperlink{classlibwfa_1_1molcas__mom__builder_a73195da5cd380a03a57dd2d52837b705}{libwfa\+::molcas\+\_\+mom\+\_\+builder}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1mom__builder__i_acbd4b378d08f70422ac49475a57e69fa}\label{classlibwfa_1_1mom__builder__i_acbd4b378d08f70422ac49475a57e69fa}} 
+\index{libwfa::mom\_builder\_i@{libwfa::mom\_builder\_i}!perform@{perform}}
+\index{perform@{perform}!libwfa::mom\_builder\_i@{libwfa::mom\_builder\_i}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual double libwfa\+::mom\+\_\+builder\+\_\+i\+::perform (\begin{DoxyParamCaption}\item[{const arma\+::mat \&}]{dm,  }\item[{size\+\_\+t}]{c,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Performs the computation $ \mathrm{Tr}\!\left[\gamma O\right] $. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dm} & Density matrix $\gamma$ \\
+\hline
+{\em c} & Direction of operator (0 = x, 1 = y, 2 = z) \\
+\hline
+{\em n} & Exponent of operator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resulting moment
+\end{DoxyReturn}
+Computes the moment of the density matrix according to the formula above. The operator $ O $ is determined by $ c $ and $ n $ where $ n $ is the exponent and $ c $ is the cartesian direction, e.\+g. $ (c, n) = (1,1) $ refers to the operator $ y $ .
+
+TODO\+: extend to mixed direction moments 
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1mom__builder_a342e0151c3e00eccb3bc22a81a8549db}{libwfa\+::mom\+\_\+builder}}, and \mbox{\hyperlink{classlibwfa_1_1molcas__mom__builder_a4b6bf205905db384c8642bec01cd61aa}{libwfa\+::molcas\+\_\+mom\+\_\+builder}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1mom__builder__i_a6bca49afb79efcd4901667bdf3d4dd47}\label{classlibwfa_1_1mom__builder__i_a6bca49afb79efcd4901667bdf3d4dd47}} 
+\index{libwfa::mom\_builder\_i@{libwfa::mom\_builder\_i}!perform@{perform}}
+\index{perform@{perform}!libwfa::mom\_builder\_i@{libwfa::mom\_builder\_i}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual double libwfa\+::mom\+\_\+builder\+\_\+i\+::perform (\begin{DoxyParamCaption}\item[{const arma\+::mat \&}]{dm,  }\item[{size\+\_\+t}]{c1,  }\item[{size\+\_\+t}]{n1,  }\item[{size\+\_\+t}]{c2,  }\item[{size\+\_\+t}]{n2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Performs the computation $ \mathrm{Tr}\!\left[\gamma O_1 \gamma O_2 \right] $. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dm} & Density matrix $\gamma$ \\
+\hline
+{\em c1} & Direction of first operator (0 = x, 1 = y, 2 = z) \\
+\hline
+{\em n1} & Exponent of first operator \\
+\hline
+{\em c2} & Direction of second operator (0 = x, 1 = y, 2 = z) \\
+\hline
+{\em n2} & Exponent of second operator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resulting moment
+\end{DoxyReturn}
+Computes the moment of the transition density matrix according to the formula above. Each operator $ O_i $ is determined by $ c_i $ and $ n_i $ where $ n_i $ is the exponent and $ c_i $ is the cartesian direction, e.\+g. $ (c_i, n_i) = (0,2) $ refers to the operator $ x^2 $ .
+
+TODO\+: extend to mixed direction moments 
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1mom__builder_a2997101d232b41163010db14f4c302cd}{libwfa\+::mom\+\_\+builder}}, and \mbox{\hyperlink{classlibwfa_1_1molcas__mom__builder_aa426347c2ee29f8e7fc4e5c50d6ea050}{libwfa\+::molcas\+\_\+mom\+\_\+builder}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+mom\+\_\+builder\+\_\+i.\+h\end{DoxyCompactItemize}

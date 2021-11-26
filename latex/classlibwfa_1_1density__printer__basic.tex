@@ -1,0 +1,93 @@
+\hypertarget{classlibwfa_1_1density__printer__basic}{}\doxysection{libwfa\+::density\+\_\+printer\+\_\+basic Class Reference}
+\label{classlibwfa_1_1density__printer__basic}\index{libwfa::density\_printer\_basic@{libwfa::density\_printer\_basic}}
+
+
+Print density matrices in AO basis.  
+
+
+
+
+{\ttfamily \#include $<$density\+\_\+printer\+\_\+basic.\+h$>$}
+
+Inheritance diagram for libwfa\+::density\+\_\+printer\+\_\+basic\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1density__printer__basic}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1density__printer__basic_a9b2fa465d99b4ecbed865b96d70e5901}\label{classlibwfa_1_1density__printer__basic_a9b2fa465d99b4ecbed865b96d70e5901}} 
+typedef \mbox{\hyperlink{classlibwfa_1_1density__type_ab348b3d76f2f9c9dd756d9e8a3eea78b}{density\+\_\+type\+::flag\+\_\+t}} {\bfseries dt\+\_\+flag}
+\begin{DoxyCompactList}\small\item\em Flag for density types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1density__printer__basic_a4f83dbb0009338b52cd19676cd86fe56}{density\+\_\+printer\+\_\+basic}} (std\+::ostream \&out, const std\+::string \&title, const \mbox{\hyperlink{classlibwfa_1_1density__printer__basic_a9b2fa465d99b4ecbed865b96d70e5901}{dt\+\_\+flag}} \&dt=\mbox{\hyperlink{classlibwfa_1_1density__printer__basic_a9b2fa465d99b4ecbed865b96d70e5901}{dt\+\_\+flag}}(\mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a17a46d3106c636207ded669fc77f6974}{density\+\_\+type\+::\+ALL}}))
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1density__printer__basic_a05505deaebaff806b6921ef1358d0f59}\label{classlibwfa_1_1density__printer__basic_a05505deaebaff806b6921ef1358d0f59}} 
+virtual {\bfseries $\sim$density\+\_\+printer\+\_\+basic} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1density__printer__basic_af3b66fc60e2f263c7cc150bcca48911b}{perform}} (\mbox{\hyperlink{classlibwfa_1_1density__type}{density\+\_\+type}} type, const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&dm)
+\begin{DoxyCompactList}\small\item\em Export the density matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1density__printer__basic_a543364a8489cb4d8182226a47da13097}\label{classlibwfa_1_1density__printer__basic_a543364a8489cb4d8182226a47da13097}} 
+static const char {\bfseries k\+\_\+clazz} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em Class name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Print density matrices in AO basis. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1density__printer__basic_a4f83dbb0009338b52cd19676cd86fe56}\label{classlibwfa_1_1density__printer__basic_a4f83dbb0009338b52cd19676cd86fe56}} 
+\index{libwfa::density\_printer\_basic@{libwfa::density\_printer\_basic}!density\_printer\_basic@{density\_printer\_basic}}
+\index{density\_printer\_basic@{density\_printer\_basic}!libwfa::density\_printer\_basic@{libwfa::density\_printer\_basic}}
+\doxysubsubsection{\texorpdfstring{density\_printer\_basic()}{density\_printer\_basic()}}
+{\footnotesize\ttfamily libwfa\+::density\+\_\+printer\+\_\+basic\+::density\+\_\+printer\+\_\+basic (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{const std\+::string \&}]{title,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1density__printer__basic_a9b2fa465d99b4ecbed865b96d70e5901}{dt\+\_\+flag}} \&}]{dt = {\ttfamily \mbox{\hyperlink{classlibwfa_1_1density__printer__basic_a9b2fa465d99b4ecbed865b96d70e5901}{dt\+\_\+flag}}(\mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a17a46d3106c636207ded669fc77f6974}{density\+\_\+type\+::\+ALL}})} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+{\em title} & Description of orbitals and densities \\
+\hline
+{\em dt} & Flag which density types to export \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1density__printer__basic_af3b66fc60e2f263c7cc150bcca48911b}\label{classlibwfa_1_1density__printer__basic_af3b66fc60e2f263c7cc150bcca48911b}} 
+\index{libwfa::density\_printer\_basic@{libwfa::density\_printer\_basic}!perform@{perform}}
+\index{perform@{perform}!libwfa::density\_printer\_basic@{libwfa::density\_printer\_basic}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}}
+{\footnotesize\ttfamily virtual void libwfa\+::density\+\_\+printer\+\_\+basic\+::perform (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlibwfa_1_1density__type}{density\+\_\+type}}}]{type,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{dm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Export the density matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Type of density matrix \\
+\hline
+{\em dm} & Density matrix\\
+\hline
+\end{DoxyParams}
+Appends the density type to the header and writes the density matrix to the output stream 
+
+Implements \mbox{\hyperlink{classlibwfa_1_1density__printer__i_a72ac2e0a4de06debea6c30c63df93ef3}{libwfa\+::density\+\_\+printer\+\_\+i}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+density\+\_\+printer\+\_\+basic.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,45 @@
+\hypertarget{exciton__analysis_8h_source}{}\doxysection{exciton\+\_\+analysis.\+h}
+\label{exciton__analysis_8h_source}\index{exciton\_analysis.h@{exciton\_analysis.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_EXCITON\_ANALYSIS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_EXCITON\_ANALYSIS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <libwfa/core/ab\_matrix.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <libwfa/core/mom\_builder\_i.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}exciton\_analysis\_base.h"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{17 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1exciton__analysis}{exciton\_analysis}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base}{exciton\_analysis\_base}} \{}
+\DoxyCodeLine{18 \textcolor{keyword}{private}:}
+\DoxyCodeLine{19     arma::vec m\_tdip;  }
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{27     \mbox{\hyperlink{classlibwfa_1_1exciton__analysis_a100fa58af95cd9bef75cbdf5945e2046}{exciton\_analysis}}(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\_builder\_i}} \&bld,}
+\DoxyCodeLine{28         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&tdm, \textcolor{keywordtype}{size\_t} maxmm = 2);}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{32     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1exciton__analysis_ac52c63e90a701ce380d0d32fe0705b21}{\string~exciton\_analysis}}() \{ \}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     \textcolor{keyword}{using} \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_aace4416619d59b73eb0abbd8db17d475}{exciton\_analysis\_base::analyse}};}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{keyword}{private}:}
+\DoxyCodeLine{37     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} print\_header(std::ostream \&out, \textcolor{keywordtype}{size\_t} off) \textcolor{keyword}{const};}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} analysis(std::ostream \&out,}
+\DoxyCodeLine{40             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\_moments}} \&mom, \textcolor{keywordtype}{size\_t} off) \textcolor{keyword}{const};}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} combine(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\_moments}} \&a, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\_moments}} \&b,}
+\DoxyCodeLine{43         \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\_moments}} \&res) \textcolor{keyword}{const};}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45     \textcolor{keyword}{static} \textcolor{keywordtype}{void} calculate(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\_builder\_i}} \&bld,}
+\DoxyCodeLine{46         \textcolor{keyword}{const} arma::mat \&tdm, \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\_moments}} \&mom);}
+\DoxyCodeLine{47 \};}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,513 @@
+\hypertarget{classlibwfa_1_1wf__analysis__data__i}{}\doxysection{libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i Class Reference}
+\label{classlibwfa_1_1wf__analysis__data__i}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+
+
+Interface to provide the data required to perform the analysis.  
+
+
+
+
+{\ttfamily \#include $<$wf\+\_\+analysis\+\_\+data\+\_\+i.\+h$>$}
+
+Inheritance diagram for libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1wf__analysis__data__i}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params}{orbital\+\_\+params}}
+\begin{DoxyCompactList}\small\item\em Orbital parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}{analysis\+\_\+type}} \{ \newline
+\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca122e57636af87d53f7577f39eaf6d104}{NO}} = 0
+, \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca5495782d308c8be99915e0d93069b3f6}{DENS\+\_\+\+MOM}}
+, \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca23e719701195ba8c90e1a181316e8515}{NDO}}
+, \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca71af2e57c3c7aba734600909916ebbda}{FORM\+\_\+\+AD}}
+, \newline
+\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca414304c3b450576c12b9eff45dd5ba76}{EXCITON\+\_\+\+AD}}
+, \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dcaf2929ec1eb60ec435cb4969d4d5b555a}{NTO}}
+, \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca20fcc76093cd4bcee3d3db32b2f8d241}{TDEN\+\_\+\+MOM}}
+, \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca90773f9e00fb47178d3db05e9110350e}{FORM\+\_\+\+EH}}
+, \newline
+\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca71c4abfee4344b9f48ca0179cbaea9bc}{EXCITON}}
+, \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca11e43ceeadbc6a6aa3b3c3dd975f8e5c}{SA\+\_\+\+NTO}}
+, \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca564a98c246592e08f061cb70ea83395a}{NTO\+\_\+\+ENE}}
+, \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dcacd46f92e4a5701882cdbc11cb1e79031}{DYSON}}
+, \newline
+\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca6ba0f8cfaaafcfac1d9ed5336a5affee}{NTO\+\_\+\+SOC}}
+ \}
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_aa4ca48eb32d0695932e9d4f583ecb8a9}\label{classlibwfa_1_1wf__analysis__data__i_aa4ca48eb32d0695932e9d4f583ecb8a9}} 
+enum \{ {\bfseries WFA\+\_\+\+TYPES} = 13
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a65a94f2031fb96983c01fa4a1ca2b554}\label{classlibwfa_1_1wf__analysis__data__i_a65a94f2031fb96983c01fa4a1ca2b554}} 
+virtual {\bfseries $\sim$wf\+\_\+analysis\+\_\+data\+\_\+i} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ae45e7588fd6e9f07ac4a2fceec3e497c}{is\+\_\+active}} (enum \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}{analysis\+\_\+type}} t)=0
+\begin{DoxyCompactList}\small\item\em Return if a certain analysis should be performed. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params}{orbital\+\_\+params}} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a6a34dc5bc76b89a85b85c4846516c8d7}{get\+\_\+orbital\+\_\+params}} (enum \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeb}{orbital\+\_\+type\+::ot}} t)=0
+\begin{DoxyCompactList}\small\item\em Return parameters for orbital analyses. \end{DoxyCompactList}\item 
+virtual const arma\+::mat \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a0631b44a7458db9bb106087f995fc1fe}{overlap}} ()=0
+\begin{DoxyCompactList}\small\item\em Retrieve the AO overlap matrix. \end{DoxyCompactList}\item 
+virtual const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a2a1eded2a2ab8453baaf04c00b96a8bb}{coefficients}} ()=0
+\begin{DoxyCompactList}\small\item\em Retrieve the MO coefficient matrices. \end{DoxyCompactList}\item 
+virtual const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a46d59ffaa74778a9b0af50a032310675}{fock}} ()=0
+\begin{DoxyCompactList}\small\item\em Fock matrix in AO. \end{DoxyCompactList}\item 
+virtual const \mbox{\hyperlink{structh__so}{h\+\_\+so}} \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a9423e7f9b5d729014f98dd80df0c9c50}{so1e}} ()=0
+\begin{DoxyCompactList}\small\item\em 1e SOC operators in AO \end{DoxyCompactList}\item 
+virtual const \mbox{\hyperlink{structh__so}{h\+\_\+so}} \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a67577a9dd3c9b3d6daae24ae56bf13c0}{somf}} ()=0
+\begin{DoxyCompactList}\small\item\em mean-\/field SOC operators in AO \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classlibwfa_1_1density__printer__i}{density\+\_\+printer\+\_\+i}} $\ast$ \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_af8057a0605240c6cdb85ca43b818f87a}{density\+\_\+printer}} (const std\+::string \&name, const std\+::string \&desc)=0
+\begin{DoxyCompactList}\small\item\em Construct a printer of density matrices. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\+\_\+printer\+\_\+i}} $\ast$ \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_abf46566a8c95f553ee9ff0cbd4b8434f}{orbital\+\_\+printer}} (const std\+::string \&name, const std\+::string \&desc)=0
+\begin{DoxyCompactList}\small\item\em Construct a printer of orbitals. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ Population analysis related functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual size\+\_\+t \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab4673a11a0a4fd0baa370a7145a9e963}{n\+\_\+pop\+\_\+analyses}} ()=0
+\begin{DoxyCompactList}\small\item\em Number of population analyses available. \end{DoxyCompactList}\item 
+virtual const std\+::string \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a1d1a28741226ddd1dc1674af3a22eaea}{pop\+\_\+name}} (size\+\_\+t i)=0
+\begin{DoxyCompactList}\small\item\em Name of i-\/th population analysis. \end{DoxyCompactList}\item 
+virtual const std\+::vector$<$ std\+::string $>$ \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab82414d51e047acbcbe60993d3e31f87}{pop\+\_\+labels}} (size\+\_\+t i)=0
+\begin{DoxyCompactList}\small\item\em Row labels for i-\/th population analysis. \end{DoxyCompactList}\item 
+virtual const \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\+\_\+analysis\+\_\+i}} \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a1dacf79795d27170a3f1302661e695a9}{pop\+\_\+analysis}} (size\+\_\+t i)=0
+\begin{DoxyCompactList}\small\item\em i-\/th population analysis \end{DoxyCompactList}\item 
+virtual const arma\+::vec \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a8af7509146df8eeb002cccab16b607e4}{ref\+\_\+population}} (size\+\_\+t i)=0
+\begin{DoxyCompactList}\small\item\em Base populations for i-\/th population analysis. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ CT number analysis related functions}\par
+\begin{DoxyCompactItemize}
+\item 
+virtual size\+\_\+t \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a95c9db6d1796d68deaf0863c5f2f8abb}{n\+\_\+ctnum\+\_\+analyses}} ()=0
+\begin{DoxyCompactList}\small\item\em Number of CT number analyses available. \end{DoxyCompactList}\item 
+virtual const std\+::string \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_af532f7464517a7da5a982452d410b3c9}{ctnum\+\_\+name}} (size\+\_\+t i)=0
+\begin{DoxyCompactList}\small\item\em Name of i-\/th CT number analysis. \end{DoxyCompactList}\item 
+virtual const \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{ctnum\+\_\+analysis\+\_\+i}} \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a4841a5fcf1397d19f1b40b0b8e67e26c}{ctnum\+\_\+analysis}} (size\+\_\+t i)=0
+\begin{DoxyCompactList}\small\item\em i-\/th CT number analysis \end{DoxyCompactList}\item 
+virtual std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classlibwfa_1_1ctnum__printer__i}{ctnum\+\_\+printer\+\_\+i}} $>$ \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a781b6acbcb0905357e8048a4d7b164a2}{ctnum\+\_\+printer}} (size\+\_\+t i, const std\+::string \&name, const std\+::string \&desc)=0
+\begin{DoxyCompactList}\small\item\em Printer of i-\/th CT number data. \end{DoxyCompactList}\item 
+virtual const std\+::vector$<$ std\+::string $>$ \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a415dc55e4ce45cb3b144a2232575bc22}{prop\+\_\+list}} ()=0
+\begin{DoxyCompactList}\small\item\em Name of i-\/th CT number analysis. \end{DoxyCompactList}\item 
+virtual const \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\+\_\+builder\+\_\+i}} \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a5e4d84ff6bf99d9cb267663bc01d997e}{mom\+\_\+builder}} ()=0
+\begin{DoxyCompactList}\small\item\em Builder of exciton moments. \end{DoxyCompactList}\item 
+virtual const arma\+::mat \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a74d6f242b592b9411a4594fb425d92e5}{coordinates}} ()=0
+\begin{DoxyCompactList}\small\item\em Return the atomic coordinates. \end{DoxyCompactList}\item 
+virtual const arma\+::vec \& \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_abc3c9bb6880858cd585c2d430ac23de5}{atomic\+\_\+charges}} ()=0
+\begin{DoxyCompactList}\small\item\em Return the atomic numbers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Detailed Description}
+Interface to provide the data required to perform the analysis. 
+
+If new analyses are added to libwfa which require additional data, please add the respective functions to the interface. 
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!analysis\_type@{analysis\_type}}
+\index{analysis\_type@{analysis\_type}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{analysis\_type}{analysis\_type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}{libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::analysis\+\_\+type}}}
+
+Types of wave function / density analyses to be performed \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NO@{NO}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!NO@{NO}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca122e57636af87d53f7577f39eaf6d104}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca122e57636af87d53f7577f39eaf6d104}} 
+NO&Natural orbital analysis. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DENS\_MOM@{DENS\_MOM}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!DENS\_MOM@{DENS\_MOM}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca5495782d308c8be99915e0d93069b3f6}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca5495782d308c8be99915e0d93069b3f6}} 
+DENS\+\_\+\+MOM&Multipole moments of the density. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NDO@{NDO}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!NDO@{NDO}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca23e719701195ba8c90e1a181316e8515}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca23e719701195ba8c90e1a181316e8515}} 
+NDO&Natural difference orbital analysis. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FORM\_AD@{FORM\_AD}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!FORM\_AD@{FORM\_AD}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca71af2e57c3c7aba734600909916ebbda}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca71af2e57c3c7aba734600909916ebbda}} 
+FORM\+\_\+\+AD&Form attachment/detachment densities. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EXCITON\_AD@{EXCITON\_AD}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!EXCITON\_AD@{EXCITON\_AD}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca414304c3b450576c12b9eff45dd5ba76}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca414304c3b450576c12b9eff45dd5ba76}} 
+EXCITON\+\_\+\+AD&Exciton analysis on a/d densities. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NTO@{NTO}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!NTO@{NTO}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dcaf2929ec1eb60ec435cb4969d4d5b555a}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dcaf2929ec1eb60ec435cb4969d4d5b555a}} 
+NTO&Natural transition orbital analysis. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TDEN\_MOM@{TDEN\_MOM}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!TDEN\_MOM@{TDEN\_MOM}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca20fcc76093cd4bcee3d3db32b2f8d241}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca20fcc76093cd4bcee3d3db32b2f8d241}} 
+TDEN\+\_\+\+MOM&Multipole moments of the transition density. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FORM\_EH@{FORM\_EH}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!FORM\_EH@{FORM\_EH}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca90773f9e00fb47178d3db05e9110350e}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca90773f9e00fb47178d3db05e9110350e}} 
+FORM\+\_\+\+EH&Form electron/hole densities. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EXCITON@{EXCITON}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!EXCITON@{EXCITON}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca71c4abfee4344b9f48ca0179cbaea9bc}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca71c4abfee4344b9f48ca0179cbaea9bc}} 
+EXCITON&Exciton analysis on transition density. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SA\_NTO@{SA\_NTO}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!SA\_NTO@{SA\_NTO}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca11e43ceeadbc6a6aa3b3c3dd975f8e5c}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca11e43ceeadbc6a6aa3b3c3dd975f8e5c}} 
+SA\+\_\+\+NTO&State-\/averaged NTO analysis. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NTO\_ENE@{NTO\_ENE}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!NTO\_ENE@{NTO\_ENE}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca564a98c246592e08f061cb70ea83395a}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca564a98c246592e08f061cb70ea83395a}} 
+NTO\+\_\+\+ENE&Compute \char`\"{}energies\char`\"{} of hole and particle NTOs. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DYSON@{DYSON}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!DYSON@{DYSON}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dcacd46f92e4a5701882cdbc11cb1e79031}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dcacd46f92e4a5701882cdbc11cb1e79031}} 
+DYSON&Dyson orbital analysis. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NTO\_SOC@{NTO\_SOC}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!NTO\_SOC@{NTO\_SOC}}}\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca6ba0f8cfaaafcfac1d9ed5336a5affee}\label{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca6ba0f8cfaaafcfac1d9ed5336a5affee}} 
+NTO\+\_\+\+SOC&Compute SOC integrals of hole and particle NTOs of the universal triplet optdm \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_abc3c9bb6880858cd585c2d430ac23de5}\label{classlibwfa_1_1wf__analysis__data__i_abc3c9bb6880858cd585c2d430ac23de5}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!atomic\_charges@{atomic\_charges}}
+\index{atomic\_charges@{atomic\_charges}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{atomic\_charges()}{atomic\_charges()}}
+{\footnotesize\ttfamily virtual const arma\+::vec \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::atomic\+\_\+charges (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Return the atomic numbers. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_adbb9a7abf3a24d6a63d7ef9e398c4fdd}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a2a1eded2a2ab8453baaf04c00b96a8bb}\label{classlibwfa_1_1wf__analysis__data__i_a2a1eded2a2ab8453baaf04c00b96a8bb}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!coefficients@{coefficients}}
+\index{coefficients@{coefficients}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{coefficients()}{coefficients()}}
+{\footnotesize\ttfamily virtual const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::coefficients (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Retrieve the MO coefficient matrices. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a32a21ffd0e2ea66b645075a77a597cd9}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a74d6f242b592b9411a4594fb425d92e5}\label{classlibwfa_1_1wf__analysis__data__i_a74d6f242b592b9411a4594fb425d92e5}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!coordinates@{coordinates}}
+\index{coordinates@{coordinates}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{coordinates()}{coordinates()}}
+{\footnotesize\ttfamily virtual const arma\+::mat \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::coordinates (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Return the atomic coordinates. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a37c53ca27619bca32e8f4fb2c0635336}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a4841a5fcf1397d19f1b40b0b8e67e26c}\label{classlibwfa_1_1wf__analysis__data__i_a4841a5fcf1397d19f1b40b0b8e67e26c}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!ctnum\_analysis@{ctnum\_analysis}}
+\index{ctnum\_analysis@{ctnum\_analysis}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{ctnum\_analysis()}{ctnum\_analysis()}}
+{\footnotesize\ttfamily virtual const \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{ctnum\+\_\+analysis\+\_\+i}} \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::ctnum\+\_\+analysis (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+i-\/th CT number analysis 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a1ae65d5febef5d0701ef42a2f32a0fe7}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_af532f7464517a7da5a982452d410b3c9}\label{classlibwfa_1_1wf__analysis__data__i_af532f7464517a7da5a982452d410b3c9}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!ctnum\_name@{ctnum\_name}}
+\index{ctnum\_name@{ctnum\_name}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{ctnum\_name()}{ctnum\_name()}}
+{\footnotesize\ttfamily virtual const std\+::string \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::ctnum\+\_\+name (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Name of i-\/th CT number analysis. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a47c8793ab593f3d284ceed436d8a686c}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a781b6acbcb0905357e8048a4d7b164a2}\label{classlibwfa_1_1wf__analysis__data__i_a781b6acbcb0905357e8048a4d7b164a2}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!ctnum\_printer@{ctnum\_printer}}
+\index{ctnum\_printer@{ctnum\_printer}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{ctnum\_printer()}{ctnum\_printer()}}
+{\footnotesize\ttfamily virtual std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classlibwfa_1_1ctnum__printer__i}{ctnum\+\_\+printer\+\_\+i}} $>$ libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::ctnum\+\_\+printer (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i,  }\item[{const std\+::string \&}]{name,  }\item[{const std\+::string \&}]{desc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Printer of i-\/th CT number data. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a1a981c05a57b1877284d6482618a9c8c}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_af8057a0605240c6cdb85ca43b818f87a}\label{classlibwfa_1_1wf__analysis__data__i_af8057a0605240c6cdb85ca43b818f87a}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!density\_printer@{density\_printer}}
+\index{density\_printer@{density\_printer}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{density\_printer()}{density\_printer()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classlibwfa_1_1density__printer__i}{density\+\_\+printer\+\_\+i}} $\ast$ libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::density\+\_\+printer (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name,  }\item[{const std\+::string \&}]{desc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Construct a printer of density matrices. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of state to which the density matrices belong (should be usable as file name) \\
+\hline
+{\em desc} & Description of state \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to new density printer 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a9819ecfb00c0611d0fc643a2c1926e44}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a46d59ffaa74778a9b0af50a032310675}\label{classlibwfa_1_1wf__analysis__data__i_a46d59ffaa74778a9b0af50a032310675}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!fock@{fock}}
+\index{fock@{fock}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{fock()}{fock()}}
+{\footnotesize\ttfamily virtual const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::fock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Fock matrix in AO. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a6cd97cae78bf7e45e4d24fab7a3ee1f1}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a6a34dc5bc76b89a85b85c4846516c8d7}\label{classlibwfa_1_1wf__analysis__data__i_a6a34dc5bc76b89a85b85c4846516c8d7}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!get\_orbital\_params@{get\_orbital\_params}}
+\index{get\_orbital\_params@{get\_orbital\_params}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{get\_orbital\_params()}{get\_orbital\_params()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params}{orbital\+\_\+params}} libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::get\+\_\+orbital\+\_\+params (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeb}{orbital\+\_\+type\+::ot}}}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Return parameters for orbital analyses. 
+
+\begin{DoxyReturn}{Returns}
+Pair comprising the number of leading orbitals to print and an threshold for important orbitals (see e.\+g. \mbox{\hyperlink{classlibwfa_1_1no__analysis}{no\+\_\+analysis}} for details) 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a40142dcc98a3b6e580ce5f8855494a21}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ae45e7588fd6e9f07ac4a2fceec3e497c}\label{classlibwfa_1_1wf__analysis__data__i_ae45e7588fd6e9f07ac4a2fceec3e497c}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!is\_active@{is\_active}}
+\index{is\_active@{is\_active}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{is\_active()}{is\_active()}}
+{\footnotesize\ttfamily virtual bool libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::is\+\_\+active (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}{analysis\+\_\+type}}}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Return if a certain analysis should be performed. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a1b826679c0838cd58e2526308c5c31a8}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a5e4d84ff6bf99d9cb267663bc01d997e}\label{classlibwfa_1_1wf__analysis__data__i_a5e4d84ff6bf99d9cb267663bc01d997e}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!mom\_builder@{mom\_builder}}
+\index{mom\_builder@{mom\_builder}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{mom\_builder()}{mom\_builder()}}
+{\footnotesize\ttfamily virtual const \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\+\_\+builder\+\_\+i}} \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::mom\+\_\+builder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Builder of exciton moments. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a1501d4a51121f3997f6def1ef952684a}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a95c9db6d1796d68deaf0863c5f2f8abb}\label{classlibwfa_1_1wf__analysis__data__i_a95c9db6d1796d68deaf0863c5f2f8abb}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!n\_ctnum\_analyses@{n\_ctnum\_analyses}}
+\index{n\_ctnum\_analyses@{n\_ctnum\_analyses}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{n\_ctnum\_analyses()}{n\_ctnum\_analyses()}}
+{\footnotesize\ttfamily virtual size\+\_\+t libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::n\+\_\+ctnum\+\_\+analyses (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Number of CT number analyses available. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a7039f00c7e56d95e2a12410c81d6c2d6}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab4673a11a0a4fd0baa370a7145a9e963}\label{classlibwfa_1_1wf__analysis__data__i_ab4673a11a0a4fd0baa370a7145a9e963}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!n\_pop\_analyses@{n\_pop\_analyses}}
+\index{n\_pop\_analyses@{n\_pop\_analyses}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{n\_pop\_analyses()}{n\_pop\_analyses()}}
+{\footnotesize\ttfamily virtual size\+\_\+t libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::n\+\_\+pop\+\_\+analyses (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Number of population analyses available. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_aca4b69f9af858eee66a20e0233328574}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_abf46566a8c95f553ee9ff0cbd4b8434f}\label{classlibwfa_1_1wf__analysis__data__i_abf46566a8c95f553ee9ff0cbd4b8434f}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!orbital\_printer@{orbital\_printer}}
+\index{orbital\_printer@{orbital\_printer}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{orbital\_printer()}{orbital\_printer()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\+\_\+printer\+\_\+i}} $\ast$ libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::orbital\+\_\+printer (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name,  }\item[{const std\+::string \&}]{desc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Construct a printer of orbitals. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of state to which the orbitals belong (should be usable as file name) \\
+\hline
+{\em desc} & Description of state \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to new orbital printer 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_affd2a7fb69964def92bd98f04687640e}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a0631b44a7458db9bb106087f995fc1fe}\label{classlibwfa_1_1wf__analysis__data__i_a0631b44a7458db9bb106087f995fc1fe}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!overlap@{overlap}}
+\index{overlap@{overlap}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{overlap()}{overlap()}}
+{\footnotesize\ttfamily virtual const arma\+::mat \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::overlap (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Retrieve the AO overlap matrix. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_ae5e02b25dafef1ff85617da6485ac64a}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a1dacf79795d27170a3f1302661e695a9}\label{classlibwfa_1_1wf__analysis__data__i_a1dacf79795d27170a3f1302661e695a9}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!pop\_analysis@{pop\_analysis}}
+\index{pop\_analysis@{pop\_analysis}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{pop\_analysis()}{pop\_analysis()}}
+{\footnotesize\ttfamily virtual const \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\+\_\+analysis\+\_\+i}} \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::pop\+\_\+analysis (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+i-\/th population analysis 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a7553e0c55c853e5ab075d1192a2d408e}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_ab82414d51e047acbcbe60993d3e31f87}\label{classlibwfa_1_1wf__analysis__data__i_ab82414d51e047acbcbe60993d3e31f87}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!pop\_labels@{pop\_labels}}
+\index{pop\_labels@{pop\_labels}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{pop\_labels()}{pop\_labels()}}
+{\footnotesize\ttfamily virtual const std\+::vector$<$ std\+::string $>$ \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::pop\+\_\+labels (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Row labels for i-\/th population analysis. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a83ee5b30ccbedb7e5429513743c8a7e4}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a1d1a28741226ddd1dc1674af3a22eaea}\label{classlibwfa_1_1wf__analysis__data__i_a1d1a28741226ddd1dc1674af3a22eaea}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!pop\_name@{pop\_name}}
+\index{pop\_name@{pop\_name}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{pop\_name()}{pop\_name()}}
+{\footnotesize\ttfamily virtual const std\+::string \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::pop\+\_\+name (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Name of i-\/th population analysis. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_af8f7470e9bb43f721f7e3d4a442c6568}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a415dc55e4ce45cb3b144a2232575bc22}\label{classlibwfa_1_1wf__analysis__data__i_a415dc55e4ce45cb3b144a2232575bc22}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!prop\_list@{prop\_list}}
+\index{prop\_list@{prop\_list}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{prop\_list()}{prop\_list()}}
+{\footnotesize\ttfamily virtual const std\+::vector$<$ std\+::string $>$ \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::prop\+\_\+list (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Name of i-\/th CT number analysis. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a38169ca7b82ac4018c647ce8a5102582}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a8af7509146df8eeb002cccab16b607e4}\label{classlibwfa_1_1wf__analysis__data__i_a8af7509146df8eeb002cccab16b607e4}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!ref\_population@{ref\_population}}
+\index{ref\_population@{ref\_population}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{ref\_population()}{ref\_population()}}
+{\footnotesize\ttfamily virtual const arma\+::vec \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::ref\+\_\+population (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Base populations for i-\/th population analysis. 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a6ccbbffeb0ace2923f9e39c7c5670533}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a9423e7f9b5d729014f98dd80df0c9c50}\label{classlibwfa_1_1wf__analysis__data__i_a9423e7f9b5d729014f98dd80df0c9c50}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!so1e@{so1e}}
+\index{so1e@{so1e}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{so1e()}{so1e()}}
+{\footnotesize\ttfamily virtual const \mbox{\hyperlink{structh__so}{h\+\_\+so}} \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::so1e (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+1e SOC operators in AO 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_ab85d2cbb43fcef8fd92f610b88869146}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1wf__analysis__data__i_a67577a9dd3c9b3d6daae24ae56bf13c0}\label{classlibwfa_1_1wf__analysis__data__i_a67577a9dd3c9b3d6daae24ae56bf13c0}} 
+\index{libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}!somf@{somf}}
+\index{somf@{somf}!libwfa::wf\_analysis\_data\_i@{libwfa::wf\_analysis\_data\_i}}
+\doxysubsubsection{\texorpdfstring{somf()}{somf()}}
+{\footnotesize\ttfamily virtual const \mbox{\hyperlink{structh__so}{h\+\_\+so}} \& libwfa\+::wf\+\_\+analysis\+\_\+data\+\_\+i\+::somf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+mean-\/field SOC operators in AO 
+
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a20062d0fdaf911abd5267787292f965b}{libwfa\+::molcas\+\_\+wf\+\_\+analysis\+\_\+data}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+wf\+\_\+analysis\+\_\+data\+\_\+i.\+h\end{DoxyCompactItemize}

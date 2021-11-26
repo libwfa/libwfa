@@ -1,0 +1,109 @@
+\hypertarget{classlibwfa_1_1exciton__analysis__ad}{}\doxysection{libwfa\+::exciton\+\_\+analysis\+\_\+ad Class Reference}
+\label{classlibwfa_1_1exciton__analysis__ad}\index{libwfa::exciton\_analysis\_ad@{libwfa::exciton\_analysis\_ad}}
+
+
+Performs exciton analysis based on attachment and detachment density matrices.  
+
+
+
+
+{\ttfamily \#include $<$exciton\+\_\+analysis\+\_\+ad.\+h$>$}
+
+Inheritance diagram for libwfa\+::exciton\+\_\+analysis\+\_\+ad\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1exciton__analysis__ad}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1exciton__analysis__ad_a03cf9d3a59904aa8319244ca4856e9e9}{exciton\+\_\+analysis\+\_\+ad}} (const \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\+\_\+builder\+\_\+i}} \&bld, const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&adm, const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&ddm, size\+\_\+t maxmm=2)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__ad_a0f087d4fcf493c06b3c6cf2d3adddbb8}\label{classlibwfa_1_1exciton__analysis__ad_a0f087d4fcf493c06b3c6cf2d3adddbb8}} 
+virtual {\bfseries $\sim$exciton\+\_\+analysis\+\_\+ad} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__ad_ac1ab272e6df8dd82ade01e42ac8328b2}{combine}} (const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&a, const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&b, \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&res) const
+\begin{DoxyCompactList}\small\item\em Form total exciton moments. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__ad_aace4416619d59b73eb0abbd8db17d475}{analyse}} (std\+::ostream \&out, size\+\_\+t offset=2) const
+\begin{DoxyCompactList}\small\item\em Perform analysis. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Performs exciton analysis based on attachment and detachment density matrices. 
+
+Performs an exciton analysis using the attachment and detachment density matrices. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__ad_a03cf9d3a59904aa8319244ca4856e9e9}\label{classlibwfa_1_1exciton__analysis__ad_a03cf9d3a59904aa8319244ca4856e9e9}} 
+\index{libwfa::exciton\_analysis\_ad@{libwfa::exciton\_analysis\_ad}!exciton\_analysis\_ad@{exciton\_analysis\_ad}}
+\index{exciton\_analysis\_ad@{exciton\_analysis\_ad}!libwfa::exciton\_analysis\_ad@{libwfa::exciton\_analysis\_ad}}
+\doxysubsubsection{\texorpdfstring{exciton\_analysis\_ad()}{exciton\_analysis\_ad()}}
+{\footnotesize\ttfamily libwfa\+::exciton\+\_\+analysis\+\_\+ad\+::exciton\+\_\+analysis\+\_\+ad (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\+\_\+builder\+\_\+i}} \&}]{bld,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{adm,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{ddm,  }\item[{size\+\_\+t}]{maxmm = {\ttfamily 2} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bld} & Moment builder \\
+\hline
+{\em adm} & Attachment density matrix \\
+\hline
+{\em ddm} & Detachment density matrix \\
+\hline
+{\em maxmm} & Highest moment to perform analysis \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__ad_aace4416619d59b73eb0abbd8db17d475}\label{classlibwfa_1_1exciton__analysis__ad_aace4416619d59b73eb0abbd8db17d475}} 
+\index{libwfa::exciton\_analysis\_ad@{libwfa::exciton\_analysis\_ad}!analyse@{analyse}}
+\index{analyse@{analyse}!libwfa::exciton\_analysis\_ad@{libwfa::exciton\_analysis\_ad}}
+\doxysubsubsection{\texorpdfstring{analyse()}{analyse()}}
+{\footnotesize\ttfamily void libwfa\+::exciton\+\_\+analysis\+\_\+base\+::analyse (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{size\+\_\+t}]{offset = {\ttfamily 2} }\end{DoxyParamCaption}) const}
+
+
+
+Perform analysis. 
+
+Note\+: Only passing the spin-\/traced density will not yield the same result as \char`\"{}\+Total\char`\"{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+{\em offset} & Line offset \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__ad_ac1ab272e6df8dd82ade01e42ac8328b2}\label{classlibwfa_1_1exciton__analysis__ad_ac1ab272e6df8dd82ade01e42ac8328b2}} 
+\index{libwfa::exciton\_analysis\_ad@{libwfa::exciton\_analysis\_ad}!combine@{combine}}
+\index{combine@{combine}!libwfa::exciton\_analysis\_ad@{libwfa::exciton\_analysis\_ad}}
+\doxysubsubsection{\texorpdfstring{combine()}{combine()}}
+{\footnotesize\ttfamily virtual void libwfa\+::exciton\+\_\+analysis\+\_\+ad\+::combine (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&}]{a,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&}]{b,  }\item[{\mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&}]{res }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Form total exciton moments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Alpha exciton moment \\
+\hline
+{\em b} & Beta exciton moment \\
+\hline
+{\em res} & Total exciton moment \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_a3f9dbe2e7381868ee38d2f92014cef1e}{libwfa\+::exciton\+\_\+analysis\+\_\+base}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+exciton\+\_\+analysis\+\_\+ad.\+h\end{DoxyCompactItemize}

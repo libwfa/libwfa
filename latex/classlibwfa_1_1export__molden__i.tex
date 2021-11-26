@@ -1,0 +1,95 @@
+\hypertarget{classlibwfa_1_1export__molden__i}{}\doxysection{libwfa\+::export\+\_\+molden\+\_\+i Class Reference}
+\label{classlibwfa_1_1export__molden__i}\index{libwfa::export\_molden\_i@{libwfa::export\_molden\_i}}
+
+
+Molden file object.  
+
+
+
+
+{\ttfamily \#include $<$export\+\_\+molden\+\_\+i.\+h$>$}
+
+Inheritance diagram for libwfa\+::export\+\_\+molden\+\_\+i\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1export__molden__i}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1export__molden__i_aa0b5b5fefd4e828da8cac37bb20af87a}{perform}} (const std\+::string \&name, const arma\+::mat \&c, const arma\+::vec \&e, size\+\_\+t nocc)=0
+\begin{DoxyCompactList}\small\item\em Write the orbital coefficients and orbital energies to file (restricted version) \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1export__molden__i_a99a93bdc8a3ce114b053d3f7544ff748}{perform}} (const std\+::string \&name, const arma\+::mat \&c\+\_\+a, const arma\+::vec \&e\+\_\+a, size\+\_\+t nocc\+\_\+a, const arma\+::mat \&c\+\_\+b, const arma\+::vec \&e\+\_\+b, size\+\_\+t nocc\+\_\+b)=0
+\begin{DoxyCompactList}\small\item\em Write the orbital coefficients and orbital energies to file. (unrestricted version) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Molden file object. 
+
+Object representing a molden file.
+
+TODO\+: Add additional functions if required. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1export__molden__i_aa0b5b5fefd4e828da8cac37bb20af87a}\label{classlibwfa_1_1export__molden__i_aa0b5b5fefd4e828da8cac37bb20af87a}} 
+\index{libwfa::export\_molden\_i@{libwfa::export\_molden\_i}!perform@{perform}}
+\index{perform@{perform}!libwfa::export\_molden\_i@{libwfa::export\_molden\_i}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual void libwfa\+::export\+\_\+molden\+\_\+i\+::perform (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name,  }\item[{const arma\+::mat \&}]{c,  }\item[{const arma\+::vec \&}]{e,  }\item[{size\+\_\+t}]{nocc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Write the orbital coefficients and orbital energies to file (restricted version) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name associated with the orbitals (use as file prefix!?) \\
+\hline
+{\em c} & Orbital coefficients \\
+\hline
+{\em e} & Orbital energies \\
+\hline
+{\em nocc} & Number of occupied orbitals\\
+\hline
+\end{DoxyParams}
+Assume that the first nocc coefficients refer to occupied orbitals. 
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__export__h5orbs_a9231cbc3b0caf9b418b6e8bbabf78fcb}{libwfa\+::molcas\+\_\+export\+\_\+h5orbs}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1export__molden__i_a99a93bdc8a3ce114b053d3f7544ff748}\label{classlibwfa_1_1export__molden__i_a99a93bdc8a3ce114b053d3f7544ff748}} 
+\index{libwfa::export\_molden\_i@{libwfa::export\_molden\_i}!perform@{perform}}
+\index{perform@{perform}!libwfa::export\_molden\_i@{libwfa::export\_molden\_i}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual void libwfa\+::export\+\_\+molden\+\_\+i\+::perform (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name,  }\item[{const arma\+::mat \&}]{c\+\_\+a,  }\item[{const arma\+::vec \&}]{e\+\_\+a,  }\item[{size\+\_\+t}]{nocc\+\_\+a,  }\item[{const arma\+::mat \&}]{c\+\_\+b,  }\item[{const arma\+::vec \&}]{e\+\_\+b,  }\item[{size\+\_\+t}]{nocc\+\_\+b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Write the orbital coefficients and orbital energies to file. (unrestricted version) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name associated with the orbitals (use as file prefix!?) \\
+\hline
+{\em c\+\_\+a} & Alpha orbital coefficients \\
+\hline
+{\em e\+\_\+a} & Alpha orbital energies \\
+\hline
+{\em nocc\+\_\+a} & Number of occupied alpha orbitals \\
+\hline
+{\em c\+\_\+b} & Beta orbital coefficients \\
+\hline
+{\em e\+\_\+b} & Beta orbital energies \\
+\hline
+{\em nocc\+\_\+b} & Number of occupied beta orbitals\\
+\hline
+\end{DoxyParams}
+Assume that the first nocc\+\_\+a (nocc\+\_\+b) coefficients refer to occupied orbitals. 
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1molcas__export__h5orbs_a14004eb09a0c72fe8cc41808e664ee04}{libwfa\+::molcas\+\_\+export\+\_\+h5orbs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+export\+\_\+molden\+\_\+i.\+h\end{DoxyCompactItemize}

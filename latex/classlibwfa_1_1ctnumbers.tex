@@ -1,0 +1,110 @@
+\hypertarget{classlibwfa_1_1ctnumbers}{}\doxysection{libwfa\+::ctnumbers Class Reference}
+\label{classlibwfa_1_1ctnumbers}\index{libwfa::ctnumbers@{libwfa::ctnumbers}}
+
+
+Charge transfer (CT) number analysis.  
+
+
+
+
+{\ttfamily \#include $<$ctnumbers.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1ctnumbers_aa039a4e65b37f880e9f8b5bf1cab3316}{ctnumbers}} (const \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{ctnum\+\_\+analysis\+\_\+i}} \&a, const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&tdm)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ctnumbers_af3152379c181937ba58d77a8b8455524}\label{classlibwfa_1_1ctnumbers_af3152379c181937ba58d77a8b8455524}} 
+{\bfseries $\sim$ctnumbers} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+const double \& \mbox{\hyperlink{classlibwfa_1_1ctnumbers_a0a526ac5345d28a6c05bc646479c36dc}{omega\+\_\+total}} (bool spin) const
+\begin{DoxyCompactList}\small\item\em Return omega total. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ctnumbers_a8ba99da953dd60f1e7954958f9a35f84}\label{classlibwfa_1_1ctnumbers_a8ba99da953dd60f1e7954958f9a35f84}} 
+const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& {\bfseries omega} () const
+\begin{DoxyCompactList}\small\item\em Return omega. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1ctnumbers_a19eaeb5c8bd87f1fcd483c12200415d0}{analyse}} (std\+::ostream \&out) const
+\begin{DoxyCompactList}\small\item\em Perform analysis. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1ctnumbers_ac02404abb606c4fb4c38b837b56b0e1d}{do\+\_\+export}} (\mbox{\hyperlink{classlibwfa_1_1ctnum__printer__i}{ctnum\+\_\+printer\+\_\+i}} \&pr) const
+\begin{DoxyCompactList}\small\item\em Export CT numbers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Charge transfer (CT) number analysis. 
+
+Combines the individual components of the CT number analysis by
+\begin{DoxyItemize}
+\item constructing the $\Omega$ matrices in AOs from transition density matrices
+\item computing CT number matrices and the total CT number $ \Omega_{\mathrm{total}}$ . 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1ctnumbers_aa039a4e65b37f880e9f8b5bf1cab3316}\label{classlibwfa_1_1ctnumbers_aa039a4e65b37f880e9f8b5bf1cab3316}} 
+\index{libwfa::ctnumbers@{libwfa::ctnumbers}!ctnumbers@{ctnumbers}}
+\index{ctnumbers@{ctnumbers}!libwfa::ctnumbers@{libwfa::ctnumbers}}
+\doxysubsubsection{\texorpdfstring{ctnumbers()}{ctnumbers()}}
+{\footnotesize\ttfamily libwfa\+::ctnumbers\+::ctnumbers (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{ctnum\+\_\+analysis\+\_\+i}} \&}]{a,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{tdm }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Analysis object \\
+\hline
+{\em tdm} & Transition density matrix \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1ctnumbers_a19eaeb5c8bd87f1fcd483c12200415d0}\label{classlibwfa_1_1ctnumbers_a19eaeb5c8bd87f1fcd483c12200415d0}} 
+\index{libwfa::ctnumbers@{libwfa::ctnumbers}!analyse@{analyse}}
+\index{analyse@{analyse}!libwfa::ctnumbers@{libwfa::ctnumbers}}
+\doxysubsubsection{\texorpdfstring{analyse()}{analyse()}}
+{\footnotesize\ttfamily void libwfa\+::ctnumbers\+::analyse (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out }\end{DoxyParamCaption}) const}
+
+
+
+Perform analysis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1ctnumbers_ac02404abb606c4fb4c38b837b56b0e1d}\label{classlibwfa_1_1ctnumbers_ac02404abb606c4fb4c38b837b56b0e1d}} 
+\index{libwfa::ctnumbers@{libwfa::ctnumbers}!do\_export@{do\_export}}
+\index{do\_export@{do\_export}!libwfa::ctnumbers@{libwfa::ctnumbers}}
+\doxysubsubsection{\texorpdfstring{do\_export()}{do\_export()}}
+{\footnotesize\ttfamily void libwfa\+::ctnumbers\+::do\+\_\+export (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlibwfa_1_1ctnum__printer__i}{ctnum\+\_\+printer\+\_\+i}} \&}]{pr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Export CT numbers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pr} & CT numbers printer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1ctnumbers_a0a526ac5345d28a6c05bc646479c36dc}\label{classlibwfa_1_1ctnumbers_a0a526ac5345d28a6c05bc646479c36dc}} 
+\index{libwfa::ctnumbers@{libwfa::ctnumbers}!omega\_total@{omega\_total}}
+\index{omega\_total@{omega\_total}!libwfa::ctnumbers@{libwfa::ctnumbers}}
+\doxysubsubsection{\texorpdfstring{omega\_total()}{omega\_total()}}
+{\footnotesize\ttfamily const double \& libwfa\+::ctnumbers\+::omega\+\_\+total (\begin{DoxyParamCaption}\item[{bool}]{spin }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Return omega total. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spin} & If true\+: beta spin, false\+: alpha spin \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ctnumbers.\+h\end{DoxyCompactItemize}

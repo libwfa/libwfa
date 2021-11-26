@@ -1,0 +1,31 @@
+\hypertarget{compare__ref_8h_source}{}\doxysection{compare\+\_\+ref.\+h}
+\label{compare__ref_8h_source}\index{compare\_ref.h@{compare\_ref.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_COMPARE\_REF\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_COMPARE\_REF\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <armadillo>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <libtest/libtest.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <libwfa/core/ab\_matrix.h>}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1compare__ref}{compare\_ref}} \{}
+\DoxyCodeLine{12 \textcolor{keyword}{public}:}
+\DoxyCodeLine{19     \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1compare__ref_a437bc37bfc2e5252295b619f82df9101}{compare}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *test, arma::mat \&m,}
+\DoxyCodeLine{20         arma::mat \&m\_ref, \textcolor{keywordtype}{double} thresh)}
+\DoxyCodeLine{21         \textcolor{keywordflow}{throw}(libtest::test\_exception);}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{29     \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1compare__ref_a5ddf5d9bb4254133853bb631a26f61db}{compare}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *test, \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&m,}
+\DoxyCodeLine{30         \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&m\_ref, \textcolor{keywordtype}{double} thresh)}
+\DoxyCodeLine{31         \textcolor{keywordflow}{throw}(libtest::test\_exception);}
+\DoxyCodeLine{32 \};}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_COMPARE\_REF\_H}}
+
+\end{DoxyCode}

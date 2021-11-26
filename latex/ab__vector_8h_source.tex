@@ -1,0 +1,38 @@
+\hypertarget{ab__vector_8h_source}{}\doxysection{ab\+\_\+vector.\+h}
+\label{ab__vector_8h_source}\index{ab\_vector.h@{ab\_vector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_AB\_VECTOR\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_AB\_VECTOR\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <armadillo>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}ab\_object.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1ab__vector}{ab\_vector}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\_object}}< arma::vec > \{}
+\DoxyCodeLine{14 \textcolor{keyword}{public}:}
+\DoxyCodeLine{18     \mbox{\hyperlink{classlibwfa_1_1ab__vector_ab449e09e7f9a2432ba06cc4b6709efc8}{ab\_vector}}(\textcolor{keywordtype}{bool} aeqb = \textcolor{keyword}{false}) : \mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\_object}}< arma::vec >(aeqb) \{ \}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{23     \mbox{\hyperlink{classlibwfa_1_1ab__vector_a7cf8f36e4cce9fbdcfd9a06b1e002489}{ab\_vector}}(\textcolor{keywordtype}{size\_t} nrows) : \mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\_object}}< arma::vec >(true) \{}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25         \mbox{\hyperlink{classlibwfa_1_1ab__object_a55348eff3fbf77ce9d8b39a1e214183c}{alpha}}() = arma::vec(nrows);}
+\DoxyCodeLine{26     \}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{32     \mbox{\hyperlink{classlibwfa_1_1ab__vector_a9222727cde7f9e6ecdaa338fdf1fab8a}{ab\_vector}}(\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1ab__vector_a06a4333636cee6aebbd61362d6780121}{nrows\_a}}, \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1ab__vector_a3849474c2c42d751cf862d5917d48ebf}{nrows\_b}}) :}
+\DoxyCodeLine{33         \mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\_object}}< arma::vec >(false) \{}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35         \mbox{\hyperlink{classlibwfa_1_1ab__object_a55348eff3fbf77ce9d8b39a1e214183c}{alpha}}() = arma::vec(\mbox{\hyperlink{classlibwfa_1_1ab__vector_a06a4333636cee6aebbd61362d6780121}{nrows\_a}});}
+\DoxyCodeLine{36         \mbox{\hyperlink{classlibwfa_1_1ab__object_abb3feab56307023b7a3d7ea592a0be8e}{beta}}()  = arma::vec(\mbox{\hyperlink{classlibwfa_1_1ab__vector_a3849474c2c42d751cf862d5917d48ebf}{nrows\_b}});}
+\DoxyCodeLine{37     \}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{41     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1ab__vector_a06a4333636cee6aebbd61362d6780121}{nrows\_a}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classlibwfa_1_1ab__object_a55348eff3fbf77ce9d8b39a1e214183c}{alpha}}().n\_rows; \}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{45     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1ab__vector_a3849474c2c42d751cf862d5917d48ebf}{nrows\_b}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classlibwfa_1_1ab__object_abb3feab56307023b7a3d7ea592a0be8e}{beta}}().n\_rows; \}}
+\DoxyCodeLine{46 \};}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_AB\_VECTOR\_H}}
+
+\end{DoxyCode}

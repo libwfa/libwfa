@@ -1,0 +1,31 @@
+\hypertarget{pop__analysis__ad_8h_source}{}\doxysection{pop\+\_\+analysis\+\_\+ad.\+h}
+\label{pop__analysis__ad_8h_source}\index{pop\_analysis\_ad.h@{pop\_analysis\_ad.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_POP\_ANALYSIS\_AD\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_POP\_ANALYSIS\_AD\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <libwfa/core/ab\_matrix.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}pop\_analysis\_i.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}pop\_data.h"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1pop__analysis__ad}{pop\_analysis\_ad}} \{}
+\DoxyCodeLine{15 \textcolor{keyword}{private}:}
+\DoxyCodeLine{16     \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\_analysis\_i}} \&m\_analysis; }
+\DoxyCodeLine{17     \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&m\_at; }
+\DoxyCodeLine{18     \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&m\_de; }
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \mbox{\hyperlink{classlibwfa_1_1pop__analysis__ad_a276c9e6cccafda552c5f618c0101866b}{pop\_analysis\_ad}}(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\_analysis\_i}} \&a, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&at,}
+\DoxyCodeLine{27         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&de) : m\_analysis(a), m\_at(at), m\_de(de) \{ \}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{32     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1pop__analysis__ad_a73f814091a3e69994361869b9a3baea5}{perform}}(\mbox{\hyperlink{classlibwfa_1_1pop__data}{pop\_data}} \&pop) \textcolor{keyword}{const};}
+\DoxyCodeLine{33 \};}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_POP\_ANALYSIS\_SDM\_H}}
+
+\end{DoxyCode}

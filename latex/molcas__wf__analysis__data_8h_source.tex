@@ -1,0 +1,261 @@
+\hypertarget{molcas__wf__analysis__data_8h_source}{}\doxysection{molcas\+\_\+wf\+\_\+analysis\+\_\+data.\+h}
+\label{molcas__wf__analysis__data_8h_source}\index{molcas\_wf\_analysis\_data.h@{molcas\_wf\_analysis\_data.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//************************************************************************}}
+\DoxyCodeLine{2 \textcolor{comment}{//* This file is part of libwfa.                                         *}}
+\DoxyCodeLine{3 \textcolor{comment}{//*                                                                      *}}
+\DoxyCodeLine{4 \textcolor{comment}{//* libwfa is free software; you can redistribute and/or modify          *}}
+\DoxyCodeLine{5 \textcolor{comment}{//* it under the terms of the BSD 3-\/Clause license.                      *}}
+\DoxyCodeLine{6 \textcolor{comment}{//* libwfa is distributed in the hope that it will be useful, but it     *}}
+\DoxyCodeLine{7 \textcolor{comment}{//* is provided "{}as is"{} and without any express or implied warranties.   *}}
+\DoxyCodeLine{8 \textcolor{comment}{//* For more details see the full text of the license in the file        *}}
+\DoxyCodeLine{9 \textcolor{comment}{//* LICENSE.                                                             *}}
+\DoxyCodeLine{10 \textcolor{comment}{//*                                                                      *}}
+\DoxyCodeLine{11 \textcolor{comment}{//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *}}
+\DoxyCodeLine{12 \textcolor{comment}{//* Modifications copyright (C) 2019, Loughborough University.           *}}
+\DoxyCodeLine{13 \textcolor{comment}{//************************************************************************}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#ifndef LIBWFA\_MOLCAS\_WF\_ANALYSIS\_DATA\_H}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define LIBWFA\_MOLCAS\_WF\_ANALYSIS\_DATA\_H}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <iomanip>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include "{}H5Cpp.h"{}}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <libwfa/wf\_analysis\_data\_i.h>}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include "{}molcas\_mom\_builder.h"{}}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include "{}molcas\_export\_h5orbs.h"{}}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data}{molcas\_wf\_analysis\_data}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i}{libwfa::wf\_analysis\_data\_i}} \{}
+\DoxyCodeLine{30 \textcolor{keyword}{private}:}
+\DoxyCodeLine{33     \textcolor{keyword}{struct }pa\_data \{}
+\DoxyCodeLine{34         std::string name;}
+\DoxyCodeLine{35         \textcolor{keyword}{const} std::vector<std::string> \&labels;}
+\DoxyCodeLine{36         \textcolor{keyword}{const} arma::vec \&p0;}
+\DoxyCodeLine{37         std::unique\_ptr<libwfa::pop\_analysis\_i> analysis;}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39         pa\_data(\textcolor{keyword}{const} std::string \&n, \textcolor{keyword}{const} std::vector<std::string> \&l,}
+\DoxyCodeLine{40             \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{libwfa::pop\_analysis\_i}} *a, \textcolor{keyword}{const} arma::vec \&p) :}
+\DoxyCodeLine{41             name(n), labels(l), analysis(a), p0(p) \{ \}}
+\DoxyCodeLine{42      \};}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{46     \textcolor{keyword}{struct }cta\_data \{}
+\DoxyCodeLine{47         std::string name;}
+\DoxyCodeLine{48         std::string suffix;}
+\DoxyCodeLine{49         std::unique\_ptr<libwfa::ctnum\_analysis\_i> analysis;}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51         cta\_data(\textcolor{keyword}{const} std::string \&n, \textcolor{keyword}{const} std::string \&s,}
+\DoxyCodeLine{52             \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{libwfa::ctnum\_analysis\_i}} *a) :}
+\DoxyCodeLine{53             name(n), suffix(s), analysis(a) \{ \}}
+\DoxyCodeLine{54     \};}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{58     \textcolor{keyword}{struct }base\_data \{}
+\DoxyCodeLine{59         std::vector<std::string> atoms; }
+\DoxyCodeLine{60         arma::uvec atomic\_numbers; }
+\DoxyCodeLine{61         arma::vec \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_adbb9a7abf3a24d6a63d7ef9e398c4fdd}{atomic\_charges}}; }
+\DoxyCodeLine{62         arma::mat \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a37c53ca27619bca32e8f4fb2c0635336}{coordinates}}; }
+\DoxyCodeLine{63         arma::uvec bf2atoms; }
+\DoxyCodeLine{64         \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} c\_fb; }
+\DoxyCodeLine{65         arma::mat s; }
+\DoxyCodeLine{66         arma::uvec nbas; }
+\DoxyCodeLine{67         std::vector<std::string> irrep\_labels; }
+\DoxyCodeLine{68         arma::mat desym; }
+\DoxyCodeLine{69         \mbox{\hyperlink{classlibwfa_1_1molcas__mom__builder}{molcas\_mom\_builder}} mom; }
+\DoxyCodeLine{70         std::string mo\_types\_a; }
+\DoxyCodeLine{71         std::string mo\_types\_b; }
+\DoxyCodeLine{72         std::string molcas\_module; }
+\DoxyCodeLine{73 }
+\DoxyCodeLine{80         base\_data(\textcolor{keywordtype}{size\_t} nao, \textcolor{keywordtype}{size\_t} maxmm, \textcolor{keywordtype}{bool} unr) :}
+\DoxyCodeLine{81             c\_fb(unr), mom(nao, maxmm) \{ \}}
+\DoxyCodeLine{82     \};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{86     \textcolor{keyword}{struct }input\_data \{}
+\DoxyCodeLine{87         std::string file\_name; }
+\DoxyCodeLine{88         \textcolor{keywordtype}{size\_t} refstate; }
+\DoxyCodeLine{89         \textcolor{keywordtype}{size\_t} wfalevel; }
+\DoxyCodeLine{90         \textcolor{keywordtype}{bool} mulliken, lowdin, nxo, exciton; }
+\DoxyCodeLine{91         \textcolor{keywordtype}{bool} ctnum, h5orbs; }
+\DoxyCodeLine{92         std::vector<std::string> \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a38169ca7b82ac4018c647ce8a5102582}{prop\_list}} = \{\textcolor{stringliteral}{"{}Om"{}}, \textcolor{stringliteral}{"{}POS"{}}, \textcolor{stringliteral}{"{}PR"{}}, \textcolor{stringliteral}{"{}CT"{}}, \textcolor{stringliteral}{"{}COH"{}}, \textcolor{stringliteral}{"{}CTnt"{}}\};}
+\DoxyCodeLine{93         std::vector<std::vector<int>> at\_lists;}
+\DoxyCodeLine{94         \textcolor{keywordtype}{bool} add\_info; }
+\DoxyCodeLine{95         \textcolor{keywordtype}{bool} debug; }
+\DoxyCodeLine{96 }
+\DoxyCodeLine{99         input\_data() : file\_name(\textcolor{stringliteral}{"{}WFAH5"{}}), refstate(0), wfalevel(3), mulliken(\textcolor{keyword}{false}), lowdin(\textcolor{keyword}{false}), nxo(\textcolor{keyword}{false}),}
+\DoxyCodeLine{100             exciton(\textcolor{keyword}{false}), ctnum(\textcolor{keyword}{false}), h5orbs(\textcolor{keyword}{false}), add\_info(\textcolor{keyword}{false}), debug(\textcolor{keyword}{false}) \{\}}
+\DoxyCodeLine{101     \};}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{105     \textcolor{keyword}{enum} export\_type \{}
+\DoxyCodeLine{106         EXPORT\_NONE = 0,}
+\DoxyCodeLine{107         EXPORT\_H5,  }
+\DoxyCodeLine{108     \};}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110 \textcolor{keyword}{public}:}
+\DoxyCodeLine{111     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a6248bfff16a9aa2442fb23562116d64b}{k\_clazz}}[]; }
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 \textcolor{keyword}{private}:}
+\DoxyCodeLine{114     H5::H5File m\_file; }
+\DoxyCodeLine{115     std::vector<pa\_data *> m\_pa; }
+\DoxyCodeLine{116     std::vector<cta\_data *> m\_cta; }
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118     std::bitset<WFA\_TYPES> m\_analyses; }
+\DoxyCodeLine{119     std::map<unsigned, orbital\_params> m\_oparams;}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121     \mbox{\hyperlink{classlibwfa_1_1orbital__type_a306849ee636eceeae4b4cfc712407c1f}{orbital\_type::flag\_t}} m\_ot; }
+\DoxyCodeLine{122     \mbox{\hyperlink{classlibwfa_1_1density__type_ab348b3d76f2f9c9dd756d9e8a3eea78b}{density\_type::flag\_t}} m\_dt; }
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124     \textcolor{keyword}{enum} export\_type m\_export\_dens; }
+\DoxyCodeLine{125     \textcolor{keyword}{enum} export\_type m\_export\_orbs; }
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127     std::unique\_ptr<molcas\_export\_h5orbs> m\_h5core; }
+\DoxyCodeLine{128     std::unique\_ptr<base\_data> m\_moldata; }
+\DoxyCodeLine{129     std::unique\_ptr<input\_data> m\_input; }
+\DoxyCodeLine{130 }
+\DoxyCodeLine{131 \textcolor{keyword}{public}:}
+\DoxyCodeLine{134     \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a235ec811390be0e12f953f5b80a9ff9e}{molcas\_wf\_analysis\_data}}(\textcolor{keywordtype}{char} *inp);}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{138     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a21b876f09cd6d5028029e44ae32c2f29}{\string~molcas\_wf\_analysis\_data}}() \{ cleanup(); \}}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{144     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a74351e9a416c82e55b4292ce4378d077}{init\_orbital\_export}}(\textcolor{keyword}{const} std::string \&oe,}
+\DoxyCodeLine{145             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a306849ee636eceeae4b4cfc712407c1f}{orbital\_type::flag\_t}} \&ot);}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{151     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_ad46903a8aef791aefbe68d2c2cc240b3}{init\_pop\_analysis}}(\textcolor{keyword}{const} std::string \&name);}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{156     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_ae735eff5e64ee31b2840fffaa20c5fe0}{init\_ctnum\_analysis}}(\textcolor{keyword}{const} std::string \&name);}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{160     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_ab201df51081efe5b3fad094d632e6ea3}{activate}}(\textcolor{keyword}{enum} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}{analysis\_type}} t);}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{167     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_ab16cd38729c2013bf7b22828e7fb2969}{set\_orbital\_params}}(\textcolor{keyword}{enum} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeb}{orbital\_type::ot}} t,}
+\DoxyCodeLine{168             \textcolor{keywordtype}{size\_t} nno, \textcolor{keywordtype}{double} thresh);}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{172     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a1b826679c0838cd58e2526308c5c31a8}{is\_active}}(\textcolor{keyword}{enum} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}{analysis\_type}} t);}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{179     \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params}{orbital\_params}} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a40142dcc98a3b6e580ce5f8855494a21}{get\_orbital\_params}}(\textcolor{keyword}{enum} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeb}{orbital\_type::ot}} t);}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{183     \textcolor{keyword}{const} H5::H5File \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_adb4151f14c7945454e5b044db29e6442}{h5file}}() \{}
+\DoxyCodeLine{184         \textcolor{keywordflow}{return} m\_file;}
+\DoxyCodeLine{185     \}}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{189     \textcolor{keyword}{const} arma::mat \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_ae5e02b25dafef1ff85617da6485ac64a}{overlap}}() \{}
+\DoxyCodeLine{190         \textcolor{keywordflow}{return} m\_moldata-\/>s;}
+\DoxyCodeLine{191     \}}
+\DoxyCodeLine{192 }
+\DoxyCodeLine{195     \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a32a21ffd0e2ea66b645075a77a597cd9}{coefficients}}() \{}
+\DoxyCodeLine{196         \textcolor{keywordflow}{return} m\_moldata-\/>c\_fb;}
+\DoxyCodeLine{197     \}}
+\DoxyCodeLine{198 }
+\DoxyCodeLine{199     \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a6cd97cae78bf7e45e4d24fab7a3ee1f1}{fock}}() \{}
+\DoxyCodeLine{200         \textcolor{comment}{// Just a dummy routine, so C++ does not complain}}
+\DoxyCodeLine{201         \textcolor{keyword}{static} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} f;}
+\DoxyCodeLine{202         \textcolor{keywordflow}{return} f;}
+\DoxyCodeLine{203     \}}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205     \textcolor{keyword}{const} \mbox{\hyperlink{structh__so}{h\_so}} \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_ab85d2cbb43fcef8fd92f610b88869146}{so1e}}() \{}
+\DoxyCodeLine{206         \textcolor{keyword}{static} \mbox{\hyperlink{structh__so}{h\_so}} s;}
+\DoxyCodeLine{207         \textcolor{keywordflow}{return} s;}
+\DoxyCodeLine{208     \}}
+\DoxyCodeLine{209 }
+\DoxyCodeLine{210     \textcolor{keyword}{const} \mbox{\hyperlink{structh__so}{h\_so}} \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a20062d0fdaf911abd5267787292f965b}{somf}}() \{}
+\DoxyCodeLine{211         \textcolor{keyword}{static} \mbox{\hyperlink{structh__so}{h\_so}} s;}
+\DoxyCodeLine{212         \textcolor{keywordflow}{return} s;}
+\DoxyCodeLine{213     \}}
+\DoxyCodeLine{214 }
+\DoxyCodeLine{221     \mbox{\hyperlink{classlibwfa_1_1density__printer__i}{density\_printer\_i}} *\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a9819ecfb00c0611d0fc643a2c1926e44}{density\_printer}}(\textcolor{keyword}{const} std::string \&name,}
+\DoxyCodeLine{222             \textcolor{keyword}{const} std::string \&desc);}
+\DoxyCodeLine{223 }
+\DoxyCodeLine{230     \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\_printer\_i}} *\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_affd2a7fb69964def92bd98f04687640e}{orbital\_printer}}(\textcolor{keyword}{const} std::string \&name,}
+\DoxyCodeLine{231             \textcolor{keyword}{const} std::string \&desc);}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235 }
+\DoxyCodeLine{238     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_aca4b69f9af858eee66a20e0233328574}{n\_pop\_analyses}}() \{ \textcolor{keywordflow}{return} m\_pa.size(); \}}
+\DoxyCodeLine{239 }
+\DoxyCodeLine{242     \textcolor{keyword}{const} std::string \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_af8f7470e9bb43f721f7e3d4a442c6568}{pop\_name}}(\textcolor{keywordtype}{size\_t} i) \{}
+\DoxyCodeLine{243         \textcolor{keywordflow}{return} m\_pa[i]-\/>name;}
+\DoxyCodeLine{244     \}}
+\DoxyCodeLine{245 }
+\DoxyCodeLine{248     \textcolor{keyword}{const} std::vector<std::string> \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a83ee5b30ccbedb7e5429513743c8a7e4}{pop\_labels}}(\textcolor{keywordtype}{size\_t} i) \{}
+\DoxyCodeLine{249         \textcolor{keywordflow}{return} m\_pa[i]-\/>labels;\}}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{253     \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\_analysis\_i}} \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a7553e0c55c853e5ab075d1192a2d408e}{pop\_analysis}}(\textcolor{keywordtype}{size\_t} i) \{}
+\DoxyCodeLine{254         \textcolor{keywordflow}{return} *m\_pa[i]-\/>analysis;}
+\DoxyCodeLine{255     \}}
+\DoxyCodeLine{256 }
+\DoxyCodeLine{259     \textcolor{keyword}{const} arma::vec \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a6ccbbffeb0ace2923f9e39c7c5670533}{ref\_population}}(\textcolor{keywordtype}{size\_t} i) \{}
+\DoxyCodeLine{260         \textcolor{keywordflow}{return} m\_pa[i]-\/>p0;}
+\DoxyCodeLine{261 }
+\DoxyCodeLine{262     \}}
+\DoxyCodeLine{263 }
+\DoxyCodeLine{265 }
+\DoxyCodeLine{267 }
+\DoxyCodeLine{268 }
+\DoxyCodeLine{271     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a7039f00c7e56d95e2a12410c81d6c2d6}{n\_ctnum\_analyses}}() \{ \textcolor{keywordflow}{return} m\_cta.size(); \}}
+\DoxyCodeLine{272 }
+\DoxyCodeLine{275     \textcolor{keyword}{const} std::string \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a47c8793ab593f3d284ceed436d8a686c}{ctnum\_name}}(\textcolor{keywordtype}{size\_t} i) \{ \textcolor{keywordflow}{return} m\_cta[i]-\/>name; \}}
+\DoxyCodeLine{276 }
+\DoxyCodeLine{279     \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{ctnum\_analysis\_i}} \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a1ae65d5febef5d0701ef42a2f32a0fe7}{ctnum\_analysis}}(\textcolor{keywordtype}{size\_t} i) \{ \textcolor{keywordflow}{return} *m\_cta[i]-\/>analysis; \}}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{283     std::unique\_ptr<ctnum\_printer\_i> \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a1a981c05a57b1877284d6482618a9c8c}{ctnum\_printer}}(\textcolor{keywordtype}{size\_t} i,}
+\DoxyCodeLine{284             \textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::string \&desc);}
+\DoxyCodeLine{285 }
+\DoxyCodeLine{286     \textcolor{keyword}{const} std::vector<std::string> \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a38169ca7b82ac4018c647ce8a5102582}{prop\_list}}() \{ \textcolor{keywordflow}{return} m\_input-\/>prop\_list; \}}
+\DoxyCodeLine{287 }
+\DoxyCodeLine{289 }
+\DoxyCodeLine{292     \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\_builder\_i}} \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a1501d4a51121f3997f6def1ef952684a}{mom\_builder}}() \{}
+\DoxyCodeLine{293         \textcolor{keywordflow}{return} m\_moldata-\/>mom;}
+\DoxyCodeLine{294     \}}
+\DoxyCodeLine{295 }
+\DoxyCodeLine{296     \textcolor{keyword}{const} arma::mat \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a37c53ca27619bca32e8f4fb2c0635336}{coordinates}}() \{}
+\DoxyCodeLine{297         \textcolor{keywordflow}{return} m\_moldata-\/>coordinates;}
+\DoxyCodeLine{298     \}}
+\DoxyCodeLine{299 }
+\DoxyCodeLine{300     \textcolor{keyword}{const} arma::vec \&\mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_adbb9a7abf3a24d6a63d7ef9e398c4fdd}{atomic\_charges}}() \{}
+\DoxyCodeLine{301         \textcolor{keywordflow}{return} m\_moldata-\/>atomic\_charges;}
+\DoxyCodeLine{302     \}}
+\DoxyCodeLine{303 }
+\DoxyCodeLine{313     \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a29d406aae21b6d184ddee30a7d2e4132}{build\_dm}}(\textcolor{keyword}{const} \textcolor{keywordtype}{double} *buf, \textcolor{keyword}{const} \textcolor{keywordtype}{double} *sbuf, \textcolor{keyword}{const} \textcolor{keywordtype}{bool} aeqb\_dens);}
+\DoxyCodeLine{314 }
+\DoxyCodeLine{319     \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a72da3235d10845dde3f36a7094b3671f}{build\_dm\_ao}}(\textcolor{keyword}{const} \textcolor{keywordtype}{double} *buf, \textcolor{keyword}{const} \textcolor{keywordtype}{double} *sbuf, \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} dim);}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321 }
+\DoxyCodeLine{326     arma::vec \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_aa57f035ddade13755d1a49b132d6d2ea}{read\_vec\_h5}}(H5std\_string key);}
+\DoxyCodeLine{327 }
+\DoxyCodeLine{332     arma::cube \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a4aae7c409476d0ecb8438e45c4a9c9b0}{read\_cube\_h5}}(H5std\_string key);}
+\DoxyCodeLine{333 }
+\DoxyCodeLine{338     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a6b29511900f68f0882cc24a6d071ee57}{energy\_print}}(\textcolor{keyword}{const} \textcolor{keywordtype}{double} ener, std::ostream \&out);}
+\DoxyCodeLine{339 }
+\DoxyCodeLine{346     std::string \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_ad714e779d4da8c69a83d77a3a4c10c67}{rasscf\_label}}();}
+\DoxyCodeLine{347 }
+\DoxyCodeLine{350     std::vector<std::string> \mbox{\hyperlink{classlibwfa_1_1molcas__wf__analysis__data_a6f03231c6d10c71d6932ba297d59ae2f}{rassi\_labels}}(\textcolor{keywordtype}{int} *mult, \textcolor{keywordtype}{int} nstate);}
+\DoxyCodeLine{351 }
+\DoxyCodeLine{352     std::string molcas\_module() \{}
+\DoxyCodeLine{353         \textcolor{keywordflow}{return} m\_moldata-\/>molcas\_module;}
+\DoxyCodeLine{354     \}}
+\DoxyCodeLine{355 }
+\DoxyCodeLine{356     \textcolor{keyword}{const} std::unique\_ptr<input\_data> \&input() \{}
+\DoxyCodeLine{357         \textcolor{keywordflow}{return} m\_input;}
+\DoxyCodeLine{358     \}}
+\DoxyCodeLine{359 }
+\DoxyCodeLine{360 \textcolor{keyword}{private}:}
+\DoxyCodeLine{361     \textcolor{keywordtype}{void} read\_input(\textcolor{keywordtype}{char} *inp);}
+\DoxyCodeLine{362     \textcolor{keywordtype}{void} initialize();}
+\DoxyCodeLine{363     \textcolor{keywordtype}{void} cleanup();}
+\DoxyCodeLine{364     \textcolor{keywordtype}{void} setup\_h5core();}
+\DoxyCodeLine{365     \textcolor{keywordtype}{void} read\_ao\_mat(\textcolor{keyword}{const} \textcolor{keywordtype}{double} *buf, \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} dim, arma::mat \&ao\_mat, \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} nsym);}
+\DoxyCodeLine{366     \textcolor{keywordtype}{void} read\_mltpl\_mat(\textcolor{keyword}{const} H5std\_string \&setname, \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} c, \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} n);}
+\DoxyCodeLine{367     std::string get\_mo\_types(\textcolor{keyword}{const} H5std\_string \&setname);}
+\DoxyCodeLine{368     arma::mat get\_mo\_vectors(\textcolor{keyword}{const} H5std\_string \&setname);}
+\DoxyCodeLine{369 \};}
+\DoxyCodeLine{370 }
+\DoxyCodeLine{380 molcas\_wf\_analysis\_data *molcas\_setup\_wf\_analysis\_data(\textcolor{keywordtype}{char} *inp);}
+\DoxyCodeLine{381 }
+\DoxyCodeLine{391 molcas\_wf\_analysis\_data *molcas\_setup\_wf\_analysis\_data(H5::H5File file);}
+\DoxyCodeLine{392 }
+\DoxyCodeLine{393 \} \textcolor{comment}{// libwfa}}
+\DoxyCodeLine{394 }
+\DoxyCodeLine{395 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_MOLCAS\_WF\_ANALYSIS\_DATA\_H}}
+
+\end{DoxyCode}

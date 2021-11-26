@@ -1,0 +1,135 @@
+\hypertarget{classlibwfa_1_1orbital__printer__cube}{}\doxysection{libwfa\+::orbital\+\_\+printer\+\_\+cube Class Reference}
+\label{classlibwfa_1_1orbital__printer__cube}\index{libwfa::orbital\_printer\_cube@{libwfa::orbital\_printer\_cube}}
+
+
+Export orbitals as cube files.  
+
+
+
+
+{\ttfamily \#include $<$orbital\+\_\+printer\+\_\+cube.\+h$>$}
+
+Inheritance diagram for libwfa\+::orbital\+\_\+printer\+\_\+cube\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1orbital__printer__cube}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__printer__cube_ac664d3a108b1a31b9df50a7351e5c781}\label{classlibwfa_1_1orbital__printer__cube_ac664d3a108b1a31b9df50a7351e5c781}} 
+typedef \mbox{\hyperlink{classlibwfa_1_1orbital__type_a306849ee636eceeae4b4cfc712407c1f}{orbital\+\_\+type\+::flag\+\_\+t}} {\bfseries ot\+\_\+flag}
+\begin{DoxyCompactList}\small\item\em Flag for orbital types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1orbital__printer__cube_af109492f537f98161649902155fabb8c}{orbital\+\_\+printer\+\_\+cube}} (\mbox{\hyperlink{classlibwfa_1_1export__cube__i}{export\+\_\+cube\+\_\+i}} \&core, const std\+::string \&id, const std\+::string \&desc, const \mbox{\hyperlink{classlibwfa_1_1orbital__printer__cube_ac664d3a108b1a31b9df50a7351e5c781}{ot\+\_\+flag}} \&ot=\mbox{\hyperlink{classlibwfa_1_1orbital__printer__cube_ac664d3a108b1a31b9df50a7351e5c781}{ot\+\_\+flag}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceebaeed567c6b3fb087034fb3f59f83fb9dd}{orbital\+\_\+type\+::\+ALL}}))
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__printer__cube_a0e93e25eb47354e381c018fd14051db9}\label{classlibwfa_1_1orbital__printer__cube_a0e93e25eb47354e381c018fd14051db9}} 
+virtual {\bfseries $\sim$orbital\+\_\+printer\+\_\+cube} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1orbital__printer__cube_a97305d33fe49a04487cfa786bc2535a4}{perform}} (\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\+\_\+type}} type, const \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\+\_\+data}} \&orb, const \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\+\_\+selector}} \&s)
+\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1orbital__printer__cube_a46327e45594bae994dcb8eedb7b95619}{perform}} (\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\+\_\+type}} type, const \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\+\_\+data}} \&orb\+\_\+a, const \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\+\_\+selector}} \&s\+\_\+a, const \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\+\_\+data}} \&orb\+\_\+b, const \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\+\_\+selector}} \&s\+\_\+b)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__printer__cube_a28efb2d13ee5b1f76fc937a4200c4332}\label{classlibwfa_1_1orbital__printer__cube_a28efb2d13ee5b1f76fc937a4200c4332}} 
+static const char {\bfseries k\+\_\+clazz} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em Class name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Export orbitals as cube files. 
+
+Class implementing the interface \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\+\_\+printer\+\_\+i}} for export of density matrices as cube files. The real export is done by the core class \mbox{\hyperlink{classlibwfa_1_1export__cube__base}{export\+\_\+cube\+\_\+base}}.
+
+The core export class uses a name and description (both strings) to identify densities. This name is constructed by concatenating the ID with the density or orbital type 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{m\_name + \textcolor{stringliteral}{"{}\_"{}} + type.str()}
+
+\end{DoxyCode}
+ In case of an unrestricted calculation also the suffixes \char`\"{}\+\_\+a\char`\"{} and \char`\"{}\+\_\+b\char`\"{} are appended to distinguish alpha and beta spin parts. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1orbital__printer__cube_af109492f537f98161649902155fabb8c}\label{classlibwfa_1_1orbital__printer__cube_af109492f537f98161649902155fabb8c}} 
+\index{libwfa::orbital\_printer\_cube@{libwfa::orbital\_printer\_cube}!orbital\_printer\_cube@{orbital\_printer\_cube}}
+\index{orbital\_printer\_cube@{orbital\_printer\_cube}!libwfa::orbital\_printer\_cube@{libwfa::orbital\_printer\_cube}}
+\doxysubsubsection{\texorpdfstring{orbital\_printer\_cube()}{orbital\_printer\_cube()}}
+{\footnotesize\ttfamily libwfa\+::orbital\+\_\+printer\+\_\+cube\+::orbital\+\_\+printer\+\_\+cube (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlibwfa_1_1export__cube__i}{export\+\_\+cube\+\_\+i}} \&}]{core,  }\item[{const std\+::string \&}]{id,  }\item[{const std\+::string \&}]{desc,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1orbital__printer__cube_ac664d3a108b1a31b9df50a7351e5c781}{ot\+\_\+flag}} \&}]{ot = {\ttfamily \mbox{\hyperlink{classlibwfa_1_1orbital__printer__cube_ac664d3a108b1a31b9df50a7351e5c781}{ot\+\_\+flag}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceebaeed567c6b3fb087034fb3f59f83fb9dd}{orbital\+\_\+type\+::\+ALL}})} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em core} & Export object into cube files \\
+\hline
+{\em id} & ID / name of orbitals and densities \\
+\hline
+{\em desc} & Description of orbitals and densities \\
+\hline
+{\em ot} & Flag which orbital types to export \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1orbital__printer__cube_a97305d33fe49a04487cfa786bc2535a4}\label{classlibwfa_1_1orbital__printer__cube_a97305d33fe49a04487cfa786bc2535a4}} 
+\index{libwfa::orbital\_printer\_cube@{libwfa::orbital\_printer\_cube}!perform@{perform}}
+\index{perform@{perform}!libwfa::orbital\_printer\_cube@{libwfa::orbital\_printer\_cube}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual void libwfa\+::orbital\+\_\+printer\+\_\+cube\+::perform (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\+\_\+type}}}]{type,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\+\_\+data}} \&}]{orb,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\+\_\+selector}} \&}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Orbital type \\
+\hline
+{\em orb} & Orbital data \\
+\hline
+{\em s} & Selector of specific orbitals\\
+\hline
+\end{DoxyParams}
+The orbital coefficient vectors can be expected as columns of the coefficient matrix. 
+
+Implements \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i_a8786380e876cb9b83d7567587449094d}{libwfa\+::orbital\+\_\+printer\+\_\+i}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1orbital__printer__cube_a46327e45594bae994dcb8eedb7b95619}\label{classlibwfa_1_1orbital__printer__cube_a46327e45594bae994dcb8eedb7b95619}} 
+\index{libwfa::orbital\_printer\_cube@{libwfa::orbital\_printer\_cube}!perform@{perform}}
+\index{perform@{perform}!libwfa::orbital\_printer\_cube@{libwfa::orbital\_printer\_cube}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual void libwfa\+::orbital\+\_\+printer\+\_\+cube\+::perform (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\+\_\+type}}}]{type,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\+\_\+data}} \&}]{orb\+\_\+a,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\+\_\+selector}} \&}]{s\+\_\+a,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\+\_\+data}} \&}]{orb\+\_\+b,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\+\_\+selector}} \&}]{s\+\_\+b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Orbital type \\
+\hline
+{\em orb\+\_\+a} & $ \alpha $ orbital data \\
+\hline
+{\em s\+\_\+a} & Selector of specific $ \alpha $ orbitals \\
+\hline
+{\em orb\+\_\+b} & $ \beta $ orbital data \\
+\hline
+{\em s\+\_\+b} & Selector of specific $ \beta $ orbitals\\
+\hline
+\end{DoxyParams}
+The orbital coefficient vectors can be expected as columns of the coefficient matrix. 
+
+Implements \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i_a90e79fe7f5a8fdb62b13ce48ed5ec5ef}{libwfa\+::orbital\+\_\+printer\+\_\+i}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+orbital\+\_\+printer\+\_\+cube.\+h\end{DoxyCompactItemize}

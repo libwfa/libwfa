@@ -1,0 +1,71 @@
+\hypertarget{ctnum__analysis_8h_source}{}\doxysection{ctnum\+\_\+analysis.\+h}
+\label{ctnum__analysis_8h_source}\index{ctnum\_analysis.h@{ctnum\_analysis.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//************************************************************************}}
+\DoxyCodeLine{2 \textcolor{comment}{//* This file is part of libwfa.                                         *}}
+\DoxyCodeLine{3 \textcolor{comment}{//*                                                                      *}}
+\DoxyCodeLine{4 \textcolor{comment}{//* libwfa is free software; you can redistribute and/or modify          *}}
+\DoxyCodeLine{5 \textcolor{comment}{//* it under the terms of the BSD 3-\/Clause license.                      *}}
+\DoxyCodeLine{6 \textcolor{comment}{//* libwfa is distributed in the hope that it will be useful, but it     *}}
+\DoxyCodeLine{7 \textcolor{comment}{//* is provided "{}as is"{} and without any express or implied warranties.   *}}
+\DoxyCodeLine{8 \textcolor{comment}{//* For more details see the full text of the license in the file        *}}
+\DoxyCodeLine{9 \textcolor{comment}{//* LICENSE.                                                             *}}
+\DoxyCodeLine{10 \textcolor{comment}{//*                                                                      *}}
+\DoxyCodeLine{11 \textcolor{comment}{//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *}}
+\DoxyCodeLine{12 \textcolor{comment}{//* Modifications copyright (C) 2019, Loughborough University.           *}}
+\DoxyCodeLine{13 \textcolor{comment}{//************************************************************************}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#ifndef LIBWFA\_CTNUM\_ANALYSIS\_H}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define LIBWFA\_CTNUM\_ANALYSIS\_H}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include "{}ctnum\_analysis\_i.h"{}}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{33 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1ctnum__analysis}{ctnum\_analysis}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{ctnum\_analysis\_i}} \{}
+\DoxyCodeLine{34 \textcolor{keyword}{private}:}
+\DoxyCodeLine{35     \textcolor{keyword}{typedef} std::vector<std::vector<int>> ivector;}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keywordtype}{size\_t} m\_nparts; }
+\DoxyCodeLine{38     \textcolor{keyword}{const} arma::mat \&m\_s; }
+\DoxyCodeLine{39     arma::mat m\_s\_sqrt; }
+\DoxyCodeLine{40     \textcolor{keyword}{const} arma::uvec \&m\_b2p; }
+\DoxyCodeLine{41     \textcolor{keyword}{const} std::string ctnum\_method; }
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43     \textcolor{keyword}{const} std::vector<std::string> prop\_list;}
+\DoxyCodeLine{44     \textcolor{keyword}{const} ivector at\_lists;}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{keyword}{public}:}
+\DoxyCodeLine{55     \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis_a0dc908c5d32c912d2f9fbfd862eed81a}{ctnum\_analysis}}(\textcolor{keyword}{const} arma::mat \&s, \textcolor{keyword}{const} arma::uvec \&b2p, \textcolor{keyword}{const} std::string \&method,}
+\DoxyCodeLine{56             \textcolor{keyword}{const} std::vector<std::string> \&prop\_list, \textcolor{keyword}{const} std::vector<std::vector<int>> \&at\_lists);}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{63     \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis_a7195c83e52034cd543b27155317b36fb}{ctnum\_analysis}}(\textcolor{keyword}{const} arma::mat \&s, \textcolor{keyword}{const} arma::uvec \&b2p, \textcolor{keyword}{const} std::string \&method);}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{67     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis_a5aa75a10fdeec8e330c2fefe7e1a82c5}{\string~ctnum\_analysis}}() \{ \}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{71     \textcolor{keyword}{virtual} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis_a5951b6d7e4b46e77d18e96c637bde4d8}{size}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_nparts; \}}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{75     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis_ab27fbfdae0c363e6cf3dce5d90bd563f}{perform}}(\textcolor{keyword}{const} arma::mat\& tdm, arma::mat \&om, \textcolor{keywordtype}{double} \&Phe) \textcolor{keyword}{const};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{80     \textcolor{keyword}{virtual} arma::mat \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis_a4b0214c3bbb08654facfab1c5439015c}{compute\_omFrag}}(\textcolor{keyword}{const} arma::mat \&om\_at) \textcolor{keyword}{const};}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{84     \textcolor{keyword}{virtual} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis_a144b1d89730a4cb2d99c59670f33bb52}{n\_frags}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} at\_lists.size(); \}}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{88    \textcolor{keyword}{virtual} std::unordered\_map<std::string, double> \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis_a38c9d9aa90dda6486ad19106093d0123}{compute\_descriptors}}(\textcolor{keyword}{const} \textcolor{keywordtype}{double} om\_tot,}
+\DoxyCodeLine{89                                                                \textcolor{keyword}{const} arma::mat \&om\_frag) \textcolor{keyword}{const};}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 \textcolor{comment}{//private:}}
+\DoxyCodeLine{117 \textcolor{comment}{}    \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis_ae21347afa30b8fdde6339dd47beba8b7}{form\_om}}(\textcolor{keyword}{const} arma::mat \&s, \textcolor{keyword}{const} arma::mat \&s\_sqrt,}
+\DoxyCodeLine{118             \textcolor{keyword}{const} arma::mat \&tdm, \textcolor{keyword}{const} std::string \&method, arma::mat \&om);}
+\DoxyCodeLine{119 \};}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

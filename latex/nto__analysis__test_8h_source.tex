@@ -1,0 +1,31 @@
+\hypertarget{nto__analysis__test_8h_source}{}\doxysection{nto\+\_\+analysis\+\_\+test.\+h}
+\label{nto__analysis__test_8h_source}\index{nto\_analysis\_test.h@{nto\_analysis\_test.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_NTO\_ANALYSIS\_TEST\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_NTO\_ANALYSIS\_TEST\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}test\_base.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <libwfa/analyses/nto\_analysis.h>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1nto__analysis__test}{nto\_analysis\_test}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1test__base}{test\_base}} \{}
+\DoxyCodeLine{15 \textcolor{keyword}{public}:}
+\DoxyCodeLine{16     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} perform() \textcolor{keywordflow}{throw}(libtest::test\_exception);}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{private}:}
+\DoxyCodeLine{19     \textcolor{keywordtype}{void} test\_form\_eh\_1() \textcolor{keywordflow}{throw}(libtest::test\_exception);}
+\DoxyCodeLine{20     \textcolor{keywordtype}{void} test\_form\_eh\_2() \textcolor{keywordflow}{throw}(libtest::test\_exception);}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22     \textcolor{keyword}{template}<\textcolor{keyword}{typename} TestData>}
+\DoxyCodeLine{23     \textcolor{keywordtype}{void} test\_1() \textcolor{keywordflow}{throw}(libtest::test\_exception);}
+\DoxyCodeLine{24 \};}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_NTO\_ANALYSIS\_TEST\_H}}
+
+\end{DoxyCode}

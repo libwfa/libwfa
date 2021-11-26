@@ -1,0 +1,47 @@
+\hypertarget{molcas__export__h5orbs_8h_source}{}\doxysection{molcas\+\_\+export\+\_\+h5orbs.\+h}
+\label{molcas__export__h5orbs_8h_source}\index{molcas\_export\_h5orbs.h@{molcas\_export\_h5orbs.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_MOLCAS\_EXPORT\_H5ORBS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_MOLCAS\_EXPORT\_H5ORBS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}H5Cpp.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <libwfa/export/export\_molden\_i.h>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1molcas__export__h5orbs}{molcas\_export\_h5orbs}}: \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1export__molden__i}{libwfa::export\_molden\_i}} \{}
+\DoxyCodeLine{17 \textcolor{keyword}{private}:}
+\DoxyCodeLine{18     H5::Group  m\_group; }
+\DoxyCodeLine{19     \textcolor{keyword}{const} arma::uvec m\_nbas; }
+\DoxyCodeLine{20     \textcolor{keyword}{const} arma::mat  m\_desym; }
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \mbox{\hyperlink{classlibwfa_1_1molcas__export__h5orbs_ab8f675e2a410f704de0a64d123c24021}{molcas\_export\_h5orbs}}(H5::H5File \&file, \textcolor{keyword}{const} arma::uvec nbas, \textcolor{keyword}{const} arma::mat desym) :}
+\DoxyCodeLine{27         m\_nbas(nbas), m\_desym(desym) \{}
+\DoxyCodeLine{28         setup(file);}
+\DoxyCodeLine{29     \}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{33     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1molcas__export__h5orbs_ad26ddcd53ca27a075691e1ca236741fc}{\string~molcas\_export\_h5orbs}}() \{ \}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1molcas__export__h5orbs_a9231cbc3b0caf9b418b6e8bbabf78fcb}{perform}}(\textcolor{keyword}{const} std::string \&name,}
+\DoxyCodeLine{38         \textcolor{keyword}{const} arma::mat \&c, \textcolor{keyword}{const} arma::vec \&e, \textcolor{keywordtype}{size\_t} nocc);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1molcas__export__h5orbs_a14004eb09a0c72fe8cc41808e664ee04}{perform}}(\textcolor{keyword}{const} std::string \&name,}
+\DoxyCodeLine{41         \textcolor{keyword}{const} arma::mat \&c\_a, \textcolor{keyword}{const} arma::vec \&e\_a, \textcolor{keywordtype}{size\_t} nocc\_a,}
+\DoxyCodeLine{42         \textcolor{keyword}{const} arma::mat \&c\_b, \textcolor{keyword}{const} arma::vec \&e\_b, \textcolor{keywordtype}{size\_t} nocc\_b);}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{keyword}{private}:}
+\DoxyCodeLine{46     \textcolor{keywordtype}{void} setup(H5::H5File \&file);}
+\DoxyCodeLine{47     \textcolor{keywordtype}{void} h5\_vec(\textcolor{keyword}{const} H5std\_string oname, \textcolor{keyword}{const} H5std\_string descr, \textcolor{keyword}{const} arma::vec data);}
+\DoxyCodeLine{48     \textcolor{keywordtype}{void} h5\_coeff(\textcolor{keyword}{const} H5std\_string oname, \textcolor{keyword}{const} arma::mat c);}
+\DoxyCodeLine{49     \textcolor{keywordtype}{void} h5\_occs(\textcolor{keyword}{const} H5std\_string oname, \textcolor{keyword}{const} arma::vec e);}
+\DoxyCodeLine{50 \};}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_MOLCAS\_EXPORT\_H5ORBS\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,160 @@
+\hypertarget{classlibwfa_1_1ab__object}{}\doxysection{libwfa\+::ab\+\_\+object\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classlibwfa_1_1ab__object}\index{libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}}
+
+
+Container for objects with spin property.  
+
+
+
+
+{\ttfamily \#include $<$ab\+\_\+object.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__object_a4909ada28f26ce521d1254de9ad22058}{ab\+\_\+object}} (bool aeqb=false)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__object_a861fe4fca1b66f554eaa44fd8970880c}{ab\+\_\+object}} (const \mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\+\_\+object}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_a0119bed3ca7814ab1bc682ecc5d24583}\label{classlibwfa_1_1ab__object_a0119bed3ca7814ab1bc682ecc5d24583}} 
+{\bfseries $\sim$ab\+\_\+object} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\+\_\+object}} \& \mbox{\hyperlink{classlibwfa_1_1ab__object_a9427a119b49a4c443a10bc7d83aadb66}{operator=}} (const \mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\+\_\+object}} \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1ab__object_a011faaa8cc618f5cb62eb8ccfb820c3c}{set\+\_\+alpha\+\_\+eq\+\_\+beta}} ()
+\begin{DoxyCompactList}\small\item\em Set alpha == beta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1ab__object_a933e2f00557a3ec0c2f6e85c84494583}{set\+\_\+alpha\+\_\+neq\+\_\+beta}} ()
+\begin{DoxyCompactList}\small\item\em Set alpha != beta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1ab__object_a8e5b061b688acd9af8397c73e0b90488}{acquire}} (bool \mbox{\hyperlink{classlibwfa_1_1ab__object_a55348eff3fbf77ce9d8b39a1e214183c}{alpha}}, T $\ast$data)
+\begin{DoxyCompactList}\small\item\em Acquire an object as alpha or beta component. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_a86d938c6404dee4221e1707368486d80}\label{classlibwfa_1_1ab__object_a86d938c6404dee4221e1707368486d80}} 
+bool {\bfseries is\+\_\+alpha\+\_\+eq\+\_\+beta} () const
+\begin{DoxyCompactList}\small\item\em Are alpha-\/ and beta-\/spin matrices identical. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_a55348eff3fbf77ce9d8b39a1e214183c}\label{classlibwfa_1_1ab__object_a55348eff3fbf77ce9d8b39a1e214183c}} 
+T \& {\bfseries alpha} ()
+\begin{DoxyCompactList}\small\item\em Return alpha-\/spin matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_ac4c2d718e117cd5f5f80640f19275661}\label{classlibwfa_1_1ab__object_ac4c2d718e117cd5f5f80640f19275661}} 
+const T \& {\bfseries alpha} () const
+\begin{DoxyCompactList}\small\item\em Return alpha-\/spin matrix (const version) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_abb3feab56307023b7a3d7ea592a0be8e}\label{classlibwfa_1_1ab__object_abb3feab56307023b7a3d7ea592a0be8e}} 
+T \& {\bfseries beta} ()
+\begin{DoxyCompactList}\small\item\em Return beta-\/spin matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_ab7f641473994c8e9e30f8dd0e34ae0ae}\label{classlibwfa_1_1ab__object_ab7f641473994c8e9e30f8dd0e34ae0ae}} 
+const T \& {\bfseries beta} () const
+\begin{DoxyCompactList}\small\item\em Return beta-\/spin matrix (const version. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_a81b9f876d9b6dac10cb1154be4aa4ca5}\label{classlibwfa_1_1ab__object_a81b9f876d9b6dac10cb1154be4aa4ca5}} 
+T {\bfseries sp\+\_\+trace} () const
+\begin{DoxyCompactList}\small\item\em Return spin-\/traced matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class libwfa\+::ab\+\_\+object$<$ T $>$}
+Container for objects with spin property. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Object type\\
+\hline
+\end{DoxyTemplParams}
+The container stores two objects with alpha-\/ and beta-\/spin and a flag to indicate, if both objects have to be identical. The case of alpha == beta will be enforced by the container by using the same object for alpha-\/spin and beta-\/spin.
+
+The object type has to possess default and copy constructor to work properly. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_a4909ada28f26ce521d1254de9ad22058}\label{classlibwfa_1_1ab__object_a4909ada28f26ce521d1254de9ad22058}} 
+\index{libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}!ab\_object@{ab\_object}}
+\index{ab\_object@{ab\_object}!libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ab\_object()}{ab\_object()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classlibwfa_1_1ab__object}{libwfa\+::ab\+\_\+object}}$<$ T $>$\+::\mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\+\_\+object}} (\begin{DoxyParamCaption}\item[{bool}]{aeqb = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Default constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em aeqb} & Is alpha equal to beta (default\+: false) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_a861fe4fca1b66f554eaa44fd8970880c}\label{classlibwfa_1_1ab__object_a861fe4fca1b66f554eaa44fd8970880c}} 
+\index{libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}!ab\_object@{ab\_object}}
+\index{ab\_object@{ab\_object}!libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ab\_object()}{ab\_object()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classlibwfa_1_1ab__object}{libwfa\+::ab\+\_\+object}}$<$ T $>$\+::\mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\+\_\+object}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\+\_\+object}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Object to copy\\
+\hline
+\end{DoxyParams}
+Performs deep copy 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_a8e5b061b688acd9af8397c73e0b90488}\label{classlibwfa_1_1ab__object_a8e5b061b688acd9af8397c73e0b90488}} 
+\index{libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}!acquire@{acquire}}
+\index{acquire@{acquire}!libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{acquire()}{acquire()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classlibwfa_1_1ab__object}{libwfa\+::ab\+\_\+object}}$<$ T $>$\+::acquire (\begin{DoxyParamCaption}\item[{bool}]{alpha,  }\item[{T $\ast$}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Acquire an object as alpha or beta component. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em alpha} & Use as alpha (true) or beta (false) \\
+\hline
+{\em data} & Object pointer to acquire\\
+\hline
+\end{DoxyParams}
+The class takes control of the object pointer, so that it is deleted when the \mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\+\_\+object}} goes out of scope. Please use with great care and only, if you know what you are doing. \mbox{\Hypertarget{classlibwfa_1_1ab__object_a9427a119b49a4c443a10bc7d83aadb66}\label{classlibwfa_1_1ab__object_a9427a119b49a4c443a10bc7d83aadb66}} 
+\index{libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\+\_\+object}}$<$ T $>$ \& \mbox{\hyperlink{classlibwfa_1_1ab__object}{libwfa\+::ab\+\_\+object}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__object}{ab\+\_\+object}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Assignment operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Object to get data from \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1ab__object_a011faaa8cc618f5cb62eb8ccfb820c3c}\label{classlibwfa_1_1ab__object_a011faaa8cc618f5cb62eb8ccfb820c3c}} 
+\index{libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}!set\_alpha\_eq\_beta@{set\_alpha\_eq\_beta}}
+\index{set\_alpha\_eq\_beta@{set\_alpha\_eq\_beta}!libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{set\_alpha\_eq\_beta()}{set\_alpha\_eq\_beta()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classlibwfa_1_1ab__object}{libwfa\+::ab\+\_\+object}}$<$ T $>$\+::set\+\_\+alpha\+\_\+eq\+\_\+beta (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set alpha == beta. 
+
+Modifies the container to enforce both objects to be identical. The contents of the beta objects is deleted and only the alpha object is kept. \mbox{\Hypertarget{classlibwfa_1_1ab__object_a933e2f00557a3ec0c2f6e85c84494583}\label{classlibwfa_1_1ab__object_a933e2f00557a3ec0c2f6e85c84494583}} 
+\index{libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}!set\_alpha\_neq\_beta@{set\_alpha\_neq\_beta}}
+\index{set\_alpha\_neq\_beta@{set\_alpha\_neq\_beta}!libwfa::ab\_object$<$ T $>$@{libwfa::ab\_object$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{set\_alpha\_neq\_beta()}{set\_alpha\_neq\_beta()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classlibwfa_1_1ab__object}{libwfa\+::ab\+\_\+object}}$<$ T $>$\+::set\+\_\+alpha\+\_\+neq\+\_\+beta (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set alpha != beta. 
+
+Modifies the container to allow the objects with alpha and beta-\/spin to change independently. However, both objects will be identical copies of one another first. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ab\+\_\+object.\+h\end{DoxyCompactItemize}

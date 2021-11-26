@@ -1,0 +1,175 @@
+\hypertarget{classlibwfa_1_1ab__matrix}{}\doxysection{libwfa\+::ab\+\_\+matrix Class Reference}
+\label{classlibwfa_1_1ab__matrix}\index{libwfa::ab\_matrix@{libwfa::ab\_matrix}}
+
+
+Container for matrices with spin property.  
+
+
+
+
+{\ttfamily \#include $<$ab\+\_\+matrix.\+h$>$}
+
+Inheritance diagram for libwfa\+::ab\+\_\+matrix\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1ab__matrix}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__matrix_ab6bd7a4dd528a2d32ec650b11d543b81}{ab\+\_\+matrix}} (bool aeqb=false)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__matrix_a3fc6df35d0e51e8d39c710eaf4b9330f}{ab\+\_\+matrix}} (size\+\_\+t nrows, size\+\_\+t ncols=0)
+\begin{DoxyCompactList}\small\item\em Constructor for matrix with alpha == beta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__matrix_a7c5087ef811cf4b65e1d9cc84686ba25}{ab\+\_\+matrix}} (size\+\_\+t \mbox{\hyperlink{classlibwfa_1_1ab__matrix_a7f3be8d68b47b7663ed483757fe5a9a5}{nrows\+\_\+a}}, size\+\_\+t \mbox{\hyperlink{classlibwfa_1_1ab__matrix_a583abdfcaa3077596d5970607793ef77}{ncols\+\_\+a}}, size\+\_\+t \mbox{\hyperlink{classlibwfa_1_1ab__matrix_a126e6a63e6299ec22c0dd137d1d902b5}{nrows\+\_\+b}}, size\+\_\+t \mbox{\hyperlink{classlibwfa_1_1ab__matrix_a28e668a81d9bef94ec07d5675289cae5}{ncols\+\_\+b}}=0)
+\begin{DoxyCompactList}\small\item\em Constructor for matrix with alpha != beta. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_a7f3be8d68b47b7663ed483757fe5a9a5}\label{classlibwfa_1_1ab__matrix_a7f3be8d68b47b7663ed483757fe5a9a5}} 
+size\+\_\+t {\bfseries nrows\+\_\+a} () const
+\begin{DoxyCompactList}\small\item\em Return the number of alpha-\/spin rows. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_a583abdfcaa3077596d5970607793ef77}\label{classlibwfa_1_1ab__matrix_a583abdfcaa3077596d5970607793ef77}} 
+size\+\_\+t {\bfseries ncols\+\_\+a} () const
+\begin{DoxyCompactList}\small\item\em Return the number of alpha-\/spin columns. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_a126e6a63e6299ec22c0dd137d1d902b5}\label{classlibwfa_1_1ab__matrix_a126e6a63e6299ec22c0dd137d1d902b5}} 
+size\+\_\+t {\bfseries nrows\+\_\+b} () const
+\begin{DoxyCompactList}\small\item\em Return the number of alpha-\/spin rows. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_a28e668a81d9bef94ec07d5675289cae5}\label{classlibwfa_1_1ab__matrix_a28e668a81d9bef94ec07d5675289cae5}} 
+size\+\_\+t {\bfseries ncols\+\_\+b} () const
+\begin{DoxyCompactList}\small\item\em Return the number of alpha-\/spin columns. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& \mbox{\hyperlink{classlibwfa_1_1ab__matrix_ae2f70a0ba55f213e45ecc0bdbddc8b90}{operator+=}} (const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&other)
+\begin{DoxyCompactList}\small\item\em Add to current matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& \mbox{\hyperlink{classlibwfa_1_1ab__matrix_abdd405dfcc3a6697cfd4051777ea28e0}{operator-\/=}} (const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&other)
+\begin{DoxyCompactList}\small\item\em Subtract from current matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& \mbox{\hyperlink{classlibwfa_1_1ab__matrix_a7149ef056e3928bc0fd9da6a3d084ce7}{operator$\ast$=}} (double scalar)
+\begin{DoxyCompactList}\small\item\em Scalar multiplication of the current matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \mbox{\hyperlink{classlibwfa_1_1ab__matrix_a8195e0d74bb9d91e6391afdce433f2be}{t}} () const
+\begin{DoxyCompactList}\small\item\em Return the transpose of the \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_a26e88d1a24713c94ff2b7dabc069c6f7}\label{classlibwfa_1_1ab__matrix_a26e88d1a24713c94ff2b7dabc069c6f7}} 
+void {\bfseries inplace\+\_\+trans} ()
+\begin{DoxyCompactList}\small\item\em Transpose the \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Container for matrices with spin property. 
+
+The container stores two matrices with alpha-\/ and beta-\/spin and a flag to indicate, if both matrices have to be identical (i.\+e. spin-\/restricted calculations). The case of alpha == beta will be enforced by the container by using the same matrix for alpha-\/spin and beta-\/spin.
+
+Mathematically, an \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} behaves like a block diagonal matrix of the form\+: \[ \mathbf{A} = \left(\begin{array}{cc} \mathbf{A}_{\alpha\alpha} & 0 \\ 0 & \mathbf{A}_{\beta\beta} \end{array}\right) \] 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_ab6bd7a4dd528a2d32ec650b11d543b81}\label{classlibwfa_1_1ab__matrix_ab6bd7a4dd528a2d32ec650b11d543b81}} 
+\index{libwfa::ab\_matrix@{libwfa::ab\_matrix}!ab\_matrix@{ab\_matrix}}
+\index{ab\_matrix@{ab\_matrix}!libwfa::ab\_matrix@{libwfa::ab\_matrix}}
+\doxysubsubsection{\texorpdfstring{ab\_matrix()}{ab\_matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily libwfa\+::ab\+\_\+matrix\+::ab\+\_\+matrix (\begin{DoxyParamCaption}\item[{bool}]{aeqb = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Default constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em aeqb} & If true, alpha == beta matrix \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_a3fc6df35d0e51e8d39c710eaf4b9330f}\label{classlibwfa_1_1ab__matrix_a3fc6df35d0e51e8d39c710eaf4b9330f}} 
+\index{libwfa::ab\_matrix@{libwfa::ab\_matrix}!ab\_matrix@{ab\_matrix}}
+\index{ab\_matrix@{ab\_matrix}!libwfa::ab\_matrix@{libwfa::ab\_matrix}}
+\doxysubsubsection{\texorpdfstring{ab\_matrix()}{ab\_matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily libwfa\+::ab\+\_\+matrix\+::ab\+\_\+matrix (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{nrows,  }\item[{size\+\_\+t}]{ncols = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for matrix with alpha == beta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nrows} & Number of rows \\
+\hline
+{\em ncols} & Number of columns\\
+\hline
+\end{DoxyParams}
+If ncols is not given (== 0), a symmetric matrix is constructed \mbox{\Hypertarget{classlibwfa_1_1ab__matrix_a7c5087ef811cf4b65e1d9cc84686ba25}\label{classlibwfa_1_1ab__matrix_a7c5087ef811cf4b65e1d9cc84686ba25}} 
+\index{libwfa::ab\_matrix@{libwfa::ab\_matrix}!ab\_matrix@{ab\_matrix}}
+\index{ab\_matrix@{ab\_matrix}!libwfa::ab\_matrix@{libwfa::ab\_matrix}}
+\doxysubsubsection{\texorpdfstring{ab\_matrix()}{ab\_matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily libwfa\+::ab\+\_\+matrix\+::ab\+\_\+matrix (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{nrows\+\_\+a,  }\item[{size\+\_\+t}]{ncols\+\_\+a,  }\item[{size\+\_\+t}]{nrows\+\_\+b,  }\item[{size\+\_\+t}]{ncols\+\_\+b = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for matrix with alpha != beta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nrows\+\_\+a} & Number of rows \\
+\hline
+{\em ncols\+\_\+a} & Number of columns \\
+\hline
+{\em nrows\+\_\+b} & Number of rows \\
+\hline
+{\em ncols\+\_\+b} & Number of columns\\
+\hline
+\end{DoxyParams}
+If ncols\+\_\+b is not given (== 0), alpha and beta have the same number of columns. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_a7149ef056e3928bc0fd9da6a3d084ce7}\label{classlibwfa_1_1ab__matrix_a7149ef056e3928bc0fd9da6a3d084ce7}} 
+\index{libwfa::ab\_matrix@{libwfa::ab\_matrix}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!libwfa::ab\_matrix@{libwfa::ab\_matrix}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$=()}{operator*=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& libwfa\+::ab\+\_\+matrix\+::operator$\ast$= (\begin{DoxyParamCaption}\item[{double}]{scalar }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Scalar multiplication of the current matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em scalar} & Scalar factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_ae2f70a0ba55f213e45ecc0bdbddc8b90}\label{classlibwfa_1_1ab__matrix_ae2f70a0ba55f213e45ecc0bdbddc8b90}} 
+\index{libwfa::ab\_matrix@{libwfa::ab\_matrix}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!libwfa::ab\_matrix@{libwfa::ab\_matrix}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& libwfa\+::ab\+\_\+matrix\+::operator+= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Add to current matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Matrix to add \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_abdd405dfcc3a6697cfd4051777ea28e0}\label{classlibwfa_1_1ab__matrix_abdd405dfcc3a6697cfd4051777ea28e0}} 
+\index{libwfa::ab\_matrix@{libwfa::ab\_matrix}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!libwfa::ab\_matrix@{libwfa::ab\_matrix}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \& libwfa\+::ab\+\_\+matrix\+::operator-\/= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Subtract from current matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Matrix to subtract \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1ab__matrix_a8195e0d74bb9d91e6391afdce433f2be}\label{classlibwfa_1_1ab__matrix_a8195e0d74bb9d91e6391afdce433f2be}} 
+\index{libwfa::ab\_matrix@{libwfa::ab\_matrix}!t@{t}}
+\index{t@{t}!libwfa::ab\_matrix@{libwfa::ab\_matrix}}
+\doxysubsubsection{\texorpdfstring{t()}{t()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} libwfa\+::ab\+\_\+matrix\+::t (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Return the transpose of the \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}}. 
+
+Note\+: this is a convenience function that does not have the full efficiency of directly using the armadillo operations! 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ab\+\_\+matrix.\+h\end{DoxyCompactItemize}

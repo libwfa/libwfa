@@ -1,0 +1,118 @@
+\hypertarget{wf__analysis__data__i_8h_source}{}\doxysection{wf\+\_\+analysis\+\_\+data\+\_\+i.\+h}
+\label{wf__analysis__data__i_8h_source}\index{wf\_analysis\_data\_i.h@{wf\_analysis\_data\_i.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_WF\_ANALYSIS\_DATA\_I\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_WF\_ANALYSIS\_DATA\_I\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <libwfa/analyses/ctnum\_analysis\_i.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <libwfa/analyses/pop\_analysis\_i.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <libwfa/core/mom\_builder\_i.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <libwfa/export/ctnum\_printer\_i.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <libwfa/export/density\_printer\_i.h>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <libwfa/export/orbital\_printer\_i.h>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <libwfa/soc.h>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 }
+\DoxyCodeLine{22 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i}{wf\_analysis\_data\_i}} \{}
+\DoxyCodeLine{23 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \textcolor{comment}{// PP: Dear developers,}}
+\DoxyCodeLine{27     \textcolor{comment}{// If you want to add a new analysis\_type, }}
+\DoxyCodeLine{28     \textcolor{comment}{// please check that the number of analysis types corresponds }}
+\DoxyCodeLine{29     \textcolor{comment}{// to all the available types. Otherwise, this will happen:}}
+\DoxyCodeLine{30     \textcolor{comment}{// terminate called after throwing an instance of 'std::out\_of\_range'}}
+\DoxyCodeLine{31     \textcolor{comment}{//   what():  bitset::set: \_\_position (which is 10) >= \_Nb (which is 10)}}
+\DoxyCodeLine{32     \textcolor{comment}{// Exception will be thrown in }}
+\DoxyCodeLine{33     \textcolor{comment}{// qchem/qchem\_wf\_analysis\_data.C}}
+\DoxyCodeLine{34     \textcolor{comment}{// See \#1797 ticket on trac as an example of how it looks like}}
+\DoxyCodeLine{35     \textcolor{comment}{// Thank you.}}
+\DoxyCodeLine{36     \textcolor{keyword}{enum} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}{analysis\_type}} \{}
+\DoxyCodeLine{37         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca122e57636af87d53f7577f39eaf6d104}{NO}} = 0,     }
+\DoxyCodeLine{38         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca5495782d308c8be99915e0d93069b3f6}{DENS\_MOM}},   }
+\DoxyCodeLine{39         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca23e719701195ba8c90e1a181316e8515}{NDO}},        }
+\DoxyCodeLine{40         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca71af2e57c3c7aba734600909916ebbda}{FORM\_AD}},    }
+\DoxyCodeLine{41         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca414304c3b450576c12b9eff45dd5ba76}{EXCITON\_AD}}, }
+\DoxyCodeLine{42         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dcaf2929ec1eb60ec435cb4969d4d5b555a}{NTO}},        }
+\DoxyCodeLine{43         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca20fcc76093cd4bcee3d3db32b2f8d241}{TDEN\_MOM}},   }
+\DoxyCodeLine{44         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca90773f9e00fb47178d3db05e9110350e}{FORM\_EH}},    }
+\DoxyCodeLine{45         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca71c4abfee4344b9f48ca0179cbaea9bc}{EXCITON}},    }
+\DoxyCodeLine{46         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca11e43ceeadbc6a6aa3b3c3dd975f8e5c}{SA\_NTO}},     }
+\DoxyCodeLine{47         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca564a98c246592e08f061cb70ea83395a}{NTO\_ENE}},    }
+\DoxyCodeLine{48         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dcacd46f92e4a5701882cdbc11cb1e79031}{DYSON}},      }
+\DoxyCodeLine{49         \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dca6ba0f8cfaaafcfac1d9ed5336a5affee}{NTO\_SOC}}     }
+\DoxyCodeLine{51     \};}
+\DoxyCodeLine{52     \textcolor{keyword}{enum} \{ WFA\_TYPES = 13 \}; }
+\DoxyCodeLine{53 }
+\DoxyCodeLine{56     \textcolor{keyword}{struct }\mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params}{orbital\_params}} \{}
+\DoxyCodeLine{57         \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params_a04f02cd32d617af2375cc872ab935eeb}{norb}}; }
+\DoxyCodeLine{58         \textcolor{keywordtype}{double} \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params_a8f7edbbd11369271ef7077b1db3ab39a}{thresh}}; }
+\DoxyCodeLine{59 }
+\DoxyCodeLine{62         \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params_acd4d513e102b01cf04802ceb1fee0f8f}{orbital\_params}}(\textcolor{keywordtype}{size\_t} norb\_ = 0, \textcolor{keywordtype}{double} thresh\_ = 0.0) :}
+\DoxyCodeLine{63             \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params_a04f02cd32d617af2375cc872ab935eeb}{norb}}(norb\_), \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params_a8f7edbbd11369271ef7077b1db3ab39a}{thresh}}(thresh\_) \{ \}}
+\DoxyCodeLine{64     \};}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \textcolor{keyword}{public}:}
+\DoxyCodeLine{69     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a65a94f2031fb96983c01fa4a1ca2b554}{\string~wf\_analysis\_data\_i}}() \{ \}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{73     \textcolor{keyword}{virtual} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ae45e7588fd6e9f07ac4a2fceec3e497c}{is\_active}}(\textcolor{keyword}{enum} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab055316c85bc2ba4a794f5af8ac2b4dc}{analysis\_type}} t) = 0;}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{80     \textcolor{keyword}{virtual} \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params}{orbital\_params}} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a6a34dc5bc76b89a85b85c4846516c8d7}{get\_orbital\_params}}(\textcolor{keyword}{enum} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeb}{orbital\_type::ot}} t) = 0;}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{84     \textcolor{keyword}{virtual} \textcolor{keyword}{const} arma::mat \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a0631b44a7458db9bb106087f995fc1fe}{overlap}}() = 0;}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{88     \textcolor{keyword}{virtual} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a2a1eded2a2ab8453baaf04c00b96a8bb}{coefficients}}() = 0;}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{92     \textcolor{keyword}{virtual} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a46d59ffaa74778a9b0af50a032310675}{fock}}() = 0;}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{96     \textcolor{keyword}{virtual} \textcolor{keyword}{const} \mbox{\hyperlink{structh__so}{h\_so}} \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a9423e7f9b5d729014f98dd80df0c9c50}{so1e}}() = 0;}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{100     \textcolor{keyword}{virtual} \textcolor{keyword}{const} \mbox{\hyperlink{structh__so}{h\_so}} \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a67577a9dd3c9b3d6daae24ae56bf13c0}{somf}}() = 0;}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{108     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1density__printer__i}{density\_printer\_i}} *\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_af8057a0605240c6cdb85ca43b818f87a}{density\_printer}}(\textcolor{keyword}{const} std::string \&name,}
+\DoxyCodeLine{109             \textcolor{keyword}{const} std::string \&desc) = 0;}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{117     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\_printer\_i}} *\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_abf46566a8c95f553ee9ff0cbd4b8434f}{orbital\_printer}}(\textcolor{keyword}{const} std::string \&name,}
+\DoxyCodeLine{118             \textcolor{keyword}{const} std::string \&desc) = 0;}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 }
+\DoxyCodeLine{125     \textcolor{keyword}{virtual} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab4673a11a0a4fd0baa370a7145a9e963}{n\_pop\_analyses}}() = 0;}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{129     \textcolor{keyword}{virtual} \textcolor{keyword}{const} std::string \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a1d1a28741226ddd1dc1674af3a22eaea}{pop\_name}}(\textcolor{keywordtype}{size\_t} i) = 0;}
+\DoxyCodeLine{130 }
+\DoxyCodeLine{133     \textcolor{keyword}{virtual} \textcolor{keyword}{const} std::vector<std::string> \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_ab82414d51e047acbcbe60993d3e31f87}{pop\_labels}}(\textcolor{keywordtype}{size\_t} i) = 0;}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{137     \textcolor{keyword}{virtual} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\_analysis\_i}} \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a1dacf79795d27170a3f1302661e695a9}{pop\_analysis}}(\textcolor{keywordtype}{size\_t} i) = 0;}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{141     \textcolor{keyword}{virtual} \textcolor{keyword}{const} arma::vec \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a8af7509146df8eeb002cccab16b607e4}{ref\_population}}(\textcolor{keywordtype}{size\_t} i) = 0;}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{144 }
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147 }
+\DoxyCodeLine{150     \textcolor{keyword}{virtual} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a95c9db6d1796d68deaf0863c5f2f8abb}{n\_ctnum\_analyses}}() = 0;}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{154     \textcolor{keyword}{virtual} \textcolor{keyword}{const} std::string \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_af532f7464517a7da5a982452d410b3c9}{ctnum\_name}}(\textcolor{keywordtype}{size\_t} i) = 0;}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{158     \textcolor{keyword}{virtual} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{ctnum\_analysis\_i}} \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a4841a5fcf1397d19f1b40b0b8e67e26c}{ctnum\_analysis}}(\textcolor{keywordtype}{size\_t} i) = 0;}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{162     \textcolor{keyword}{virtual} std::unique\_ptr<ctnum\_printer\_i> \mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a781b6acbcb0905357e8048a4d7b164a2}{ctnum\_printer}}(\textcolor{keywordtype}{size\_t} i,}
+\DoxyCodeLine{163             \textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::string \&desc) = 0;}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{167     \textcolor{keyword}{virtual} \textcolor{keyword}{const} std::vector<std::string> \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a415dc55e4ce45cb3b144a2232575bc22}{prop\_list}}() = 0;}
+\DoxyCodeLine{168 }
+\DoxyCodeLine{170 }
+\DoxyCodeLine{173     \textcolor{keyword}{virtual} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\_builder\_i}} \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a5e4d84ff6bf99d9cb267663bc01d997e}{mom\_builder}}() = 0;}
+\DoxyCodeLine{174 }
+\DoxyCodeLine{177     \textcolor{keyword}{virtual} \textcolor{keyword}{const} arma::mat \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_a74d6f242b592b9411a4594fb425d92e5}{coordinates}}() = 0;}
+\DoxyCodeLine{178 }
+\DoxyCodeLine{181     \textcolor{keyword}{virtual} \textcolor{keyword}{const} arma::vec \&\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i_abc3c9bb6880858cd585c2d430ac23de5}{atomic\_charges}}() = 0;}
+\DoxyCodeLine{182 \};}
+\DoxyCodeLine{183 }
+\DoxyCodeLine{184 }
+\DoxyCodeLine{185 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_WF\_ANALYSIS\_DATA\_I\_H}}
+
+\end{DoxyCode}

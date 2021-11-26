@@ -1,0 +1,46 @@
+\hypertarget{exciton__test__data__hhe_8h_source}{}\doxysection{exciton\+\_\+test\+\_\+data\+\_\+hhe.\+h}
+\label{exciton__test__data__hhe_8h_source}\index{exciton\_test\_data\_hhe.h@{exciton\_test\_data\_hhe.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_EXCITON\_TEST\_DATA\_HHE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_EXCITON\_TEST\_DATA\_HHE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <armadillo>}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 }
+\DoxyCodeLine{11 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1exciton__test__data__hhe}{exciton\_test\_data\_hhe}} \{}
+\DoxyCodeLine{12 \textcolor{keyword}{private}:}
+\DoxyCodeLine{13     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} k\_s[16];}
+\DoxyCodeLine{14     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} k\_x[16];}
+\DoxyCodeLine{15     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} k\_y[16];}
+\DoxyCodeLine{16     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} k\_z[16];}
+\DoxyCodeLine{17     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} k\_xx[16];}
+\DoxyCodeLine{18     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} k\_yy[16];}
+\DoxyCodeLine{19     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} k\_zz[16];}
+\DoxyCodeLine{20     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} k\_tdm[16];}
+\DoxyCodeLine{21     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} k\_ref[15];}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{public}:}
+\DoxyCodeLine{24     \textcolor{keyword}{static} arma::mat overlap() \{ \textcolor{keywordflow}{return} arma::mat(k\_s,4,4); \}}
+\DoxyCodeLine{25     \textcolor{keyword}{static} arma::mat x()  \{ \textcolor{keywordflow}{return} arma::mat(k\_x, 4, 4); \}}
+\DoxyCodeLine{26     \textcolor{keyword}{static} arma::mat y()  \{ \textcolor{keywordflow}{return} arma::mat(k\_y, 4, 4); \}}
+\DoxyCodeLine{27     \textcolor{keyword}{static} arma::mat z()  \{ \textcolor{keywordflow}{return} arma::mat(k\_z, 4, 4); \}}
+\DoxyCodeLine{28     \textcolor{keyword}{static} arma::mat xx() \{ \textcolor{keywordflow}{return} arma::mat(k\_xx, 4, 4); \}}
+\DoxyCodeLine{29     \textcolor{keyword}{static} arma::mat yy() \{ \textcolor{keywordflow}{return} arma::mat(k\_yy, 4, 4); \}}
+\DoxyCodeLine{30     \textcolor{keyword}{static} arma::mat zz() \{ \textcolor{keywordflow}{return} arma::mat(k\_zz, 4, 4); \}}
+\DoxyCodeLine{31     \textcolor{keyword}{static} arma::mat tdm() \{ \textcolor{keywordflow}{return} arma::mat(k\_tdm, 4, 4); \}}
+\DoxyCodeLine{32     \textcolor{keyword}{static} arma::vec rh() \{ \textcolor{keywordflow}{return} arma::vec(k\_ref, 3); \}}
+\DoxyCodeLine{33     \textcolor{keyword}{static} arma::vec re() \{ \textcolor{keywordflow}{return} arma::vec(k\_ref + 3, 3); \}}
+\DoxyCodeLine{34     \textcolor{keyword}{static} arma::vec rhre() \{ \textcolor{keywordflow}{return} arma::vec(k\_ref + 6, 3); \}}
+\DoxyCodeLine{35     \textcolor{keyword}{static} arma::vec rh2() \{ \textcolor{keywordflow}{return} arma::vec(k\_ref + 9, 3); \}}
+\DoxyCodeLine{36     \textcolor{keyword}{static} arma::vec re2() \{ \textcolor{keywordflow}{return} arma::vec(k\_ref + 12, 3); \}}
+\DoxyCodeLine{37 \};}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \}\textcolor{comment}{// end namespace libwfa}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// LIBWFA\_EXCITON\_TEST\_DATA\_HHE\_H}}
+
+\end{DoxyCode}

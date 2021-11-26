@@ -1,0 +1,117 @@
+\hypertarget{classlibwfa_1_1orbital__data}{}\doxysection{libwfa\+::orbital\+\_\+data Class Reference}
+\label{classlibwfa_1_1orbital__data}\index{libwfa::orbital\_data@{libwfa::orbital\_data}}
+
+
+Storage of oribtal coefficients and occupation numbers (eigenvalues)  
+
+
+
+
+{\ttfamily \#include $<$orbital\+\_\+data.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1orbital__data_a74eee1978a18e444a7efcaa983f26107}{orbital\+\_\+data}} (const arma\+::vec \&ev, const arma\+::mat \&coeff)
+\begin{DoxyCompactList}\small\item\em Basic constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1orbital__data_a8026a7117a6ddfcdbe63ed437e884c58}{orbital\+\_\+data}} (const arma\+::vec \&ev, const arma\+::mat \&coeff, const arma\+::vec \&ene)
+\begin{DoxyCompactList}\small\item\em Basic constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_a8425e0d29de7dc60fc81c7aa1d4cb9cc}\label{classlibwfa_1_1orbital__data_a8425e0d29de7dc60fc81c7aa1d4cb9cc}} 
+{\bfseries orbital\+\_\+data} (const arma\+::vec \&ev, const arma\+::mat \&coeff, std\+::vector$<$ \mbox{\hyperlink{structsoc}{soc}} $>$ \&so1e, std\+::vector$<$ \mbox{\hyperlink{structsoc}{soc}} $>$ \&somf)
+\item 
+\mbox{\hyperlink{classlibwfa_1_1orbital__data_abf32fc33a30235fdc1e4b2bb6593fbfa}{orbital\+\_\+data}} (const arma\+::mat \&s, const arma\+::mat \&c, const arma\+::mat \&dm)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_aea28a849955000224ea1d0007fb7c70d}\label{classlibwfa_1_1orbital__data_aea28a849955000224ea1d0007fb7c70d}} 
+const arma\+::vec \& {\bfseries get\+\_\+occ} () const
+\begin{DoxyCompactList}\small\item\em Return Orbital occupation numbers. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_a761b79b517261c21db82a7457e189cd6}\label{classlibwfa_1_1orbital__data_a761b79b517261c21db82a7457e189cd6}} 
+const arma\+::mat \& {\bfseries get\+\_\+coeff} () const
+\begin{DoxyCompactList}\small\item\em Return orbital coefficients. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_a3c7920936acd7bccfb58cdd376ab03e2}\label{classlibwfa_1_1orbital__data_a3c7920936acd7bccfb58cdd376ab03e2}} 
+bool {\bfseries got\+\_\+ene} ()
+\begin{DoxyCompactList}\small\item\em Tells whether energies were initialized. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_a9a4fd60aa059a854804e9f32cfb2d15a}\label{classlibwfa_1_1orbital__data_a9a4fd60aa059a854804e9f32cfb2d15a}} 
+bool {\bfseries got\+\_\+soc} ()
+\begin{DoxyCompactList}\small\item\em Tells whether SOC integrals were initialized. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_a75f7510a2f2290fa2d6a37bc987df076}\label{classlibwfa_1_1orbital__data_a75f7510a2f2290fa2d6a37bc987df076}} 
+const arma\+::vec \& {\bfseries get\+\_\+ene} () const
+\begin{DoxyCompactList}\small\item\em Return orbital energies. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_ac854e11d0054022194562a75362e7ddf}\label{classlibwfa_1_1orbital__data_ac854e11d0054022194562a75362e7ddf}} 
+arma\+::vec \& {\bfseries set\+\_\+ene} ()
+\begin{DoxyCompactList}\small\item\em Set orbital energies. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_a44ca30db225e88cd8c04c83cab9941cf}\label{classlibwfa_1_1orbital__data_a44ca30db225e88cd8c04c83cab9941cf}} 
+std\+::vector$<$ \mbox{\hyperlink{structsoc}{soc}} $>$ \& {\bfseries get\+\_\+so1e} ()
+\begin{DoxyCompactList}\small\item\em Return 1e SOC integrals on NTOs. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_a18390ac650f413df6467cdd2a7cda2a6}\label{classlibwfa_1_1orbital__data_a18390ac650f413df6467cdd2a7cda2a6}} 
+std\+::vector$<$ \mbox{\hyperlink{structsoc}{soc}} $>$ \& {\bfseries get\+\_\+somf} ()
+\begin{DoxyCompactList}\small\item\em Return mean-\/field SOC integrals on NTOs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Storage of oribtal coefficients and occupation numbers (eigenvalues) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_a74eee1978a18e444a7efcaa983f26107}\label{classlibwfa_1_1orbital__data_a74eee1978a18e444a7efcaa983f26107}} 
+\index{libwfa::orbital\_data@{libwfa::orbital\_data}!orbital\_data@{orbital\_data}}
+\index{orbital\_data@{orbital\_data}!libwfa::orbital\_data@{libwfa::orbital\_data}}
+\doxysubsubsection{\texorpdfstring{orbital\_data()}{orbital\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily libwfa\+::orbital\+\_\+data\+::orbital\+\_\+data (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{ev,  }\item[{const arma\+::mat \&}]{coeff }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Basic constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ev} & Orbital occupation numbers \\
+\hline
+{\em coeff} & Orbital coefficients \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_a8026a7117a6ddfcdbe63ed437e884c58}\label{classlibwfa_1_1orbital__data_a8026a7117a6ddfcdbe63ed437e884c58}} 
+\index{libwfa::orbital\_data@{libwfa::orbital\_data}!orbital\_data@{orbital\_data}}
+\index{orbital\_data@{orbital\_data}!libwfa::orbital\_data@{libwfa::orbital\_data}}
+\doxysubsubsection{\texorpdfstring{orbital\_data()}{orbital\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily libwfa\+::orbital\+\_\+data\+::orbital\+\_\+data (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{ev,  }\item[{const arma\+::mat \&}]{coeff,  }\item[{const arma\+::vec \&}]{ene }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Basic constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ev} & Orbital occupation numbers \\
+\hline
+{\em coeff} & Orbital coefficients \\
+\hline
+{\em coeff} & Orbital energies \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1orbital__data_abf32fc33a30235fdc1e4b2bb6593fbfa}\label{classlibwfa_1_1orbital__data_abf32fc33a30235fdc1e4b2bb6593fbfa}} 
+\index{libwfa::orbital\_data@{libwfa::orbital\_data}!orbital\_data@{orbital\_data}}
+\index{orbital\_data@{orbital\_data}!libwfa::orbital\_data@{libwfa::orbital\_data}}
+\doxysubsubsection{\texorpdfstring{orbital\_data()}{orbital\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily libwfa\+::orbital\+\_\+data\+::orbital\+\_\+data (\begin{DoxyParamCaption}\item[{const arma\+::mat \&}]{s,  }\item[{const arma\+::mat \&}]{c,  }\item[{const arma\+::mat \&}]{dm }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Overlap matrix \\
+\hline
+{\em c} & Coefficient matrix $ C $ \\
+\hline
+{\em dm} & Density matrix $ D $ (in AO basis)\\
+\hline
+\end{DoxyParams}
+This constructor assumes that the density matrix $ D $ has been formed using the coefficient matrix $ C $ via $ D = C \tilde{D} C\textnormal{\textquotesingle} $ and that the relation $ C\textnormal{\textquotesingle} S C = \mathbf{I} $ holds.
+
+Then, it transforms the density matrix back to the original basis via \[ \tilde{D} = C\textnormal{\textquotesingle} S D S C \] which is then diagonalized. The eigenvalues are stored unaltered as occupation numbers, while the eigenvector matrix $ \tilde{U} $ is transformed into the AO basis again to obtain the transformation matrix \[ U = C \tilde{U} \] which is stored as new coefficient matrix.
+
+The coefficent matrix $ U $ can be used to form the original density matrix from the occupation numbers via \[ D = U \Lambda U\textnormal{\textquotesingle} \] Additionally, the occupation numbers can be obtained from the density matrix as \[ \Lambda = U\textnormal{\textquotesingle} S D S U \] 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+orbital\+\_\+data.\+h\end{DoxyCompactItemize}

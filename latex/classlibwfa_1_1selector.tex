@@ -1,0 +1,101 @@
+\hypertarget{classlibwfa_1_1selector}{}\doxysection{libwfa\+::selector Class Reference}
+\label{classlibwfa_1_1selector}\index{libwfa::selector@{libwfa::selector}}
+
+
+Selects indexes in the range \mbox{[}0,n\mbox{]}.  
+
+
+
+
+{\ttfamily \#include $<$selector.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1selector_ab6956d63e9aa3b8207eccb2b0081e492}{selector}} (size\+\_\+t ntotal=0)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_a3390ce4192e65c5fa6e0e0c196aabc44}\label{classlibwfa_1_1selector_a3390ce4192e65c5fa6e0e0c196aabc44}} 
+void {\bfseries select} (size\+\_\+t i)
+\begin{DoxyCompactList}\small\item\em Add one index to selection. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1selector_a6a0b0d1b6e9d02ac005edab2dfc3f179}{select}} (size\+\_\+t begin, size\+\_\+t end, size\+\_\+t inc=1, bool reverse=false)
+\begin{DoxyCompactList}\small\item\em Add range of indexes to selection. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_ad8ff6e461ced42c184eda3ac8b62bdab}\label{classlibwfa_1_1selector_ad8ff6e461ced42c184eda3ac8b62bdab}} 
+void {\bfseries select\+\_\+all} ()
+\begin{DoxyCompactList}\small\item\em Select all elements (in the given order) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_a168c13853f66e00d715da6580ba149b0}\label{classlibwfa_1_1selector_a168c13853f66e00d715da6580ba149b0}} 
+void {\bfseries deselect} (size\+\_\+t i)
+\begin{DoxyCompactList}\small\item\em Deselect one index in selection. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_ad0206e207662fb90dfa319c9bbf4e0da}\label{classlibwfa_1_1selector_ad0206e207662fb90dfa319c9bbf4e0da}} 
+void {\bfseries deselect\+\_\+all} ()
+\begin{DoxyCompactList}\small\item\em Deselect all indexes. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_a73c242cc2d15e6328fbd7896180c1b4d}\label{classlibwfa_1_1selector_a73c242cc2d15e6328fbd7896180c1b4d}} 
+size\+\_\+t {\bfseries n\+\_\+indexes} () const
+\begin{DoxyCompactList}\small\item\em Return number of elements in range. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_ab0f8f561605e7284a81b7de249c1595a}\label{classlibwfa_1_1selector_ab0f8f561605e7284a81b7de249c1595a}} 
+size\+\_\+t {\bfseries n\+\_\+selected} () const
+\begin{DoxyCompactList}\small\item\em Return number of selected elements. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_a197800dddc837b088455d08c7622f47a}\label{classlibwfa_1_1selector_a197800dddc837b088455d08c7622f47a}} 
+bool {\bfseries all\+\_\+selected} () const
+\begin{DoxyCompactList}\small\item\em Are all elements selected? \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_aca6b04623c1d64a31e9716826eebf3d9}\label{classlibwfa_1_1selector_aca6b04623c1d64a31e9716826eebf3d9}} 
+bool {\bfseries none\+\_\+selected} () const
+\begin{DoxyCompactList}\small\item\em Are no elements selected? \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_acb256e6e813fdedd3f92b91c786dab31}\label{classlibwfa_1_1selector_acb256e6e813fdedd3f92b91c786dab31}} 
+bool {\bfseries is\+\_\+selected} (size\+\_\+t i) const
+\begin{DoxyCompactList}\small\item\em Is i selected. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_a5e89b5f224fea0c0aebedbe1c7ed216d}\label{classlibwfa_1_1selector_a5e89b5f224fea0c0aebedbe1c7ed216d}} 
+std\+::vector$<$ size\+\_\+t $>$ {\bfseries get\+\_\+selected} () const
+\begin{DoxyCompactList}\small\item\em Construct a vector of selected elements. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1selector_a9a52c7dfc1df5458fd5c299c355a970c}\label{classlibwfa_1_1selector_a9a52c7dfc1df5458fd5c299c355a970c}} 
+arma\+::\+Col$<$ arma\+::uword $>$ {\bfseries get\+\_\+selected\+\_\+arma} () const
+\begin{DoxyCompactList}\small\item\em Construct a vector of selected elements (return Armadillo vector) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Selects indexes in the range \mbox{[}0,n\mbox{]}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1selector_ab6956d63e9aa3b8207eccb2b0081e492}\label{classlibwfa_1_1selector_ab6956d63e9aa3b8207eccb2b0081e492}} 
+\index{libwfa::selector@{libwfa::selector}!selector@{selector}}
+\index{selector@{selector}!libwfa::selector@{libwfa::selector}}
+\doxysubsubsection{\texorpdfstring{selector()}{selector()}}
+{\footnotesize\ttfamily libwfa\+::selector\+::selector (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ntotal = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ntotal} & Number of elements in range\\
+\hline
+\end{DoxyParams}
+Range starts at 0 and selection is empty. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1selector_a6a0b0d1b6e9d02ac005edab2dfc3f179}\label{classlibwfa_1_1selector_a6a0b0d1b6e9d02ac005edab2dfc3f179}} 
+\index{libwfa::selector@{libwfa::selector}!select@{select}}
+\index{select@{select}!libwfa::selector@{libwfa::selector}}
+\doxysubsubsection{\texorpdfstring{select()}{select()}}
+{\footnotesize\ttfamily void libwfa\+::selector\+::select (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{begin,  }\item[{size\+\_\+t}]{end,  }\item[{size\+\_\+t}]{inc = {\ttfamily 1},  }\item[{bool}]{reverse = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Add range of indexes to selection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em begin} & Start $ i_0 $ of range of selected elements \\
+\hline
+{\em end} & End $ i_1 $ of range of selected elements \\
+\hline
+{\em inc} & Increment $ \Delta $ in range \\
+\hline
+{\em reverse} & If true, go from end to begin and select elements \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+selector.\+h\end{DoxyCompactItemize}

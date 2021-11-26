@@ -1,0 +1,44 @@
+\hypertarget{orbital__printer__molden_8h_source}{}\doxysection{orbital\+\_\+printer\+\_\+molden.\+h}
+\label{orbital__printer__molden_8h_source}\index{orbital\_printer\_molden.h@{orbital\_printer\_molden.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_ORBITAL\_PRINTER\_MOLDEN\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_ORBITAL\_PRINTER\_MOLDEN\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}orbital\_printer\_i.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}export\_molden\_i.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden}{orbital\_printer\_molden}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\_printer\_i}} \{}
+\DoxyCodeLine{17 \textcolor{keyword}{public}:}
+\DoxyCodeLine{18     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden_ad14134d6b5d614e89a8bb0c82d4245b6}{k\_clazz}}[]; }
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{public}:}
+\DoxyCodeLine{21     \textcolor{keyword}{typedef} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a306849ee636eceeae4b4cfc712407c1f}{orbital\_type::flag\_t}} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden_a6c9b047d11c44df6aa15c76a972d85b4}{ot\_flag}}; }
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{private}:}
+\DoxyCodeLine{24     \mbox{\hyperlink{classlibwfa_1_1export__molden__i}{export\_molden\_i}} \&m\_core; }
+\DoxyCodeLine{25     std::string m\_id; }
+\DoxyCodeLine{26     \mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden_a6c9b047d11c44df6aa15c76a972d85b4}{ot\_flag}} m\_ot; }
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{keyword}{public}:}
+\DoxyCodeLine{34     \mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden_abe40233f81a42b46c113048c6e8a1cfd}{orbital\_printer\_molden}}(\mbox{\hyperlink{classlibwfa_1_1export__molden__i}{export\_molden\_i}} \&core, \textcolor{keyword}{const} std::string \&\textcolor{keywordtype}{id},}
+\DoxyCodeLine{35         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden_a6c9b047d11c44df6aa15c76a972d85b4}{ot\_flag}} \&ot = \mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden_a6c9b047d11c44df6aa15c76a972d85b4}{ot\_flag}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceebaeed567c6b3fb087034fb3f59f83fb9dd}{orbital\_type::ALL}}));}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{39     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden_a42b5581862d6df8c1c8e202eb68803bf}{\string~orbital\_printer\_molden}}() \{ \}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{44     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden_ad271b2531f66347ff5db5d59435e5a38}{perform}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} type,}
+\DoxyCodeLine{45             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&orb, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s);}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{51     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__molden_a0505e6e44fd227b3f57aa985df20e09e}{perform}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} type,}
+\DoxyCodeLine{52             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&orb\_a, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s\_a,}
+\DoxyCodeLine{53             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&orb\_b, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s\_b);}
+\DoxyCodeLine{54 \};}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_ORBITAL\_PRINTER\_MOLDEN\_H}}
+
+\end{DoxyCode}

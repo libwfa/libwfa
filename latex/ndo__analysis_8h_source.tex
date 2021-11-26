@@ -1,0 +1,46 @@
+\hypertarget{ndo__analysis_8h_source}{}\doxysection{ndo\+\_\+analysis.\+h}
+\label{ndo__analysis_8h_source}\index{ndo\_analysis.h@{ndo\_analysis.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_NDO\_ANALYSIS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_NDO\_ANALYSIS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <libwfa/core/ab\_matrix.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <libwfa/core/orbital\_data.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <libwfa/export/orbital\_printer\_i.h>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1ndo__analysis}{ndo\_analysis}} \{}
+\DoxyCodeLine{17 \textcolor{keyword}{private}:}
+\DoxyCodeLine{18     \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} *m\_ndo[3]; }
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \mbox{\hyperlink{classlibwfa_1_1ndo__analysis_a78f6df37528a4cf18638d989d5589a8f}{ndo\_analysis}}(\textcolor{keyword}{const} arma::mat \&s, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&c, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&ddm);}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{30     \mbox{\hyperlink{classlibwfa_1_1ndo__analysis_a80a8a673cfba499c6ec8e8eb3e7af522}{\string~ndo\_analysis}}();}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{41     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1ndo__analysis_a69e6cdd8c79a1d1f4b60d0875572792e}{form\_ad}}(\mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&at, \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&de) \textcolor{keyword}{const};}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{47     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1ndo__analysis_a38bf6091647c09de559506e2e968167f}{analyse}}(std::ostream \&out, \textcolor{keywordtype}{size\_t} nndo = 3) \textcolor{keyword}{const};}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{56     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1ndo__analysis_a2ddffe752493b1e5d5920776497a9702}{export\_orbitals}}(\mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\_printer\_i}} \&pr, \textcolor{keywordtype}{double} thresh) \textcolor{keyword}{const};}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58 \textcolor{keyword}{private}:}
+\DoxyCodeLine{59     \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1ndo__analysis_a69e6cdd8c79a1d1f4b60d0875572792e}{form\_ad}}(\textcolor{keyword}{const} arma::vec \&e, \textcolor{keyword}{const} arma::mat \&c,}
+\DoxyCodeLine{60             arma::mat \&at, arma::mat \&de);}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62     \textcolor{keyword}{static} \textcolor{keywordtype}{void} analysis(std::ostream \&out,}
+\DoxyCodeLine{63             \textcolor{keyword}{const} arma::vec \&e, \textcolor{keywordtype}{size\_t} nndo = 3);}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65     \textcolor{keyword}{static} \textcolor{keywordtype}{void} bld\_selector(\textcolor{keyword}{const} arma::vec \&e,}
+\DoxyCodeLine{66             \textcolor{keywordtype}{double} thresh, \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&sel);}
+\DoxyCodeLine{67 \};}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

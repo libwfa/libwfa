@@ -1,0 +1,78 @@
+\hypertarget{classlibwfa_1_1exciton__moments}{}\doxysection{libwfa\+::exciton\+\_\+moments Class Reference}
+\label{classlibwfa_1_1exciton__moments}\index{libwfa::exciton\_moments@{libwfa::exciton\_moments}}
+
+
+Container of exciton moments.  
+
+
+
+
+{\ttfamily \#include $<$exciton\+\_\+moments.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1exciton__moments_a0b4a60de9bbe11f5d796321656fd8ec9}\label{classlibwfa_1_1exciton__moments_a0b4a60de9bbe11f5d796321656fd8ec9}} 
+{\bfseries exciton\+\_\+moments} (size\+\_\+t nmax=1)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1exciton__moments_a12060fd628e29ef3acd858785af6997e}\label{classlibwfa_1_1exciton__moments_a12060fd628e29ef3acd858785af6997e}} 
+size\+\_\+t {\bfseries n\+\_\+max} () const
+\begin{DoxyCompactList}\small\item\em Highest moment. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1exciton__moments_aefd165cd4f92b70543a9ebf7f950e29f}{set}} (size\+\_\+t ne, size\+\_\+t nh, const arma\+::vec \&m)
+\begin{DoxyCompactList}\small\item\em Set data for specific moment. \end{DoxyCompactList}\item 
+arma\+::subview\+\_\+col$<$ double $>$ \mbox{\hyperlink{classlibwfa_1_1exciton__moments_a2ca6737545f161099b9eef1cf2ae1297}{get}} (size\+\_\+t ne, size\+\_\+t nh) const
+\begin{DoxyCompactList}\small\item\em Retrieve a specific moment vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Container of exciton moments. 
+
+Stores the moments of an electron-\/hole pair 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__moments_a2ca6737545f161099b9eef1cf2ae1297}\label{classlibwfa_1_1exciton__moments_a2ca6737545f161099b9eef1cf2ae1297}} 
+\index{libwfa::exciton\_moments@{libwfa::exciton\_moments}!get@{get}}
+\index{get@{get}!libwfa::exciton\_moments@{libwfa::exciton\_moments}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily arma\+::subview\+\_\+col$<$ double $>$ libwfa\+::exciton\+\_\+moments\+::get (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ne,  }\item[{size\+\_\+t}]{nh }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Retrieve a specific moment vector. 
+
+The 0-\/element is (Om, pa, pd) where applicable
+
+
+\begin{DoxyParams}{Parameters}
+{\em ne} & ne-\/th moment of electron \\
+\hline
+{\em nh} & nh-\/th moment of hole \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+3D column vector with moment data 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__moments_aefd165cd4f92b70543a9ebf7f950e29f}\label{classlibwfa_1_1exciton__moments_aefd165cd4f92b70543a9ebf7f950e29f}} 
+\index{libwfa::exciton\_moments@{libwfa::exciton\_moments}!set@{set}}
+\index{set@{set}!libwfa::exciton\_moments@{libwfa::exciton\_moments}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily void libwfa\+::exciton\+\_\+moments\+::set (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ne,  }\item[{size\+\_\+t}]{nh,  }\item[{const arma\+::vec \&}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set data for specific moment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ne} & ne-\/th moment of electron \\
+\hline
+{\em nh} & nh-\/th moment of hole \\
+\hline
+{\em m} & Moment data \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+exciton\+\_\+moments.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,95 @@
+\hypertarget{classlibwfa_1_1pop__mulliken}{}\doxysection{libwfa\+::pop\+\_\+mulliken Class Reference}
+\label{classlibwfa_1_1pop__mulliken}\index{libwfa::pop\_mulliken@{libwfa::pop\_mulliken}}
+
+
+Implementation of \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\+\_\+analysis\+\_\+i}} to perform Mulliken population analysis.  
+
+
+
+
+{\ttfamily \#include $<$pop\+\_\+mulliken.\+h$>$}
+
+Inheritance diagram for libwfa\+::pop\+\_\+mulliken\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1pop__mulliken}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1pop__mulliken_a595a5b28d9de4ae0556386e95f609710}{pop\+\_\+mulliken}} (const arma\+::mat \&s, const arma\+::uvec \&b2p)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1pop__mulliken_a0e11195c8f34dcef041c4258d688be20}\label{classlibwfa_1_1pop__mulliken_a0e11195c8f34dcef041c4258d688be20}} 
+virtual {\bfseries $\sim$pop\+\_\+mulliken} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual size\+\_\+t \mbox{\hyperlink{classlibwfa_1_1pop__mulliken_ad229e9a6a085b4a291ebd927d06e9864}{size}} () const
+\begin{DoxyCompactList}\small\item\em Return the size of population data (e.\+g. \# atoms) \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1pop__mulliken_a1b56aa840532c4224fe944a16b8c8154}{perform}} (const arma\+::mat \&dm, arma\+::vec \&p) const
+\begin{DoxyCompactList}\small\item\em Perform population analysis for given density. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\+\_\+analysis\+\_\+i}} to perform Mulliken population analysis. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1pop__mulliken_a595a5b28d9de4ae0556386e95f609710}\label{classlibwfa_1_1pop__mulliken_a595a5b28d9de4ae0556386e95f609710}} 
+\index{libwfa::pop\_mulliken@{libwfa::pop\_mulliken}!pop\_mulliken@{pop\_mulliken}}
+\index{pop\_mulliken@{pop\_mulliken}!libwfa::pop\_mulliken@{libwfa::pop\_mulliken}}
+\doxysubsubsection{\texorpdfstring{pop\_mulliken()}{pop\_mulliken()}}
+{\footnotesize\ttfamily libwfa\+::pop\+\_\+mulliken\+::pop\+\_\+mulliken (\begin{DoxyParamCaption}\item[{const arma\+::mat \&}]{s,  }\item[{const arma\+::uvec \&}]{b2p }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Overlap matrix \\
+\hline
+{\em b2p} & Map of atomic basis functions to molecular parts \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1pop__mulliken_a1b56aa840532c4224fe944a16b8c8154}\label{classlibwfa_1_1pop__mulliken_a1b56aa840532c4224fe944a16b8c8154}} 
+\index{libwfa::pop\_mulliken@{libwfa::pop\_mulliken}!perform@{perform}}
+\index{perform@{perform}!libwfa::pop\_mulliken@{libwfa::pop\_mulliken}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}}
+{\footnotesize\ttfamily virtual void libwfa\+::pop\+\_\+mulliken\+::perform (\begin{DoxyParamCaption}\item[{const arma\+::mat \&}]{dm,  }\item[{arma\+::vec \&}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Perform population analysis for given density. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em dm} & Density matrix in AO basis \\
+\hline
+\mbox{\texttt{ out}}  & {\em p} & Resulting population data\\
+\hline
+\end{DoxyParams}
+Routine to perform the population analysis for one density matrix. The routine should adjust the output vector to the correct size. 
+
+Implements \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i_a4d7896aa98f188848f4f2ccd494b8172}{libwfa\+::pop\+\_\+analysis\+\_\+i}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1pop__mulliken_ad229e9a6a085b4a291ebd927d06e9864}\label{classlibwfa_1_1pop__mulliken_ad229e9a6a085b4a291ebd927d06e9864}} 
+\index{libwfa::pop\_mulliken@{libwfa::pop\_mulliken}!size@{size}}
+\index{size@{size}!libwfa::pop\_mulliken@{libwfa::pop\_mulliken}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily virtual size\+\_\+t libwfa\+::pop\+\_\+mulliken\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Return the size of population data (e.\+g. \# atoms) 
+
+
+
+Implements \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i_ab88a9c31c5f681310f0433028a3c2286}{libwfa\+::pop\+\_\+analysis\+\_\+i}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+pop\+\_\+mulliken.\+h\end{DoxyCompactItemize}

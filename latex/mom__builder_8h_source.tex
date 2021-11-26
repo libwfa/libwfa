@@ -1,0 +1,46 @@
+\hypertarget{mom__builder_8h_source}{}\doxysection{mom\+\_\+builder.\+h}
+\label{mom__builder_8h_source}\index{mom\_builder.h@{mom\_builder.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_MOM\_BUILDER\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_MOM\_BUILDER\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}mom\_builder\_i.h"{}}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{12 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1mom__builder}{mom\_builder}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1mom__builder__i}{mom\_builder\_i}} \{}
+\DoxyCodeLine{13 \textcolor{keyword}{private}:}
+\DoxyCodeLine{14     \textcolor{keyword}{const} arma::mat \&m\_s;  }
+\DoxyCodeLine{15     \textcolor{keyword}{const} arma::mat \&m\_x;  }
+\DoxyCodeLine{16     \textcolor{keyword}{const} arma::mat \&m\_y;  }
+\DoxyCodeLine{17     \textcolor{keyword}{const} arma::mat \&m\_z;  }
+\DoxyCodeLine{18     \textcolor{keyword}{const} arma::mat \&m\_xx; }
+\DoxyCodeLine{19     \textcolor{keyword}{const} arma::mat \&m\_yy; }
+\DoxyCodeLine{20     \textcolor{keyword}{const} arma::mat \&m\_zz; }
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{public}:}
+\DoxyCodeLine{32     \mbox{\hyperlink{classlibwfa_1_1mom__builder_a3dbe91d081311ba3291c68d85ced53a0}{mom\_builder}}(\textcolor{keyword}{const} arma::mat \&s,}
+\DoxyCodeLine{33         \textcolor{keyword}{const} arma::mat \&x,  \textcolor{keyword}{const} arma::mat \&y,  \textcolor{keyword}{const} arma::mat \&z,}
+\DoxyCodeLine{34         \textcolor{keyword}{const} arma::mat \&xx, \textcolor{keyword}{const} arma::mat \&yy, \textcolor{keyword}{const} arma::mat \&zz) :}
+\DoxyCodeLine{35         m\_s(s), m\_x(x), m\_y(y), m\_z(z), m\_xx(xx), m\_yy(yy), m\_zz(zz) \{ \}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1mom__builder}{\string~mom\_builder}}() \{ \}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{41     \textcolor{keyword}{virtual} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1mom__builder_adb1ec845e637e500a7fcbe819fce60ad}{max\_moment}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} 2; \}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{45     \textcolor{keyword}{virtual} \textcolor{keywordtype}{double} \mbox{\hyperlink{classlibwfa_1_1mom__builder_a2997101d232b41163010db14f4c302cd}{perform}}(\textcolor{keyword}{const} arma::mat \&dm,}
+\DoxyCodeLine{46         \textcolor{keywordtype}{size\_t} c1, \textcolor{keywordtype}{size\_t} n1, \textcolor{keywordtype}{size\_t} c2, \textcolor{keywordtype}{size\_t} n2) \textcolor{keyword}{const};}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{50     \textcolor{keyword}{virtual} \textcolor{keywordtype}{double} \mbox{\hyperlink{classlibwfa_1_1mom__builder_a342e0151c3e00eccb3bc22a81a8549db}{perform}}(\textcolor{keyword}{const} arma::mat \&dm, \textcolor{keywordtype}{size\_t} c, \textcolor{keywordtype}{size\_t} n) \textcolor{keyword}{const};}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{keyword}{private}:}
+\DoxyCodeLine{58     \textcolor{keyword}{const} arma::mat \&retrieve\_op(\textcolor{keywordtype}{size\_t} c, \textcolor{keywordtype}{size\_t} n) \textcolor{keyword}{const};}
+\DoxyCodeLine{59 \};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_MOM\_BUILDER\_H}}
+
+\end{DoxyCode}

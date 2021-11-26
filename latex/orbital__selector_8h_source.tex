@@ -1,0 +1,61 @@
+\hypertarget{orbital__selector_8h_source}{}\doxysection{orbital\+\_\+selector.\+h}
+\label{orbital__selector_8h_source}\index{orbital\_selector.h@{orbital\_selector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_ORBITAL\_SELECTOR\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_ORBITAL\_SELECTOR\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}selector.h"{}}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \{}
+\DoxyCodeLine{14 \textcolor{keyword}{private}:}
+\DoxyCodeLine{15     \mbox{\hyperlink{classlibwfa_1_1selector}{selector}} m\_occ, m\_vir; }
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{public}:}
+\DoxyCodeLine{23     \mbox{\hyperlink{classlibwfa_1_1orbital__selector_ab95d73c54e308e7fb2b646b85a1c5f96}{orbital\_selector}}(\textcolor{keywordtype}{size\_t} ntotal = 0) : m\_occ(ntotal), m\_vir(ntotal) \{ \}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_ace4f38c5c0d87208fcb8339664b3d628}{select}}(\textcolor{keywordtype}{bool} as\_occ, \textcolor{keywordtype}{size\_t} i);}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{36     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_acd9a05b3dd6ef4bf87d66c8a32064412}{select}}(\textcolor{keywordtype}{bool} as\_occ, \textcolor{keywordtype}{size\_t} begin, \textcolor{keywordtype}{size\_t} end, \textcolor{keywordtype}{size\_t} inc = 1,}
+\DoxyCodeLine{37             \textcolor{keywordtype}{bool} reverse = \textcolor{keyword}{false});}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{41     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_aa7dfc136b41ce5e59205811194b31dd8}{deselect}}(\textcolor{keywordtype}{size\_t} i);}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{45     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_aeaebfe5dcf5555b85035b9219d2eacdc}{n\_indexes}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_occ.\mbox{\hyperlink{classlibwfa_1_1selector_a73c242cc2d15e6328fbd7896180c1b4d}{n\_indexes}}(); \}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{49     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_afcb83ec0d0887a08d41cd99b47a14f67}{n\_selected}}(\textcolor{keywordtype}{bool} occ)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{50         \textcolor{keywordflow}{return} (occ ? m\_occ.\mbox{\hyperlink{classlibwfa_1_1selector_ab0f8f561605e7284a81b7de249c1595a}{n\_selected}}() : m\_vir.\mbox{\hyperlink{classlibwfa_1_1selector_ab0f8f561605e7284a81b7de249c1595a}{n\_selected}}());}
+\DoxyCodeLine{51     \}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{55     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_af0faf1092f5e949c1a59732bfa376fe4}{n\_selected}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{56         \textcolor{keywordflow}{return} m\_occ.\mbox{\hyperlink{classlibwfa_1_1selector_ab0f8f561605e7284a81b7de249c1595a}{n\_selected}}() + m\_vir.\mbox{\hyperlink{classlibwfa_1_1selector_ab0f8f561605e7284a81b7de249c1595a}{n\_selected}}();}
+\DoxyCodeLine{57     \}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{61     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_aa25c5d5662a565b08bcbc80e6412b932}{all\_selected}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{62         \textcolor{keywordflow}{return} m\_occ.\mbox{\hyperlink{classlibwfa_1_1selector_ab0f8f561605e7284a81b7de249c1595a}{n\_selected}}() + m\_vir.\mbox{\hyperlink{classlibwfa_1_1selector_ab0f8f561605e7284a81b7de249c1595a}{n\_selected}}() == m\_occ.\mbox{\hyperlink{classlibwfa_1_1selector_a73c242cc2d15e6328fbd7896180c1b4d}{n\_indexes}}();}
+\DoxyCodeLine{63     \}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{67     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_a05c860e2f5bf6346aec3f1e0eb3c6978}{none\_selected}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{68         \textcolor{keywordflow}{return} m\_occ.\mbox{\hyperlink{classlibwfa_1_1selector_aca6b04623c1d64a31e9716826eebf3d9}{none\_selected}}() \&\& m\_vir.\mbox{\hyperlink{classlibwfa_1_1selector_aca6b04623c1d64a31e9716826eebf3d9}{none\_selected}}();}
+\DoxyCodeLine{69     \}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{73     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_a7f3a4f6b5c34e190e81a924c0acb5131}{is\_selected}}(\textcolor{keywordtype}{bool} as\_occ, \textcolor{keywordtype}{size\_t} i)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{74         \textcolor{keywordflow}{return} (as\_occ ? m\_occ.\mbox{\hyperlink{classlibwfa_1_1selector_acb256e6e813fdedd3f92b91c786dab31}{is\_selected}}(i) : m\_vir.\mbox{\hyperlink{classlibwfa_1_1selector_acb256e6e813fdedd3f92b91c786dab31}{is\_selected}}(i));}
+\DoxyCodeLine{75     \}}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{79     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1orbital__selector_a5801b36e93de01b0d4e9ee4cda4041ec}{is\_selected}}(\textcolor{keywordtype}{size\_t} i)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{80         \textcolor{keywordflow}{return} m\_occ.\mbox{\hyperlink{classlibwfa_1_1selector_acb256e6e813fdedd3f92b91c786dab31}{is\_selected}}(i) || m\_vir.\mbox{\hyperlink{classlibwfa_1_1selector_acb256e6e813fdedd3f92b91c786dab31}{is\_selected}}(i);}
+\DoxyCodeLine{81     \}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{85     std::vector<size\_t> \mbox{\hyperlink{classlibwfa_1_1orbital__selector_a4c49541aea1c65618cca5831b42a38b2}{get\_selected}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{89     arma::Col<arma::uword> \mbox{\hyperlink{classlibwfa_1_1orbital__selector_aa94c01125fab987df21b5e9045d82b77}{get\_selected\_arma}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{90 \};}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_ORBITAL\_SELECTOR\_H}}
+
+\end{DoxyCode}

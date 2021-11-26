@@ -1,0 +1,47 @@
+\hypertarget{version_8h_source}{}\doxysection{version.\+h}
+\label{version_8h_source}\index{version.h@{version.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_VERSION\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_VERSION\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <list>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 }
+\DoxyCodeLine{26 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1version}{version}} \{}
+\DoxyCodeLine{27 \textcolor{keyword}{private}:}
+\DoxyCodeLine{28     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} k\_major = 1; }
+\DoxyCodeLine{29     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} k\_minor = 1; }
+\DoxyCodeLine{30     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} *k\_status; }
+\DoxyCodeLine{31     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} *k\_authors[]; }
+\DoxyCodeLine{32     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} *k\_license; }
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{public}:}
+\DoxyCodeLine{37     \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \mbox{\hyperlink{classlibwfa_1_1version_a03cd2662c62f5e8383f4b3a238656118}{get\_major}}() \{}
+\DoxyCodeLine{38         \textcolor{keywordflow}{return} k\_major;}
+\DoxyCodeLine{39     \}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{43     \textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \mbox{\hyperlink{classlibwfa_1_1version_a44f745f6b02d2e7e17a1a5f54d59fd9c}{get\_minor}}() \{}
+\DoxyCodeLine{44         \textcolor{keywordflow}{return} k\_minor;}
+\DoxyCodeLine{45     \}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{49     \textcolor{keyword}{static} std::string \mbox{\hyperlink{classlibwfa_1_1version_a4d2e6ae0d55e285c8ad969c40dc6e591}{get\_status}}() \{}
+\DoxyCodeLine{50         \textcolor{keywordflow}{return} std::string(k\_status);}
+\DoxyCodeLine{51     \}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{55     \textcolor{keyword}{static} std::string \mbox{\hyperlink{classlibwfa_1_1version_a76e81de1a0d2cd393be9e84c49a66d5f}{get\_string}}();}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{59     \textcolor{keyword}{static} std::list<std::string> \mbox{\hyperlink{classlibwfa_1_1version_ae7cd1b36020c3df14deaabd3839e6e98}{get\_authors}}();}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{63     \textcolor{keyword}{static} std::string \mbox{\hyperlink{classlibwfa_1_1version_a7ba81a805c873cdeca97acb003ad79ea}{get\_license}}();}
+\DoxyCodeLine{64 \};}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_VERSION\_H}}
+
+\end{DoxyCode}

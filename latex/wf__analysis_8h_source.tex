@@ -1,0 +1,100 @@
+\hypertarget{wf__analysis_8h_source}{}\doxysection{wf\+\_\+analysis.\+h}
+\label{wf__analysis_8h_source}\index{wf\_analysis.h@{wf\_analysis.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//************************************************************************}}
+\DoxyCodeLine{2 \textcolor{comment}{//* This file is part of libwfa.                                         *}}
+\DoxyCodeLine{3 \textcolor{comment}{//*                                                                      *}}
+\DoxyCodeLine{4 \textcolor{comment}{//* libwfa is free software; you can redistribute and/or modify          *}}
+\DoxyCodeLine{5 \textcolor{comment}{//* it under the terms of the BSD 3-\/Clause license.                      *}}
+\DoxyCodeLine{6 \textcolor{comment}{//* libwfa is distributed in the hope that it will be useful, but it     *}}
+\DoxyCodeLine{7 \textcolor{comment}{//* is provided "{}as is"{} and without any express or implied warranties.   *}}
+\DoxyCodeLine{8 \textcolor{comment}{//* For more details see the full text of the license in the file        *}}
+\DoxyCodeLine{9 \textcolor{comment}{//* LICENSE.                                                             *}}
+\DoxyCodeLine{10 \textcolor{comment}{//*                                                                      *}}
+\DoxyCodeLine{11 \textcolor{comment}{//* Copyright (c) 2014, F. Plasser and M. Wormit. All rights reserved.   *}}
+\DoxyCodeLine{12 \textcolor{comment}{//* Modifications copyright (C) 2019, Loughborough University.           *}}
+\DoxyCodeLine{13 \textcolor{comment}{//************************************************************************}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#ifndef LIBWFA\_WF\_ANALYSIS\_H}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define LIBWFA\_WF\_ANALYSIS\_H}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <libwfa/analyses/sa\_nto\_analysis.h>}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include "{}wf\_analysis\_data\_i.h"{}}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 }
+\DoxyCodeLine{34 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1wf__analysis}{wf\_analysis}} \{}
+\DoxyCodeLine{35 \textcolor{keyword}{private}:}
+\DoxyCodeLine{36     \textcolor{keyword}{typedef} \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params}{wf\_analysis\_data\_i::orbital\_params}} \mbox{\hyperlink{structlibwfa_1_1wf__analysis__data__i_1_1orbital__params}{orbital\_params}};}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{keyword}{private}:}
+\DoxyCodeLine{39     std::unique\_ptr<wf\_analysis\_data\_i> m\_h; }
+\DoxyCodeLine{40     std::unique\_ptr<sa\_nto\_analysis> m\_sa; }
+\DoxyCodeLine{41     \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} m\_edm\_av; }
+\DoxyCodeLine{42     \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} m\_hdm\_av; }
+\DoxyCodeLine{43     \textcolor{keywordtype}{bool} m\_init\_av; }
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{48     \textcolor{keyword}{struct }\mbox{\hyperlink{structlibwfa_1_1wf__analysis_1_1frag__data}{frag\_data}} \{}
+\DoxyCodeLine{49         std::string state\_name;}
+\DoxyCodeLine{50         \textcolor{keywordtype}{double} dE\_eV, f;}
+\DoxyCodeLine{51         \textcolor{keywordtype}{double} om\_tot;}
+\DoxyCodeLine{52         arma::mat om\_frag;}
+\DoxyCodeLine{53         std::unordered\_map<std::string, double> descriptor;}
+\DoxyCodeLine{54     \};}
+\DoxyCodeLine{58     std::map<int, std::vector<frag\_data> > \mbox{\hyperlink{classlibwfa_1_1wf__analysis_a52e82ca83a8bda7c66123ae041415ecf}{frag\_data\_all}};}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \textcolor{keyword}{public}:}
+\DoxyCodeLine{65     \mbox{\hyperlink{classlibwfa_1_1wf__analysis_ab1516101886cbf7bc0d6945552fee753}{wf\_analysis}}(\mbox{\hyperlink{classlibwfa_1_1wf__analysis__data__i}{wf\_analysis\_data\_i}} *h) : m\_h(h), m\_sa(), m\_init\_av(false) \{ \}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{73     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_afa77098871e5e05df8b4a8805830e08c}{analyse\_dyson}}(std::ostream \&out,}
+\DoxyCodeLine{74         \textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::string \&desc,}
+\DoxyCodeLine{75         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&odata);}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{84     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_a6cd7c8f2faf91f2d87ef3c86732faff5}{analyse\_opdm}}(std::ostream \&out,}
+\DoxyCodeLine{85         \textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::string \&desc,}
+\DoxyCodeLine{86         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&ddm, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&dm0);}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{94     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_a595ce861ddbe1b4366c8898b168fa50c}{analyse\_opdm}}(std::ostream \&out, \textcolor{keyword}{const} std::string \&name,}
+\DoxyCodeLine{95         \textcolor{keyword}{const} std::string \&desc, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&sdm);}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{105     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_ad38f009ed4d216e457949b0ccb7aa636}{analyse\_optdm}}(std::ostream \&out, \textcolor{keyword}{const} std::string \&name,}
+\DoxyCodeLine{106         \textcolor{keyword}{const} std::string \&desc, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&tdm, \textcolor{keywordtype}{double} energy=0., \textcolor{keywordtype}{double} osc=-\/1.);}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_ad38f009ed4d216e457949b0ccb7aa636}{analyse\_optdm}}(std::ostream \&out, \textcolor{keyword}{const} std::string \&name,}
+\DoxyCodeLine{109         \textcolor{keyword}{const} std::string \&desc, \textcolor{keyword}{const} arma::mat \&tdm);}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{115     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_a3ee96bae5922995ec977b37a54814f20}{setup\_sa\_ntos}}(std::ostream \&out);}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{122     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_a144e0a34ab95fb1a8bdb277cd745bb40}{post\_process\_optdm}}(std::ostream \&out, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&tdm);}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{126     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_adf0f8ced4f151ff33d1aafee4be8a563}{reset}}() \{}
+\DoxyCodeLine{127         m\_init\_av = \textcolor{keyword}{false};}
+\DoxyCodeLine{128         \textcolor{keyword}{delete} m\_sa.release();}
+\DoxyCodeLine{129     \}}
+\DoxyCodeLine{130 }
+\DoxyCodeLine{133      \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_aebc997f15af7808650705abca1822962}{print\_summary}}(std::ostream \&out, \textcolor{keyword}{const} \textcolor{keywordtype}{int} \&prec=6, \textcolor{keyword}{const} \textcolor{keywordtype}{int} \&width=10);}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{137       \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1wf__analysis_a71e534a0ebdb09eb82080beb8bd1df5d}{print\_om\_frag}}(std::ostream \&out, \textcolor{keyword}{const} std::string ofile=\textcolor{stringliteral}{"{}OmFrag.txt"{}});}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139 \textcolor{keyword}{private}:}
+\DoxyCodeLine{140     \textcolor{keywordtype}{void} add\_to\_average(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&edm, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&hdm);}
+\DoxyCodeLine{141 \};}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143 }
+\DoxyCodeLine{149 \textcolor{keyword}{struct }\mbox{\hyperlink{structlibwfa_1_1wf__analysis__static}{wf\_analysis\_static}} \{}
+\DoxyCodeLine{150     \textcolor{keyword}{static} std::unique\_ptr<wf\_analysis> \mbox{\hyperlink{structlibwfa_1_1wf__analysis__static_afd5d76297f3a9339823527d30608dcb7}{analysis}}; }
+\DoxyCodeLine{151 \};}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_WF\_ANALYSIS\_H}}
+
+\end{DoxyCode}

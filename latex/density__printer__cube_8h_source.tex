@@ -1,0 +1,46 @@
+\hypertarget{density__printer__cube_8h_source}{}\doxysection{density\+\_\+printer\+\_\+cube.\+h}
+\label{density__printer__cube_8h_source}\index{density\_printer\_cube.h@{density\_printer\_cube.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_DENSITY\_PRINTER\_CUBE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_DENSITY\_PRINTER\_CUBE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}export\_cube\_i.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}density\_printer\_i.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{26 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1density__printer__cube}{density\_printer\_cube}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1density__printer__i}{density\_printer\_i}} \{}
+\DoxyCodeLine{27 \textcolor{keyword}{public}:}
+\DoxyCodeLine{28     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a20082576987561202ee8b2ccf2ef3db4}{k\_clazz}}[]; }
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{keyword}{public}:}
+\DoxyCodeLine{31     \textcolor{keyword}{typedef} \mbox{\hyperlink{classlibwfa_1_1density__type_ab348b3d76f2f9c9dd756d9e8a3eea78b}{density\_type::flag\_t}} \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}}; }
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{keyword}{private}:}
+\DoxyCodeLine{34     \mbox{\hyperlink{classlibwfa_1_1export__cube__i}{export\_cube\_i}} \&m\_core; }
+\DoxyCodeLine{35     std::string m\_id; }
+\DoxyCodeLine{36     std::string m\_desc; }
+\DoxyCodeLine{37     \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}} m\_dt; }
+\DoxyCodeLine{38     \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}} m\_dt\_tot; }
+\DoxyCodeLine{39     \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}} m\_dt\_esp; }
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{keyword}{public}:}
+\DoxyCodeLine{49     \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_aa25dafd3136c7b9100817ce08649cb1d}{density\_printer\_cube}}(\mbox{\hyperlink{classlibwfa_1_1export__cube__i}{export\_cube\_i}} \&core,}
+\DoxyCodeLine{50         \textcolor{keyword}{const} std::string \&\textcolor{keywordtype}{id}, \textcolor{keyword}{const} std::string \&desc,}
+\DoxyCodeLine{51         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}} \&dt = \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}}(\mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a17a46d3106c636207ded669fc77f6974}{density\_type::ALL}}),}
+\DoxyCodeLine{52         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}} \&dt\_tot = \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}}(\mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a3f6d5b97703de40068fc2ef5711b632e}{density\_type::STATE}}),}
+\DoxyCodeLine{53         \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}} \&dt\_esp = \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a3838f5f7748f3b445f47ee8975ffc5bc}{dt\_flag}}(\mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a7bb082fb4ba371ec63dbb2b757e98839}{density\_type::NONE}})) :}
+\DoxyCodeLine{54         m\_core(core), m\_id(id), m\_desc(desc), m\_dt(dt), m\_dt\_tot(dt\_tot), m\_dt\_esp(dt\_esp) \{ \}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{58     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_a1213810e32e586741cc465a72296218a}{\string~density\_printer\_cube}}() \{ \}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{62     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1density__printer__cube_ae20f7db2cf3a362b15f38a2dc46fb958}{perform}}(\mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} type, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&dm);}
+\DoxyCodeLine{63 \};}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_DENSITY\_PRINTER\_CUBE\_H}}
+
+\end{DoxyCode}

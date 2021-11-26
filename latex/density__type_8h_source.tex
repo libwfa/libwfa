@@ -1,0 +1,76 @@
+\hypertarget{density__type_8h_source}{}\doxysection{density\+\_\+type.\+h}
+\label{density__type_8h_source}\index{density\_type.h@{density\_type.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_DENSITY\_TYPE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_DENSITY\_TYPE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <bitset>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <ostream>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} \{}
+\DoxyCodeLine{15 \textcolor{keyword}{public}:}
+\DoxyCodeLine{16     \textcolor{keyword}{enum} \{ NT = 7 \};}
+\DoxyCodeLine{19     \textcolor{keyword}{enum} \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293}{dt}} \{}
+\DoxyCodeLine{20         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a7bb082fb4ba371ec63dbb2b757e98839}{NONE}} = 0,       }
+\DoxyCodeLine{21         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a3f6d5b97703de40068fc2ef5711b632e}{STATE}}  = 1 << 0,}
+\DoxyCodeLine{22         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293ab145d2681e8a60efa03f8e503daa248f}{TRANS}}  = 1 << 1,}
+\DoxyCodeLine{23         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293af7edaf0ae31015fba5a92e3e92d6720e}{DIFF}}   = 1 << 2,}
+\DoxyCodeLine{24         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a36541d50cc8ffa17395968c60abcf08f}{ATTACH}} = 1 << 3,}
+\DoxyCodeLine{25         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a67c2d2ef860e99c0d187bfffe671e508}{DETACH}} = 1 << 4,}
+\DoxyCodeLine{26         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a6e2a4d0b43f2d8dbb5b4927561a3a645}{PART}}   = 1 << 5,}
+\DoxyCodeLine{27         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a89f6629e35bfc7d2adacb462f528564e}{HOLE}}   = 1 << 6,}
+\DoxyCodeLine{28         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293adf986ecb82aec0a85393d29dffd15aea}{AD}}     = 24,    }
+\DoxyCodeLine{29         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a513ea13572283dcff813aa032b42aa84}{PH}}     = 96,    }
+\DoxyCodeLine{30         \mbox{\hyperlink{classlibwfa_1_1density__type_af23d16faaaf7a1cef7ff45fa721c0293a17a46d3106c636207ded669fc77f6974}{ALL}}    = 127    }
+\DoxyCodeLine{31     \};}
+\DoxyCodeLine{32     \textcolor{keyword}{typedef} std::bitset<NT> \mbox{\hyperlink{classlibwfa_1_1density__type_ab348b3d76f2f9c9dd756d9e8a3eea78b}{flag\_t}}; }
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{private}:}
+\DoxyCodeLine{35     \textcolor{keywordtype}{size\_t} m\_type;}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{keyword}{private}:}
+\DoxyCodeLine{38     \textcolor{keyword}{explicit} \mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}}(\textcolor{keywordtype}{size\_t} t = 0) : m\_type(t) \{ \}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{keyword}{public}:}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43     \textcolor{keywordtype}{bool} operator==(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type == t.m\_type; \}}
+\DoxyCodeLine{44     \textcolor{keywordtype}{bool} operator!=(\textcolor{keyword}{const} density\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type != t.m\_type; \}}
+\DoxyCodeLine{45     \textcolor{keywordtype}{bool} operator< (\textcolor{keyword}{const} density\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type <  t.m\_type; \}}
+\DoxyCodeLine{46     \textcolor{keywordtype}{bool} operator<=(\textcolor{keyword}{const} density\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type <= t.m\_type; \}}
+\DoxyCodeLine{47     \textcolor{keywordtype}{bool} operator> (\textcolor{keyword}{const} density\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type >  t.m\_type; \}}
+\DoxyCodeLine{48     \textcolor{keywordtype}{bool} operator>=(\textcolor{keyword}{const} density\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type >= t.m\_type; \}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} \mbox{\hyperlink{classlibwfa_1_1density__type_a97c48ba287dcd64caf0689bdc7ccf09b}{state}}; }
+\DoxyCodeLine{54     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} \mbox{\hyperlink{classlibwfa_1_1density__type_a580df4e502101063ecf837ee8898b4d3}{transition}}; }
+\DoxyCodeLine{55     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} \mbox{\hyperlink{classlibwfa_1_1density__type_a56ff812cf59eaefc459a8069b286b346}{difference}}; }
+\DoxyCodeLine{56     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} \mbox{\hyperlink{classlibwfa_1_1density__type_ad07a165657f8a82c7cffd9fadeab35c8}{attach}}; }
+\DoxyCodeLine{57     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} \mbox{\hyperlink{classlibwfa_1_1density__type_aaa0411f271d4137d8d01862053b0a16b}{detach}}; }
+\DoxyCodeLine{58     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} \mbox{\hyperlink{classlibwfa_1_1density__type_a8d03f83dcd7f313a5e7b09dd3897c0b9}{particle}}; }
+\DoxyCodeLine{59     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1density__type}{density\_type}} \mbox{\hyperlink{classlibwfa_1_1density__type_ac0f8eae1131d22747ab50550a6032f18}{hole}}; }
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 }
+\DoxyCodeLine{65     std::string \mbox{\hyperlink{classlibwfa_1_1density__type_ad9a893bba69c087d833714446395085c}{convert}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{69     std::string \mbox{\hyperlink{classlibwfa_1_1density__type_afe6ac4b26d77d4cb75deb38d9f3c3f18}{convert2}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{73     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classlibwfa_1_1density__type_a8dfb1ee8d55092a546b48c6366a9d94e}{is\_symm}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{77     \textcolor{keywordtype}{double} \mbox{\hyperlink{classlibwfa_1_1density__type_a98b6f3833e579609d08315df6b33b144}{export\_factor}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{81     \textcolor{keyword}{operator} size\_t()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type; \}}
+\DoxyCodeLine{82 \};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 std::ostream \&operator<<(std::ostream \&out, density\_type type);}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_DENSITY\_TYPE\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,83 @@
+\hypertarget{classlibwfa_1_1dyson__analysis}{}\doxysection{libwfa\+::dyson\+\_\+analysis Class Reference}
+\label{classlibwfa_1_1dyson__analysis}\index{libwfa::dyson\_analysis@{libwfa::dyson\_analysis}}
+
+
+Perform Dyson orbital analysis.  
+
+
+
+
+{\ttfamily \#include $<$dyson\+\_\+analysis.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1dyson__analysis_a276a8ee019dba2802ae4e9c52ad908bf}{dyson\+\_\+analysis}} (const \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\+\_\+data}} \&odata)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1dyson__analysis_a080b3c543c3d98efe291205517ba8da7}{analyse}} (std\+::ostream \&out, size\+\_\+t ndo=3) const
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1dyson__analysis_a65d06278b9b172e11ea81488a4e5d6cd}{export\+\_\+orbitals}} (\mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\+\_\+printer\+\_\+i}} \&pr, double thresh) const
+\begin{DoxyCompactList}\small\item\em Export Dyson orbitals. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Perform Dyson orbital analysis. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1dyson__analysis_a276a8ee019dba2802ae4e9c52ad908bf}\label{classlibwfa_1_1dyson__analysis_a276a8ee019dba2802ae4e9c52ad908bf}} 
+\index{libwfa::dyson\_analysis@{libwfa::dyson\_analysis}!dyson\_analysis@{dyson\_analysis}}
+\index{dyson\_analysis@{dyson\_analysis}!libwfa::dyson\_analysis@{libwfa::dyson\_analysis}}
+\doxysubsubsection{\texorpdfstring{dyson\_analysis()}{dyson\_analysis()}}
+{\footnotesize\ttfamily libwfa\+::dyson\+\_\+analysis\+::dyson\+\_\+analysis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\+\_\+data}} \&}]{odata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em odata} & Dyson orbital data \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1dyson__analysis_a080b3c543c3d98efe291205517ba8da7}\label{classlibwfa_1_1dyson__analysis_a080b3c543c3d98efe291205517ba8da7}} 
+\index{libwfa::dyson\_analysis@{libwfa::dyson\_analysis}!analyse@{analyse}}
+\index{analyse@{analyse}!libwfa::dyson\_analysis@{libwfa::dyson\_analysis}}
+\doxysubsubsection{\texorpdfstring{analyse()}{analyse()}}
+{\footnotesize\ttfamily void libwfa\+::dyson\+\_\+analysis\+::analyse (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{size\+\_\+t}]{ndo = {\ttfamily 3} }\end{DoxyParamCaption}) const}
+
+
+
+Destructor. 
+
+Perform Dyson orbital analysis 
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+{\em ndo} & \# of leading occupation numbers to print (default\+: 3) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1dyson__analysis_a65d06278b9b172e11ea81488a4e5d6cd}\label{classlibwfa_1_1dyson__analysis_a65d06278b9b172e11ea81488a4e5d6cd}} 
+\index{libwfa::dyson\_analysis@{libwfa::dyson\_analysis}!export\_orbitals@{export\_orbitals}}
+\index{export\_orbitals@{export\_orbitals}!libwfa::dyson\_analysis@{libwfa::dyson\_analysis}}
+\doxysubsubsection{\texorpdfstring{export\_orbitals()}{export\_orbitals()}}
+{\footnotesize\ttfamily void libwfa\+::dyson\+\_\+analysis\+::export\+\_\+orbitals (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\+\_\+printer\+\_\+i}} \&}]{pr,  }\item[{double}]{thresh }\end{DoxyParamCaption}) const}
+
+
+
+Export Dyson orbitals. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pr} & Orbital printer \\
+\hline
+{\em thresh} & Threshold to determine important orbitals\\
+\hline
+\end{DoxyParams}
+Only Dyson orbitals s with occupation number larger than the threshold are exported 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+dyson\+\_\+analysis.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,66 @@
+\hypertarget{orbital__type_8h_source}{}\doxysection{orbital\+\_\+type.\+h}
+\label{orbital__type_8h_source}\index{orbital\_type.h@{orbital\_type.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_ORBITAL\_TYPE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_ORBITAL\_TYPE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <bitset>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <ostream>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} \{}
+\DoxyCodeLine{15 \textcolor{keyword}{public}:}
+\DoxyCodeLine{16     \textcolor{keyword}{enum} \{ NT = 5 \};}
+\DoxyCodeLine{19     \textcolor{keyword}{enum} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeb}{ot}} \{}
+\DoxyCodeLine{20         \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeba5857fa9db6ae5d19d06883b9d682c332}{NONE}}   = 0,     }
+\DoxyCodeLine{21         \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeba3fd2c337c3cd80c8223f3e379d09565d}{MO}}     = 1 << 0,}
+\DoxyCodeLine{22         \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceebab44ae1536963191d53a7094970df1b5f}{NO}}     = 1 << 1,}
+\DoxyCodeLine{23         \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeba35ef00e9f3dfcebe500b5d8dd96cc117}{NDO}}    = 1 << 2,}
+\DoxyCodeLine{24         \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceebaf3fe3fa6a140b87fd188e04c9999a083}{NTO}}    = 1 << 3,}
+\DoxyCodeLine{25         \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceeba2e507974ff80a2f509c7459b536061c6}{DYSON}}  = 1 << 4,}
+\DoxyCodeLine{26         \mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceebaeed567c6b3fb087034fb3f59f83fb9dd}{ALL}}    = 31     }
+\DoxyCodeLine{27     \};}
+\DoxyCodeLine{28     \textcolor{keyword}{typedef} std::bitset<NT> \mbox{\hyperlink{classlibwfa_1_1orbital__type_a306849ee636eceeae4b4cfc712407c1f}{flag\_t}}; }
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{keyword}{private}:}
+\DoxyCodeLine{31     \textcolor{keywordtype}{size\_t} m\_type;}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{keyword}{private}:}
+\DoxyCodeLine{34     \textcolor{keyword}{explicit} \mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}}(\textcolor{keywordtype}{size\_t} t = 0) : m\_type(t) \{ \}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{keyword}{public}:}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     \textcolor{keywordtype}{bool} operator==(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type == t.m\_type; \}}
+\DoxyCodeLine{40     \textcolor{keywordtype}{bool} operator!=(\textcolor{keyword}{const} orbital\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type != t.m\_type; \}}
+\DoxyCodeLine{41     \textcolor{keywordtype}{bool} operator< (\textcolor{keyword}{const} orbital\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type <  t.m\_type; \}}
+\DoxyCodeLine{42     \textcolor{keywordtype}{bool} operator<=(\textcolor{keyword}{const} orbital\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type <= t.m\_type; \}}
+\DoxyCodeLine{43     \textcolor{keywordtype}{bool} operator> (\textcolor{keyword}{const} orbital\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type >  t.m\_type; \}}
+\DoxyCodeLine{44     \textcolor{keywordtype}{bool} operator>=(\textcolor{keyword}{const} orbital\_type \&t)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type >= t.m\_type; \}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a73fc5c1755077a335e6a50eb19b89c30}{mo}}; }
+\DoxyCodeLine{50     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a24f0666f9fc30d82e6fd726f8084eb93}{no}}; }
+\DoxyCodeLine{51     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a8af2cbc76792dd57f98a9a2369d3895e}{ndo}}; }
+\DoxyCodeLine{52     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a479737a36dcf2b6b51cbc44e8705fc15}{nto}}; }
+\DoxyCodeLine{53     \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a1590bfe33d8f9549db4d5caad15512fe}{dyson}}; }
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 }
+\DoxyCodeLine{59     std::string \mbox{\hyperlink{classlibwfa_1_1orbital__type_a3b225a53bfb32fca26341959c251274b}{convert}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{60     }
+\DoxyCodeLine{63     std::string \mbox{\hyperlink{classlibwfa_1_1orbital__type_ae366c4524aabaa887860fc9437bc0aab}{convert\_upper}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{67     \textcolor{keyword}{operator} size\_t()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_type; \}}
+\DoxyCodeLine{68 \};}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 std::ostream \&operator<<(std::ostream \&out, orbital\_type type);}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_ORBITAL\_TYPE\_H}}
+
+\end{DoxyCode}

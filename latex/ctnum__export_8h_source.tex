@@ -1,0 +1,40 @@
+\hypertarget{ctnum__export_8h_source}{}\doxysection{ctnum\+\_\+export.\+h}
+\label{ctnum__export_8h_source}\index{ctnum\_export.h@{ctnum\_export.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_CTNUM\_EXPORT\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_CTNUM\_EXPORT\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <cstddef>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <libwfa/core/ab\_matrix.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}ctnum\_printer\_i.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{18 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1ctnum__export}{ctnum\_export}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1ctnum__printer__i}{ctnum\_printer\_i}} \{}
+\DoxyCodeLine{19 \textcolor{keyword}{private}:}
+\DoxyCodeLine{20     std::string m\_prefix; }
+\DoxyCodeLine{21     std::string m\_desc; }
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23     \textcolor{keywordtype}{size\_t} m\_ncols; }
+\DoxyCodeLine{24     \textcolor{keywordtype}{size\_t} m\_colwidth; }
+\DoxyCodeLine{25     \textcolor{keywordtype}{size\_t} m\_prec; }
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{keyword}{public}:}
+\DoxyCodeLine{35     \mbox{\hyperlink{classlibwfa_1_1ctnum__export_afbbce30fb564745f55e170bd05c2d317}{ctnum\_export}}(\textcolor{keyword}{const} std::string \&prefix, \textcolor{keyword}{const} std::string \&desc,}
+\DoxyCodeLine{36         \textcolor{keywordtype}{size\_t} ncols = 3, \textcolor{keywordtype}{size\_t} colwidth = 15, \textcolor{keywordtype}{size\_t} prec = 6) :}
+\DoxyCodeLine{37         m\_prefix(prefix), m\_desc(desc),}
+\DoxyCodeLine{38         m\_ncols(ncols), m\_colwidth(colwidth), m\_prec(prec) \{ \}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{59     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1ctnum__export_a50f2a2dd76f1734ccc47da5e456c3f80}{perform}}(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&om) \textcolor{keyword}{const};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \textcolor{keyword}{private}:}
+\DoxyCodeLine{62     \textcolor{keywordtype}{void} do\_export(\textcolor{keyword}{const} std::string \&fname, \textcolor{keyword}{const} arma::mat \&ct) \textcolor{keyword}{const};}
+\DoxyCodeLine{63 \};}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_CTNUM\_EXPORT\_H}}
+
+\end{DoxyCode}

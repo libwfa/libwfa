@@ -1,0 +1,68 @@
+\hypertarget{classlibwfa_1_1pop__analysis__dm}{}\doxysection{libwfa\+::pop\+\_\+analysis\+\_\+dm Class Reference}
+\label{classlibwfa_1_1pop__analysis__dm}\index{libwfa::pop\_analysis\_dm@{libwfa::pop\_analysis\_dm}}
+
+
+Perform population analysis on state density matrix.  
+
+
+
+
+{\ttfamily \#include $<$pop\+\_\+analysis\+\_\+dm.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1pop__analysis__dm_a814e1acf4da2f2751451a4a85dff4181}{pop\+\_\+analysis\+\_\+dm}} (const \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\+\_\+analysis\+\_\+i}} \&a, const arma\+::vec \&p0, const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&sdm)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1pop__analysis__dm_a718a6d47a2530decf9bf742396e20c75}{perform}} (\mbox{\hyperlink{classlibwfa_1_1pop__data}{pop\+\_\+data}} \&pop) const
+\begin{DoxyCompactList}\small\item\em Perform population analysis. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Perform population analysis on state density matrix. 
+
+Performs a population analysis of the state density matrix provided. The analysis is performed on the spin averaged density matrix and, if unrestricted, on the spin difference density matrix. The base population (e.\+g. nuclear charges) is added to the spin average density matrix. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1pop__analysis__dm_a814e1acf4da2f2751451a4a85dff4181}\label{classlibwfa_1_1pop__analysis__dm_a814e1acf4da2f2751451a4a85dff4181}} 
+\index{libwfa::pop\_analysis\_dm@{libwfa::pop\_analysis\_dm}!pop\_analysis\_dm@{pop\_analysis\_dm}}
+\index{pop\_analysis\_dm@{pop\_analysis\_dm}!libwfa::pop\_analysis\_dm@{libwfa::pop\_analysis\_dm}}
+\doxysubsubsection{\texorpdfstring{pop\_analysis\_dm()}{pop\_analysis\_dm()}}
+{\footnotesize\ttfamily libwfa\+::pop\+\_\+analysis\+\_\+dm\+::pop\+\_\+analysis\+\_\+dm (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\+\_\+analysis\+\_\+i}} \&}]{a,  }\item[{const arma\+::vec \&}]{p0,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\+\_\+matrix}} \&}]{sdm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Analysis object \\
+\hline
+{\em sdm} & State density matrix \\
+\hline
+{\em p0} & Base population \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1pop__analysis__dm_a718a6d47a2530decf9bf742396e20c75}\label{classlibwfa_1_1pop__analysis__dm_a718a6d47a2530decf9bf742396e20c75}} 
+\index{libwfa::pop\_analysis\_dm@{libwfa::pop\_analysis\_dm}!perform@{perform}}
+\index{perform@{perform}!libwfa::pop\_analysis\_dm@{libwfa::pop\_analysis\_dm}}
+\doxysubsubsection{\texorpdfstring{perform()}{perform()}}
+{\footnotesize\ttfamily void libwfa\+::pop\+\_\+analysis\+\_\+dm\+::perform (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlibwfa_1_1pop__data}{pop\+\_\+data}} \&}]{pop }\end{DoxyParamCaption}) const}
+
+
+
+Perform population analysis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pop} & Resulting population data \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+pop\+\_\+analysis\+\_\+dm.\+h\end{DoxyCompactItemize}

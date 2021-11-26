@@ -1,0 +1,35 @@
+\hypertarget{pop__loewdin_8h_source}{}\doxysection{pop\+\_\+loewdin.\+h}
+\label{pop__loewdin_8h_source}\index{pop\_loewdin.h@{pop\_loewdin.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_POP\_LOEWDIN\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_POP\_LOEWDIN\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <cstddef>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}pop\_analysis\_i.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1pop__loewdin}{pop\_loewdin}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1pop__analysis__i}{pop\_analysis\_i}} \{}
+\DoxyCodeLine{15 \textcolor{keyword}{private}:}
+\DoxyCodeLine{16     \textcolor{keywordtype}{size\_t} m\_nparts; }
+\DoxyCodeLine{17     arma::mat m\_sh; }
+\DoxyCodeLine{18     \textcolor{keyword}{const} arma::uvec \&m\_b2p; }
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{public}:}
+\DoxyCodeLine{25     \mbox{\hyperlink{classlibwfa_1_1pop__loewdin_a27befa93bec4adaabdf797774c23783f}{pop\_loewdin}}(\textcolor{keyword}{const} arma::mat \&s, \textcolor{keyword}{const} arma::uvec \&b2p);}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{29     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1pop__loewdin_aafb566dc9b3cab6b2cf53e3b1ccd607a}{\string~pop\_loewdin}}() \{ \}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{33     \textcolor{keyword}{virtual} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classlibwfa_1_1pop__loewdin_a6cd742dd250933f42bd773bed7ff54e4}{size}}()\textcolor{keyword}{ const }\{  \textcolor{keywordflow}{return} m\_nparts; \}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{37     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1pop__loewdin_a4e949009cd6436272192ce458cc31d24}{perform}}(\textcolor{keyword}{const} arma::mat \&dm, arma::vec \&p) \textcolor{keyword}{const};}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \};}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_POP\_LOEWDIN\_H}}
+
+\end{DoxyCode}

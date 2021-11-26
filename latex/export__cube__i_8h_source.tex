@@ -1,0 +1,31 @@
+\hypertarget{export__cube__i_8h_source}{}\doxysection{export\+\_\+cube\+\_\+i.\+h}
+\label{export__cube__i_8h_source}\index{export\_cube\_i.h@{export\_cube\_i.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_EXPORT\_CUBE\_I\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_EXPORT\_CUBE\_I\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <armadillo>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1export__cube__i}{export\_cube\_i}} \{}
+\DoxyCodeLine{16 \textcolor{keyword}{public}:}
+\DoxyCodeLine{19     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1export__cube__i_a61c7746bc4ac66d74680bc9da00bf1cf}{\string~export\_cube\_i}}() \{\}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{27     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1export__cube__i_a5003bf5df2239b46a946493303fe342b}{perform}}(\textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::string \&desc,}
+\DoxyCodeLine{28         \textcolor{keyword}{const} arma::mat \&mat, \textcolor{keywordtype}{int} do\_esp=0) = 0;}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{36     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1export__cube__i_aa7875d4223273c0a338ab4678913cd2a}{perform}}(\textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::string \&desc,}
+\DoxyCodeLine{37         \textcolor{keyword}{const} std::vector<size\_t> \&idx, \textcolor{keyword}{const} arma::mat \&vecs) = 0;}
+\DoxyCodeLine{38 \};}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_EXPORT\_CUBE\_I\_H}}
+
+\end{DoxyCode}

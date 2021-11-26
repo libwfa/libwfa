@@ -1,0 +1,47 @@
+\hypertarget{test__orbital__printer_8h_source}{}\doxysection{test\+\_\+orbital\+\_\+printer.\+h}
+\label{test__orbital__printer_8h_source}\index{test\_orbital\_printer.h@{test\_orbital\_printer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_TEST\_ORBITAL\_PRINTER\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_TEST\_ORBITAL\_PRINTER\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <libwfa/export/orbital\_printer\_i.h>}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{12 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1test__orbital__printer}{test\_orbital\_printer}} : \textcolor{keyword}{public} \mbox{\hyperlink{classlibwfa_1_1orbital__printer__i}{orbital\_printer\_i}} \{}
+\DoxyCodeLine{13 \textcolor{keyword}{public}:}
+\DoxyCodeLine{14     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} \mbox{\hyperlink{classlibwfa_1_1test__orbital__printer_a8e8cbcd4ea8bb614b874b4ed6695e832}{k\_clazz}}[]; }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{public}:}
+\DoxyCodeLine{17     \textcolor{keyword}{typedef} \mbox{\hyperlink{classlibwfa_1_1orbital__type_a306849ee636eceeae4b4cfc712407c1f}{orbital\_type::flag\_t}} ot\_flag;}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{private}:}
+\DoxyCodeLine{20     \textcolor{keywordtype}{double} m\_thresh;}
+\DoxyCodeLine{21     ot\_flag m\_ot;}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{public}:}
+\DoxyCodeLine{30     \mbox{\hyperlink{classlibwfa_1_1test__orbital__printer_ad919c1f6a4dbcbcb34338f1f82ccc7e0}{test\_orbital\_printer}}(\textcolor{keywordtype}{double} thresh = 1e-\/2,}
+\DoxyCodeLine{31         \textcolor{keyword}{const} ot\_flag \&ot = ot\_flag(\mbox{\hyperlink{classlibwfa_1_1orbital__type_a05eef0b4e0e1ee6b016141d6215cceebaeed567c6b3fb087034fb3f59f83fb9dd}{orbital\_type::ALL}})) :}
+\DoxyCodeLine{32         m\_thresh(thresh), m\_ot(ot)}
+\DoxyCodeLine{33     \{ \}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{37     \textcolor{keyword}{virtual} \mbox{\hyperlink{classlibwfa_1_1test__orbital__printer_a234a4a568cebd3695b6a1f78e42cc2c1}{\string~test\_orbital\_printer}}() \{ \}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{44     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1test__orbital__printer_aec5f4a6d9128c9eaae6523eedb06abeb}{perform}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} type,}
+\DoxyCodeLine{45             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&orb, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s);}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{52     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1test__orbital__printer_a2250a08be61d2fb2f2fa0fa5022e55df}{perform}}(\mbox{\hyperlink{classlibwfa_1_1orbital__type}{orbital\_type}} type,}
+\DoxyCodeLine{53             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&orb\_a, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s\_a,}
+\DoxyCodeLine{54             \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__data}{orbital\_data}} \&orb\_b, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s\_b);}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{keyword}{private}:}
+\DoxyCodeLine{57     \textcolor{keywordtype}{void} check(\textcolor{keyword}{const} arma::vec \&e, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1orbital__selector}{orbital\_selector}} \&s);}
+\DoxyCodeLine{58 \};}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_TEST\_ORBITAL\_PRINTER\_H}}
+
+\end{DoxyCode}

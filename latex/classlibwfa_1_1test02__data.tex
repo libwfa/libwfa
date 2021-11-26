@@ -1,0 +1,105 @@
+\hypertarget{classlibwfa_1_1test02__data}{}\doxysection{libwfa\+::test02\+\_\+data Class Reference}
+\label{classlibwfa_1_1test02__data}\index{libwfa::test02\_data@{libwfa::test02\_data}}
+
+
+Data for test system 2.  
+
+
+
+
+{\ttfamily \#include $<$test02\+\_\+data.\+h$>$}
+
+Inheritance diagram for libwfa\+::test02\+\_\+data\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1test02__data}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_a59530b53ed75b07ecb0fb6de7de0bd46}\label{classlibwfa_1_1test02__data_a59530b53ed75b07ecb0fb6de7de0bd46}} 
+bool {\bfseries aeqb} ()
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_afdb74f1aef0756a167ef1b3b413e59e3}\label{classlibwfa_1_1test02__data_afdb74f1aef0756a167ef1b3b413e59e3}} 
+size\+\_\+t {\bfseries nstates} ()
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_a90a389aee00ebe8d05ccbf08f211b1fd}\label{classlibwfa_1_1test02__data_a90a389aee00ebe8d05ccbf08f211b1fd}} 
+arma\+::uvec {\bfseries atomic\+\_\+numbers} ()
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_a3eb3d51ac8578aa48b5ec8d539cc7c83}\label{classlibwfa_1_1test02__data_a3eb3d51ac8578aa48b5ec8d539cc7c83}} 
+arma\+::vec {\bfseries nuclear\+\_\+charges} ()
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_a7b56e02364ef676f3e9762802c8fb1ae}\label{classlibwfa_1_1test02__data_a7b56e02364ef676f3e9762802c8fb1ae}} 
+arma\+::uvec {\bfseries bf2nuclei} ()
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_a1b1189d61926224f9c0e2a72d4b8129f}\label{classlibwfa_1_1test02__data_a1b1189d61926224f9c0e2a72d4b8129f}} 
+arma\+::vec {\bfseries pop\+\_\+mulliken} (size\+\_\+t istate, bool alpha)
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_ac4d721eea422fe91b2709ea0dd725d90}\label{classlibwfa_1_1test02__data_ac4d721eea422fe91b2709ea0dd725d90}} 
+arma\+::vec {\bfseries pop\+\_\+loewdin} (size\+\_\+t istate, bool alpha)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_aa6486c8eaa1d85bacbde2d0eda532099}\label{classlibwfa_1_1test02__data_aa6486c8eaa1d85bacbde2d0eda532099}} 
+static const size\+\_\+t {\bfseries k\+\_\+nao}
+\begin{DoxyCompactList}\small\item\em Number of AOs. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_a777e8b26f2176aa66a7aba10f34995cb}\label{classlibwfa_1_1test02__data_a777e8b26f2176aa66a7aba10f34995cb}} 
+static const size\+\_\+t {\bfseries k\+\_\+nmo}
+\begin{DoxyCompactList}\small\item\em Number of MOs. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_a11a3892a107569bd5995d22fddf13342}\label{classlibwfa_1_1test02__data_a11a3892a107569bd5995d22fddf13342}} 
+static const size\+\_\+t {\bfseries k\+\_\+natoms}
+\begin{DoxyCompactList}\small\item\em Number of atoms. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1test02__data_a0ae40d84fd8598ec60c124af16b86a0d}\label{classlibwfa_1_1test02__data_a0ae40d84fd8598ec60c124af16b86a0d}} 
+static const size\+\_\+t {\bfseries k\+\_\+nstat}
+\begin{DoxyCompactList}\small\item\em Number of states ~\newline
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Data for test system 2. 
+
+The test system is H2O computed using 3-\/21g basis set and ADC(2)-\/s as excited state method. No point-\/group symmetry has been used. Two states have been computed (the lowest 1 singlet and the lowest triplet state).
+
+The following input file was used to generate the test data 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$rem}
+\DoxyCodeLine{jobtype = sp}
+\DoxyCodeLine{method = adc(2)}
+\DoxyCodeLine{basis = 3-\/21g}
+\DoxyCodeLine{ee\_singlets = 1}
+\DoxyCodeLine{ee\_triplets = 1}
+\DoxyCodeLine{n\_frozen\_core = fc}
+\DoxyCodeLine{cc\_symmetry = false}
+\DoxyCodeLine{adc\_prop\_es = true}
+\DoxyCodeLine{adc\_nguess\_singles = 2}
+\DoxyCodeLine{adc\_nguess\_doubles = 1}
+\DoxyCodeLine{adc\_davidson\_conv = 6}
+\DoxyCodeLine{adc\_davidson\_thresh = 8}
+\DoxyCodeLine{make\_cube\_files true}
+\DoxyCodeLine{\$end}
+\DoxyCodeLine{}
+\DoxyCodeLine{\$molecule}
+\DoxyCodeLine{0 1}
+\DoxyCodeLine{O}
+\DoxyCodeLine{H  1  0.957}
+\DoxyCodeLine{H  1  0.957  2   104.5}
+\DoxyCodeLine{\$end}
+\DoxyCodeLine{}
+\DoxyCodeLine{\$plots}
+\DoxyCodeLine{Plot all four types of quantities}
+\DoxyCodeLine{40 -\/3.0 3.0}
+\DoxyCodeLine{40 -\/3.0 3.0}
+\DoxyCodeLine{40 -\/3.0 3.0}
+\DoxyCodeLine{0 0 2 2}
+\DoxyCodeLine{1 2}
+\DoxyCodeLine{1 2}
+\DoxyCodeLine{\$end}
+
+\end{DoxyCode}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+test02\+\_\+data.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,44 @@
+\hypertarget{ctnumbers_8h_source}{}\doxysection{ctnumbers.\+h}
+\label{ctnumbers_8h_source}\index{ctnumbers.h@{ctnumbers.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef LIBWFA\_CTNUMBERS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define LIBWFA\_CTNUMBERS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <libwfa/core/ab\_matrix.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <libwfa/export/ctnum\_printer\_i.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}ctnum\_analysis\_i.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{namespace }libwfa \{}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{21 \textcolor{keyword}{class }\mbox{\hyperlink{classlibwfa_1_1ctnumbers}{ctnumbers}} \{}
+\DoxyCodeLine{22 \textcolor{keyword}{private}:}
+\DoxyCodeLine{23     \textcolor{keywordtype}{double} m\_tot[2]; }
+\DoxyCodeLine{24     \textcolor{keywordtype}{double} m\_Phe[2]; }
+\DoxyCodeLine{25     \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} m\_om; }
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{keyword}{public}:}
+\DoxyCodeLine{32     \mbox{\hyperlink{classlibwfa_1_1ctnumbers_aa039a4e65b37f880e9f8b5bf1cab3316}{ctnumbers}}(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{ctnum\_analysis\_i}} \&a, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&tdm);}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{36     \mbox{\hyperlink{classlibwfa_1_1ctnumbers_af3152379c181937ba58d77a8b8455524}{\string~ctnumbers}}() \{ \}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{41     \textcolor{keyword}{const} \textcolor{keywordtype}{double} \&\mbox{\hyperlink{classlibwfa_1_1ctnumbers_a0a526ac5345d28a6c05bc646479c36dc}{omega\_total}}(\textcolor{keywordtype}{bool} spin)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{42         \textcolor{keywordflow}{return} m\_tot[(spin \&\& ! m\_om.\mbox{\hyperlink{classlibwfa_1_1ab__object_a86d938c6404dee4221e1707368486d80}{is\_alpha\_eq\_beta}}() ? 1 : 0)];}
+\DoxyCodeLine{43     \}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{47     \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&\mbox{\hyperlink{classlibwfa_1_1ctnumbers_a8ba99da953dd60f1e7954958f9a35f84}{omega}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m\_om; \}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{52     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1ctnumbers_a19eaeb5c8bd87f1fcd483c12200415d0}{analyse}}(std::ostream \&out) \textcolor{keyword}{const};}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{57     \textcolor{keywordtype}{void} \mbox{\hyperlink{classlibwfa_1_1ctnumbers_ac02404abb606c4fb4c38b837b56b0e1d}{do\_export}}(\mbox{\hyperlink{classlibwfa_1_1ctnum__printer__i}{ctnum\_printer\_i}} \&pr)\textcolor{keyword}{ const }\{ pr.\mbox{\hyperlink{classlibwfa_1_1ctnum__printer__i_ae898a85f5467b14f5090c393484b98a6}{perform}}(m\_om); \}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{keyword}{private}:}
+\DoxyCodeLine{60     \textcolor{keywordtype}{void} initialize(\textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ctnum__analysis__i}{ctnum\_analysis\_i}} \&a, \textcolor{keyword}{const} \mbox{\hyperlink{classlibwfa_1_1ab__matrix}{ab\_matrix}} \&om);}
+\DoxyCodeLine{61 \};}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \} \textcolor{comment}{// namespace libwfa}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LIBWFA\_CTNUMBERS\_H}}
+
+\end{DoxyCode}

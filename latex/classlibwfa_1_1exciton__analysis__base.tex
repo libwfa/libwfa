@@ -1,0 +1,206 @@
+\hypertarget{classlibwfa_1_1exciton__analysis__base}{}\doxysection{libwfa\+::exciton\+\_\+analysis\+\_\+base Class Reference}
+\label{classlibwfa_1_1exciton__analysis__base}\index{libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}}
+
+
+Base class for exciton analysis.  
+
+
+
+
+{\ttfamily \#include $<$exciton\+\_\+analysis\+\_\+base.\+h$>$}
+
+Inheritance diagram for libwfa\+::exciton\+\_\+analysis\+\_\+base\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlibwfa_1_1exciton__analysis__base}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_ab78b8c7d1fe919ef441b506c57088d52}{exciton\+\_\+analysis\+\_\+base}} (bool aeqb, size\+\_\+t maxmm=2)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_affe1faa3e083fbf5f3bfe3e15fd6c15c}\label{classlibwfa_1_1exciton__analysis__base_affe1faa3e083fbf5f3bfe3e15fd6c15c}} 
+virtual {\bfseries $\sim$exciton\+\_\+analysis\+\_\+base} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_a8985f56f78b27aa6d019f703a20b12a2}\label{classlibwfa_1_1exciton__analysis__base_a8985f56f78b27aa6d019f703a20b12a2}} 
+bool {\bfseries is\+\_\+alpha\+\_\+eq\+\_\+beta} () const
+\begin{DoxyCompactList}\small\item\em Is alpha equal to beta-\/spin. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \& \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_af27cf21aa32eb852f046818291dc4fee}{moment}} (bool spin)
+\begin{DoxyCompactList}\small\item\em Computed exciton moment. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \& \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_a51855b381c50b7bab96078b87b176093}{moment}} (bool spin) const
+\begin{DoxyCompactList}\small\item\em Computed exciton moment. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_aace4416619d59b73eb0abbd8db17d475}{analyse}} (std\+::ostream \&out, size\+\_\+t offset=2) const
+\begin{DoxyCompactList}\small\item\em Perform analysis. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_abfbbbb3030231090402b53705a9fb05d}{print\+\_\+header}} (std\+::ostream \&out, size\+\_\+t offset) const =0
+\begin{DoxyCompactList}\small\item\em Write analysis header to output stream. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_a304256a4ea9665d866d491d3f7d7dae0}{analysis}} (std\+::ostream \&out, const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&mom, size\+\_\+t offset) const =0
+\begin{DoxyCompactList}\small\item\em Analyse exciton moments and print results. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_a3f9dbe2e7381868ee38d2f92014cef1e}{combine}} (const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&a, const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&b, \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&res) const =0
+\begin{DoxyCompactList}\small\item\em Form total exciton moments. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__base_a6b5871f73f0295c2a65c49ce95a10fec}{print}} (std\+::ostream \&out, const arma\+::vec \&vec, size\+\_\+t width=10)
+\begin{DoxyCompactList}\small\item\em Print armadillo vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Base class for exciton analysis. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_ab78b8c7d1fe919ef441b506c57088d52}\label{classlibwfa_1_1exciton__analysis__base_ab78b8c7d1fe919ef441b506c57088d52}} 
+\index{libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}!exciton\_analysis\_base@{exciton\_analysis\_base}}
+\index{exciton\_analysis\_base@{exciton\_analysis\_base}!libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}}
+\doxysubsubsection{\texorpdfstring{exciton\_analysis\_base()}{exciton\_analysis\_base()}}
+{\footnotesize\ttfamily libwfa\+::exciton\+\_\+analysis\+\_\+base\+::exciton\+\_\+analysis\+\_\+base (\begin{DoxyParamCaption}\item[{bool}]{aeqb,  }\item[{size\+\_\+t}]{maxmm = {\ttfamily 2} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em aeqb} & Is alpha-\/spin equal to beta-\/spin part \\
+\hline
+{\em maxmm} & Maximum moment (default\+: 2) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_aace4416619d59b73eb0abbd8db17d475}\label{classlibwfa_1_1exciton__analysis__base_aace4416619d59b73eb0abbd8db17d475}} 
+\index{libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}!analyse@{analyse}}
+\index{analyse@{analyse}!libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}}
+\doxysubsubsection{\texorpdfstring{analyse()}{analyse()}}
+{\footnotesize\ttfamily void libwfa\+::exciton\+\_\+analysis\+\_\+base\+::analyse (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{size\+\_\+t}]{offset = {\ttfamily 2} }\end{DoxyParamCaption}) const}
+
+
+
+Perform analysis. 
+
+Note\+: Only passing the spin-\/traced density will not yield the same result as \char`\"{}\+Total\char`\"{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+{\em offset} & Line offset \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_a304256a4ea9665d866d491d3f7d7dae0}\label{classlibwfa_1_1exciton__analysis__base_a304256a4ea9665d866d491d3f7d7dae0}} 
+\index{libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}!analysis@{analysis}}
+\index{analysis@{analysis}!libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}}
+\doxysubsubsection{\texorpdfstring{analysis()}{analysis()}}
+{\footnotesize\ttfamily virtual void libwfa\+::exciton\+\_\+analysis\+\_\+base\+::analysis (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&}]{mom,  }\item[{size\+\_\+t}]{offset }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+
+
+Analyse exciton moments and print results. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+{\em mom} & Exciton moments \\
+\hline
+{\em offset} & Line offset \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_a3f9dbe2e7381868ee38d2f92014cef1e}\label{classlibwfa_1_1exciton__analysis__base_a3f9dbe2e7381868ee38d2f92014cef1e}} 
+\index{libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}!combine@{combine}}
+\index{combine@{combine}!libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}}
+\doxysubsubsection{\texorpdfstring{combine()}{combine()}}
+{\footnotesize\ttfamily virtual void libwfa\+::exciton\+\_\+analysis\+\_\+base\+::combine (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&}]{a,  }\item[{const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&}]{b,  }\item[{\mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \&}]{res }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+
+
+Form total exciton moments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Alpha exciton moment \\
+\hline
+{\em b} & Beta exciton moment \\
+\hline
+{\em res} & Total exciton moment \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classlibwfa_1_1exciton__analysis__ad_ac1ab272e6df8dd82ade01e42ac8328b2}{libwfa\+::exciton\+\_\+analysis\+\_\+ad}}.
+
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_af27cf21aa32eb852f046818291dc4fee}\label{classlibwfa_1_1exciton__analysis__base_af27cf21aa32eb852f046818291dc4fee}} 
+\index{libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}!moment@{moment}}
+\index{moment@{moment}!libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}}
+\doxysubsubsection{\texorpdfstring{moment()}{moment()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \& libwfa\+::exciton\+\_\+analysis\+\_\+base\+::moment (\begin{DoxyParamCaption}\item[{bool}]{spin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computed exciton moment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spin} & If true\+: beta spin; else alpha spin \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_a51855b381c50b7bab96078b87b176093}\label{classlibwfa_1_1exciton__analysis__base_a51855b381c50b7bab96078b87b176093}} 
+\index{libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}!moment@{moment}}
+\index{moment@{moment}!libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}}
+\doxysubsubsection{\texorpdfstring{moment()}{moment()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classlibwfa_1_1exciton__moments}{exciton\+\_\+moments}} \& libwfa\+::exciton\+\_\+analysis\+\_\+base\+::moment (\begin{DoxyParamCaption}\item[{bool}]{spin }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computed exciton moment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em spin} & If true\+: beta spin; else alpha spin \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_a6b5871f73f0295c2a65c49ce95a10fec}\label{classlibwfa_1_1exciton__analysis__base_a6b5871f73f0295c2a65c49ce95a10fec}} 
+\index{libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}!print@{print}}
+\index{print@{print}!libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily static void libwfa\+::exciton\+\_\+analysis\+\_\+base\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{const arma\+::vec \&}]{vec,  }\item[{size\+\_\+t}]{width = {\ttfamily 10} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Print armadillo vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+{\em vec} & Vector to print \\
+\hline
+{\em width} & Width of each element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlibwfa_1_1exciton__analysis__base_abfbbbb3030231090402b53705a9fb05d}\label{classlibwfa_1_1exciton__analysis__base_abfbbbb3030231090402b53705a9fb05d}} 
+\index{libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}!print\_header@{print\_header}}
+\index{print\_header@{print\_header}!libwfa::exciton\_analysis\_base@{libwfa::exciton\_analysis\_base}}
+\doxysubsubsection{\texorpdfstring{print\_header()}{print\_header()}}
+{\footnotesize\ttfamily virtual void libwfa\+::exciton\+\_\+analysis\+\_\+base\+::print\+\_\+header (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{size\+\_\+t}]{offset }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+
+
+Write analysis header to output stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream \\
+\hline
+{\em offset} & Line offset \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+exciton\+\_\+analysis\+\_\+base.\+h\end{DoxyCompactItemize}
