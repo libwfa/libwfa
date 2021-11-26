@@ -9,7 +9,7 @@
 
     The methods which have been implemented are described in detail
     in Ref. [1] and examples are provided in Ref. [2].
-    Further developments are covered in Refs [4] and [5].
+    Further developments are covered in Refs [4-7].
     Briefly, the implemented methods consist of the following parts:
 
     1. Analysis of state density matrices for
@@ -24,7 +24,8 @@
        - natural transition orbitals (NTOs) with a possibility for state-averaging,
        - entanglement analysis based on NTOs [6],
        - \a electron-hole correlation analysis using the charge transfer
-           numbers (see also Ref. [3]).
+           numbers (see also Ref. [3]),
+       - de-excitation measure.
 
     3. Analysis of difference density matrices for
        - plotting of the attachment/detachment densities,
@@ -32,27 +33,28 @@
        - natural difference orbitals.
 
     4. Real-space analysis of properties within an exciton picture,
-       see Refs [4], [5].
+       - available for 1TDM and 1DDM see Refs [4], [5].
 
-    5. Electrostatic potentials of various effective densities.
+    5. Electrostatic potentials (ESP) of various effective densities [7].
 
     The required input from the quantum chemical program consists of the
     density matrices of interest, the AO-overlap matrix, the MO coefficients
     (used for orthogonalization), and information for population analysis.
     For the exciton analysis routines also the dipole and quadrupole integrals
-    are needed.
+    are needed. ESP computation needs access to the two-electron integral engine.
 
     \par Literature
-    -# Plasser, F.; Wormit, M.; Dreuw, A. \a JCP, \b 2014, \a 141, 024106
+    -# F. Plasser, M. Wormit, A. Dreuw \a JCP, \b 2014, \a 141, 024106
         (DOI: 10.1063/1.4885819).
-    -# Plasser, F.; Baeppler, S.A.; Wormit, M.; Dreuw, A. \a JCP, \b 2014,
+    -# F. Plasser, S.A. Baeppler, M. Wormit, A. Dreuw \a JCP, \b 2014,
         \a 141, 024107 (DOI: 10.1063/1.4885820).
-    -# Plasser, F.; Lischka, H. \a JCTC, \b 2012, \a 8, 2777.
+    -# F. Plasser, H. Lischka \a JCTC, \b 2012, \a 8, 2777 (DOI: 10.1021/ct300307c).
     -# S. Baeppler, F. Plasser, M. Wormit, A. Dreuw \a PRA, \b 2014, \a 90, 052521
         (DOI: 10.1103/PhysRevA.90.052521).
     -# F. Plasser, B. Thomitzni, S. Baeppler, J. Wenzel, D. Rehn, M. Wormit, A. Dreuw
         \a JCC, \b 2015, \a 36, 1609-1620 (DOI: 10.1002/jcc.23975).
     -# F. Plasser \a JCP, \b 2016, \a 144, 194107 (DOI: 10.1063/1.4949535).
+    -# P. Kimber, F. Plasser, \a PCCP \b 2020, \a 22, 6058–6080 (DOI: 10.1039/D0CP00369G).
 
     \author Felix Plasser
     \author Michael Wormit
@@ -62,11 +64,11 @@
     \author Anna I. Krylov
     \author Pavel Pokhilko
 
-    \date 2014-2019
+    \date 2014-2021
 
     \copyright (c) 2014, F. Plasser and M. Wormit
     \copyright All rights reserved.
-    \copyright Modifications copyright (C) 2019, Loughborough University.
+    \copyright Modifications copyright (c) 2019, Loughborough University.
     \copyright Redistribution and use in source and binary forms, with or
         without modification, are permitted provided that the following
         conditions are met:
