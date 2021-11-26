@@ -25,3 +25,5 @@ If you are using libwfa as part of OpenMolcas, you can use
 pymolcas verify 835
 ~~~~
 for verification of the OpenMolcas/WFA interface.
+
+See [libwfa.github.io/libwfa](http://libwfa.github.io/libwfa) for a documentation of the code.
