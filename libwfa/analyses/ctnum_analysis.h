@@ -79,6 +79,14 @@ public:
      **/
     virtual arma::mat compute_omFrag(const arma::mat &om_at) const;
 
+    /** \brief Compute general Frobenius scalar product
+        \param[in] D1 input matrix
+        \param[in] D2 input matrix
+
+        Output: tr(D1 * S * D2.T * S)
+    **/
+    virtual double compute_DSDS(const arma::mat &D1, const arma::mat &D2) const;
+
     /** \brief Number of fragments
      **/
     virtual size_t n_frags() const { return at_lists.size(); }

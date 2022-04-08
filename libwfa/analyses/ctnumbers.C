@@ -21,13 +21,15 @@ ctnumbers::ctnumbers(const ctnum_analysis_i &a, const ab_matrix &tdm) :
         m_tot[1] = accu(m_om.beta());
         m_Phe[1] = Phe;
     }
+
+    m_om_ab = a.compute_DSDS(tdm.alpha(), tdm.beta());
 }
 
 
 void ctnumbers::analyse(std::ostream &out) const {
 
     size_t w = 10, prec = 4;
-    out << "  omega = ";
+    out << "  omega        = ";
     out << std::setprecision(prec) << std::fixed;
     if (m_om.is_alpha_eq_beta()) {
         out << std::setw(w) << m_tot[0] + m_tot[1] << std::endl;
@@ -37,8 +39,10 @@ void ctnumbers::analyse(std::ostream &out) const {
         out << std::setw(w) << m_tot[0] << ", beta: ";
         out << std::setw(w) << m_tot[1] << ")" << std::endl;
     }
+    out << " 2<alpha|beta> = ";
+    out << std::setw(w) << 2*m_om_ab << std::endl;
 
-    out << "  <Phe> = ";
+    out << "  <Phe>        = ";
     out << std::setprecision(prec) << std::fixed;
     if (m_om.is_alpha_eq_beta()) {
         out << std::setw(w) << (m_Phe[0] + m_Phe[1]) / (m_tot[0] + m_tot[1]) << std::endl;

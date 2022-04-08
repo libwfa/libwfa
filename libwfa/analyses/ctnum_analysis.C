@@ -114,5 +114,8 @@ namespace libwfa {
         return om_frag;
     }
 
+    double ctnum_analysis::compute_DSDS(const arma::mat &D1, const arma::mat &D2) const {
+        return accu( (D1 * m_s * D2.t()) % m_s);
+    }
 
 } // namespace libwfa
