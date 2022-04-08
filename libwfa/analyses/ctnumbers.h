@@ -22,6 +22,7 @@ class ctnumbers {
 private:
     double m_tot[2]; //!< Total omega
     double m_om_ab;  //!< Frobenius scalar product of alpha and beta 1TDM
+    double m_LOC[2];    //!< Trace of om_ao
     double m_Phe[2]; //!< Electron-hole permutation
     ab_matrix m_om; //!< Omega matrix
 

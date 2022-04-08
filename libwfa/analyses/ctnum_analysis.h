@@ -72,19 +72,16 @@ public:
 
     /** \copydoc ctnum_analysis_i::perform
      **/
-    virtual void perform(const arma::mat& tdm, arma::mat &om, double &Phe) const;
+    virtual void perform(const arma::mat& tdm, arma::mat &om,
+        double &Phe, double &LOC) const;
 
     /** \brief Summation of the Omega matrix over fragments
         \param[in] om_at Omega matrix over atoms
      **/
     virtual arma::mat compute_omFrag(const arma::mat &om_at) const;
 
-    /** \brief Compute general Frobenius scalar product
-        \param[in] D1 input matrix
-        \param[in] D2 input matrix
-
-        Output: tr(D1 * S * D2.T * S)
-    **/
+    /** \copydoc ctnum_analysis_i::compute_DSDS
+     **/
     virtual double compute_DSDS(const arma::mat &D1, const arma::mat &D2) const;
 
     /** \brief Number of fragments
