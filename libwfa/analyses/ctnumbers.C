@@ -15,7 +15,7 @@ ctnumbers::ctnumbers(const ctnum_analysis_i &a, const ab_matrix &tdm) :
 
     if (m_om.is_alpha_eq_beta()) {
         m_Phe[1] = m_Phe[0];
-        m_LOC[1] = m_Phe[0];
+        m_LOC[1] = m_LOC[0];
     }
     else {
         a.perform(tdm.beta(), m_om.beta(), m_Phe[1], m_LOC[1]);
