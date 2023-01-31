@@ -20,7 +20,7 @@ double mom_builder::perform (const mat &dm, size_t c, size_t n) const{
 
     const mat &m = retrieve_op(c, n);
 
-    return trace(dm * m);
+    return accu(dm % m);
 }
 
 

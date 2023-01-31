@@ -12,9 +12,12 @@ exciton_analysis::exciton_analysis(const mom_builder_i &bld,
     exciton_analysis_base(tdm.is_alpha_eq_beta(),
             std::min(bld.max_moment(), maxmm)) {
 
-    calculate(bld, tdm.alpha(), moment(false));
-    if (!tdm.is_alpha_eq_beta()) {
-        calculate(bld, tdm.beta(), moment(true));
+    if (tdm.is_alpha_eq_beta()) {
+        calculate(bld, tdm.sp_trace(), moment(false));
+    }
+    else {
+        calculate(bld, tdm.alpha(), moment(false));
+        calculate(bld, tdm.beta() , moment(true));
     }
 }
 
@@ -37,7 +40,7 @@ void exciton_analysis::calculate(const mom_builder_i &bld,
     for (size_t i = 1; i <= mom.n_max(); i++) {
       vec mj(3, fill::zeros);
       for (size_t k = 0; k < 3; k++)
-          mj(k)  = -bld.perform(tdm, k, i);
+          mj(k)  = bld.perform(tdm, k, i);
       mom.set(i, mj);
 
       for (size_t j = 0; j <= i; j++) {
@@ -60,13 +63,23 @@ void exciton_analysis::analysis(std::ostream &out,
     }
     out << std::setprecision(6) << std::fixed;
     { // Scope of linear quantities
-        vec tdipv = mom.get(1) * constants::au2D;
+        vec tdipv = -mom.get(1) * constants::au2D;
         double tdip = norm(tdipv);
         out << os << "Trans. dipole moment [D]:" << std::string(11, ' ')
                 << std::setw(10) << tdip << std::endl;
         out << os << "  Cartesian components [D]:" << std::string(9, ' ');
         print(out, tdipv);
         out << std::endl;
+
+        vec tquadv = mom.get(2);
+        double tquad = norm(tquadv);
+        out << os << "Transition <r^2> [a.u.]:" << std::string(11, ' ')
+                << std::setw(10) << tquad << std::endl;
+        out << os << "  Cartesian components [a.u.]:" << std::string(9, ' ');
+        print(out, tquadv);
+        out << std::endl;
+
+
         vec rh = mom.get(0, 1) * constants::au2ang;
         vec re = mom.get(1, 0) * constants::au2ang;
         double tot = norm(rh - re);
