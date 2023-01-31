@@ -73,9 +73,9 @@ void exciton_analysis::analysis(std::ostream &out,
 
         vec tquadv = mom.get(2);
         double tquad = norm(tquadv);
-        out << os << "Transition <r^2> [a.u.]:" << std::string(11, ' ')
+        out << os << "Transition <r^2> [a.u.]:" << std::string(12, ' ')
                 << std::setw(10) << tquad << std::endl;
-        out << os << "  Cartesian components [a.u.]:" << std::string(9, ' ');
+        out << os << "  Cartesian components [a.u.]:" << std::string(6, ' ');
         print(out, tquadv);
         out << std::endl;
 
