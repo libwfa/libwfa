@@ -114,8 +114,8 @@ void ndo_analysis::analysis(std::ostream &out, const vec &ev, size_t nndo) {
     // Compute # attached and detached electrons first
     double na = 0.0, na2 = 0.0, nd = 0.0, nd2 = 0.0;
 
-    size_t i = 0, nndo0 = 0;
-    for (; i < ev.n_elem && ev(i) < 0; i++, nndo0++) {
+    size_t i = 0; //, nndo0 = 0;
+    for (; i < ev.n_elem && ev(i) <= 0; i++) {
         double cur = ev(i);
         nd += cur; nd2 += cur * cur;
     }
@@ -124,8 +124,8 @@ void ndo_analysis::analysis(std::ostream &out, const vec &ev, size_t nndo) {
         double cur = ev(i);
         na += cur; na2 += cur * cur;
     }
-    nndo0 = std::min(nndo0, (size_t) (ev.n_elem - nndo0));
-    nndo = std::min(nndo, nndo0);
+//    nndo0 = std::min(nndo0, (size_t) (ev.n_elem - nndo0));
+//    nndo = std::min(nndo, nndo0);
 
     std::string offset(2, ' ');
     out << "  Leading detachment eigenvalues:" << std::endl;
