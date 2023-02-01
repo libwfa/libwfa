@@ -14,6 +14,9 @@ public:
     virtual void perform() throw(libtest::test_exception);
 
 private:
+    /** \brief restricted case
+     *
+     */
     void test_1();
 
     /** \brief unrestricted case

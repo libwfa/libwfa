@@ -7,3 +7,4 @@ build*
 *.cube
 tests/*_test
 tests/*_test_?
+tests/*out

@@ -18,7 +18,7 @@ private:
     static const double k_yy[16];
     static const double k_zz[16];
     static const double k_tdm[16];
-    static const double k_ref[15];
+    static const double k_ref[21];
 
 public:
     static arma::mat overlap() { return arma::mat(k_s,4,4); }
@@ -34,6 +34,8 @@ public:
     static arma::vec rhre() { return arma::vec(k_ref + 6, 3); }
     static arma::vec rh2() { return arma::vec(k_ref + 9, 3); }
     static arma::vec re2() { return arma::vec(k_ref + 12, 3); }
+    static arma::vec tdip() { return arma::vec(k_ref + 15, 3); }
+    static arma::vec tquad() { return arma::vec(k_ref + 18, 3); }
 };
 
 
