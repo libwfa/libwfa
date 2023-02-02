@@ -383,7 +383,7 @@ void molcas_wf_analysis_data::initialize() {
     // Molcas module
     {
         Attribute Att = Grp_main.openAttribute("MOLCAS_MODULE");
-        StrType strtype(PredType::C_S1, 16);
+        StrType strtype = Att.getStrType();
         Att.read(strtype, m_moldata->molcas_module);
     }
 
