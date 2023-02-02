@@ -26,7 +26,7 @@ public:
     molcas_mom_builder(size_t nao, unsigned int maxmm) :
         m_nao(nao), m_maxmm(maxmm), m_op(maxmm * 3 + 1, 0) { }
 
-    virtual ~molcas_mom_builder() {}
+    virtual ~molcas_mom_builder();
 
     /** \brief Return a handle to set the desired operator matrix
         \param c Coordinate direction

@@ -56,6 +56,8 @@ public:
                            const h_so& h_so1e, const h_so& h_somf,
                            const arma::mat &tdm);
 
+    virtual ~nto_analysis();
+
     /** \brief Is alpha == beta
      **/
     bool is_alpha_eq_beta() const { return m_nto[2] == 0; }

@@ -5,6 +5,12 @@ namespace libwfa {
 
 using namespace arma;
 
+molcas_mom_builder::~molcas_mom_builder() {
+    for (std::vector<mat *>::iterator i = m_op.begin(); i != m_op.end(); i++) {
+        delete *i; *i = 0;
+    }
+}
+
 double molcas_mom_builder::perform(const mat &dm,
     size_t c1, size_t n1, size_t c2, size_t n2) const{
 

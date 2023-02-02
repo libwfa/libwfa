@@ -124,6 +124,12 @@ nto_analysis::nto_analysis(const mat &s, const ab_matrix &c, const ab_matrix &fo
   }
 }
 
+  nto_analysis::~nto_analysis() {
+      for (size_t i=0; i < 4; i++) {
+          delete m_nto[i];
+      }
+  }
+
   void nto_analysis::analyse(std::ostream &out, size_t nnto) const {
 
     if (nnto == 0)  return;
