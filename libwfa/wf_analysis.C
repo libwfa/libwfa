@@ -234,6 +234,16 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 
         out << pname << " (Transition DM)" << std::endl;
         pdata.print(out, l);
+        { // Compute some statistics for transition charges
+            const vec &qtrans = pdata.data(pdata.begin());
+            double qta = accu(abs(qtrans));
+            double qt2 = accu(qtrans % qtrans);
+            out << std::endl;
+            out << "  Sum of absolute trans. charges, QTa = " << qta;
+            out << std::endl;
+            out << "  Sum of squared  trans. charges, QT2 = " << qt2;
+            out << std::endl;
+        }
         out << std::endl;
     }
 
