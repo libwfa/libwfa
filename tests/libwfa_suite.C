@@ -26,6 +26,7 @@ libwfa_suite::libwfa_suite() : libtest::test_suite("libwfa") {
     //add_test("orbital_type", m_utf_orbital_type);
     add_test("pop_analysis_ad", m_utf_pop_analysis_ad);
     add_test("pop_analysis_dm", m_utf_pop_analysis_dm);
+    add_test("pop_analysis_tdm", m_utf_pop_analysis_tdm);
     add_test("pop_data", m_utf_pop_data);
     add_test("pop_loewdin", m_utf_pop_loewdin);
     add_test("pop_mulliken", m_utf_pop_mulliken);

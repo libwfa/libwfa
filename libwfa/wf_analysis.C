@@ -22,6 +22,7 @@
 #include <libwfa/analyses/nto_analysis.h>
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
+#include <libwfa/analyses/pop_analysis_tdm.h>
 #include <libwfa/analyses/dyson_analysis.h>
 #include "wf_analysis.h"
 #include <libwfa/soc.h>
@@ -214,6 +215,23 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
         out << std::endl;
     }
 
+    // Perform population analyses
+    for (size_t i = 0; i < m_h->n_pop_analyses(); i++) {
+        out << "fptmp: Running TDM pop analysis" << std::endl;
+
+        pop_data pdata;
+        const pop_analysis_i &pa = m_h->pop_analysis(i);
+        const std::string &pname = m_h->pop_name(i);
+        const std::vector<std::string> &l = m_h->pop_labels(i);
+
+        pop_analysis_tdm(pa, tdm).perform(pdata);
+        //if (m_h->is_active(wf_analysis_data_i::FORM_AD))
+        //    pop_analysis_ad(pa, at, de).perform(pdata);
+
+        out << pname << std::endl;
+        pdata.print(out, l);
+        out << std::endl;
+    }
 
     if (m_h->n_ctnum_analyses() != 0) {
 
