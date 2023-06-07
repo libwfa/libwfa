@@ -88,7 +88,7 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
         if (m_h->is_active(wf_analysis_data_i::FORM_AD))
             pop_analysis_ad(pa, at, de).perform(pdata);
 
-        out << pname << std::endl;
+        out << pname << " (State/Difference DM)"  << std::endl;
         pdata.print(out, l);
         out << std::endl;
     }
@@ -156,7 +156,7 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
         const std::vector<std::string> &l = h.pop_labels(i);
 
         pop_analysis_dm(pa, p0, sdm).perform(pdata);
-        out << pname << std::endl;
+        out << pname << " (State DM)" << std::endl;
         pdata.print(out, l);
         out << std::endl;
     }
@@ -185,9 +185,9 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     bool use_fock=m_h->is_active(wf_analysis_data_i::NTO_ENE);
 
     // If NTO formatter exists, do NTO analysis
+    ab_matrix edm, hdm;
     if (m_h->is_active(wf_analysis_data_i::FORM_EH)) {
 
-        ab_matrix edm, hdm;
         nto_analysis::form_eh(s, tdm, edm, hdm);
 
         if (m_h->is_active(wf_analysis_data_i::NTO)) {
@@ -217,7 +217,6 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
 
     // Perform population analyses
     for (size_t i = 0; i < m_h->n_pop_analyses(); i++) {
-        out << "fptmp: Running TDM pop analysis" << std::endl;
 
         pop_data pdata;
         const pop_analysis_i &pa = m_h->pop_analysis(i);
@@ -225,10 +224,15 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
         const std::vector<std::string> &l = m_h->pop_labels(i);
 
         pop_analysis_tdm(pa, tdm).perform(pdata);
-        //if (m_h->is_active(wf_analysis_data_i::FORM_AD))
-        //    pop_analysis_ad(pa, at, de).perform(pdata);
+        if (m_h->is_active(wf_analysis_data_i::FORM_EH)) {
+            // We can use pop_analysis_ad here, since the output is the same
+            // No reason to have a pop_analysis_eh class
+            ab_matrix mhdm(hdm);
+            mhdm *= -1.0;
+            pop_analysis_ad(pa, edm, mhdm).perform(pdata);
+        }
 
-        out << pname << std::endl;
+        out << pname << " (Transition DM)" << std::endl;
         pdata.print(out, l);
         out << std::endl;
     }
