@@ -22,6 +22,7 @@
 #include <libwfa/analyses/nto_analysis.h>
 #include <libwfa/analyses/pop_analysis_ad.h>
 #include <libwfa/analyses/pop_analysis_dm.h>
+#include <libwfa/analyses/pop_analysis_tdm.h>
 #include <libwfa/analyses/dyson_analysis.h>
 #include "wf_analysis.h"
 #include <libwfa/soc.h>
@@ -87,7 +88,7 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
         if (m_h->is_active(wf_analysis_data_i::FORM_AD))
             pop_analysis_ad(pa, at, de).perform(pdata);
 
-        out << pname << std::endl;
+        out << pname << " (State/Difference DM)"  << std::endl;
         pdata.print(out, l);
         out << std::endl;
     }
@@ -155,7 +156,7 @@ void wf_analysis::analyse_opdm(std::ostream &out, const std::string &name,
         const std::vector<std::string> &l = h.pop_labels(i);
 
         pop_analysis_dm(pa, p0, sdm).perform(pdata);
-        out << pname << std::endl;
+        out << pname << " (State DM)" << std::endl;
         pdata.print(out, l);
         out << std::endl;
     }
@@ -184,9 +185,9 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
     bool use_fock=m_h->is_active(wf_analysis_data_i::NTO_ENE);
 
     // If NTO formatter exists, do NTO analysis
+    ab_matrix edm, hdm;
     if (m_h->is_active(wf_analysis_data_i::FORM_EH)) {
 
-        ab_matrix edm, hdm;
         nto_analysis::form_eh(s, tdm, edm, hdm);
 
         if (m_h->is_active(wf_analysis_data_i::NTO)) {
@@ -214,6 +215,37 @@ void wf_analysis::analyse_optdm(std::ostream &out, const std::string &name,
         out << std::endl;
     }
 
+    // Perform population analyses
+    for (size_t i = 0; i < m_h->n_pop_analyses(); i++) {
+
+        pop_data pdata;
+        const pop_analysis_i &pa = m_h->pop_analysis(i);
+        const std::string &pname = m_h->pop_name(i);
+        const std::vector<std::string> &l = m_h->pop_labels(i);
+
+        pop_analysis_tdm(pa, tdm).perform(pdata);
+        if (m_h->is_active(wf_analysis_data_i::FORM_EH)) {
+            // We can use pop_analysis_ad here, since the output is the same
+            // No reason to have a pop_analysis_eh class
+            ab_matrix mhdm(hdm);
+            mhdm *= -1.0;
+            pop_analysis_ad(pa, edm, mhdm).perform(pdata);
+        }
+
+        out << pname << " (Transition DM)" << std::endl;
+        pdata.print(out, l);
+        { // Compute some statistics for transition charges
+            const vec &qtrans = pdata.data(pdata.begin());
+            double qta = accu(abs(qtrans));
+            double qt2 = accu(qtrans % qtrans);
+            out << std::endl;
+            out << "  Sum of absolute trans. charges, QTa = " << qta;
+            out << std::endl;
+            out << "  Sum of squared  trans. charges, QT2 = " << qt2;
+            out << std::endl;
+        }
+        out << std::endl;
+    }
 
     if (m_h->n_ctnum_analyses() != 0) {
 
