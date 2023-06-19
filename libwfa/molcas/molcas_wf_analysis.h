@@ -48,7 +48,7 @@ private:
         by the molcas verify code. Note that the molcas_info file is
         subsequently deleted by pymolcas.
      **/
-    void add_molcas_info(std::stringstream &in);
+    void add_molcas_info(std::stringstream &in, std::string LAB);
 
     /** \brief Append info from frag_data_all to molcas_info file
      **/

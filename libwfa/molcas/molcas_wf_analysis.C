@@ -235,7 +235,7 @@ void molcas_wf_analysis::analyse_opdm_ai(const std::string &name, const std::str
     analyse_opdm(out, name, desc, ddm, dm0);
     std::cout << out.str();
 
-    if (m_mdata->input()->add_info) add_molcas_info(out);
+    if (m_mdata->input()->add_info) add_molcas_info(out, "WFA1DDM");
 }
 
 void molcas_wf_analysis::analyse_opdm_ai(const std::string &name, const std::string &desc,
@@ -245,7 +245,7 @@ void molcas_wf_analysis::analyse_opdm_ai(const std::string &name, const std::str
     analyse_opdm(out, name, desc, sdm);
     std::cout << out.str();
 
-    if (m_mdata->input()->add_info) add_molcas_info(out);
+    if (m_mdata->input()->add_info) add_molcas_info(out, "WFA1DM");
 }
 
 void molcas_wf_analysis::analyse_optdm_ai(const std::string &name, const std::string &desc,
@@ -256,10 +256,10 @@ void molcas_wf_analysis::analyse_optdm_ai(const std::string &name, const std::st
     post_process_optdm(out, tdm);
     std::cout << out.str();
 
-    if (m_mdata->input()->add_info) add_molcas_info(out);
+    if (m_mdata->input()->add_info) add_molcas_info(out, "WFA1TDM");
 }
 
-void molcas_wf_analysis::add_molcas_info(std::stringstream &in) {
+void molcas_wf_analysis::add_molcas_info(std::stringstream &in, std::string LAB) {
     size_t prec = 6;
 
     std::ofstream finfo;
@@ -273,14 +273,14 @@ void molcas_wf_analysis::add_molcas_info(std::stringstream &in) {
         if (std::stringstream(str) >> x)
             if (x*x > 2.e-12)
             {
-                finfo <<    "LIBWFA[" << m_info << "]=\"" << std::setprecision(prec)
+                finfo <<          LAB << "[" << m_info << "]=\"" << std::setprecision(prec)
                     << std::fixed << x << "\"" << std::endl;
-                finfo << "#> LIBWFA[" << m_info << "]=\"" << std::setprecision(prec)
+                finfo << "#> " << LAB << "[" << m_info << "]=\"" << std::setprecision(prec)
                     << std::fixed << x << "\"/" << prec << std::endl;
                 m_info += 1;
             }
     }
-    finfo << "export LIBWFA" << std::endl;
+    finfo << "export " << LAB << std::endl;
 }
 
 void molcas_wf_analysis::add_molcas_info_fda() {
