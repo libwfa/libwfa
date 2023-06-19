@@ -122,8 +122,8 @@ void ctnum_analysis_test::test_1() throw(libtest::test_exception) {
 
     {
         mat om_at;
-        double Phe, LOC;
-        ctnum_analysis(s, b2c, "mulliken").perform(tdm, om_at, Phe, LOC);
+        double Phe, LOC, LOCa;
+        ctnum_analysis(s, b2c, "mulliken").perform(tdm, om_at, Phe, LOC, LOCa);
 
         if (om_at.n_rows != na || om_at.n_cols != na) {
             fail_test(testname, __FILE__, __LINE__, "Size of CT number data (Mulliken)");
@@ -148,8 +148,8 @@ void ctnum_analysis_test::test_1() throw(libtest::test_exception) {
     }
     {
         mat om_at;
-        double Phe, LOC;
-        ctnum_analysis(s, b2c, "lowdin").perform(tdm, om_at, Phe, LOC);
+        double Phe, LOC, LOCa;
+        ctnum_analysis(s, b2c, "lowdin").perform(tdm, om_at, Phe, LOC, LOCa);
 
         if (om_at.n_rows != na || om_at.n_cols != na) {
             fail_test(testname, __FILE__, __LINE__, "Size of CT number data (Lowdin)");

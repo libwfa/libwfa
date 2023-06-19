@@ -73,7 +73,7 @@ public:
     /** \copydoc ctnum_analysis_i::perform
      **/
     virtual void perform(const arma::mat& tdm, arma::mat &om,
-        double &Phe, double &LOC) const;
+        double &Phe, double &LOC, double &LOCa) const;
 
     /** \brief Summation of the Omega matrix over fragments
         \param[in] om_at Omega matrix over atoms

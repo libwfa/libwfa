@@ -10,15 +10,16 @@ using namespace arma;
 ctnumbers::ctnumbers(const ctnum_analysis_i &a, const ab_matrix &tdm) :
     m_om(tdm.is_alpha_eq_beta()) {
 
-    a.perform(tdm.alpha(), m_om.alpha(), m_Phe[0], m_LOC[0]);
+    a.perform(tdm.alpha(), m_om.alpha(), m_Phe[0], m_LOC[0], m_LOCa[0]);
     m_tot[0] = m_tot[1] = accu(m_om.alpha());
 
     if (m_om.is_alpha_eq_beta()) {
         m_Phe[1] = m_Phe[0];
         m_LOC[1] = m_LOC[0];
+        m_LOCa[1] = m_LOCa[0];
     }
     else {
-        a.perform(tdm.beta(), m_om.beta(), m_Phe[1], m_LOC[1]);
+        a.perform(tdm.beta(), m_om.beta(), m_Phe[1], m_LOC[1], m_LOCa[1]);
         m_tot[1] = accu(m_om.beta());
     }
 
@@ -52,6 +53,17 @@ void ctnumbers::analyse(std::ostream &out) const {
         out << " (alpha: ";
         out << std::setw(w) << m_LOC[0] << ", beta: ";
         out << std::setw(w) << m_LOC[1] << ")" << std::endl;
+    }
+
+    out << "  LOCa         = ";
+    out << std::setw(w) << m_LOCa[0] + m_LOCa[1];
+    if (m_om.is_alpha_eq_beta()) {
+        out << std::endl;
+    }
+    else {
+        out << " (alpha: ";
+        out << std::setw(w) << m_LOCa[0] << ", beta: ";
+        out << std::setw(w) << m_LOCa[1] << ")" << std::endl;
     }
 
     out << "  <Phe>        = ";

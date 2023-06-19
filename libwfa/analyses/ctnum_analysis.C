@@ -54,11 +54,12 @@ namespace libwfa {
     }
 
     void ctnum_analysis::perform(const mat &tdm, mat &om,
-        double &Phe, double &LOC) const {
+        double &Phe, double &LOC, double &LOCa) const {
 
         mat om_ao;
         form_om(m_s, m_s_sqrt, tdm, ctnum_method, om_ao);
-        LOC = trace(om_ao);
+        LOC  = trace(om_ao);
+        LOCa = accu( sqrt(abs(om_ao.diag())) );
 
         om.resize(m_nparts, m_nparts);
         om.fill(0.0);
