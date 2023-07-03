@@ -66,6 +66,7 @@ private:
         arma::uvec nbas; //!< Number of basis functions per irrep
         std::vector<std::string> irrep_labels; //!< Irrep labels
         arma::mat desym; //!< Desymmetrization matrix
+        arma::mat symmult; //!< Product table of the irreps
         molcas_mom_builder mom; //!< Moments builder
         std::string mo_types_a; //!< Alpha types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
         std::string mo_types_b; //!< Beta types: F(rozen), I(nactive), (RAS)1,2,3, S(econdary)
@@ -314,10 +315,20 @@ public:
 
     /** \brief Build the density matrix from AOs
         \param buf Density matrix data (AO basis)
+        \param sbuf Spin-density matrix data (AO basis)
         \return Full density matrix in the AO basis
      **/
     ab_matrix build_dm_ao(const double *buf, const double *sbuf, const size_t dim);
 
+    /** \brief Build the density matrix from AOs (also non-totally symmetric)
+        \param buf Density matrix data (AO basis)
+        \param sbuf Spin-density matrix data (AO basis)
+        \param isym Symmetry of state i (i = 1, 2, ...)
+        \param isym Symmetry of state j (j = 1, 2, ...)
+        \return Full density matrix in the AO basis
+     **/
+    ab_matrix build_dm_ao(const double *buf, const double *sbuf, const size_t dim,
+        const int isym, const int jsym);
 
     /** \brief Read a vector from the HDF5 file
         \param key name of the data
@@ -347,7 +358,7 @@ public:
 
     /** \brief Return a vector of labels for RASSI states
     **/
-    std::vector<std::string> rassi_labels(int *mult, int nstate);
+    std::vector<std::string> rassi_labels(int *mult, int *irrep, int nstate);
 
     std::string molcas_module() {
         return m_moldata->molcas_module;
@@ -362,7 +373,7 @@ private:
     void initialize();
     void cleanup();
     void setup_h5core();
-    void read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, const size_t nsym);
+    void read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, const size_t nsym, const size_t psym);
     void read_mltpl_mat(const H5std_string &setname, const size_t c, const size_t n);
     std::string get_mo_types(const H5std_string &setname);
     arma::mat get_mo_vectors(const H5std_string &setname);

@@ -190,16 +190,27 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbu
 }
 
 ab_matrix molcas_wf_analysis_data::build_dm_ao(const double *buf, const double *sbuf, const size_t dim) {
+    // This is the default, a totally symmetric density matrix.
+    int isym = 1;
+    int jsym = 1;
+    return build_dm_ao(buf, sbuf, dim, 1, 1);
+}
+
+ab_matrix molcas_wf_analysis_data::build_dm_ao(const double *buf, const double *sbuf, const size_t dim,
+    const int isym, const int jsym) {
+
     int nao = m_moldata->c_fb.nrows_a();
     size_t nsym = m_moldata->nbas.size();
 
+    int psym = m_moldata->symmult(isym-1, jsym-1);
+
     arma::mat den, sden;
-    read_ao_mat(buf, dim, den, nsym);
+    read_ao_mat(buf, dim, den, nsym, psym);
 
     if (sbuf == NULL)
         sden = arma::zeros(nao, nao);
     else
-        read_ao_mat(sbuf, dim, sden, nsym);
+        read_ao_mat(sbuf, dim, sden, nsym, psym);
 
     bool aeqb = true;
     {
@@ -288,7 +299,7 @@ std::string molcas_wf_analysis_data::rasscf_label() {
     return ostream.str();
 }
 
-std::vector<std::string> molcas_wf_analysis_data::rassi_labels(int *mult, int nstate) {
+std::vector<std::string> molcas_wf_analysis_data::rassi_labels(int *mult, int *irrep, int nstate) {
     std::vector<std::string> state_labels;
 
     int offset;
@@ -296,8 +307,15 @@ std::vector<std::string> molcas_wf_analysis_data::rassi_labels(int *mult, int ns
     int  ind [] = { 0 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 };
 
     Group Grp_main = m_file.openGroup("/");
-    Attribute Att = Grp_main.openAttribute("STATE_SPINMULT");
-    Att.read(PredType::NATIVE_INT, mult);
+
+    {
+        Attribute Att = Grp_main.openAttribute("STATE_SPINMULT");
+        Att.read(PredType::NATIVE_INT, mult);
+    }
+    {
+        Attribute Att = Grp_main.openAttribute("STATE_IRREPS");
+        Att.read(PredType::NATIVE_INT, irrep);
+    }
 
     for (int istate = 0; istate < nstate; istate++) {
         offset = mult[istate] - 1;
@@ -473,6 +491,20 @@ void molcas_wf_analysis_data::initialize() {
         m_moldata->desym = arma::mat(buf, nbas_t, nbas_t);
     }
 
+    // Product table of the irreps. This is hardcoded following the pegamoid code.
+    {
+        m_moldata->symmult = {
+          {0, 1, 2, 3, 4, 5, 6, 7},
+          {1, 0, 3, 2, 5, 4, 7, 6},
+          {2, 3, 0, 1, 6, 7, 4, 5},
+          {3, 2, 1, 0, 7, 6, 5, 4},
+          {4, 5, 6, 7, 0, 1, 2, 3},
+          {5, 4, 7, 6, 1, 0, 3, 2},
+          {6, 7, 4, 5, 2, 3, 0, 1},
+          {7, 6, 5, 4, 3, 2, 1, 0},
+      };
+    }
+
     // Mapping of basis functions to atoms
     {
         H5std_string h5label = (nsym==1) ? "BASIS_FUNCTION_IDS" : "DESYM_BASIS_FUNCTION_IDS";
@@ -508,7 +540,7 @@ void molcas_wf_analysis_data::initialize() {
         double buf[dim];
         Set.read(&buf, PredType::NATIVE_DOUBLE);
 
-        read_ao_mat(buf, dim, m_moldata->s, nsym);
+        read_ao_mat(buf, dim, m_moldata->s, nsym, 0);
         if (nsym > 1)
             m_moldata->s = m_moldata->desym * m_moldata->s * m_moldata->desym.t();
     }
@@ -764,7 +796,7 @@ arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5std_string &setname) {
 
     arma::mat retmat;
     size_t nsym = m_moldata->nbas.size();
-    read_ao_mat(buf, dim, retmat, nsym);
+    read_ao_mat(buf, dim, retmat, nsym, 0);
     if (m_moldata->nbas.size() > 1)
         retmat = m_moldata->desym * retmat;
 
@@ -794,7 +826,7 @@ void molcas_wf_analysis_data::setup_h5core() {
     m_h5core = std::unique_ptr<molcas_export_h5orbs>(new molcas_export_h5orbs(m_file, m_moldata->nbas, m_moldata->desym));
 }
 
-void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, size_t nsym) {
+void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, const size_t nsym, const size_t psym) {
     size_t nbas_t = nbas_t = arma::accu(m_moldata->nbas);
     //size_t nsym = m_moldata->nbas.size();
 
@@ -812,20 +844,35 @@ void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, a
         if (dim_chk != dim)
             throw libwfa_exception(k_clazz, "read_ao_mat", __FILE__, __LINE__, "Inconsistent AO-matrix (symmetry)");
 
-        // Fill the blocks
-        ao_mat = arma::zeros(nbas_t, nbas_t);
-        size_t i=0;
+        size_t i=0, j=0, jsym;
         const double *buf_ptr = buf;
+        ao_mat = arma::zeros(nbas_t, nbas_t);
         for (size_t isym=0; isym<nsym; isym++) {
-            int kbas = m_moldata->nbas(isym);
-            if (kbas==0) continue;
 
-            ao_mat.submat(i, i, i+kbas-1, i+kbas-1) = arma::mat(buf_ptr, kbas, kbas);
+            jsym = m_moldata->symmult(isym, psym);
 
-            i+=kbas;
-            buf_ptr += kbas*kbas;
-        }
+            int ibas = m_moldata->nbas(isym);
+            int jbas = m_moldata->nbas(jsym);
+            if (ibas*jbas==0) {
+                i+=ibas;
+                continue;
+            }
+
+            j = 0;
+            for (size_t jjsym=0; jjsym<jsym; jjsym++) {
+                j += m_moldata->nbas(jjsym);
+            }
+
+            ao_mat.submat(i, j, i+ibas-1, j+jbas-1) = arma::mat(buf_ptr, ibas, jbas);
+
+            i+=ibas;
+            buf_ptr += ibas*jbas;
+
     }
+    if (m_input->debug) {
+        ao_mat.print("Output from read_ao_mat");
+    }
+}
 }
 
 void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const size_t c, const size_t n) {
@@ -841,7 +888,7 @@ void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const 
     double buf[dimt];
     Set.read(&buf, PredType::NATIVE_DOUBLE);
 
-    read_ao_mat(buf, dimt, m_moldata->mom.set(c, n), 1);
+    read_ao_mat(buf, dimt, m_moldata->mom.set(c, n), 1, 0);
     if (m_input->debug) {
         std::cout << "*** " << c << ", " << n << std::endl;
         m_moldata->mom.get(c,n).print("symm");

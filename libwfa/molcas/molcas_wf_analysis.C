@@ -131,9 +131,10 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
     arma::vec ener = m_mdata->read_vec_h5("SFS_ENERGIES");
     ener -= ener(refstate);
 
-    // Read multiplicities and assign labels to the states
-    int mult [tden.n_slices];
-    std::vector<std::string> state_labels = m_mdata->rassi_labels(mult, tden.n_slices);
+    // Read multiplicities and irreps; assign labels to the states
+    int mult  [tden.n_slices];
+    int irrep [tden.n_slices];
+    std::vector<std::string> state_labels = m_mdata->rassi_labels(mult, irrep, tden.n_slices);
 
     // Read the transition moments
     arma::cube edip = m_mdata->read_cube_h5("SFS_EDIPMOM");
@@ -191,7 +192,7 @@ void molcas_wf_analysis::rassi_analysis(size_t refstate) {
 
                 const double *itden_buf  = tden_buf + (kstate + jstate * tden.n_cols)*tden.n_rows;
                 const double *itsden_buf = tsden_buf + (kstate + jstate * tden.n_cols)*tden.n_rows;
-                ab_matrix tdm = m_mdata->build_dm_ao(itden_buf, itsden_buf, tden.n_rows);
+                ab_matrix tdm = m_mdata->build_dm_ao(itden_buf, itsden_buf, tden.n_rows, irrep[refstate], irrep[istate]);
                 if (istate > (int)refstate) // Transpose if the indices are switched
                     tdm.inplace_trans();
 
