@@ -133,7 +133,7 @@ std::unique_ptr<ctnum_printer_i> molcas_wf_analysis_data::ctnum_printer(size_t i
 }
 
 ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbuf, const bool aeqb_dens) {
-    int nao = m_moldata->c_fb.nrows_a();
+    //int nao = m_moldata->c_fb.nrows_a();
     int nmo = m_moldata->c_fb.ncols_a();
 
     bool aeqb = m_moldata->c_fb.is_alpha_eq_beta() && aeqb_dens;
@@ -191,8 +191,6 @@ ab_matrix molcas_wf_analysis_data::build_dm(const double *buf, const double *sbu
 
 ab_matrix molcas_wf_analysis_data::build_dm_ao(const double *buf, const double *sbuf, const size_t dim) {
     // This is the default, a totally symmetric density matrix.
-    int isym = 1;
-    int jsym = 1;
     return build_dm_ao(buf, sbuf, dim, 1, 1);
 }
 
@@ -482,8 +480,8 @@ void molcas_wf_analysis_data::initialize() {
 
         hsize_t dim;
         Space.getSimpleExtentDims(&dim, NULL);
-        double buf[dim];
-        Set.read(&buf, PredType::NATIVE_DOUBLE);
+        double* buf = new double[dim];
+        Set.read(buf, PredType::NATIVE_DOUBLE);
 
         if (nbas_t * nbas_t != dim)
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent desym matrix");
@@ -537,8 +535,8 @@ void molcas_wf_analysis_data::initialize() {
 
         hsize_t dim;
         Space.getSimpleExtentDims(&dim, NULL);
-        double buf[dim];
-        Set.read(&buf, PredType::NATIVE_DOUBLE);
+        double* buf = new double[dim];
+        Set.read(buf, PredType::NATIVE_DOUBLE);
 
         read_ao_mat(buf, dim, m_moldata->s, nsym, 0);
         if (nsym > 1)
@@ -686,7 +684,7 @@ void molcas_wf_analysis_data::read_input(char *inp) {
                 nread = atoi(str.c_str());
                 m_input->at_lists = std::vector<std::vector<int>>(nread);
 
-                for (size_t i = 0; i < nread; i++) {
+                for (int i = 0; i < nread; i++) {
                     while(infile >> str) {
                         if (str=="*") {
                             fread = true;
@@ -700,7 +698,7 @@ void molcas_wf_analysis_data::read_input(char *inp) {
                      m_input->ctnum = true;
                 }
                 std::cout << "ATLISTS parsed:" << std::endl;
-                for (size_t i = 0; i < nread; i++) {
+                for (int i = 0; i < nread; i++) {
                     std::cout << "[ ";
                     for (size_t j = 0; j < m_input->at_lists[i].size(); j++) {
                         std::cout << m_input->at_lists[i][j] << " ";
@@ -791,8 +789,8 @@ arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5std_string &setname) {
 
     hsize_t dim;
     Space.getSimpleExtentDims(&dim, NULL);
-    double buf[dim];
-    Set.read(&buf, PredType::NATIVE_DOUBLE);
+    double* buf = new double[dim];
+    Set.read(buf, PredType::NATIVE_DOUBLE);
 
     arma::mat retmat;
     size_t nsym = m_moldata->nbas.size();
@@ -827,14 +825,14 @@ void molcas_wf_analysis_data::setup_h5core() {
 }
 
 void molcas_wf_analysis_data::read_ao_mat(const double *buf, const size_t dim, arma::mat &ao_mat, const size_t nsym, const size_t psym) {
-    size_t nbas_t = nbas_t = arma::accu(m_moldata->nbas);
+    size_t nbas_t = arma::accu(m_moldata->nbas);
     //size_t nsym = m_moldata->nbas.size();
 
     if (nsym == 1) { // no symmetry
         if (nbas_t * nbas_t != dim)
             throw libwfa_exception(k_clazz, "read_ao_mat", __FILE__, __LINE__, "Inconsistent AO-matrix (no symmetry)");
 
-            ao_mat = arma::mat(buf, nbas_t, nbas_t);
+        ao_mat = arma::mat(buf, nbas_t, nbas_t);
     } // symmetry
     else {
         hsize_t dim_chk = 0;
@@ -885,8 +883,8 @@ void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const 
     hsize_t dims[rank];
     Space.getSimpleExtentDims(dims, NULL);
     hsize_t dimt = dims[0] * dims[1];
-    double buf[dimt];
-    Set.read(&buf, PredType::NATIVE_DOUBLE);
+    double* buf = new double[dimt];
+    Set.read(buf, PredType::NATIVE_DOUBLE);
 
     read_ao_mat(buf, dimt, m_moldata->mom.set(c, n), 1, 0);
     if (m_input->debug) {
