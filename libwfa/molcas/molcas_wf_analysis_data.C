@@ -487,6 +487,7 @@ void molcas_wf_analysis_data::initialize() {
             throw libwfa_exception(k_clazz, method, __FILE__, __LINE__, "Inconsistent desym matrix");
 
         m_moldata->desym = arma::mat(buf, nbas_t, nbas_t);
+        delete[] buf;
     }
 
     // Product table of the irreps. This is hardcoded following the pegamoid code.
@@ -541,6 +542,7 @@ void molcas_wf_analysis_data::initialize() {
         read_ao_mat(buf, dim, m_moldata->s, nsym, 0);
         if (nsym > 1)
             m_moldata->s = m_moldata->desym * m_moldata->s * m_moldata->desym.t();
+        delete[] buf;
     }
 
     // MO-coefficients
@@ -789,12 +791,15 @@ arma::mat molcas_wf_analysis_data::get_mo_vectors(const H5std_string &setname) {
 
     hsize_t dim;
     Space.getSimpleExtentDims(&dim, NULL);
-    double* buf = new double[dim];
-    Set.read(buf, PredType::NATIVE_DOUBLE);
-
     arma::mat retmat;
-    size_t nsym = m_moldata->nbas.size();
-    read_ao_mat(buf, dim, retmat, nsym, 0);
+    {
+      double* buf = new double[dim];
+      Set.read(buf, PredType::NATIVE_DOUBLE);
+
+      size_t nsym = m_moldata->nbas.size();
+      read_ao_mat(buf, dim, retmat, nsym, 0);
+      delete[] buf;
+    }
     if (m_moldata->nbas.size() > 1)
         retmat = m_moldata->desym * retmat;
 
@@ -883,17 +888,19 @@ void molcas_wf_analysis_data::read_mltpl_mat(const H5std_string &setname, const 
     hsize_t dims[rank];
     Space.getSimpleExtentDims(dims, NULL);
     hsize_t dimt = dims[0] * dims[1];
-    double* buf = new double[dimt];
-    Set.read(buf, PredType::NATIVE_DOUBLE);
+    {
+      double* buf = new double[dimt];
+      Set.read(buf, PredType::NATIVE_DOUBLE);
 
-    read_ao_mat(buf, dimt, m_moldata->mom.set(c, n), 1, 0);
+      read_ao_mat(buf, dimt, m_moldata->mom.set(c, n), 1, 0);
+      delete[] buf;
+    }
     if (m_input->debug) {
         std::cout << "*** " << c << ", " << n << std::endl;
         m_moldata->mom.get(c,n).print("symm");
     }
 
     if (m_moldata->nbas.size() > 1) {
-        //arma::mat tmp = m_moldata->mom.get(c, n);
         m_moldata->mom.set(c, n) = m_moldata->desym * m_moldata->mom.get(c, n) * m_moldata->desym.t();
         if (m_input->debug) {
             m_moldata->mom.get(c,n).print("desymm");
