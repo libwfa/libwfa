@@ -621,15 +621,25 @@ void molcas_wf_analysis_data::initialize() {
             }
         }
     }
+    // Truncate in case there are atoms without basis functions (e.g. QM/MM point charges)
+    {
+      const arma::uvec &b2a = m_moldata->bf2atoms;
+      size_t nat = b2a.max() + 1;
+
+      if (nat < m_moldata->atoms.size()) {
+        std::cout << "Warning: " << m_moldata->atoms.size() - nat
+                  << " atom(s) without basis functions found (e.g. QM/MM point charges). Truncating arrays." << std::endl;
+        m_moldata->atoms.resize(nat);
+        m_moldata->atomic_numbers = m_moldata->atomic_numbers.head(nat);
+        m_moldata->atomic_charges = m_moldata->atomic_charges.head(nat);
+        m_moldata->coordinates = m_moldata->coordinates.cols(0, nat - 1);
+      }
+    }
+
 }
 
 void molcas_wf_analysis_data::read_input(char *inp) {
     m_input = std::unique_ptr<input_data>(new input_data());
-
-/*  const char* Project = std::getenv("Project");
-    std::string inpname(Project);
-    inpname.append(".Wfa.Input");
-    std::ifstream infile(inpname.c_str());*/
 
     std::stringstream infile(inp);
 
