@@ -597,10 +597,6 @@ void molcas_wf_analysis_data::initialize() {
         arma::mat mp_orig(buf, 3, 3);
 
         arma::vec dorig = mp_orig.col(1), qorig = mp_orig.col(2);
-        if (norm(dorig)!=0.) {
-            throw libwfa_exception(k_clazz,
-                method, __FILE__, __LINE__, "Dipole moment integrals not centered at origin");
-        }
 
         // Read the operator matrices
         m_moldata->mom.set(0, 0) = m_moldata->s;
@@ -611,8 +607,16 @@ void molcas_wf_analysis_data::initialize() {
         read_mltpl_mat("AO_MLTPL_YY", 1, 2);
         read_mltpl_mat("AO_MLTPL_ZZ", 2, 2);
 
+        // Shift the dipole operators to the origin if necessary
+        if (norm(dorig) != 0.) {
+            std::cout << "Shifting the dipole operators to the origin ..." << std::endl;
+            m_moldata->mom.set(0, 1) += dorig(0) * m_moldata->s;
+            m_moldata->mom.set(1, 1) += dorig(1) * m_moldata->s;
+            m_moldata->mom.set(2, 1) += dorig(2) * m_moldata->s;
+        }
+
         // Shift the quadrupole operators to the origin of the coordinate system
-        if (accu(qorig%qorig)!=0.) {
+        if (norm(qorig) != 0.) {
             std::cout << "Shifting the quadrupole operators to the origin ..." << std::endl;
             for (size_t icart = 0; icart < 3; icart++) {
                 arma::mat shift = 2*qorig.at(icart)*m_moldata->mom.get(icart,1) -
@@ -627,8 +631,10 @@ void molcas_wf_analysis_data::initialize() {
       size_t nat = b2a.max() + 1;
 
       if (nat < m_moldata->atoms.size()) {
-        std::cout << "Warning: " << m_moldata->atoms.size() - nat
-                  << " atom(s) without basis functions found (e.g. QM/MM point charges). Truncating arrays." << std::endl;
+        std::cout << std::endl << "WARNING: " << m_moldata->atoms.size() - nat
+                  << " atom(s) without basis functions found (e.g. QM/MM point charges). Truncating arrays."
+                  << std::endl << "Please check results carefully."
+                  << std::endl << std::endl;
         m_moldata->atoms.resize(nat);
         m_moldata->atomic_numbers = m_moldata->atomic_numbers.head(nat);
         m_moldata->atomic_charges = m_moldata->atomic_charges.head(nat);
@@ -715,7 +721,7 @@ void molcas_wf_analysis_data::read_input(char *inp) {
                     for (size_t j = 0; j < m_input->at_lists[i].size(); j++) {
                         std::cout << m_input->at_lists[i][j] << " ";
                     }
-                    std::cout << "], ";
+                    std::cout << "]" << std::endl;
                 }
                 std::cout << std::endl;
             }
